@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Bancos de Dados Aprofundamento (Aurora, RDS Multi-AZ vs Read Replica, ElastiCache Redis/Valkey vs Memcached, DynamoDB DAX/Global Tables/Streams). Aprofunda o domínio de bancos além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-bancos2-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["rds"],
+      "situacao": "Um banco RDS de produção precisa continuar no ar se uma zona de disponibilidade cair. O time configura um standby que assume sozinho em caso de falha. Aí perguntam: 'dá pra mandar as leituras pro standby pra aliviar o primário?'",
+      "stem": "O que está correto sobre o RDS Multi-AZ?",
+      "options": [
+        {"key": "A", "text": "Multi-AZ é pra alta disponibilidade; o standby é síncrono e NÃO serve leitura"},
+        {"key": "B", "text": "O standby do Multi-AZ serve leitura e é a forma de escalar reads"},
+        {"key": "C", "text": "Multi-AZ replica de forma assíncrona pra outra região"},
+        {"key": "D", "text": "Multi-AZ só funciona com Aurora"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Multi-AZ = disponibilidade, não desempenho. O standby fica de prontidão (síncrono) e assume no failover — mas não atende leitura.",
+        "💡 Rafael (dica 2): pra distribuir leitura você usa Read Replica, que é outra coisa. Não confunda os dois."
+      ],
+      "explanation": "RDS Multi-AZ existe pra alta disponibilidade/durabilidade: mantém um standby síncrono em outra AZ e faz failover automático. O standby NÃO serve leitura — fica reservado pra resiliência. Pra escalar leitura é Read Replica.",
+      "whyNots": {
+        "B": "O standby do Multi-AZ não serve leitura; quem faz isso é a Read Replica.",
+        "C": "Multi-AZ é replicação síncrona dentro da região (entre AZs), não assíncrona cross-Region.",
+        "D": "Multi-AZ existe no RDS tradicional (MySQL, PostgreSQL, etc.), não só no Aurora."
+      }
+    },
+    {
+      "id": "br-bancos2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rds"],
+      "situacao": "Um app de notícias tem MUITA leitura (todo mundo lendo as matérias) e pouca escrita. O banco primário está sobrecarregado com SELECTs.",
+      "stem": "Qual recurso do RDS distribui a carga de leitura?",
+      "options": [
+        {"key": "A", "text": "Read Replicas (assíncronas, read-only)"},
+        {"key": "B", "text": "Multi-AZ standby"},
+        {"key": "C", "text": "Aumentar o tamanho do backup"},
+        {"key": "D", "text": "Habilitar Vault Lock"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'muita leitura' = escalar reads = Read Replica. Os clientes leem das réplicas e o primário respira.",
+        "💡 Rafael (dica 2): a réplica é assíncrona (pode ter um pequeno atraso) e read-only; escrita continua só no primário."
+      ],
+      "explanation": "Read Replicas são cópias assíncronas read-only que distribuem o tráfego de leitura, aumentando o throughput agregado de reads. Clientes leem das réplicas (escrita continua no primário). Podem ser cross-Region. É o mecanismo de escalar leitura — complementar ao Multi-AZ (disponibilidade).",
+      "whyNots": {
+        "B": "O standby do Multi-AZ é pra failover, não atende leitura.",
+        "C": "Backup não distribui carga de leitura em produção.",
+        "D": "Vault Lock é imutabilidade de backup (AWS Backup) — nada a ver com escalar leitura."
+      }
+    },
+    {
+      "id": "br-bancos2-q02",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["aurora"],
+      "situacao": "A Júlia quer um banco compatível com MySQL/PostgreSQL, mas gerenciado pela AWS com armazenamento tolerante a falhas e leitura escalável, sem ela cuidar de réplica de disco.",
+      "stem": "Qual serviço entrega isso?",
+      "options": [
+        {"key": "A", "text": "Amazon Aurora"},
+        {"key": "B", "text": "Amazon DynamoDB"},
+        {"key": "C", "text": "Amazon Redshift"},
+        {"key": "D", "text": "Amazon ElastiCache"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): compatível com MySQL/PostgreSQL + gerenciado + armazenamento que se cuida sozinho = Aurora.",
+        "💡 Rafael (dica 2): por baixo, o Aurora guarda 6 cópias dos dados espalhadas por 3 AZs — tolerante a falha sem você mexer."
+      ],
+      "explanation": "Aurora é o banco relacional gerenciado da AWS, compatível com MySQL e PostgreSQL. O armazenamento replica os dados em 6 cópias por 3 AZs (tolerante a falha, auto-recupera) e suporta até 15 réplicas de leitura de baixa latência — tudo gerenciado.",
+      "whyNots": {
+        "B": "DynamoDB é NoSQL chave-valor, não compatível com MySQL/PostgreSQL.",
+        "C": "Redshift é data warehouse analítico (OLAP), não banco transacional compatível com MySQL/PostgreSQL.",
+        "D": "ElastiCache é cache in-memory, não um banco relacional durável."
+      }
+    },
+    {
+      "id": "br-bancos2-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aurora"],
+      "situacao": "Uma empresa global quer ler com baixa latência em vários continentes e ter recuperação rápida se uma região AWS inteira cair, usando o Aurora.",
+      "stem": "Qual recurso do Aurora atende?",
+      "options": [
+        {"key": "A", "text": "Aurora Global Database (multi-Region)"},
+        {"key": "B", "text": "Aurora Replicas na mesma região"},
+        {"key": "C", "text": "Multi-AZ dentro de uma região"},
+        {"key": "D", "text": "DynamoDB Streams"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'vários continentes' + 'cair a região inteira' = precisa de MÚLTIPLAS regiões. No Aurora, isso é o Global Database.",
+        "💡 Rafael (dica 2): ele dá leitura global de baixa latência e DR cross-region com RTO em minutos."
+      ],
+      "explanation": "Aurora Global Database abrange múltiplas regiões (até 5): leitura global de baixa latência nas regiões secundárias e DR cross-region com RTO em minutos se a região primária cair. Réplicas na mesma região ou Multi-AZ não protegem contra perder a região inteira.",
+      "whyNots": {
+        "B": "Aurora Replicas na mesma região escalam leitura local, mas não dão presença global nem DR de região.",
+        "C": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região toda.",
+        "D": "DynamoDB Streams é captura de eventos do DynamoDB — não tem a ver com Aurora multi-região."
+      }
+    },
+    {
+      "id": "br-bancos2-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elasticache"],
+      "situacao": "Uma loja online quer guardar a sessão dos usuários e cachear resultados de consultas pra aliviar o banco, com leitura em microssegundos. Perda eventual do cache não é crítica.",
+      "stem": "Qual serviço entrega esse cache in-memory?",
+      "options": [
+        {"key": "A", "text": "Amazon ElastiCache"},
+        {"key": "B", "text": "Amazon RDS"},
+        {"key": "C", "text": "Amazon S3"},
+        {"key": "D", "text": "Amazon Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): cache in-memory de microssegundos, pra sessão e resultados de query = ElastiCache (Redis/Valkey ou Memcached).",
+        "💡 Rafael (dica 2): ele fica NA FRENTE do banco, guardando o que é lido com frequência, pra não bater no RDS toda hora."
+      ],
+      "explanation": "ElastiCache é o cache in-memory gerenciado (engines Redis OSS/Valkey ou Memcached), com latência de microssegundos. Fica na frente do banco pra guardar sessões e resultados de consulta frequentes, aliviando o RDS e acelerando a aplicação.",
+      "whyNots": {
+        "B": "RDS é o banco relacional que se quer ALIVIAR — não é o cache in-memory.",
+        "C": "S3 é armazenamento de objetos, não cache de microssegundos pra sessão/query.",
+        "D": "Athena é consulta SQL analítica no S3 — nada a ver com cache de sessão."
+      }
+    },
+    {
+      "id": "br-bancos2-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elasticache"],
+      "situacao": "O requisito é um cache com réplicas de leitura, alta disponibilidade Multi-AZ, persistência opcional e estruturas como ranking (sorted sets) pra um leaderboard de jogo.",
+      "stem": "Qual engine do ElastiCache atende?",
+      "options": [
+        {"key": "A", "text": "Redis OSS (ou Valkey)"},
+        {"key": "B", "text": "Memcached"},
+        {"key": "C", "text": "Qualquer um, são idênticos"},
+        {"key": "D", "text": "Nenhum; precisa de DynamoDB"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): réplica, Multi-AZ, persistência e sorted sets (ranking) são recursos avançados — isso é Redis (ou Valkey), não Memcached.",
+        "💡 Rafael (dica 2): Memcached é o simples: multi-thread, sem persistência, sem replicação. Bom pra cache descartável."
+      ],
+      "explanation": "Redis OSS (ou Valkey) é o engine rico: réplicas de leitura, Multi-AZ/HA, persistência (AOF), pub/sub e estruturas como sorted sets (ideais pra leaderboard). Memcached é o simples, sem persistência nem replicação. Pra os requisitos do enunciado, é Redis/Valkey.",
+      "whyNots": {
+        "B": "Memcached não tem replicação, Multi-AZ, persistência nem sorted sets.",
+        "C": "Não são idênticos — Memcached é simples; Redis/Valkey têm os recursos avançados.",
+        "D": "DynamoDB é banco NoSQL, não o cache in-memory pedido; o ElastiCache Redis atende."
+      }
+    },
+    {
+      "id": "br-bancos2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dynamodb"],
+      "situacao": "Um app de leilão em tempo real lê os mesmos itens milhões de vezes por segundo no DynamoDB e quer baixar a latência de milissegundos pra microssegundos, sem reescrever a lógica.",
+      "stem": "Qual recurso acelera as LEITURAS do DynamoDB?",
+      "options": [
+        {"key": "A", "text": "DynamoDB Accelerator (DAX)"},
+        {"key": "B", "text": "DynamoDB Streams"},
+        {"key": "C", "text": "Global Tables"},
+        {"key": "D", "text": "Aumentar o backup"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'acelerar leitura do DynamoDB pra microssegundos' = DAX, o cache in-memory nativo do DynamoDB.",
+        "💡 Rafael (dica 2): cuidado — DAX é pra read-intensive; não ajuda em write-heavy, e leitura strongly consistent passa direto sem cachear."
+      ],
+      "explanation": "DAX (DynamoDB Accelerator) é um cache in-memory gerenciado pra DynamoDB que leva a latência de leitura de milissegundos pra microssegundos (até 10x), ideal pra cargas read-intensive como leilão/gaming. Não serve pra write-heavy, e leituras strongly consistent bypassam o cache.",
+      "whyNots": {
+        "B": "Streams captura eventos de mudança — não acelera leitura.",
+        "C": "Global Tables replica entre regiões — resolve presença global, não a latência de leitura local.",
+        "D": "Backup não tem efeito sobre latência de leitura em produção."
+      }
+    },
+    {
+      "id": "br-bancos2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["dynamodb"],
+      "situacao": "Um app precisa que usuários no Brasil e no Japão escrevam e leiam a mesma tabela DynamoDB com baixa latência local, com replicação automática entre as duas regiões (ativo-ativo).",
+      "stem": "Qual recurso do DynamoDB atende?",
+      "options": [
+        {"key": "A", "text": "Global Tables"},
+        {"key": "B", "text": "DAX"},
+        {"key": "C", "text": "DynamoDB Streams sozinho"},
+        {"key": "D", "text": "Read Replica do RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'mesma tabela em duas regiões, ativo-ativo, replicação automática' = DynamoDB Global Tables.",
+        "💡 Rafael (dica 2): escrita numa região é replicada automaticamente nas outras réplicas — leitura/escrita local com baixa latência nos dois lados."
+      ],
+      "explanation": "Global Tables replica a tabela DynamoDB entre regiões em modelo ativo-ativo: escrita numa região é propagada automaticamente às outras réplicas, dando leitura/escrita local de baixa latência em cada região. É o recurso multi-Region nativo do DynamoDB.",
+      "whyNots": {
+        "B": "DAX é cache de leitura local — não replica a tabela entre regiões.",
+        "C": "Streams captura mudanças, mas sozinho não é a solução de replicação multi-Region gerenciada (Global Tables usa Streams por baixo, mas o recurso é o Global Tables).",
+        "D": "Read Replica do RDS é de banco relacional, não do DynamoDB."
+      }
+    },
+    {
+      "id": "br-bancos2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dynamodb", "lambda"],
+      "situacao": "Toda vez que um item é inserido ou alterado no DynamoDB, você precisa disparar uma função que atualiza um índice de busca e envia uma notificação — reagindo às mudanças em tempo real.",
+      "stem": "Qual recurso do DynamoDB entrega esse fluxo de mudanças?",
+      "options": [
+        {"key": "A", "text": "DynamoDB Streams (acionando Lambda)"},
+        {"key": "B", "text": "DAX"},
+        {"key": "C", "text": "Global Tables"},
+        {"key": "D", "text": "Scan periódico da tabela inteira"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'reagir a cada insert/update em tempo real' = DynamoDB Streams, que entrega o log de mudanças e aciona Lambda.",
+        "💡 Rafael (dica 2): é a base de CDC/arquitetura orientada a eventos no DynamoDB — sem ficar varrendo a tabela."
+      ],
+      "explanation": "DynamoDB Streams captura, em ordem, os eventos de mudança (insert/update/delete) da tabela e aciona consumidores em tempo real, tipicamente uma função Lambda. É o jeito orientado a eventos de reagir às mudanças (atualizar índice, notificar) sem fazer scan periódico.",
+      "whyNots": {
+        "B": "DAX acelera leitura — não entrega fluxo de mudanças.",
+        "C": "Global Tables replica entre regiões — não é o gatilho de evento por mudança.",
+        "D": "Scan periódico é caro, lento e não é tempo real — o oposto da solução orientada a evento."
+      }
+    },
+    {
+      "id": "br-bancos2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rds", "dynamodb", "elasticache"],
+      "situacao": "Quatro necessidades: (1) escalar LEITURA de um RDS; (2) alta disponibilidade do RDS com failover; (3) acelerar leitura do DynamoDB pra microssegundos; (4) replicar uma tabela DynamoDB ativo-ativo entre regiões.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Read Replica → Multi-AZ → DAX → Global Tables"},
+        {"key": "B", "text": "Multi-AZ → Read Replica → Global Tables → DAX"},
+        {"key": "C", "text": "DAX → Global Tables → Read Replica → Multi-AZ"},
+        {"key": "D", "text": "Global Tables → DAX → Multi-AZ → Read Replica"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): separa por função. Escalar leitura RDS = Read Replica. HA do RDS = Multi-AZ. Acelerar leitura DynamoDB = DAX. Multi-Region DynamoDB = Global Tables.",
+        "💡 Rafael (dica 2): a pegadinha eterna é Read Replica (leitura) vs Multi-AZ (disponibilidade). Só a opção A mantém cada um no lugar."
+      ],
+      "explanation": "Cada recurso resolve uma coisa: Read Replica escala leitura no RDS; Multi-AZ dá alta disponibilidade/failover no RDS; DAX acelera leitura do DynamoDB pra microssegundos; Global Tables replica a tabela DynamoDB ativo-ativo entre regiões. A opção A respeita os quatro papéis.",
+      "whyNots": {
+        "B": "Inverte Read Replica com Multi-AZ e DAX com Global Tables.",
+        "C": "Embaralha tudo — DAX não escala RDS e Global Tables não é HA de RDS.",
+        "D": "Também troca os papéis; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

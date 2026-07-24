@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Computação e Contêineres Aprofundamento (tipos de ELB ALB/NLB/GWLB, ECS vs EKS vs Fargate, EC2 Auto Scaling políticas). Aprofunda compute além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-compute2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elb"],
+      "situacao": "Uma aplicação web quer rotear /api pra um grupo de servidores e /imagens pra outro, baseado no caminho da URL, além de terminar o SSL.",
+      "stem": "Qual load balancer faz roteamento por conteúdo na camada 7?",
+      "options": [
+        {"key": "A", "text": "Application Load Balancer (ALB)"},
+        {"key": "B", "text": "Network Load Balancer (NLB)"},
+        {"key": "C", "text": "Gateway Load Balancer (GWLB)"},
+        {"key": "D", "text": "Classic Load Balancer apenas"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'rotear por path/host da URL' é decisão de camada 7 (aplicação) = ALB. Ele lê o HTTP e decide pra onde mandar.",
+        "💡 Rafael (dica 2): NLB é camada 4 (não enxerga path); GWLB é pra appliances de segurança."
+      ],
+      "explanation": "ALB opera na camada 7 (HTTP/HTTPS) e roteia por conteúdo: path-based, host-based, headers, com SSL termination. É a escolha pra web, microsserviços e contêineres com regras de roteamento por URL.",
+      "whyNots": {
+        "B": "NLB é camada 4 (TCP/UDP) — não enxerga o path da URL pra rotear por conteúdo.",
+        "C": "GWLB serve pra inserir appliances virtuais de terceiros, não pra roteamento HTTP por path.",
+        "D": "CLB é legado e não tem o roteamento avançado por conteúdo do ALB."
+      }
+    },
+    {
+      "id": "br-compute2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elb"],
+      "situacao": "Um sistema de trading precisa de latência mínima, milhões de conexões TCP por segundo e um IP estático fixo pra allowlist dos parceiros.",
+      "stem": "Qual load balancer atende esse desempenho na camada 4?",
+      "options": [
+        {"key": "A", "text": "Network Load Balancer (NLB)"},
+        {"key": "B", "text": "Application Load Balancer (ALB)"},
+        {"key": "C", "text": "Gateway Load Balancer (GWLB)"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'latência mínima + milhões de conexões TCP + IP estático' = NLB (camada 4). Ele é o mais rápido e oferece IP fixo por AZ.",
+        "💡 Rafael (dica 2): ALB é ótimo pra HTTP, mas pra throughput TCP extremo e IP estático, é NLB."
+      ],
+      "explanation": "NLB opera na camada 4 (TCP/UDP/TLS) com altíssimo desempenho e baixa latência, escala pra milhões de requisições por segundo e oferece IP estático/Elastic IP por AZ — ideal pra trading, gaming, streaming e IoT.",
+      "whyNots": {
+        "B": "ALB é camada 7 (HTTP) — não entrega o throughput TCP extremo nem o IP estático nativo do NLB.",
+        "C": "GWLB é pra appliances de inspeção de terceiros, não pra balancear tráfego de trading de baixa latência.",
+        "D": "CloudFront é CDN de conteúdo na borda — não é load balancer L4 com IP estático."
+      }
+    },
+    {
+      "id": "br-compute2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["elb"],
+      "situacao": "A empresa quer inserir, de forma transparente, appliances virtuais de FIREWALL/IDS de terceiros pra inspecionar todo o tráfego da VPC, escalando esses appliances conforme a demanda.",
+      "stem": "Qual load balancer é feito pra isso?",
+      "options": [
+        {"key": "A", "text": "Gateway Load Balancer (GWLB)"},
+        {"key": "B", "text": "Application Load Balancer (ALB)"},
+        {"key": "C", "text": "Network Load Balancer (NLB)"},
+        {"key": "D", "text": "Classic Load Balancer (CLB)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'appliances de segurança de terceiros, transparente, escalando' = Gateway Load Balancer. Ele é o 'gateway' que manda o tráfego pros appliances inspecionarem.",
+        "💡 Rafael (dica 2): ALB/NLB balanceiam sua aplicação; GWLB balanceia os APPLIANCES de inspeção."
+      ],
+      "explanation": "GWLB opera no nível de gateway (camada 3) e foi feito pra implantar e escalar appliances virtuais de terceiros (firewalls, IDS/IPS) de forma transparente, encaminhando o tráfego pra eles inspecionarem. É o único dos três pensado pra esse caso.",
+      "whyNots": {
+        "B": "ALB balanceia tráfego HTTP da aplicação, não insere appliances de inspeção transparentes.",
+        "C": "NLB balanceia tráfego L4 da aplicação, não é o gateway pra appliances de segurança.",
+        "D": "CLB é legado e não tem essa função de gateway pra appliances."
+      }
+    },
+    {
+      "id": "br-compute2-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs", "fargate"],
+      "situacao": "A Júlia tem contêineres pra rodar e NÃO quer gerenciar servidor nenhum: nem patch, nem tipo de instância, nem escalar EC2. Só quer dizer quanta CPU/memória cada task usa e pagar por isso.",
+      "stem": "Qual opção roda os contêineres sem gerenciar servidores?",
+      "options": [
+        {"key": "A", "text": "AWS Fargate (serverless para contêineres)"},
+        {"key": "B", "text": "ECS no launch type EC2"},
+        {"key": "C", "text": "EC2 puro com Docker instalado na mão"},
+        {"key": "D", "text": "AWS Batch em EC2 dedicado"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'não quero gerenciar servidor, só dizer CPU/memória da task' = Fargate, o motor serverless pra contêineres (funciona com ECS e EKS).",
+        "💡 Rafael (dica 2): no launch type EC2 você ainda cuida da frota; no Fargate, a AWS abstrai o servidor."
+      ],
+      "explanation": "Fargate é o motor de computação serverless pra contêineres (funciona com ECS e EKS): você só especifica CPU/memória por task e paga por isso, sem provisionar nem gerenciar servidores. Resolve exatamente o pedido da Júlia.",
+      "whyNots": {
+        "B": "No launch type EC2, você gerencia a frota de instâncias (patch, tipo, escala) — o oposto do pedido.",
+        "C": "EC2 puro com Docker na mão é o máximo de gestão manual.",
+        "D": "Batch em EC2 dedicado ainda envolve gerenciar a infra de compute."
+      }
+    },
+    {
+      "id": "br-compute2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs", "eks"],
+      "situacao": "Um time já usa Kubernetes on-premises, com manifests, Helm e ferramentas do ecossistema, e quer rodar isso na AWS de forma gerenciada, mantendo as APIs do Kubernetes.",
+      "stem": "Qual serviço é o indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon EKS (Kubernetes gerenciado)"},
+        {"key": "B", "text": "Amazon ECS"},
+        {"key": "C", "text": "AWS Lambda"},
+        {"key": "D", "text": "Elastic Beanstalk"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): já usa Kubernetes (manifests, Helm) e quer manter as APIs do K8s = EKS, o Kubernetes gerenciado da AWS.",
+        "💡 Rafael (dica 2): ECS é o orquestrador próprio/simples da AWS; se o requisito é Kubernetes, é EKS."
+      ],
+      "explanation": "EKS é o Kubernetes gerenciado da AWS — mantém as APIs open source do Kubernetes e o ecossistema (Helm, operators), com a AWS cuidando do heavy lifting do control plane. É a escolha pra quem já vive de Kubernetes.",
+      "whyNots": {
+        "B": "ECS é o orquestrador AWS-opinativo (mais simples), mas NÃO é Kubernetes — não roda os manifests/Helm do time.",
+        "C": "Lambda é funções serverless por evento, não orquestração de contêineres Kubernetes.",
+        "D": "Elastic Beanstalk é PaaS pra apps web, não um cluster Kubernetes."
+      }
+    },
+    {
+      "id": "br-compute2-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs", "ec2", "fargate"],
+      "situacao": "Um time roda ECS e precisa de instâncias com GPU específicas e acesso ao sistema operacional host pra customizações pesadas, aceitando gerenciar a frota.",
+      "stem": "Qual launch type do ECS atende?",
+      "options": [
+        {"key": "A", "text": "Launch type EC2"},
+        {"key": "B", "text": "Launch type Fargate"},
+        {"key": "C", "text": "Lambda"},
+        {"key": "D", "text": "Nenhum suporta GPU"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'GPU específica + acesso ao host + topa gerenciar a frota' = launch type EC2, que dá controle total da instância.",
+        "💡 Rafael (dica 2): Fargate abstrai o servidor (menos controle); pra escolher instância GPU e mexer no host, é EC2."
+      ],
+      "explanation": "O launch type EC2 do ECS dá controle total da frota: você escolhe instâncias (incluindo GPU), acessa o host e customiza o ambiente — em troca de gerenciar patch, tipo e escala. Fargate abstrai o servidor e não oferece esse nível de controle.",
+      "whyNots": {
+        "B": "Fargate é serverless e abstrai o host — não permite escolher instância GPU específica nem mexer no SO host do jeito pedido.",
+        "C": "Lambda não é o modelo pra contêineres de longa duração com GPU e acesso ao host.",
+        "D": "Errado — o launch type EC2 suporta instâncias com GPU."
+      }
+    },
+    {
+      "id": "br-compute2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["auto-scaling"],
+      "situacao": "Você quer que o Auto Scaling mantenha a utilização média de CPU da frota em torno de 50%, adicionando ou removendo instâncias automaticamente conforme a carga sobe ou desce.",
+      "stem": "Qual política de Auto Scaling faz isso?",
+      "options": [
+        {"key": "A", "text": "Target Tracking (rastreamento de alvo)"},
+        {"key": "B", "text": "Scheduled scaling"},
+        {"key": "C", "text": "Política manual fixa"},
+        {"key": "D", "text": "Nenhuma; o ASG não escala por métrica"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'manter uma métrica num ALVO' (CPU em 50%) = Target Tracking. Você dá o alvo e a ASG ajusta a frota sozinha pra mantê-lo.",
+        "💡 Rafael (dica 2): é como o termostato — você define a temperatura desejada e ele liga/desliga pra manter."
+      ],
+      "explanation": "Target Tracking mantém uma métrica num valor-alvo (ex.: CPU média em 50%): a Auto Scaling Group adiciona ou remove instâncias automaticamente pra ficar perto do alvo. É a política dinâmica mais comum e recomendada.",
+      "whyNots": {
+        "B": "Scheduled scaling ajusta capacidade em horários fixos previsíveis — não persegue uma métrica em tempo real.",
+        "C": "Política manual fixa não reage à carga automaticamente.",
+        "D": "Errado — o ASG escala dinamicamente por métrica via target tracking/step scaling."
+      }
+    },
+    {
+      "id": "br-compute2-q07",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["auto-scaling"],
+      "situacao": "O tráfego é totalmente previsível: dispara toda segunda de manhã e cai à noite. Você quer aumentar a capacidade ANTES do pico, em horários definidos, e reduzir depois pra economizar.",
+      "stem": "Qual política de Auto Scaling encaixa nesse padrão previsível?",
+      "options": [
+        {"key": "A", "text": "Scheduled scaling (por agenda)"},
+        {"key": "B", "text": "Target Tracking apenas"},
+        {"key": "C", "text": "Aumentar manualmente todo dia na mão"},
+        {"key": "D", "text": "Reserved Instances"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'horário previsível, definido' = Scheduled scaling. Você agenda o aumento/redução de capacidade (tipo cron).",
+        "💡 Rafael (dica 2): target tracking reage à métrica; scheduled age pelo RELÓGIO, antecipando o pico conhecido."
+      ],
+      "explanation": "Scheduled scaling ajusta a capacidade da Auto Scaling Group em horários previsíveis (ex.: subir segunda 8h, descer à noite), antecipando picos conhecidos e economizando fora deles. É a política certa pra padrões de tempo definidos.",
+      "whyNots": {
+        "B": "Target Tracking reage à métrica em tempo real, mas não antecipa pelo relógio um pico previsível como o scheduled.",
+        "C": "Fazer na mão todo dia é trabalhoso e sujeito a erro — o ponto do scheduled é automatizar isso.",
+        "D": "Reserved Instances são um modelo de compra/desconto, não uma política de escalonamento."
+      }
+    },
+    {
+      "id": "br-compute2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda", "fargate"],
+      "situacao": "Comparando: (1) processar um arquivo recém-enviado ao S3 com uma função curta por evento; (2) rodar uma API web em contêiner, de longa duração, sem gerenciar servidor.",
+      "stem": "Qual par de serviços atende, respectivamente?",
+      "options": [
+        {"key": "A", "text": "(1) AWS Lambda; (2) AWS Fargate"},
+        {"key": "B", "text": "(1) AWS Fargate; (2) AWS Lambda"},
+        {"key": "C", "text": "(1) EC2; (2) Lambda"},
+        {"key": "D", "text": "(1) Fargate; (2) EC2 puro"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): função curta por evento = Lambda. Contêiner de longa duração sem servidor = Fargate.",
+        "💡 Rafael (dica 2): os dois são serverless, mas Lambda é por evento/efêmero e Fargate é contêiner contínuo."
+      ],
+      "explanation": "Lambda é ideal pra funções curtas orientadas a evento (processar o objeto recém-criado no S3), efêmeras, pagas por invocação. Fargate roda contêineres de longa duração (API web/microsserviço) sem gerenciar servidor. A opção A casa cada caso com o serviço certo.",
+      "whyNots": {
+        "B": "Inverte: Lambda é a função por evento; Fargate é o contêiner de longa duração.",
+        "C": "EC2 exigiria gerenciar servidor; e Lambda não é o ideal pra uma API web contínua em contêiner.",
+        "D": "EC2 puro contraria o 'sem gerenciar servidor' pedido no item 2."
+      }
+    },
+    {
+      "id": "br-compute2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elb"],
+      "situacao": "Três requisitos de balanceamento: (1) roteamento HTTP por path pra microsserviços; (2) TCP de baixíssima latência com IP estático; (3) inserir um firewall virtual de terceiro pra inspecionar o tráfego.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "ALB → NLB → GWLB"},
+        {"key": "B", "text": "NLB → ALB → GWLB"},
+        {"key": "C", "text": "GWLB → NLB → ALB"},
+        {"key": "D", "text": "ALB → GWLB → NLB"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): HTTP por path = ALB (L7). TCP rápido + IP estático = NLB (L4). Appliance de segurança de terceiro = GWLB.",
+        "💡 Rafael (dica 2): só a opção A mantém cada LB na sua camada/função."
+      ],
+      "explanation": "Cada LB tem seu papel: ALB (L7, roteamento HTTP por path/host pra microsserviços), NLB (L4, TCP de baixa latência e IP estático) e GWLB (gateway pra appliances virtuais de terceiros). A opção A respeita os três.",
+      "whyNots": {
+        "B": "Troca ALB com NLB — roteamento por path é L7 (ALB), não NLB.",
+        "C": "Embaralha tudo — GWLB não faz roteamento HTTP por path.",
+        "D": "Troca NLB com GWLB; IP estático/TCP rápido é NLB, não GWLB."
+      }
+    }
+  ]
+}

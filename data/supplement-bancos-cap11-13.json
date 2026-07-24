@@ -1,0 +1,291 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Questões PT autorais — Bancos de Dados (caps 11-13): RDS/Aurora, DynamoDB, e os bancos de propósito específico (ElastiCache, Redshift, Neptune, QLDB, Timestream, DocumentDB). Voz café com leite. Dicas opcionais e progressivas (1 a 3). Ancoradas no livro PT.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-bd-c11-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "11",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["rds"],
+      "situacao": "A Camila gerenciava o MySQL na mão dentro de uma instância EC2: backup, patch, failover, tudo era responsabilidade dela. Uma falha custou 60 minutos de downtime.",
+      "stem": "Ao usar o Amazon RDS, o que a AWS passa a gerenciar por você?",
+      "options": [
+        { "key": "A", "text": "Backups automáticos, patches, Multi-AZ com failover — você cuida só do schema, queries e dados" },
+        { "key": "B", "text": "Nada — RDS é só uma instância EC2 com um nome diferente" },
+        { "key": "C", "text": "As suas queries e o modelo de dados, mas não a infraestrutura" },
+        { "key": "D", "text": "Apenas o backup; o resto continua manual" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): a ideia do RDS é tirar o peso da infraestrutura das suas costas. A AWS cuida de backup, patch e failover; você fica com o que é seu de verdade — o schema, as consultas e os dados."],
+      "explanation": "RDS é banco relacional gerenciado: a AWS cuida de backups automáticos (PITR), patches, monitoramento e failover Multi-AZ. Com você ficam o schema, as queries e os dados.",
+      "whyNots": {
+        "B": "RDS abstrai justamente a gestão de infraestrutura que uma EC2 crua exigiria.",
+        "C": "Está invertido — a infraestrutura é o que a AWS gerencia; o schema/queries ficam com você.",
+        "D": "A AWS cuida de muito além do backup: patch, failover, monitoramento."
+      }
+    },
+    {
+      "id": "br-bd-c11-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "11",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["rds"],
+      "situacao": "Uma aplicação RDS MySQL fica LENTA nas consultas de LEITURA durante picos (dashboards pesados). A escrita continua normal.",
+      "stem": "O que você adiciona para escalar a leitura sem afetar a instância principal?",
+      "options": [
+        { "key": "A", "text": "Read Replicas (réplicas de leitura) e aponta as consultas pesadas pra elas" },
+        { "key": "B", "text": "Ativar Multi-AZ (o standby passa a atender leitura)" },
+        { "key": "C", "text": "Aumentar o storage da instância primária" },
+        { "key": "D", "text": "Trocar para um volume EBS mais rápido" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o problema é só na LEITURA. Você quer tirar essa carga de cima da instância que também escreve.",
+        "💡 Rafael (dica 2): existe um recurso que cria cópias só-leitura do banco. Você manda os dashboards pra elas e a primária respira."
+      ],
+      "explanation": "Read Replicas são cópias com replicação assíncrona que aceitam leitura. Você aponta as queries pesadas (relatórios/dashboards) para o endpoint da réplica, aliviando a primária. Multi-AZ NÃO serve aqui — o standby só existe para failover, não atende leitura.",
+      "whyNots": {
+        "B": "O standby do Multi-AZ não aceita leitura — ele só assume em caso de falha. Multi-AZ é disponibilidade, não escala de leitura.",
+        "C": "Mais storage não resolve gargalo de leitura concorrente.",
+        "D": "Disco mais rápido ajuda I/O, mas não separa a carga de leitura da de escrita como a réplica faz."
+      }
+    },
+    {
+      "id": "br-bd-c11-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "11",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["rds"],
+      "situacao": "Requisito: o banco não pode ficar mais de 2 minutos fora do ar se a instância tiver uma falha de hardware. O failover tem que ser automático.",
+      "stem": "Qual recurso do RDS garante alta disponibilidade com failover automático?",
+      "options": [
+        { "key": "A", "text": "Multi-AZ — réplica síncrona em outra AZ, failover automático em ~1–2 min" },
+        { "key": "B", "text": "Read Replica — uma réplica assume sozinha em caso de falha" },
+        { "key": "C", "text": "Snapshots manuais a cada hora" },
+        { "key": "D", "text": "Aumentar a retenção de backup para 35 dias" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): aqui o tema é disponibilidade (ficar de pé), não velocidade de leitura.",
+        "💡 Rafael (dica 2): tem um modo que mantém um standby síncrono em outra AZ e troca o endpoint sozinho na falha. Read Replica precisaria de promoção manual."
+      ],
+      "explanation": "Multi-AZ mantém um standby síncrono em outra AZ; na falha da primária, o RDS aponta o endpoint para o standby automaticamente em ~1–2 minutos. Read Replica é assíncrona e exige promoção MANUAL — não garante failover automático.",
+      "whyNots": {
+        "B": "Read Replica não faz failover automático — você precisa promovê-la na mão; e a replicação é assíncrona.",
+        "C": "Snapshots são backup, não failover — restaurar leva tempo e cria nova instância.",
+        "D": "Retenção de backup é recuperação de dados, não disponibilidade contínua."
+      }
+    },
+    {
+      "id": "br-bd-c11-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "11",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["rds-proxy", "lambda", "rds"],
+      "situacao": "Uma aplicação serverless em Lambda dispara milhares de execuções em paralelo, cada uma abrindo uma conexão com o RDS. O banco está esgotando o limite de conexões.",
+      "stem": "O que você coloca entre a Lambda e o RDS para resolver o esgotamento de conexões?",
+      "options": [
+        { "key": "A", "text": "RDS Proxy — mantém um pool de conexões persistentes e as reaproveita" },
+        { "key": "B", "text": "Uma Read Replica para cada função Lambda" },
+        { "key": "C", "text": "Um Application Load Balancer na frente do RDS" },
+        { "key": "D", "text": "Aumentar a memória da Lambda" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o problema não é leitura nem hardware — é cada invocação da Lambda abrindo e fechando conexão, e o banco não aguentando o volume.",
+        "💡 Rafael (dica 2): existe um intermediário gerenciado que segura um pool de conexões e reaproveita, em vez de abrir uma nova toda hora. É feito justamente pra Lambda + RDS."
+      ],
+      "explanation": "RDS Proxy fica entre a aplicação e o banco, mantendo um pool de conexões persistentes que são reutilizadas — evitando que cada invocação da Lambda crie uma conexão nova e esgote o banco. Também acelera o failover e suporta autenticação via IAM.",
+      "whyNots": {
+        "B": "Read Replica escala leitura, não resolve o excesso de CONEXÕES (e cada réplica teria o mesmo problema).",
+        "C": "ALB balanceia tráfego HTTP/web, não gerencia pool de conexões de banco.",
+        "D": "Mais memória na Lambda não muda o número de conexões abertas no banco."
+      }
+    },
+
+    {
+      "id": "br-bd-c12-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "12",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["dynamodb"],
+      "situacao": "A aplicação guarda chaves de sessão, preferências e carrinho — dados com forma de dicionário, lidos por uma chave, que precisam de resposta em milissegundos em qualquer escala.",
+      "stem": "Qual serviço da AWS é feito pra esse acesso por chave, rápido e sem limite de escala?",
+      "options": [
+        { "key": "A", "text": "Amazon DynamoDB (NoSQL chave-valor, serverless, latência de milissegundos)" },
+        { "key": "B", "text": "Amazon RDS (banco relacional)" },
+        { "key": "C", "text": "Amazon Redshift (data warehouse)" },
+        { "key": "D", "text": "Amazon S3 (armazenamento de objetos)" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pensa numa agenda de contatos — você abre pelo nome (a chave) e vê os dados na hora. Ninguém faz query complexa na agenda. É acesso por chave, rápido, em qualquer escala — DynamoDB."],
+      "explanation": "DynamoDB é um NoSQL chave-valor/documento, serverless e totalmente gerenciado, com latência de um dígito em milissegundos — a mesma com 10 ou 10 bilhões de itens. Perfeito pra sessão, preferências e carrinho.",
+      "whyNots": {
+        "B": "RDS é relacional (SQL, JOINs); ótimo pra transações, mas não entrega o acesso por chave em ms na escala do DynamoDB.",
+        "C": "Redshift é analítico (OLAP), pra grandes volumes históricos.",
+        "D": "S3 guarda arquivos por chave, mas não é banco operacional pra itens de aplicação."
+      }
+    },
+    {
+      "id": "br-bd-c12-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "12",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["dynamodb"],
+      "situacao": "A tabela de pedidos usa orderId como chave. Agora a Camila precisa buscar com frequência por STATUS (ex.: todos os PENDENTES) — um atributo que não é a chave primária.",
+      "stem": "O que você cria pra consultar por um atributo diferente da chave primária, de forma eficiente?",
+      "options": [
+        { "key": "A", "text": "Um GSI (Global Secondary Index) com status como partition key" },
+        { "key": "B", "text": "Um Scan com filtro por status a cada consulta" },
+        { "key": "C", "text": "Uma Read Replica do DynamoDB" },
+        { "key": "D", "text": "Trocar a chave primária para status" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): consultar por um campo que não é a chave, sem varrer a tabela inteira, pede uma 'visão alternativa' da tabela com outra chave.",
+        "💡 Rafael (dica 2): essa visão alternativa, com partition key diferente e que pode ser criada a qualquer momento, é o GSI. (Scan varre tudo — caro e lento.)"
+      ],
+      "explanation": "Um GSI cria uma visão da tabela com uma partition key diferente (ex.: status), mantida automaticamente, permitindo Query eficiente por esse atributo. Scan varreria a tabela toda — caro e lento em produção.",
+      "whyNots": {
+        "B": "Scan lê a tabela inteira e filtra — ineficiente e caro; o índice existe justamente pra evitar isso.",
+        "C": "DynamoDB não usa 'Read Replica' — escala é nativa; o que resolve query alternativa é o índice.",
+        "D": "Trocar a chave primária quebraria a busca por orderId, que ainda é necessária."
+      }
+    },
+    {
+      "id": "br-bd-c12-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "12",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["dynamodb"],
+      "situacao": "Um app de delivery vai operar na Black Friday: o tráfego é totalmente imprevisível — pode ser 5x ou 50x o normal a qualquer instante. Throttling significa pedido perdido.",
+      "stem": "Qual modo de capacidade do DynamoDB é o mais indicado?",
+      "options": [
+        { "key": "A", "text": "On-Demand (escala instantânea, sem throttling, paga por requisição)" },
+        { "key": "B", "text": "Provisioned com RCU/WCU fixos baixos" },
+        { "key": "C", "text": "Provisioned sem Auto Scaling" },
+        { "key": "D", "text": "Não usar DynamoDB para esse caso" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): quando o tráfego é imprevisível e cada pedido perdido dói, você não quer apostar num número fixo de capacidade. O modo que escala sozinho na hora, sem throttling, é o On-Demand."],
+      "explanation": "On-Demand escala instantaneamente para qualquer volume sem throttling — você paga por requisição. Em picos imprevisíveis como a Black Friday, onde throttling = venda perdida, é o trade-off certo (mesmo custando mais por requisição).",
+      "whyNots": {
+        "B": "Capacidade fixa baixa causaria throttling nos picos — pedidos perdidos.",
+        "C": "Sem Auto Scaling, o Provisioned não acompanha picos imprevisíveis.",
+        "D": "DynamoDB é justamente forte pra esse padrão de chave-valor em alta escala; o ajuste é o modo de capacidade."
+      }
+    },
+    {
+      "id": "br-bd-c12-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "12",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["dynamodb"],
+      "situacao": "Você precisa de uma ordenação alternativa para os MESMOS itens de uma partition key, e essa necessidade já é conhecida ANTES de criar a tabela.",
+      "stem": "Qual a diferença entre LSI e GSI, e qual cabe nesse caso?",
+      "options": [
+        { "key": "A", "text": "LSI — mesma partition key, sort key diferente, criado JUNTO com a tabela; é o que serve aqui" },
+        { "key": "B", "text": "GSI — porque LSI não existe mais no DynamoDB" },
+        { "key": "C", "text": "Tanto faz: LSI e GSI são idênticos" },
+        { "key": "D", "text": "Nenhum — só dá pra ordenar com Scan" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a pista é 'mesma partition key' + 'outra ordenação' + 'já sei disso antes de criar a tabela'.",
+        "💡 Rafael (dica 2): LSI = mesma partition key, sort key diferente, só pode ser criado na criação da tabela. GSI = partition key diferente, criado a qualquer momento.",
+        "💡 Rafael (dica 3): como aqui você mantém a mesma partition key, só quer outra ordem, e já sabe disso antes — LSI encaixa direitinho."
+      ],
+      "explanation": "LSI mantém a MESMA partition key da tabela com uma sort key diferente, mas só pode ser criado no momento da criação da tabela. GSI usa uma partition key DIFERENTE e pode ser criado a qualquer momento. Como aqui a partition key é a mesma e a necessidade é conhecida antecipadamente, LSI serve.",
+      "whyNots": {
+        "B": "LSI existe sim — apenas tem a restrição de ser criado junto com a tabela.",
+        "C": "São diferentes: LSI = mesma PK/outra sort key (na criação); GSI = PK diferente (a qualquer hora).",
+        "D": "Índices existem justamente pra evitar Scan na ordenação alternativa."
+      }
+    },
+
+    {
+      "id": "br-bd-c13-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "13",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["elasticache", "rds"],
+      "situacao": "Uma aplicação faz a MESMA consulta ao RDS milhares de vezes por segundo. Os dados mudam raríssimas vezes. O time quer aliviar o banco — e precisa de estruturas ricas como sorted sets (placar/ranking).",
+      "stem": "Qual serviço você adiciona, e qual engine, pra resolver isso?",
+      "options": [
+        { "key": "A", "text": "ElastiCache for Redis (cache in-memory, com estruturas ricas como sorted sets)" },
+        { "key": "B", "text": "ElastiCache for Memcached" },
+        { "key": "C", "text": "Uma Read Replica do RDS" },
+        { "key": "D", "text": "Amazon Redshift" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): dado muito lido e que quase não muda mora bem na memória — um cache na frente do banco devolve em microssegundos.",
+        "💡 Rafael (dica 2): entre os dois engines, só um tem estruturas ricas (sorted sets, listas, pub/sub). Memcached é só string. Sorted set = Redis."
+      ],
+      "explanation": "ElastiCache põe um cache in-memory na frente do RDS: dado muito acessado e estável é servido em microssegundos, aliviando o banco. Entre os engines, Redis tem estruturas ricas (sorted sets, listas, hashes, pub/sub), enquanto Memcached só lida com strings — então, pra sorted sets, Redis.",
+      "whyNots": {
+        "B": "Memcached é cache puro de strings, multi-thread, mas NÃO tem sorted sets nem persistência.",
+        "C": "Read Replica ajuda leitura, mas não entrega a latência de microssegundos de um cache em memória pra a mesma query repetida.",
+        "D": "Redshift é data warehouse analítico — nada a ver com cache de query operacional."
+      }
+    },
+    {
+      "id": "br-bd-c13-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "13",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["neptune"],
+      "situacao": "Um marketplace quer recomendar produtos com base em 'usuários que compraram X também compraram Y' — a consulta central percorre RELACIONAMENTOS entre usuários e produtos.",
+      "stem": "Qual banco de dados é o mais adequado?",
+      "options": [
+        { "key": "A", "text": "Amazon Neptune (banco de grafo)" },
+        { "key": "B", "text": "Amazon RDS com muitos JOINs" },
+        { "key": "C", "text": "Amazon DynamoDB" },
+        { "key": "D", "text": "Amazon Redshift" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o valor aqui está na CONEXÃO entre as coisas (quem comprou o quê, quem conhece quem), não nas coisas isoladas.",
+        "💡 Rafael (dica 2): existe um tipo de banco feito pra percorrer relacionamentos (nós e arestas) de forma nativa — o banco de grafo."
+      ],
+      "explanation": "Quando o dado central é o RELACIONAMENTO entre entidades (recomendação, 'amigos de amigos', detecção de fraude), o banco de grafo é o ideal. Neptune percorre nós e arestas nativamente — bem mais eficiente que simular grafo com JOINs no relacional.",
+      "whyNots": {
+        "B": "RDS guardaria os dados, mas traversals de grafo viram JOINs caros e lentos em escala.",
+        "C": "DynamoDB é excelente pra acesso por chave, não pra percorrer relacionamentos complexos.",
+        "D": "Redshift é pra análise OLAP de grandes volumes, não pra traversal de grafo em tempo real."
+      }
+    },
+    {
+      "id": "br-bd-c13-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "13",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["redshift", "rds"],
+      "situacao": "A empresa precisa analisar ANOS de dados históricos de vendas — relatórios de BI que varrem muitas linhas, mas poucas colunas, em grandes volumes. Não são transações em tempo real.",
+      "stem": "Qual serviço é o indicado para essa carga analítica (OLAP)?",
+      "options": [
+        { "key": "A", "text": "Amazon Redshift (data warehouse, armazenamento colunar, processamento paralelo)" },
+        { "key": "B", "text": "Amazon RDS (transações em tempo real)" },
+        { "key": "C", "text": "Amazon DynamoDB" },
+        { "key": "D", "text": "Amazon ElastiCache" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a palavra-chave é análise de grandes volumes históricos — OLAP, não OLTP (transação em tempo real).",
+        "💡 Rafael (dica 2): o data warehouse da AWS, colunar e com processamento paralelo massivo, é o Redshift."
+      ],
+      "explanation": "Redshift é o data warehouse da AWS, com armazenamento colunar e MPP (processamento paralelo massivo) — ideal pra varrer poucas colunas de muitas linhas em grandes volumes (OLAP). RDS/Aurora são pra OLTP (transações em tempo real), não pra esse tipo de análise.",
+      "whyNots": {
+        "B": "RDS é OLTP — transações individuais em tempo real, não varredura analítica de anos de dados.",
+        "C": "DynamoDB é chave-valor operacional, não análise OLAP.",
+        "D": "ElastiCache é cache in-memory, não ferramenta analítica."
+      }
+    },
+    {
+      "id": "br-bd-c13-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "13",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["qldb", "s3"],
+      "situacao": "Uma corretora precisa guardar o histórico de TODAS as transações de forma que qualquer auditoria possa PROVAR matematicamente que nenhum registro foi alterado.",
+      "stem": "Qual serviço foi feito para esse registro imutável e verificável de transações?",
+      "options": [
+        { "key": "A", "text": "Amazon QLDB (ledger imutável, com hashes criptográficos encadeados)" },
+        { "key": "B", "text": "S3 com Object Lock no modo Compliance" },
+        { "key": "C", "text": "Amazon Timestream" },
+        { "key": "D", "text": "Amazon DynamoDB com Streams" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): não é só 'não pode apagar' — é 'provar que a sequência de transações não foi adulterada'. Isso pede um registro encadeado e verificável.",
+        "💡 Rafael (dica 2): o banco-ledger da AWS encadeia cada transação com um hash da anterior; mudar um registro antigo invalida todos os seguintes. É o QLDB. (S3 Object Lock protege OBJETOS, não a cadeia transacional.)"
+      ],
+      "explanation": "QLDB é um banco-ledger: cada transação recebe um hash criptográfico encadeado ao anterior, tornando matematicamente verificável que nenhum registro histórico foi alterado. É feito pra histórico transacional auditável. S3 Object Lock garante imutabilidade de OBJETOS armazenados, mas não a cadeia verificável de transações.",
+      "whyNots": {
+        "B": "Object Lock impede alterar/deletar objetos no S3, mas não dá a verificação criptográfica encadeada de um histórico transacional.",
+        "C": "Timestream é pra séries temporais (IoT, métricas), não pra ledger imutável.",
+        "D": "DynamoDB Streams captura mudanças, mas não cria um registro imutável e verificável contra adulteração."
+      }
+    }
+  ]
+}

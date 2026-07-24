@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Implantação, IaC e Performance Global (CloudFormation, X-Ray, Global Accelerator, Elastic Beanstalk). Serviços relevantes pra SAA-C03 que não têm capítulo dedicado no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-implantacao-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation"],
+      "situacao": "O time monta o mesmo ambiente (VPC, EC2, banco) na mão toda vez que abre uma conta nova. Sempre esquece um detalhe e dá ruim em produção.",
+      "stem": "Qual serviço deixa você descrever toda a infraestrutura num arquivo de texto e recriar tudo igual, quantas vezes quiser?",
+      "options": [
+        {"key": "A", "text": "AWS CloudFormation"},
+        {"key": "B", "text": "AWS Config"},
+        {"key": "C", "text": "Amazon CloudWatch"},
+        {"key": "D", "text": "AWS CloudTrail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa numa receita de bolo escrita. Em vez de montar tudo no olho, você escreve o passo a passo (JSON ou YAML) e a AWS executa igualzinho toda vez. Isso é \"infraestrutura como código\".",
+        "💡 Rafael (dica 2): o nome tem \"Formation\" — ele FORMA (cria) seus recursos a partir de um template. Os outros três só observam o que já existe."
+      ],
+      "explanation": "CloudFormation é infraestrutura como código (IaC): você descreve os recursos num template declarativo (JSON/YAML), e ele cria uma \"stack\" com tudo — repetível, versionável e sem esquecer detalhe. O CloudFormation em si é grátis; você paga só pelos recursos criados.",
+      "whyNots": {
+        "B": "Config audita e registra mudanças de configuração dos recursos — não cria infra.",
+        "C": "CloudWatch é métricas, logs e alarmes — observa, não provisiona.",
+        "D": "CloudTrail audita chamadas de API (quem fez o quê) — não monta ambiente."
+      }
+    },
+    {
+      "id": "br-implantacao-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation", "organizations"],
+      "situacao": "Você precisa implantar o MESMO template de baseline de segurança em 40 contas e em 3 regiões, numa operação só. E quer que contas novas da organização recebam o baseline automaticamente.",
+      "stem": "Qual recurso do CloudFormation resolve isso?",
+      "options": [
+        {"key": "A", "text": "StackSets"},
+        {"key": "B", "text": "Nested stacks"},
+        {"key": "C", "text": "Change sets"},
+        {"key": "D", "text": "Drift detection"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o \"Set\" no nome é a pista — é um CONJUNTO de stacks espalhado por várias contas e regiões de uma vez.",
+        "💡 Rafael (dica 2): combinado com o AWS Organizations e permissões service-managed, contas novas entram já recebendo as stacks."
+      ],
+      "explanation": "StackSets implanta e mantém um template em múltiplas contas E regiões numa única operação. Com permissões service-managed via Organizations, contas adicionadas depois recebem as stacks automaticamente — ótimo pra baselines de governança/segurança.",
+      "whyNots": {
+        "B": "Nested stacks dividem um template grande em pedaços reutilizáveis DENTRO de uma stack — não espalham por várias contas.",
+        "C": "Change sets só pré-visualizam o que vai mudar antes de aplicar — não fazem implantação multi-conta.",
+        "D": "Drift detection compara o que está vivo com o template — é diagnóstico, não implantação."
+      }
+    },
+    {
+      "id": "br-implantacao-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation", "rds"],
+      "situacao": "Sua stack do CloudFormation inclui um banco RDS de produção com dados reais. Você teme que, ao apagar a stack, o banco vá junto e você perca tudo.",
+      "stem": "Que atributo, num recurso da stack, protege o banco de ser destruído quando a stack é apagada?",
+      "options": [
+        {"key": "A", "text": "DeletionPolicy: Retain (ou Snapshot)"},
+        {"key": "B", "text": "DependsOn"},
+        {"key": "C", "text": "UpdateReplacePolicy: Delete"},
+        {"key": "D", "text": "Termination protection do EC2"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): existe um atributo cujo nome é literalmente \"política de deleção\". É nele que você diz: ao apagar a stack, NÃO apague este recurso.",
+        "💡 Rafael (dica 2): `Retain` mantém o recurso vivo; `Snapshot` tira um snapshot final antes de soltar (vale pra RDS, EBS). O padrão é `Delete`."
+      ],
+      "explanation": "DeletionPolicy é o atributo de recurso que controla o que acontece ao remover a stack. `Retain` mantém o recurso, `Snapshot` faz um snapshot final (suportado por RDS, EBS, etc.) e `Delete` (padrão) apaga. Pra dados stateful de produção, use `Retain` ou `Snapshot`.",
+      "whyNots": {
+        "B": "DependsOn só controla a ORDEM de criação dos recursos, não o que acontece na deleção.",
+        "C": "UpdateReplacePolicy trata o caso de substituição em UPDATE; e `Delete` apagaria o recurso, o oposto do que se quer.",
+        "D": "Termination protection é uma proteção da instância EC2, não o mecanismo do CloudFormation pra um RDS na stack."
+      }
+    },
+    {
+      "id": "br-implantacao-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation"],
+      "situacao": "Alguém entrou no console e mudou uma regra de security group na mão, fora do template. Você quer saber QUAIS recursos da stack não batem mais com o que o CloudFormation espera.",
+      "stem": "Que funcionalidade do CloudFormation aponta essas diferenças?",
+      "options": [
+        {"key": "A", "text": "Drift detection"},
+        {"key": "B", "text": "Change sets"},
+        {"key": "C", "text": "Stack policy"},
+        {"key": "D", "text": "Rollback automático"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"drift\" é deriva — quando a realidade derivou do plano. A funcionalidade compara o recurso VIVO com o que o template manda.",
+        "💡 Rafael (dica 2): cuidado — drift detection não desce automaticamente em nested stacks; pra essas você roda direto na nested."
+      ],
+      "explanation": "Drift detection compara a configuração viva de cada recurso com a esperada pelo template e reporta o que derivou (mudanças feitas fora do CloudFormation). Não cascateia em nested stacks — rode na nested diretamente.",
+      "whyNots": {
+        "B": "Change sets mostram o que VAI mudar antes de você aplicar uma atualização — não detectam mudanças manuais já feitas.",
+        "C": "Stack policy protege recursos de updates acidentais — não detecta drift.",
+        "D": "Rollback automático desfaz um deploy que falhou — não compara estado manual vs. template."
+      }
+    },
+    {
+      "id": "br-implantacao-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elastic-beanstalk"],
+      "situacao": "A Júlia escreveu uma app web em Python e só quer publicar rápido. Ela não quer configurar EC2, load balancer e auto scaling na mão — mas também não quer ficar totalmente sem acesso à infra.",
+      "stem": "Qual serviço sobe a aplicação provisionando a infra por baixo, mas deixando você ainda enxergar e ajustar os recursos?",
+      "options": [
+        {"key": "A", "text": "AWS Elastic Beanstalk"},
+        {"key": "B", "text": "Amazon EC2 puro"},
+        {"key": "C", "text": "AWS Lambda"},
+        {"key": "D", "text": "Amazon S3 static website"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): você entrega só o código; a AWS monta EC2, balanceador, auto scaling e monitoramento pra você. É o meio-termo entre montar tudo na mão e abrir mão de tudo.",
+        "💡 Rafael (dica 2): e não custa nada a mais pelo serviço — você paga só os recursos AWS que ele cria por baixo."
+      ],
+      "explanation": "Elastic Beanstalk é PaaS: você sobe o código (Python, Java, Node.js, .NET, Docker...) e ele provisiona e gerencia EC2, ELB, auto scaling e monitoramento — sem custo adicional pelo Beanstalk (paga só os recursos subjacentes). Você mantém visibilidade e pode customizar a infra.",
+      "whyNots": {
+        "B": "EC2 puro dá controle máximo, mas é exatamente o trabalho manual que a Júlia quer evitar.",
+        "C": "Lambda é serverless por evento/função; não é o jeito de hospedar uma app web tradicional \"sempre ligada\" com a infra visível.",
+        "D": "S3 static website só serve arquivos estáticos — não roda código Python no servidor."
+      }
+    },
+    {
+      "id": "br-implantacao-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elastic-beanstalk", "ec2", "lambda"],
+      "situacao": "Quatro times discutem onde rodar workloads. Um quer controle total da máquina; outro quer só subir código de app web com a infra gerenciada; outro quer função por evento sem servidor.",
+      "stem": "Qual associação está CORRETA?",
+      "options": [
+        {"key": "A", "text": "Controle total = EC2; app web gerenciada = Elastic Beanstalk; função por evento = Lambda"},
+        {"key": "B", "text": "Controle total = Lambda; app web gerenciada = EC2; função por evento = Beanstalk"},
+        {"key": "C", "text": "Controle total = Beanstalk; app web gerenciada = Lambda; função por evento = EC2"},
+        {"key": "D", "text": "Os três fazem exatamente a mesma coisa, é só preferência de nome"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ordena por quanto a AWS faz por você. EC2 = você faz tudo. Beanstalk = você dá o código, ela monta a casa. Lambda = você dá a função, ela cuida até do servidor."
+      ],
+      "explanation": "EC2 entrega controle e flexibilidade máximos (você administra o servidor). Elastic Beanstalk fica no meio: você sobe o código e ele gerencia a infra de uma app web. Lambda é serverless: você sobe a função e nem pensa em servidor, paga por execução.",
+      "whyNots": {
+        "B": "Inverte tudo — Lambda não é \"controle total\" e Beanstalk não é função por evento.",
+        "C": "Também troca os papéis; Beanstalk não dá controle total e EC2 não é função por evento.",
+        "D": "São modelos de responsabilidade bem diferentes; o ponto da prova é justamente saber escolher."
+      }
+    },
+    {
+      "id": "br-implantacao-q06",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["xray"],
+      "situacao": "Uma requisição passa por API Gateway, depois Lambda, depois DynamoDB. O cliente reclama que está lento, mas ninguém sabe em QUAL etapa o tempo está sendo gasto.",
+      "stem": "Qual serviço mostra o caminho da requisição entre os componentes e onde está o gargalo?",
+      "options": [
+        {"key": "A", "text": "AWS X-Ray"},
+        {"key": "B", "text": "AWS CloudTrail"},
+        {"key": "C", "text": "Amazon CloudWatch Alarms"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa num raio-X da requisição — ele mostra cada \"osso\" do caminho (cada serviço) e quanto tempo a requisição passou em cada um.",
+        "💡 Rafael (dica 2): ele monta um \"service map\" visual, com latência média e taxa de falha de cada nó. Tracing distribuído."
+      ],
+      "explanation": "X-Ray faz tracing distribuído: segue cada requisição pelos componentes, agrupa os \"segments\" numa \"trace\" e monta um service map visual (nós = serviços, com latência e falha). É o jeito de achar o gargalo etapa por etapa numa arquitetura de microsserviços/serverless.",
+      "whyNots": {
+        "B": "CloudTrail audita chamadas de API (quem fez o quê), não mede latência por etapa de uma requisição.",
+        "C": "CloudWatch Alarms dispara em cima de métricas agregadas — avisa que está lento, mas não mostra ONDE no caminho.",
+        "D": "Config registra/avalia configuração de recursos — nada a ver com rastrear uma requisição."
+      }
+    },
+    {
+      "id": "br-implantacao-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["xray", "cloudwatch", "cloudtrail"],
+      "situacao": "Na prova aparece a tríade. Você precisa separar: métricas/logs/alarmes agregados; auditoria de chamadas de API; e o caminho de uma única requisição entre serviços.",
+      "stem": "Qual mapeamento está certo?",
+      "options": [
+        {"key": "A", "text": "CloudWatch = métricas/logs/alarmes; CloudTrail = auditoria de API; X-Ray = caminho por-requisição"},
+        {"key": "B", "text": "CloudWatch = auditoria de API; CloudTrail = caminho por-requisição; X-Ray = métricas"},
+        {"key": "C", "text": "CloudWatch = caminho por-requisição; CloudTrail = métricas; X-Ray = auditoria de API"},
+        {"key": "D", "text": "Os três são intercambiáveis pra qualquer um desses objetivos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"Trail\" lembra trilha de auditoria (quem chamou qual API). \"Watch\" lembra vigiar números (métricas/alarmes). X-Ray é o raio-X do caminho."
+      ],
+      "explanation": "CloudWatch cuida de métricas, logs e alarmes agregados; CloudTrail registra chamadas de API pra auditoria (quem fez o quê, quando); X-Ray rastreia o caminho de cada requisição entre serviços. Na prova, essa separação resolve a maioria das pegadinhas de observabilidade.",
+      "whyNots": {
+        "B": "Troca os papéis — CloudWatch não audita API e CloudTrail não faz tracing por requisição.",
+        "C": "Também embaralha os três; nenhum desses pares está certo.",
+        "D": "Não são intercambiáveis — cada um responde a uma pergunta diferente."
+      }
+    },
+    {
+      "id": "br-implantacao-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["global-accelerator"],
+      "situacao": "Um jogo online usa UDP e os jogadores reclamam de lag dependendo do país. Você quer que o tráfego entre na rede da AWS na borda mais próxima do jogador e viaje pela backbone da AWS até a região.",
+      "stem": "Qual serviço entrega isso, com IPs estáticos de entrada?",
+      "options": [
+        {"key": "A", "text": "AWS Global Accelerator"},
+        {"key": "B", "text": "Amazon CloudFront"},
+        {"key": "C", "text": "Amazon Route 53 latency routing"},
+        {"key": "D", "text": "AWS Direct Connect"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o nome diz — ACELERA tráfego GLOBAL. Ele dá IPs estáticos anycast e puxa o usuário pra dentro da rede da AWS o quanto antes, inclusive pra TCP/UDP.",
+        "💡 Rafael (dica 2): CloudFront é CDN, pensado pra HTTP(S) cacheável. Jogo em UDP não é caso de CloudFront — é caso de Global Accelerator."
+      ],
+      "explanation": "Global Accelerator fornece IPs estáticos anycast como entrada e move o tráfego pra dentro da rede global da AWS na borda mais próxima, atravessando a backbone até o endpoint regional. Funciona em TCP/UDP, ideal pra não-HTTP (jogos UDP, IoT MQTT, VoIP) e pra HTTP que exige IP fixo ou failover regional rápido.",
+      "whyNots": {
+        "B": "CloudFront é CDN HTTP(S) com cache na borda; não é a escolha pra um jogo em UDP.",
+        "C": "Route 53 resolve DNS por latência, mas depende de cache de DNS e não dá IP estático de entrada nem acelera o transporte na backbone.",
+        "D": "Direct Connect é link dedicado do seu data center pra AWS — não acelera usuários finais espalhados pelo mundo."
+      }
+    },
+    {
+      "id": "br-implantacao-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["global-accelerator", "cloudfront"],
+      "situacao": "Dois cenários: (1) site com muita imagem e vídeo estáticos pra acelerar mundialmente; (2) API TCP que precisa de pouquíssimos IPs fixos pra allowlist em firewalls de parceiros e failover regional determinístico.",
+      "stem": "Qual combinação atende cada cenário?",
+      "options": [
+        {"key": "A", "text": "(1) CloudFront; (2) Global Accelerator"},
+        {"key": "B", "text": "(1) Global Accelerator; (2) CloudFront"},
+        {"key": "C", "text": "Ambos com CloudFront, pois os dois são HTTP"},
+        {"key": "D", "text": "Ambos com Global Accelerator, pois ele substitui o CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conteúdo estático cacheável = CDN = CloudFront. IP fixo pra allowlist + failover rápido em TCP = Global Accelerator.",
+        "💡 Rafael (dica 2): CloudFront faz CACHE na borda; Global Accelerator NÃO faz cache, ele acelera o transporte. São serviços separados e complementares.",
+        "💡 Rafael (dica 3): a pista do cenário 2 é \"poucos IPs fixos pra allowlist\" — isso grita Global Accelerator (IPs estáticos anycast)."
+      ],
+      "explanation": "CloudFront é CDN: ideal pra acelerar e cachear conteúdo estático/dinâmico HTTP(S) mundialmente (cenário 1). Global Accelerator dá IPs estáticos anycast e failover regional rápido em TCP/UDP, perfeito pra allowlist de poucos IPs em firewalls de parceiros (cenário 2). Não fazem cache da mesma forma e podem até ser usados juntos.",
+      "whyNots": {
+        "B": "Inverte: CDN de estáticos é CloudFront, não Global Accelerator.",
+        "C": "Global Accelerator não é só HTTP nem faz cache; o cenário 2 pede IP fixo/failover, que é a praia dele.",
+        "D": "Global Accelerator não substitui CloudFront — ele não faz cache de conteúdo na borda."
+      }
+    },
+    {
+      "id": "br-implantacao-q10",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["global-accelerator"],
+      "situacao": "Dispositivos IoT espalhados pelo mundo precisam falar com sua aplicação por um número fixo e pequeno de IPs (eles não respeitam cache de DNS direito e os firewalls dos clientes só liberam IPs específicos).",
+      "stem": "Por que Global Accelerator encaixa melhor que depender só de DNS?",
+      "options": [
+        {"key": "A", "text": "Ele expõe IPs estáticos anycast fixos, independentes de cache de DNS"},
+        {"key": "B", "text": "Ele troca os IPs a cada requisição pra dificultar ataque"},
+        {"key": "C", "text": "Ele só funciona com nomes DNS, nunca com IP"},
+        {"key": "D", "text": "Ele faz cache do conteúdo da aplicação na borda"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o problema é \"firewall só libera IP fixo\" + \"dispositivo ignora cache de DNS\". A solução tem que ser um IP que não muda.",
+        "💡 Rafael (dica 2): Global Accelerator dá 2 IPs estáticos anycast — você libera esses dois no firewall e pronto, vale pra qualquer região por trás."
+      ],
+      "explanation": "Global Accelerator fornece IPs estáticos anycast que servem de entrada fixa — perfeito quando os clientes precisam fazer allowlist de poucos IPs e quando dispositivos não honram cache de DNS. Os IPs não mudam mesmo que os endpoints regionais por trás mudem.",
+      "whyNots": {
+        "B": "Os IPs são ESTÁTICOS, justamente o contrário de trocar a cada requisição.",
+        "C": "Ele entrega IPs estáticos — esse é o ponto forte aqui.",
+        "D": "Quem faz cache de conteúdo na borda é o CloudFront; Global Accelerator acelera o transporte, não cacheia."
+      }
+    },
+    {
+      "id": "br-implantacao-q11",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation"],
+      "situacao": "Você tem dois stacks independentes: um cria a VPC e a sub-rede; o outro cria as instâncias e precisa referenciar o ID da sub-rede que o primeiro criou — sem copiar e colar o valor na mão.",
+      "stem": "Qual mecanismo do CloudFormation compartilha esse valor entre stacks separados?",
+      "options": [
+        {"key": "A", "text": "Outputs com Export + Fn::ImportValue"},
+        {"key": "B", "text": "Mappings"},
+        {"key": "C", "text": "Parameters do tipo String digitados na mão"},
+        {"key": "D", "text": "Metadata da stack"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): um stack EXPORTA um valor de saída; o outro IMPORTA esse valor pelo nome. É a ponte oficial entre stacks independentes (cross-stack reference).",
+        "💡 Rafael (dica 2): cuidado pra não confundir com nested stacks — lá o filho passa Outputs pro pai via Fn::GetAtt. Aqui são stacks irmãos, independentes."
+      ],
+      "explanation": "Pra compartilhar valores entre stacks independentes, o primeiro declara um Output com `Export` e o segundo usa `Fn::ImportValue` pra puxar esse valor pelo nome — cross-stack reference, sem copiar e colar IDs. (Nested stacks usam Fn::GetAtt nos Outputs do filho; é outro caso.)",
+      "whyNots": {
+        "B": "Mappings são tabelas estáticas de lookup dentro de um template (ex.: AMI por região) — não compartilham valores entre stacks.",
+        "C": "Digitar o ID na mão como parâmetro é justamente o copia-e-cola frágil que se quer evitar.",
+        "D": "Metadata guarda informação arbitrária sobre a stack — não serve pra exportar valores pra outra stack."
+      }
+    }
+  ]
+}

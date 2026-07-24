@@ -1,0 +1,378 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Questões PT autorais — Fase Segurança (caps 14-17): IAM (users/groups/policies), Roles/STS/Organizations/SCPs, KMS/CloudTrail/Config/GuardDuty/Inspector/Macie, Shield/WAF/Secrets Manager. Voz café com leite. Dicas opcionais e progressivas (1 a 3). Ancoradas no livro PT. Segurança = ~30% da prova.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-seg-c14-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "14",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam"],
+      "situacao": "A Júlia entrou no console com a conta de desenvolvimento e percebeu que tinha acesso a tudo — S3, EC2, RDS, faturamento. Algo parecia errado.",
+      "stem": "O que é o IAM na AWS?",
+      "options": [
+        { "key": "A", "text": "O serviço que controla autenticação e autorização — quem pode fazer o quê em cada recurso" },
+        { "key": "B", "text": "Um firewall de rede para instâncias EC2" },
+        { "key": "C", "text": "Um serviço de backup automático" },
+        { "key": "D", "text": "Um banco de dados de usuários da aplicação" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): IAM é a portaria do prédio. Ela autentica (você é o Rafael?) e autoriza (Rafael pode entrar no 5º andar?). Sem portaria, qualquer um entra em qualquer sala."],
+      "explanation": "IAM (Identity and Access Management) é o serviço global que controla autenticação (provar quem você é) e autorização (o que você pode fazer) sobre os recursos da AWS.",
+      "whyNots": {
+        "B": "Firewall de instância é o Security Group.",
+        "C": "Backup é outro assunto (snapshots/AWS Backup).",
+        "D": "Identidade de usuário final de aplicação é o Cognito; IAM é pra acesso à própria AWS."
+      }
+    },
+    {
+      "id": "br-seg-c14-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "14",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam"],
+      "situacao": "Um time de 50 desenvolvedores precisa de acesso somente-leitura ao S3. Daqui a pouco essa permissão pode mudar para todos de uma vez.",
+      "stem": "Qual a forma mais eficiente de gerenciar essa permissão no IAM?",
+      "options": [
+        { "key": "A", "text": "Criar um IAM Group, anexar a policy de leitura ao grupo, e colocar os 50 usuários nele" },
+        { "key": "B", "text": "Anexar a policy individualmente a cada um dos 50 usuários" },
+        { "key": "C", "text": "Compartilhar a conta root com os 50 devs" },
+        { "key": "D", "text": "Criar 50 policies, uma para cada usuário" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): se você anexar permissão em cada usuário, mudar a regra depois vira editar 50 vezes. Junta todo mundo num grupo e gerencia num lugar só — herdam a permissão de uma vez."],
+      "explanation": "IAM Groups agregam usuários: você anexa a policy ao grupo e todos herdam. Mudou a regra? Edita o grupo uma vez e vale para os 50. Anexar policy direto em cada usuário é insustentável em escala.",
+      "whyNots": {
+        "B": "Editar 50 usuários a cada mudança é insustentável — o grupo existe pra isso.",
+        "C": "Conta root jamais para uso diário, e nunca compartilhada com o time.",
+        "D": "50 policies idênticas é duplicação pura; uma policy num grupo resolve."
+      }
+    },
+    {
+      "id": "br-seg-c14-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "14",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam"],
+      "situacao": "Um usuário tem uma policy que dá Allow para s3:* num bucket. Ao mesmo tempo, outra policy aplicada a ele tem um Deny explícito para s3:DeleteObject no mesmo bucket.",
+      "stem": "O usuário consegue deletar objetos nesse bucket?",
+      "options": [
+        { "key": "A", "text": "Não — um Deny explícito sempre sobrepõe qualquer Allow" },
+        { "key": "B", "text": "Sim — o Allow para s3:* inclui o delete e prevalece" },
+        { "key": "C", "text": "Depende da ordem em que as policies foram criadas" },
+        { "key": "D", "text": "Sim — Deny só funciona em SCP, não em IAM policy" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): na AVALIAÇÃO de permissões da AWS existe uma regra de ouro que decide empates.",
+        "💡 Rafael (dica 2): Deny explícito ganha de qualquer Allow, não importa de onde venha nem em que ordem. E o padrão, sem nada, já é negar."
+      ],
+      "explanation": "Regra de avaliação do IAM: um Deny explícito sempre vence qualquer Allow, de qualquer policy, independentemente da ordem. Por padrão tudo é negado; só o que é explicitamente permitido (e não negado) passa.",
+      "whyNots": {
+        "B": "O Allow s3:* é derrubado pelo Deny explícito no DeleteObject.",
+        "C": "A ordem não importa — Deny explícito vence sempre.",
+        "D": "Deny explícito funciona em IAM policy também, não só em SCP."
+      }
+    },
+    {
+      "id": "br-seg-c14-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "14",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam", "s3"],
+      "situacao": "Uma identidade na conta A precisa acessar um bucket S3 que fica na conta B (acesso cross-account).",
+      "stem": "O que normalmente é necessário para o acesso entre contas funcionar?",
+      "options": [
+        { "key": "A", "text": "Uma policy identity-based na conta A E uma policy resource-based (Bucket Policy) na conta B" },
+        { "key": "B", "text": "Apenas uma policy no usuário da conta A" },
+        { "key": "C", "text": "Tornar o bucket público para qualquer conta acessar" },
+        { "key": "D", "text": "Criar um usuário IAM da conta A dentro da conta B" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): tem dois lados na história — quem pede (a identidade na conta A) e quem aceita (o recurso na conta B). Os dois precisam concordar.",
+        "💡 Rafael (dica 2): policy na identidade (identity-based) diz 'posso pedir'; policy no recurso (a Bucket Policy, resource-based) diz 'aceito de quem'. Cross-account costuma exigir as duas."
+      ],
+      "explanation": "Em acesso cross-account, normalmente precisa dos dois lados: a policy identity-based na conta de origem (permite a identidade agir) e a policy resource-based no recurso de destino — a Bucket Policy na conta B, dizendo que aceita aquela identidade. Ambas precisam estar de acordo.",
+      "whyNots": {
+        "B": "Só a policy na conta A não basta — o bucket na conta B também precisa autorizar.",
+        "C": "Tornar o bucket público é furo de segurança e não é a forma correta de cross-account.",
+        "D": "O objetivo do cross-account é justamente NÃO precisar criar usuários da conta A na conta B (use Bucket Policy ou AssumeRole)."
+      }
+    },
+
+    {
+      "id": "br-seg-c15-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "15",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam", "lambda", "dynamodb"],
+      "situacao": "Uma função Lambda precisa gravar no DynamoDB. A tentação foi colocar uma chave de acesso fixa no código.",
+      "stem": "Qual a forma SEGURA de dar essa permissão, sem chaves fixas no código?",
+      "options": [
+        { "key": "A", "text": "Uma IAM Role (execution role) que a Lambda assume ao executar, com permissão no DynamoDB" },
+        { "key": "B", "text": "Colocar Access Key e Secret Key no código da Lambda" },
+        { "key": "C", "text": "Salvar a chave numa variável de ambiente da Lambda" },
+        { "key": "D", "text": "Usar a conta root para a Lambda" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): Role é tipo crachá de visitante — a AWS emite credenciais TEMPORÁRIAS, que expiram sozinhas, sem nenhuma chave fixa no código. A Lambda 'veste' a Role ao rodar."],
+      "explanation": "A Lambda assume uma IAM Role (execution role) na execução e recebe credenciais temporárias do STS — nada de chave estática no código. A Trust Policy permite lambda.amazonaws.com assumir a Role; a Permissions Policy dá o acesso ao DynamoDB.",
+      "whyNots": {
+        "B": "Chave fixa no código vaza fácil (git, log) e não expira — é a prática que se quer eliminar.",
+        "C": "Variável de ambiente é melhor que código, mas ainda é uma chave estática a rotacionar e vazável.",
+        "D": "Conta root jamais — é acesso irrestrito, nunca para serviços."
+      }
+    },
+    {
+      "id": "br-seg-c15-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "15",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["iam", "ec2", "s3"],
+      "situacao": "Bruno achou um config.env com AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY no código da instância EC2. Precisa dar à instância acesso ao S3 sem chave nenhuma no disco.",
+      "stem": "Como a instância EC2 deve acessar o S3 com segurança?",
+      "options": [
+        { "key": "A", "text": "Anexar uma IAM Role à instância (Instance Profile); o SDK pega credenciais temporárias automaticamente" },
+        { "key": "B", "text": "Manter a Access Key, mas movê-la para uma variável de ambiente" },
+        { "key": "C", "text": "Copiar o arquivo .pem para dentro da instância" },
+        { "key": "D", "text": "Deixar o bucket público para a instância acessar" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o objetivo é zero chave estática no disco ou no código.",
+        "💡 Rafael (dica 2): você anexa uma Role à instância (Instance Profile). O SDK pega credenciais temporárias sozinho pelo metadata da instância, e elas se renovam automaticamente."
+      ],
+      "explanation": "Anexar uma IAM Role à EC2 (via Instance Profile) faz o SDK/CLI obter credenciais temporárias automaticamente pelo Instance Metadata Service — sem chave no disco nem no código, e com rotação automática. Se a instância for comprometida, as credenciais expiram em horas.",
+      "whyNots": {
+        "B": "Variável de ambiente ainda é chave estática — vazável e sem expiração automática.",
+        "C": ".pem é chave SSH de acesso à instância, não credencial de acesso ao S3.",
+        "D": "Bucket público é risco grave e não é controle de acesso da instância."
+      }
+    },
+    {
+      "id": "br-seg-c15-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "15",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["organizations"],
+      "situacao": "A liderança quer garantir que NENHUMA conta da OU de Produção crie recursos fora da região sa-east-1 — nem mesmo um administrador da conta.",
+      "stem": "Qual recurso impõe esse teto de permissões no nível da OU?",
+      "options": [
+        { "key": "A", "text": "Service Control Policy (SCP) aplicada na OU de Produção" },
+        { "key": "B", "text": "Uma IAM Policy anexada a cada usuário da conta" },
+        { "key": "C", "text": "Um Security Group restringindo a região" },
+        { "key": "D", "text": "Uma Bucket Policy no S3" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): 'nem o administrador da conta pode' é a pista — precisa de algo ACIMA da IAM policy da conta.",
+        "💡 Rafael (dica 2): no AWS Organizations, existe uma policy que define o TETO de permissões de uma OU/conta inteira. Ela não concede nada — só limita o máximo. É a SCP."
+      ],
+      "explanation": "SCP (Service Control Policy) define o teto de permissões de uma OU/conta no Organizations: mesmo um usuário com AdministratorAccess não passa do que a SCP permite. Uma SCP com Deny fora de sa-east-1 bloqueia todas as contas da OU, inclusive admins.",
+      "whyNots": {
+        "B": "IAM Policy controla uma identidade; um admin poderia se conceder mais. SCP é o limite superior da conta inteira.",
+        "C": "Security Group é firewall de instância, não controla região nem permissões.",
+        "D": "Bucket Policy controla acesso a um bucket, não a criação de recursos por região."
+      }
+    },
+    {
+      "id": "br-seg-c15-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "15",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["organizations", "iam"],
+      "situacao": "Uma conta-membro tem uma SCP que NEGA o uso do serviço Redshift. Um usuário dessa conta tem uma IAM Policy com Allow para redshift:*.",
+      "stem": "O usuário consegue usar o Redshift?",
+      "options": [
+        { "key": "A", "text": "Não — a SCP é o teto máximo; se ela nega, a IAM policy de Allow não adianta" },
+        { "key": "B", "text": "Sim — a IAM Policy concede a permissão e prevalece sobre a SCP" },
+        { "key": "C", "text": "Sim — SCP só vale para a conta root" },
+        { "key": "D", "text": "Depende: a SCP concede a permissão se a IAM também conceder" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): SCP e IAM policy não somam permissão — uma define o teto, a outra concede dentro do teto.",
+        "💡 Rafael (dica 2): a SCP NÃO concede nada; ela só restringe o máximo. Se a SCP nega Redshift, ninguém na conta usa Redshift, por mais Allow que a IAM dê."
+      ],
+      "explanation": "A SCP define o máximo de permissões da conta e NÃO concede nada — só restringe. Se a SCP nega Redshift, nenhum usuário ou role da conta usa Redshift, mesmo com IAM Policy de Allow. A permissão efetiva é a interseção (o que a IAM permite E a SCP não proíbe).",
+      "whyNots": {
+        "B": "IAM Allow não fura uma SCP de Deny — a SCP é o limite superior.",
+        "C": "SCP vale para todas as identidades da conta-membro, não só o root.",
+        "D": "SCP nunca concede permissão; ela só limita. Quem concede é a IAM policy, dentro do teto da SCP."
+      }
+    },
+
+    {
+      "id": "br-seg-c16-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "16",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["cloudtrail"],
+      "situacao": "A auditora Lara pediu: 'quero ver quem deletou o bucket de produção, de qual IP e em que horário'.",
+      "stem": "Qual serviço registra todas as chamadas de API da conta (quem fez, o quê, de onde, quando)?",
+      "options": [
+        { "key": "A", "text": "AWS CloudTrail" },
+        { "key": "B", "text": "Amazon CloudWatch (métricas)" },
+        { "key": "C", "text": "AWS Config" },
+        { "key": "D", "text": "Amazon GuardDuty" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): quando alguém pede PROVA, não quer opinião — quer trilha. Toda chamada de API na AWS deixa um rastro: quem, o quê, de onde, quando. Essa trilha é o CloudTrail."],
+      "explanation": "CloudTrail registra todas as chamadas de API da conta (console, CLI, SDK): identidade, ação, recurso, IP de origem, horário e resultado. É a trilha de auditoria — responde 'quem fez o quê e quando'.",
+      "whyNots": {
+        "B": "CloudWatch é métricas e logs operacionais, não a trilha de chamadas de API por identidade.",
+        "C": "Config registra o ESTADO/configuração dos recursos ao longo do tempo, não cada chamada de API.",
+        "D": "GuardDuty detecta ameaças; não é o registro de auditoria de cada ação."
+      }
+    },
+    {
+      "id": "br-seg-c16-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "16",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["aws-config"],
+      "situacao": "A empresa precisa PROVAR para auditores externos que nenhuma configuração de segurança (buckets públicos, volumes sem criptografia, MFA) saiu da conformidade nos últimos 90 dias.",
+      "stem": "Qual serviço monitora a conformidade contínua da CONFIGURAÇÃO dos recursos ao longo do tempo?",
+      "options": [
+        { "key": "A", "text": "AWS Config (com Config Rules de conformidade)" },
+        { "key": "B", "text": "AWS CloudTrail" },
+        { "key": "C", "text": "Amazon Inspector" },
+        { "key": "D", "text": "AWS WAF" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a pergunta não é 'quem fez' (isso é CloudTrail) — é 'o recurso está configurado em conformidade, e continuou assim?'.",
+        "💡 Rafael (dica 2): existe um serviço que grava o ESTADO de configuração ao longo do tempo e checa regras (bucket público? volume sem criptografia? MFA?). É o AWS Config."
+      ],
+      "explanation": "AWS Config registra o estado de configuração dos recursos ao longo do tempo e avalia Config Rules de conformidade (ex.: s3-bucket-public-read-prohibited, encrypted-volumes, mfa-enabled). Responde 'o recurso está e continuou em conformidade?'. CloudTrail registra ações; Config registra estado/configuração.",
+      "whyNots": {
+        "B": "CloudTrail mostra ações (quem fez o quê), não o histórico de conformidade da configuração.",
+        "C": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não conformidade de configuração geral.",
+        "D": "WAF filtra tráfego de aplicação, nada a ver com relatório de conformidade."
+      }
+    },
+    {
+      "id": "br-seg-c16-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "16",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["guardduty"],
+      "situacao": "O time quer ser avisado, EM TEMPO REAL, se uma instância EC2 começar a se comunicar com IPs maliciosos conhecidos ou tiver comportamento anômalo (sinal de comprometimento).",
+      "stem": "Qual serviço detecta ameaças ativas analisando os logs da AWS com machine learning?",
+      "options": [
+        { "key": "A", "text": "Amazon GuardDuty" },
+        { "key": "B", "text": "AWS Config" },
+        { "key": "C", "text": "Amazon Macie" },
+        { "key": "D", "text": "AWS CloudTrail" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): aqui não é 'configuração' nem 'log cru' — é detectar comportamento SUSPEITO em tempo real.",
+        "💡 Rafael (dica 2): tem um serviço que usa ML em cima de VPC Flow Logs, DNS e CloudTrail pra detectar ameaça (e alertar — não bloqueia). É o GuardDuty."
+      ],
+      "explanation": "GuardDuty usa machine learning sobre VPC Flow Logs, DNS Logs e CloudTrail para detectar ameaças: IPs maliciosos, comunicação de command & control, exfiltração de credenciais. Ele alerta (não bloqueia) — a resposta fica com você (manual ou via EventBridge + Lambda).",
+      "whyNots": {
+        "B": "Config checa conformidade de configuração, não ameaças ativas em tempo real.",
+        "C": "Macie acha dados sensíveis (PII) no S3, não detecta comunicação maliciosa de instâncias.",
+        "D": "CloudTrail é o log de chamadas de API; GuardDuty é quem analisa e detecta ameaça em cima desses dados."
+      }
+    },
+    {
+      "id": "br-seg-c16-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "16",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["macie", "guardduty", "inspector"],
+      "situacao": "Suspeita-se que uma planilha com CPFs de clientes foi enviada por engano para um bucket S3. O time quer descobrir automaticamente onde há dados sensíveis (PII) guardados no S3.",
+      "stem": "Qual serviço é especializado em descobrir e classificar dados sensíveis no S3?",
+      "options": [
+        { "key": "A", "text": "Amazon Macie" },
+        { "key": "B", "text": "Amazon GuardDuty" },
+        { "key": "C", "text": "Amazon Inspector" },
+        { "key": "D", "text": "AWS CloudTrail" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): cuidado pra não confundir os 'detetives'. Aqui o alvo é DADO sensível (CPF, cartão) parado no S3 — não ameaça de rede, não CVE.",
+        "💡 Rafael (dica 2): GuardDuty = ameaça em tempo real; Inspector = vulnerabilidade (CVE) em EC2/containers; Macie = dado sensível (PII) no S3. O caso é PII no S3 → Macie."
+      ],
+      "explanation": "Macie usa ML para descobrir e classificar dados sensíveis (PII como CPF, cartão de crédito, credenciais) armazenados no S3 e alertar sobre exposição. GuardDuty é ameaça em tempo real; Inspector é vulnerabilidade (CVE) em EC2/containers — nenhum dos dois faz a descoberta de PII.",
+      "whyNots": {
+        "B": "GuardDuty detecta ameaças de comportamento (rede/API), não vasculha PII em buckets.",
+        "C": "Inspector procura CVEs em instâncias e containers, não dados sensíveis no S3.",
+        "D": "CloudTrail registra ações, não classifica o conteúdo dos objetos."
+      }
+    },
+
+    {
+      "id": "br-seg-c17-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "17",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["waf"],
+      "situacao": "Uma aplicação web sofre tentativas de SQL injection e XSS (scripts maliciosos) vindas de IPs variados, nos campos das requisições HTTP.",
+      "stem": "Qual serviço filtra esse tráfego malicioso na camada de aplicação (camada 7)?",
+      "options": [
+        { "key": "A", "text": "AWS WAF (Web Application Firewall)" },
+        { "key": "B", "text": "AWS Shield" },
+        { "key": "C", "text": "Security Group" },
+        { "key": "D", "text": "Amazon GuardDuty" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): SQL injection e XSS são payloads maliciosos DENTRO da requisição HTTP. Quem inspeciona o conteúdo da requisição (camada 7) e bloqueia com 403 é o WAF."],
+      "explanation": "AWS WAF protege na camada 7 (HTTP): você cria Web ACLs com regras (inclusive grupos gerenciados como o AWSManagedRulesCommonRuleSet) que detectam SQL injection, XSS, bots e rate limiting, bloqueando a requisição antes de chegar à aplicação. Integra com CloudFront, ALB e API Gateway.",
+      "whyNots": {
+        "B": "Shield protege contra DDoS volumétrico (camada 3/4), não inspeciona payload HTTP.",
+        "C": "Security Group filtra por porta/IP, não entende SQL injection no conteúdo da requisição.",
+        "D": "GuardDuty detecta ameaças nos logs; não filtra requisições HTTP na borda."
+      }
+    },
+    {
+      "id": "br-seg-c17-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "17",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["shield", "waf"],
+      "situacao": "Um ataque tenta DERRUBAR o site inundando a infraestrutura com um volume gigante de tráfego de rede (DDoS volumétrico, camada 3/4).",
+      "stem": "Qual serviço protege contra esse tipo de ataque — e que já vem ativo de graça para todos?",
+      "options": [
+        { "key": "A", "text": "AWS Shield Standard (DDoS L3/L4, automático e sem custo)" },
+        { "key": "B", "text": "AWS WAF" },
+        { "key": "C", "text": "AWS Secrets Manager" },
+        { "key": "D", "text": "AWS Config" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): inundação de tráfego de rede pra derrubar = DDoS volumétrico. WAF é pra payload de aplicação, não pra volume de rede.",
+        "💡 Rafael (dica 2): a AWS já protege todo mundo contra DDoS L3/L4 por padrão e de graça — é o Shield Standard. (O Advanced, pago, adiciona L7, time de resposta e proteção de custo.)"
+      ],
+      "explanation": "Shield Standard protege contra DDoS de camada 3/4 (volumétrico: UDP/SYN flood, amplificação) automaticamente e sem custo, em CloudFront, Route 53, ALB e Elastic IP. WAF é complementar, mas atua na camada 7 (payload HTTP). Shield Advanced (pago) acrescenta proteção L7, DDoS Response Team e proteção de custo.",
+      "whyNots": {
+        "B": "WAF filtra ataques de aplicação (SQL injection, XSS), não a inundação volumétrica de rede.",
+        "C": "Secrets Manager guarda credenciais — nada a ver com DDoS.",
+        "D": "Config é conformidade de configuração, não proteção contra DDoS."
+      }
+    },
+    {
+      "id": "br-seg-c17-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "17",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["secrets-manager", "rds"],
+      "situacao": "A senha do banco de dados RDS de produção precisa ser TROCADA automaticamente a cada 30 dias, sem downtime e sem ninguém mexer na mão.",
+      "stem": "Qual serviço armazena essa senha com rotação automática nativa?",
+      "options": [
+        { "key": "A", "text": "AWS Secrets Manager" },
+        { "key": "B", "text": "SSM Parameter Store (Standard)" },
+        { "key": "C", "text": "Um arquivo .env criptografado na instância" },
+        { "key": "D", "text": "AWS KMS" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): a palavra mágica é 'rotação automática de senha de banco'. Tem um serviço que integra com RDS e troca a senha sozinho, sem downtime — o Secrets Manager."],
+      "explanation": "Secrets Manager armazena segredos criptografados com KMS e faz rotação automática nativa integrada com RDS/Redshift/DocumentDB — troca a senha no banco e atualiza o segredo sem downtime. A aplicação busca a senha em runtime via API, usando a IAM Role.",
+      "whyNots": {
+        "B": "SSM Parameter Store não tem rotação automática nativa (precisaria de Lambda customizado).",
+        "C": "Arquivo na instância é credencial estática — o problema que se quer eliminar.",
+        "D": "KMS gerencia as CHAVES de criptografia, não armazena nem rotaciona a senha do banco."
+      }
+    },
+    {
+      "id": "br-seg-c17-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "17",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["ssm", "secrets-manager"],
+      "situacao": "Você precisa guardar uma feature flag NÃO sensível: HABILITAR_NOVO_CHECKOUT=true. Quer a opção mais simples e econômica.",
+      "stem": "Onde guardar esse parâmetro de configuração não sensível?",
+      "options": [
+        { "key": "A", "text": "SSM Parameter Store (Standard) — gratuito e simples para config não sensível" },
+        { "key": "B", "text": "AWS Secrets Manager (com rotação automática)" },
+        { "key": "C", "text": "Hardcoded no código da aplicação" },
+        { "key": "D", "text": "Num bucket S3 público" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): não é segredo, não precisa de rotação. Pagar por Secrets Manager aqui é desperdício.",
+        "💡 Rafael (dica 2): pra configuração simples e não sensível, existe a opção gratuita do SSM Parameter Store (Standard)."
+      ],
+      "explanation": "Para configuração NÃO sensível (feature flag, URL pública), o SSM Parameter Store Standard é gratuito e suficiente. Secrets Manager (~$0,40/segredo/mês + rotação) é pra credenciais sensíveis que precisam de rotação — usá-lo aqui é custo à toa.",
+      "whyNots": {
+        "B": "Secrets Manager é pago e voltado a segredos com rotação — exagero para uma flag não sensível.",
+        "C": "Hardcoded no código obriga deploy a cada mudança de flag e mistura config com código.",
+        "D": "Bucket público expõe configuração desnecessariamente — má prática de segurança."
+      }
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Transferência Gerenciada e DR de Servidores (AWS Transfer Family SFTP/FTPS; DataSync vs Transfer Family; AWS Elastic Disaster Recovery DRS; DRS vs MGN vs Backup). Cobre transferência de arquivos e DR contínuo.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-trdr-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family", "s3"],
+      "situacao": "Uma empresa troca arquivos com parceiros via SFTP e quer migrar isso pra um endpoint SFTP totalmente gerenciado, entregando direto no S3, sem operar servidores SFTP próprios.",
+      "stem": "Qual serviço atende?",
+      "options": [
+        {"key": "A", "text": "AWS Transfer Family"},
+        {"key": "B", "text": "AWS DataSync"},
+        {"key": "C", "text": "Amazon CloudFront"},
+        {"key": "D", "text": "AWS Snowball"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): endpoint SFTP/FTPS GERENCIADO → S3/EFS pra troca com parceiros = AWS Transfer Family.",
+        "💡 Rafael (dica 2): você mantém as configs de cliente; a AWS opera o servidor SFTP por baixo."
+      ],
+      "explanation": "AWS Transfer Family oferece transferência totalmente gerenciada sobre SFTP, FTPS, FTP e AS2, direto pra/de S3 ou EFS. É ideal pra trocar arquivos com parceiros via SFTP sem manter servidores SFTP próprios.",
+      "whyNots": {
+        "B": "DataSync é pra migração/cópia em massa entre storages — não é um endpoint SFTP pra parceiros.",
+        "C": "CloudFront é CDN — não é transferência SFTP.",
+        "D": "Snowball é transporte físico offline — não é endpoint SFTP gerenciado."
+      }
+    },
+    {
+      "id": "br-trdr-q01",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family", "datasync"],
+      "situacao": "Distinga: (1) expor um endpoint SFTP pra parceiros enviarem arquivos pro S3; (2) migrar em massa terabytes de um NAS on-premises (NFS/SMB) pra a AWS, com verificação de integridade.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) AWS Transfer Family; (2) AWS DataSync"},
+        {"key": "B", "text": "(1) AWS DataSync; (2) AWS Transfer Family"},
+        {"key": "C", "text": "(1) Snowball; (2) Transfer Family"},
+        {"key": "D", "text": "(1) DataSync; (2) Storage Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SFTP pra parceiros = Transfer Family; migração em massa NFS/SMB = DataSync.",
+        "💡 Rafael (dica 2): protocolo padrão de troca = Transfer Family; copiar grandes volumes entre storages = DataSync."
+      ],
+      "explanation": "Transfer Family expõe o endpoint de protocolo padrão (SFTP) pra parceiros enviarem arquivos ao S3. DataSync faz a migração/cópia em massa entre sistemas de armazenamento (NFS/SMB → S3/EFS/FSx) com verificação de integridade. A opção A está correta.",
+      "whyNots": {
+        "B": "Inverte — SFTP de parceiro é Transfer Family; migração em massa é DataSync.",
+        "C": "Snowball é offline; o cenário 1 é SFTP online (Transfer Family).",
+        "D": "Storage Gateway é acesso híbrido contínuo — não é a migração em massa pedida em (2)."
+      }
+    },
+    {
+      "id": "br-trdr-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["datasync"],
+      "situacao": "Você precisa copiar, de forma automatizada e recorrente, grandes volumes de dados de um file share SMB on-premises pro Amazon FSx, com retry e controle de banda.",
+      "stem": "Qual serviço é o indicado?",
+      "options": [
+        {"key": "A", "text": "AWS DataSync"},
+        {"key": "B", "text": "AWS Transfer Family"},
+        {"key": "C", "text": "Amazon SES"},
+        {"key": "D", "text": "AWS Budgets"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): migração/cópia automatizada em massa entre storages (SMB → FSx) com retry/banda = DataSync.",
+        "💡 Rafael (dica 2): DataSync suporta NFS, SMB, S3, EFS, FSx; Transfer Family é endpoint de protocolo (SFTP)."
+      ],
+      "explanation": "DataSync automatiza a transferência em massa entre sistemas de armazenamento (incluindo SMB → FSx), com verificação de integridade, retry e controle de banda. É a escolha pra cópia recorrente de grandes volumes.",
+      "whyNots": {
+        "B": "Transfer Family é endpoint SFTP/FTPS pra troca de arquivos — não a migração em massa SMB→FSx.",
+        "C": "SES é e-mail — nada a ver com transferência de arquivos.",
+        "D": "Budgets é custo — não transfere dados."
+      }
+    },
+    {
+      "id": "br-trdr-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["drs"],
+      "situacao": "Uma empresa quer DR de servidores on-premises com RPO de segundos e RTO de minutos: replicar os servidores continuamente pra a AWS e, num desastre, subir as máquinas totalmente provisionadas em minutos.",
+      "stem": "Qual serviço atende?",
+      "options": [
+        {"key": "A", "text": "AWS Elastic Disaster Recovery (AWS DRS)"},
+        {"key": "B", "text": "AWS Backup apenas"},
+        {"key": "C", "text": "AWS Transfer Family"},
+        {"key": "D", "text": "Amazon Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): replicação CONTÍNUA de servidores + RPO seg/RTO min + lançar máquinas prontas em minutos = Elastic Disaster Recovery (DRS).",
+        "💡 Rafael (dica 2): DRS replica em nível de bloco pra um staging barato e converte os servidores pra rodar na AWS no desastre."
+      ],
+      "explanation": "AWS Elastic Disaster Recovery (DRS) replica continuamente (nível de bloco) servidores on-premises/cloud pra uma área de staging de baixo custo na AWS, permitindo lançar as máquinas totalmente provisionadas em minutos no desastre — com RPO de segundos e RTO de minutos. Suporta failback.",
+      "whyNots": {
+        "B": "AWS Backup faz backup/restore de dados (RPO/RTO maiores, reimplantar infra) — não a replicação contínua de servidores com failover rápido.",
+        "C": "Transfer Family é transferência de arquivos SFTP — não DR de servidores.",
+        "D": "Lightsail é VPS — não é serviço de DR."
+      }
+    },
+    {
+      "id": "br-trdr-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["drs", "mgn"],
+      "situacao": "Distinga: (1) migrar servidores on-premises pra EC2 de forma definitiva (lift-and-shift, uma vez); (2) manter servidores replicados continuamente pra failover rápido em caso de desastre.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Application Migration Service (MGN); (2) Elastic Disaster Recovery (DRS)"},
+        {"key": "B", "text": "(1) DRS; (2) MGN"},
+        {"key": "C", "text": "(1) AWS Backup; (2) MGN"},
+        {"key": "D", "text": "(1) DataSync; (2) DRS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): migrar de vez (uma vez) = MGN; DR contínuo pra failover = DRS.",
+        "💡 Rafael (dica 2): MGN é lift-and-shift; DRS é replicação contínua pra recuperação."
+      ],
+      "explanation": "MGN (Application Migration Service) faz a migração lift-and-shift de servidores pra EC2 (uma vez, no cutover). DRS (Elastic Disaster Recovery) mantém os servidores replicados continuamente pra failover rápido no desastre. A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — migrar de vez é MGN; DR contínuo é DRS.",
+        "C": "Backup é cópia de dados pra restaurar — não é a migração lift-and-shift de (1).",
+        "D": "DataSync é cópia de arquivos — não migra servidores inteiros."
+      }
+    },
+    {
+      "id": "br-trdr-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["drs", "aws-backup"],
+      "situacao": "Um arquiteto pondera entre fazer apenas backups periódicos dos dados ou ter replicação contínua dos servidores. O requisito é RPO de segundos e recuperação em minutos, sem reimplantar a infraestrutura na mão.",
+      "stem": "Qual abordagem atende esse requisito?",
+      "options": [
+        {"key": "A", "text": "AWS Elastic Disaster Recovery (replicação contínua + infra pronta automaticamente)"},
+        {"key": "B", "text": "AWS Backup com restauração manual da infra"},
+        {"key": "C", "text": "Snapshots semanais"},
+        {"key": "D", "text": "Não há como atingir RPO de segundos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): RPO seg + RTO min + infra pronta sem reimplantar = DRS (replicação contínua).",
+        "💡 Rafael (dica 2): backup/restore tem RPO/RTO maiores e exige reimplantar a infra."
+      ],
+      "explanation": "Pra RPO de segundos e RTO de minutos sem reimplantar a infraestrutura, o DRS é a escolha: replica os servidores continuamente e deixa a infra pronta pra subir automaticamente. Backup/restore tem RPO/RTO maiores e exige reimplantação manual.",
+      "whyNots": {
+        "B": "Backup com restore manual não atinge RPO de segundos nem evita reimplantar a infra.",
+        "C": "Snapshots semanais têm RPO de dias — longe de segundos.",
+        "D": "É possível, sim — com DRS (replicação contínua)."
+      }
+    },
+    {
+      "id": "br-trdr-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family"],
+      "situacao": "Um banco precisa receber arquivos de parceiros usando o protocolo AS2 (comum em troca B2B/EDI), entregando-os no S3, de forma gerenciada.",
+      "stem": "Qual serviço suporta esse protocolo de troca de arquivos?",
+      "options": [
+        {"key": "A", "text": "AWS Transfer Family (suporta SFTP, FTPS, FTP e AS2)"},
+        {"key": "B", "text": "AWS DataSync"},
+        {"key": "C", "text": "Amazon SNS"},
+        {"key": "D", "text": "Amazon Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): além de SFTP/FTPS/FTP, o Transfer Family também suporta AS2 (troca B2B/EDI) → S3.",
+        "💡 Rafael (dica 2): é o serviço de protocolos padrão de transferência gerenciada."
+      ],
+      "explanation": "AWS Transfer Family suporta os protocolos padrão SFTP, FTPS, FTP e também AS2 (usado em troca B2B/EDI), entregando os arquivos no S3/EFS de forma gerenciada. É o serviço certo pra esse caso.",
+      "whyNots": {
+        "B": "DataSync é migração/cópia entre storages — não é endpoint de protocolo AS2.",
+        "C": "SNS é notificação pub/sub — não transfere arquivos por AS2.",
+        "D": "Athena é consulta SQL — nada a ver com AS2."
+      }
+    },
+    {
+      "id": "br-trdr-q07",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["drs"],
+      "situacao": "Depois que o ambiente primário on-premises voltou ao normal, a empresa quer retornar as cargas que estavam rodando na AWS de volta pra origem.",
+      "stem": "Qual recurso do AWS DRS ajuda nesse retorno?",
+      "options": [
+        {"key": "A", "text": "Failback (replicar de volta pra os servidores de origem)"},
+        {"key": "B", "text": "Transfer Family"},
+        {"key": "C", "text": "Glacier Deep Archive"},
+        {"key": "D", "text": "CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): voltar as cargas da AWS pra a origem = failback (o DRS replica de volta).",
+        "💡 Rafael (dica 2): DRS cuida da recuperação (lançar) e do failback (voltar); o failover de tráfego é você quem faz."
+      ],
+      "explanation": "O AWS DRS suporta failback: replica os dados das instâncias de recuperação de volta pros servidores de origem, permitindo retornar as cargas quando o ambiente primário se restabelece. (O redirecionamento de tráfego, o failover em si, é feito por você.)",
+      "whyNots": {
+        "B": "Transfer Family é transferência de arquivos SFTP — não é o failback de DR.",
+        "C": "Glacier é arquivamento — não tem a ver com failback de servidores.",
+        "D": "CloudFront é CDN — não faz failback."
+      }
+    },
+    {
+      "id": "br-trdr-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family", "efs"],
+      "situacao": "Uma aplicação legada de parceiros sobe arquivos por SFTP que precisam aterrissar num file system compartilhado Linux (NFS) usado por várias instâncias.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "AWS Transfer Family entregando em Amazon EFS"},
+        {"key": "B", "text": "DataSync entregando em DynamoDB"},
+        {"key": "C", "text": "Transfer Family entregando em Glacier"},
+        {"key": "D", "text": "SNS entregando em EFS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SFTP gerenciado (Transfer Family) pode entregar tanto no S3 quanto no EFS (file system Linux compartilhado).",
+        "💡 Rafael (dica 2): EFS é o NFS compartilhado entre várias instâncias."
+      ],
+      "explanation": "AWS Transfer Family entrega arquivos recebidos por SFTP diretamente no Amazon EFS, que é o file system NFS compartilhado entre várias instâncias Linux — atendendo o fluxo legado dos parceiros.",
+      "whyNots": {
+        "B": "DataSync não é endpoint SFTP, e DynamoDB não é file system compartilhado.",
+        "C": "Glacier é arquivamento, não um file system NFS compartilhado de acesso ativo.",
+        "D": "SNS é notificação — não recebe SFTP nem grava no EFS."
+      }
+    },
+    {
+      "id": "br-trdr-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family", "datasync", "drs", "mgn"],
+      "situacao": "Quatro necessidades: (1) endpoint SFTP gerenciado pra parceiros; (2) migração em massa de um NAS pra AWS; (3) DR contínuo de servidores com failover rápido; (4) migração lift-and-shift de servidores pra EC2.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Transfer Family → DataSync → Elastic Disaster Recovery → Application Migration Service"},
+        {"key": "B", "text": "DataSync → Transfer Family → MGN → DRS"},
+        {"key": "C", "text": "Transfer Family → DataSync → MGN → DRS"},
+        {"key": "D", "text": "DRS → MGN → Transfer Family → DataSync"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SFTP parceiros = Transfer Family; migração em massa = DataSync; DR contínuo = DRS; lift-and-shift = MGN.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: Transfer Family (endpoint SFTP gerenciado), DataSync (migração em massa entre storages), Elastic Disaster Recovery/DRS (DR contínuo de servidores) e Application Migration Service/MGN (lift-and-shift). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Transfer Family com DataSync e MGN com DRS.",
+        "C": "Troca DRS com MGN nas duas últimas posições (DR contínuo é DRS; lift-and-shift é MGN).",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

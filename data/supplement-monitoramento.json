@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Monitoramento e Observabilidade (CloudWatch basic vs detailed, custom metrics + agent pra memória/disco, Logs Insights, alarmes, composite alarms, EventBridge). Aprofunda observabilidade além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-mon-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch"],
+      "situacao": "Você quer acompanhar CPU, rede e status das instâncias EC2, guardar logs da aplicação e disparar alertas quando algo passar de um limite.",
+      "stem": "Qual serviço cuida de métricas, logs e alarmes?",
+      "options": [
+        {"key": "A", "text": "Amazon CloudWatch"},
+        {"key": "B", "text": "AWS CloudTrail"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "AWS X-Ray"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): métricas + logs + alarmes em tempo real = CloudWatch, o serviço de observabilidade da AWS.",
+        "💡 Rafael (dica 2): CloudTrail é auditoria de API; X-Ray é tracing de requisição. CloudWatch é o painel de saúde/desempenho."
+      ],
+      "explanation": "CloudWatch é o serviço de monitoramento/observabilidade: coleta métricas, centraliza logs e dispara alarmes (com ações), dando visão de saúde e desempenho dos recursos e aplicações em tempo real.",
+      "whyNots": {
+        "B": "CloudTrail audita chamadas de API (quem fez o quê) — não é o painel de métricas/alarmes.",
+        "C": "Config avalia conformidade de configuração — não coleta métricas operacionais.",
+        "D": "X-Ray faz tracing distribuído de requisições — não é o serviço de métricas/logs/alarmes."
+      }
+    },
+    {
+      "id": "br-mon-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudwatch", "ec2"],
+      "situacao": "O padrão entrega métricas do EC2 a cada 5 minutos, mas você precisa de granularidade de 1 minuto pra o Auto Scaling reagir mais rápido a picos.",
+      "stem": "O que você habilita?",
+      "options": [
+        {"key": "A", "text": "Detailed monitoring (monitoramento detalhado)"},
+        {"key": "B", "text": "Basic monitoring"},
+        {"key": "C", "text": "CloudTrail data events"},
+        {"key": "D", "text": "VPC Flow Logs"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 5 min é o basic (grátis). Pra 1 min você liga o detailed monitoring (pago).",
+        "💡 Rafael (dica 2): granularidade menor = Auto Scaling reage mais cedo aos picos."
+      ],
+      "explanation": "Detailed monitoring publica as métricas do EC2 a cada 1 minuto (vs. 5 minutos do basic), com custo adicional. A granularidade menor permite que o Auto Scaling e os alarmes reajam mais rápido a variações de carga.",
+      "whyNots": {
+        "B": "Basic monitoring é o padrão de 5 minutos — não dá a granularidade de 1 minuto pedida.",
+        "C": "CloudTrail data events registram chamadas de API em recursos — não são métricas de desempenho do EC2.",
+        "D": "VPC Flow Logs capturam metadados de rede — não a frequência de métricas do EC2."
+      }
+    },
+    {
+      "id": "br-mon-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudwatch", "ec2"],
+      "situacao": "Você quer monitorar o uso de MEMÓRIA (RAM) e de DISCO de uma instância EC2 no CloudWatch, mas essas métricas não aparecem por padrão.",
+      "stem": "O que é necessário pra coletá-las?",
+      "options": [
+        {"key": "A", "text": "Instalar o unified CloudWatch agent (enviar como custom metrics)"},
+        {"key": "B", "text": "Apenas habilitar detailed monitoring"},
+        {"key": "C", "text": "Ativar o CloudTrail"},
+        {"key": "D", "text": "Elas já vêm por padrão, basta abrir o console"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pegadinha clássica — o EC2 NÃO publica memória nem disco por padrão (são métricas do SO). Instale o CloudWatch agent.",
+        "💡 Rafael (dica 2): o agent envia mem_used_percent, disk used_percent, etc. como CUSTOM metrics."
+      ],
+      "explanation": "O EC2 não publica métricas de memória (RAM) nem de disco por padrão — são métricas no nível do SO/in-guest. Pra tê-las no CloudWatch, instale o unified CloudWatch agent, que coleta e envia essas métricas como custom metrics.",
+      "whyNots": {
+        "B": "Detailed monitoring só muda a frequência (1 min) das métricas existentes — não adiciona memória/disco.",
+        "C": "CloudTrail audita API — não coleta métricas de SO.",
+        "D": "Errado — memória e disco NÃO vêm por padrão; precisa do agent."
+      }
+    },
+    {
+      "id": "br-mon-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch", "sns"],
+      "situacao": "Quando a CPU média passar de 80% por 5 minutos, o time precisa receber um e-mail/SMS de alerta.",
+      "stem": "Como configurar isso no CloudWatch?",
+      "options": [
+        {"key": "A", "text": "Um alarme do CloudWatch com ação de notificação via SNS"},
+        {"key": "B", "text": "Um VPC Flow Log"},
+        {"key": "C", "text": "Uma bucket policy no S3"},
+        {"key": "D", "text": "Uma regra de NACL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): alarme na métrica de CPU + ação SNS (que manda e-mail/SMS pros inscritos).",
+        "💡 Rafael (dica 2): o alarme dispara, aciona o tópico SNS, e o SNS notifica o time."
+      ],
+      "explanation": "Você cria um alarme do CloudWatch na métrica de CPU (limite de 80% por N períodos) com ação de notificação via SNS. Quando o alarme entra em ALARM, ele publica no tópico SNS, que envia e-mail/SMS aos inscritos.",
+      "whyNots": {
+        "B": "Flow Log captura tráfego de rede — não alerta sobre CPU.",
+        "C": "Bucket policy é permissão de acesso ao S3 — nada a ver com alerta de CPU.",
+        "D": "NACL é firewall de sub-rede — não dispara notificação por métrica."
+      }
+    },
+    {
+      "id": "br-mon-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch"],
+      "situacao": "Uma aplicação tem dezenas de alarmes individuais e o time está sendo bombardeado de notificações. Você quer alertar UMA vez, no nível agregado, só quando o conjunto indicar problema real.",
+      "stem": "Qual recurso do CloudWatch reduz esse ruído combinando alarmes?",
+      "options": [
+        {"key": "A", "text": "Composite alarm (alarme composto)"},
+        {"key": "B", "text": "Detailed monitoring"},
+        {"key": "C", "text": "Mais alarmes individuais"},
+        {"key": "D", "text": "Logs Insights"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): combinar vários alarmes com lógica E/OU num indicador único = composite alarm. Notifica no agregado, não a cada alarme.",
+        "💡 Rafael (dica 2): reduz o 'alarm fatigue' — o time recebe um alerta de saúde do conjunto."
+      ],
+      "explanation": "O composite alarm combina vários alarmes usando lógica booleana (AND/OR) num indicador agregado de saúde. Ele notifica no nível do conjunto, reduzindo o ruído (alarm fatigue) em vez de disparar uma notificação por alarme individual.",
+      "whyNots": {
+        "B": "Detailed monitoring muda a frequência das métricas — não agrega alarmes.",
+        "C": "Mais alarmes individuais pioram o ruído — o oposto do pedido.",
+        "D": "Logs Insights consulta logs — não combina alarmes."
+      }
+    },
+    {
+      "id": "br-mon-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudwatch"],
+      "situacao": "Depois de um incidente, você precisa consultar e filtrar interativamente gigabytes de logs (por padrão de erro, por campo) pra achar a causa, sem montar uma stack de análise própria.",
+      "stem": "Qual recurso do CloudWatch faz essa análise interativa de logs?",
+      "options": [
+        {"key": "A", "text": "CloudWatch Logs Insights"},
+        {"key": "B", "text": "CloudWatch Alarms"},
+        {"key": "C", "text": "AWS CloudTrail"},
+        {"key": "D", "text": "Amazon Athena no EC2"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): consultar/filtrar logs interativamente, com linguagem de query, dentro do CloudWatch = Logs Insights.",
+        "💡 Rafael (dica 2): é pay-as-you-go e já integrado — você roda queries direto nos log groups."
+      ],
+      "explanation": "CloudWatch Logs Insights é o serviço interativo pra consultar, filtrar, analisar e visualizar logs (com linguagem de query) direto nos log groups do CloudWatch — ideal pra investigar incidentes sem montar infraestrutura de análise própria.",
+      "whyNots": {
+        "B": "Alarms disparam em cima de métricas — não fazem consulta interativa de logs.",
+        "C": "CloudTrail registra chamadas de API — não é a ferramenta de query dos logs da aplicação.",
+        "D": "Athena consulta dados no S3; aqui o caminho nativo e direto pros logs do CloudWatch é o Logs Insights."
+      }
+    },
+    {
+      "id": "br-mon-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch", "auto-scaling"],
+      "situacao": "Quando a CPU média da frota passa de 70%, você quer que o Auto Scaling adicione instâncias automaticamente.",
+      "stem": "O que conecta a métrica à ação de escalar?",
+      "options": [
+        {"key": "A", "text": "Um alarme do CloudWatch com ação de Auto Scaling"},
+        {"key": "B", "text": "Um signed URL"},
+        {"key": "C", "text": "Um Gateway Endpoint"},
+        {"key": "D", "text": "Uma permissions boundary"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): alarme na métrica de CPU + ação de Auto Scaling = a frota cresce quando o limite é cruzado.",
+        "💡 Rafael (dica 2): é assim que a política de scaling dinâmico se conecta à métrica do CloudWatch."
+      ],
+      "explanation": "Um alarme do CloudWatch monitora a métrica (CPU > 70%) e, ao disparar, executa uma ação de Auto Scaling que adiciona instâncias. É a ponte entre a métrica e o escalonamento dinâmico da frota.",
+      "whyNots": {
+        "B": "Signed URL é acesso a conteúdo no CloudFront — nada a ver com escalar frota.",
+        "C": "Gateway Endpoint é acesso privado a S3/DynamoDB — não escala instâncias.",
+        "D": "Permissions boundary é teto de IAM — não dispara escalonamento por métrica."
+      }
+    },
+    {
+      "id": "br-mon-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch", "lambda"],
+      "situacao": "Quando um alarme do CloudWatch muda de estado, você quer disparar automaticamente uma remediação (ex.: uma função Lambda ou uma automação do Systems Manager), sem intervenção humana.",
+      "stem": "Qual serviço roteia a mudança de estado do alarme pra essas ações?",
+      "options": [
+        {"key": "A", "text": "Amazon EventBridge (eventos de mudança de estado do alarme)"},
+        {"key": "B", "text": "Amazon S3"},
+        {"key": "C", "text": "AWS Direct Connect"},
+        {"key": "D", "text": "Amazon Route 53"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o alarme emite evento de mudança de estado pro EventBridge, que tem regras pra acionar Lambda, SSM Automation, SQS, Step Functions...",
+        "💡 Rafael (dica 2): é o caminho de auto-remediação orientada a evento — alarme → EventBridge → ação."
+      ],
+      "explanation": "CloudWatch envia eventos ao EventBridge quando um alarme muda de estado. Você cria regras no EventBridge pra acionar alvos como Lambda, SSM Automation, SQS ou Step Functions — implementando auto-remediação orientada a evento sem intervenção humana.",
+      "whyNots": {
+        "B": "S3 é armazenamento de objetos — não roteia eventos de alarme pra ações.",
+        "C": "Direct Connect é conectividade híbrida — nada a ver com automação por alarme.",
+        "D": "Route 53 é DNS — não orquestra ações a partir de mudança de estado de alarme."
+      }
+    },
+    {
+      "id": "br-mon-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudwatch"],
+      "situacao": "Você precisa coletar logs e métricas in-guest tanto de instâncias EC2 quanto de servidores ON-PREMISES, mandando tudo pra um lugar central de observabilidade.",
+      "stem": "Qual ferramenta coleta isso de ambos?",
+      "options": [
+        {"key": "A", "text": "Unified CloudWatch agent"},
+        {"key": "B", "text": "VPC Flow Logs"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o mesmo agente que coleta memória/disco também roda em on-premises — o unified CloudWatch agent.",
+        "💡 Rafael (dica 2): ele manda logs e métricas in-guest pro CloudWatch, de EC2 e de servidores fora da AWS."
+      ],
+      "explanation": "O unified CloudWatch agent coleta logs e métricas in-guest (CPU, memória, disco, etc.) de instâncias EC2 E de servidores on-premises, enviando tudo pro CloudWatch — centralizando a observabilidade de ambientes híbridos.",
+      "whyNots": {
+        "B": "Flow Logs capturam metadados de rede da VPC — não logs/métricas in-guest de servidores on-premises.",
+        "C": "Config avalia configuração de recursos AWS — não coleta logs in-guest.",
+        "D": "Inspector escaneia vulnerabilidades — não é coletor de logs/métricas de SO."
+      }
+    },
+    {
+      "id": "br-mon-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudwatch", "cloudtrail", "xray"],
+      "situacao": "Três perguntas operacionais: (1) qual o uso de CPU e há quanto tempo o erro 5xx subiu? (2) quem chamou a API que apagou o recurso? (3) em qual microsserviço a requisição está gastando tempo?",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "CloudWatch → CloudTrail → X-Ray"},
+        {"key": "B", "text": "CloudTrail → X-Ray → CloudWatch"},
+        {"key": "C", "text": "X-Ray → CloudWatch → CloudTrail"},
+        {"key": "D", "text": "CloudWatch → X-Ray → CloudTrail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): métrica/log/erro = CloudWatch; quem chamou a API = CloudTrail; tempo por microsserviço = X-Ray.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "CloudWatch responde métricas/logs/erros (CPU, 5xx ao longo do tempo); CloudTrail responde quem chamou qual API e quando; X-Ray mostra onde a requisição gasta tempo entre os microsserviços. A opção A respeita os três.",
+      "whyNots": {
+        "B": "Começa com CloudTrail pra métricas — errado; métrica/erro é CloudWatch.",
+        "C": "Coloca X-Ray pra métricas e CloudWatch pra auditoria de API — embaralhado.",
+        "D": "Troca X-Ray com CloudTrail — quem chamou a API é CloudTrail, não X-Ray."
+      }
+    }
+  ]
+}

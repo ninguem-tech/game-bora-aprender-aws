@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Cenários Combinados II (estilo prova SAA-C03) — síntese de vários serviços já verificados nas fases anteriores, em decisões de arquitetura realistas e novas.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cenario2-q00",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront", "s3", "api-gateway", "lambda", "dynamodb"],
+      "situacao": "Um site precisa servir conteúdo ESTÁTICO global com baixa latência E ter uma API DINÂMICA serverless por trás, tudo sem servidores pra gerenciar.",
+      "stem": "Qual arquitetura atende?",
+      "options": [
+        {"key": "A", "text": "CloudFront + S3 (estático) e API Gateway + Lambda + DynamoDB (dinâmico)"},
+        {"key": "B", "text": "Um único EC2 servindo estático e dinâmico"},
+        {"key": "C", "text": "Só S3 com website estático, sem API"},
+        {"key": "D", "text": "Só RDS exposto na internet"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): estático global = CloudFront+S3; API dinâmica serverless = API Gateway + Lambda + DynamoDB.",
+        "💡 Rafael (dica 2): nenhum servidor pra gerenciar = serverless de ponta a ponta."
+      ],
+      "explanation": "CloudFront na frente do S3 entrega o estático com baixa latência global; API Gateway + Lambda + DynamoDB fornecem a parte dinâmica serverless. É o padrão de site moderno serverless, sem gerenciar servidores.",
+      "whyNots": {
+        "B": "Um EC2 único não dá baixa latência global nem é serverless, e vira ponto único de falha.",
+        "C": "Só S3 estático não atende a API dinâmica.",
+        "D": "Expor RDS na internet é inseguro e não resolve o estático global."
+      }
+    },
+    {
+      "id": "br-cenario2-q01",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["eventbridge", "lambda", "sns"],
+      "situacao": "Quando um evento de negócio acontece (ex.: estado de um pedido muda), vários serviços precisam reagir por regras diferentes, de forma desacoplada e orientada a evento, com roteamento por padrão de evento.",
+      "stem": "Qual serviço roteia os eventos pras ações certas?",
+      "options": [
+        {"key": "A", "text": "Amazon EventBridge (regras por padrão de evento → Lambda/SNS/etc.)"},
+        {"key": "B", "text": "Uma fila SQS única lida por todos"},
+        {"key": "C", "text": "Chamadas síncronas encadeadas"},
+        {"key": "D", "text": "Um cron em EC2"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'rotear eventos por REGRA/padrão pra alvos diferentes' = EventBridge (barramento de eventos).",
+        "💡 Rafael (dica 2): cada regra manda o evento pro alvo certo (Lambda, SNS, Step Functions...)."
+      ],
+      "explanation": "EventBridge é o barramento de eventos: regras casam padrões de evento e roteiam pra alvos (Lambda, SNS, SQS, Step Functions). É a base de arquiteturas orientadas a evento, desacoplando o produtor de muitos consumidores com lógicas diferentes.",
+      "whyNots": {
+        "B": "Uma fila única não roteia por regra/padrão pra alvos distintos.",
+        "C": "Chamadas síncronas encadeadas acoplam os serviços — um lento derruba a cadeia.",
+        "D": "Cron em EC2 não é orientado a evento (e tem servidor pra gerenciar)."
+      }
+    },
+    {
+      "id": "br-cenario2-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["dms", "aurora"],
+      "situacao": "A empresa quer migrar um banco Oracle on-premises pra Amazon Aurora PostgreSQL com o mínimo de downtime; o esquema/código precisa ser convertido por serem engines diferentes.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "AWS SCT (converte o esquema) + AWS DMS (migra os dados com replicação contínua)"},
+        {"key": "B", "text": "Copiar arquivos com DataSync"},
+        {"key": "C", "text": "Snowball offline apenas"},
+        {"key": "D", "text": "Recriar tudo manualmente sem ferramenta"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): engines diferentes = heterogênea = SCT pra converter o esquema + DMS pra migrar os dados (mínimo downtime).",
+        "💡 Rafael (dica 2): o DMS replica as mudanças até o cutover, reduzindo a parada."
+      ],
+      "explanation": "Migração heterogênea (Oracle → Aurora PostgreSQL): primeiro o AWS SCT converte o esquema e o código; depois o DMS migra os dados com replicação contínua (CDC), minimizando o downtime no cutover.",
+      "whyNots": {
+        "B": "DataSync transfere arquivos — não migra um banco relacional vivo com conversão.",
+        "C": "Snowball é transporte offline de dados em massa — não converte esquema nem migra banco vivo.",
+        "D": "Recriar manualmente é frágil e demorado; SCT+DMS automatizam."
+      }
+    },
+    {
+      "id": "br-cenario2-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["secrets-manager", "iam", "rds"],
+      "situacao": "Uma aplicação em EC2 precisa acessar o banco RDS sem credenciais embutidas, e a senha do banco deve ser ROTACIONADA automaticamente.",
+      "stem": "Qual combinação atende segurança e rotação?",
+      "options": [
+        {"key": "A", "text": "IAM Role na EC2 + Secrets Manager guardando e rotacionando a senha do RDS"},
+        {"key": "B", "text": "Senha fixa embutida no código"},
+        {"key": "C", "text": "Bucket S3 público com a senha"},
+        {"key": "D", "text": "Conta root compartilhada"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): sem credencial embutida = IAM Role na EC2; senha rotacionada automaticamente = Secrets Manager.",
+        "💡 Rafael (dica 2): a app pega a senha do Secrets Manager via a role, e o Secrets Manager rotaciona sozinho."
+      ],
+      "explanation": "Uma IAM Role na EC2 dá credenciais temporárias (sem chave embutida) pra a aplicação ler o segredo, e o Secrets Manager guarda e rotaciona automaticamente a senha do RDS (via Lambda). Cobre acesso seguro e rotação.",
+      "whyNots": {
+        "B": "Senha embutida no código é o anti-padrão clássico — vaza e não rotaciona.",
+        "C": "Bucket público com a senha é uma falha grave de segurança.",
+        "D": "Compartilhar a conta root é proibido e perigosíssimo."
+      }
+    },
+    {
+      "id": "br-cenario2-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Logs vão pro S3: são acessados muito nos primeiros 30 dias, raramente até 90 dias, e depois só precisam ficar arquivados por 7 anos por compliance, com recuperação podendo levar horas.",
+      "stem": "Qual estratégia de custo é a ideal?",
+      "options": [
+        {"key": "A", "text": "Lifecycle policy: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expirando aos 7 anos"},
+        {"key": "B", "text": "Manter tudo em S3 Standard pra sempre"},
+        {"key": "C", "text": "Apagar os logs aos 30 dias"},
+        {"key": "D", "text": "Mover tudo pra EBS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): acesso decai com o tempo = lifecycle. Quente (Standard) → morno (IA) → arquivo barato (Deep Archive) → expira.",
+        "💡 Rafael (dica 2): recuperação 'em horas' aceita Deep Archive, o mais barato pra arquivo longo."
+      ],
+      "explanation": "Uma lifecycle policy automatiza a economia: Standard pros 30 dias quentes, transição pra Standard-IA aos 30 dias, pra Glacier Deep Archive aos 90 dias (arquivo de 7 anos, recuperação em horas aceitável), e expiração ao fim da retenção. Custo mínimo sem trabalho manual.",
+      "whyNots": {
+        "B": "Standard pra sempre é o mais caro — desperdício pra dado que esfria.",
+        "C": "Apagar aos 30 dias viola a retenção de 7 anos exigida.",
+        "D": "EBS é disco de instância — caro e inadequado pra arquivar logs por anos."
+      }
+    },
+    {
+      "id": "br-cenario2-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["storage-gateway", "s3"],
+      "situacao": "Um escritório on-premises quer acessar arquivos via NFS/SMB com cache local de baixa latência, enquanto os dados ficam guardados de forma durável no S3.",
+      "stem": "Qual solução atende esse acesso híbrido a arquivos?",
+      "options": [
+        {"key": "A", "text": "Amazon S3 File Gateway (Storage Gateway)"},
+        {"key": "B", "text": "Copiar tudo pro S3 com presigned URLs"},
+        {"key": "C", "text": "Montar um EBS no on-premises"},
+        {"key": "D", "text": "Usar CloudFront pra os arquivos internos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): file share NFS/SMB local + cache + dados no S3 = S3 File Gateway (um tipo de Storage Gateway).",
+        "💡 Rafael (dica 2): a app local enxerga arquivos; por baixo, vira objeto no S3."
+      ],
+      "explanation": "O S3 File Gateway (Storage Gateway) expõe um file share NFS/SMB local com cache de baixa latência, enquanto persiste os arquivos como objetos no S3. É o acesso híbrido a arquivos clássico.",
+      "whyNots": {
+        "B": "Presigned URLs dão acesso temporário a objetos — não é um file share local com cache.",
+        "C": "EBS é disco em bloco de uma instância EC2 — não se monta no on-premises desse jeito.",
+        "D": "CloudFront é CDN de conteúdo na borda — não é file share híbrido."
+      }
+    },
+    {
+      "id": "br-cenario2-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["kinesis-data-streams", "lambda", "dynamodb"],
+      "situacao": "Eventos de telemetria chegam em alta taxa e precisam ser processados em tempo real por uma função que grava resultados num banco NoSQL de baixa latência.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "Kinesis Data Streams → Lambda (processa) → DynamoDB"},
+        {"key": "B", "text": "S3 → Athena → QuickSight"},
+        {"key": "C", "text": "RDS → CloudFront"},
+        {"key": "D", "text": "SQS FIFO → SES"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ingestão em tempo real = Kinesis Data Streams; processar = Lambda; gravar NoSQL rápido = DynamoDB.",
+        "💡 Rafael (dica 2): Lambda consome o stream em lotes via event source mapping."
+      ],
+      "explanation": "Kinesis Data Streams ingere a telemetria em tempo real; uma função Lambda consome o stream (event source mapping) e processa; os resultados vão pro DynamoDB (NoSQL de baixa latência). É o pipeline de processamento em tempo real clássico.",
+      "whyNots": {
+        "B": "S3→Athena→QuickSight é analytics em lote/visual — não é processamento em tempo real.",
+        "C": "RDS→CloudFront não é pipeline de ingestão de telemetria em tempo real.",
+        "D": "SQS FIFO→SES é fila + e-mail — não é ingestão de stream em tempo real."
+      }
+    },
+    {
+      "id": "br-cenario2-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations", "control-tower"],
+      "situacao": "Uma empresa quer padronizar dezenas de contas AWS com governança automática: baseline de segurança, guardrails que bloqueiam ações proibidas, e detecção de não-conformidade.",
+      "stem": "Qual base atende com o mínimo de esforço manual?",
+      "options": [
+        {"key": "A", "text": "AWS Control Tower (landing zone) sobre o Organizations, com guardrails preventivos (SCP) e detectivos (Config)"},
+        {"key": "B", "text": "Configurar cada conta manualmente, uma a uma"},
+        {"key": "C", "text": "Um único Security Group compartilhado"},
+        {"key": "D", "text": "CloudFront em todas as contas"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): governança multi-conta automática (landing zone + guardrails) = Control Tower sobre o Organizations.",
+        "💡 Rafael (dica 2): preventivo (SCP, bloqueia) + detectivo (Config, reporta)."
+      ],
+      "explanation": "Control Tower monta uma landing zone governada automaticamente sobre o AWS Organizations, aplicando guardrails preventivos (SCPs que bloqueiam ações proibidas, herdados pela OU) e detectivos (Config rules que reportam não-conformidade). Minimiza o esforço manual em escala.",
+      "whyNots": {
+        "B": "Configurar conta a conta é justamente o trabalho manual que o Control Tower evita.",
+        "C": "Security Group é firewall de instância — não é governança multi-conta.",
+        "D": "CloudFront é CDN — nada a ver com governança de contas."
+      }
+    },
+    {
+      "id": "br-cenario2-q08",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53", "cloudfront", "global-accelerator"],
+      "situacao": "Uma aplicação global tem (1) conteúdo estático cacheável e (2) uma API TCP que precisa de IP estático e failover regional rápido, e quer rotear usuários pra a região de menor latência.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "CloudFront (estático) + Global Accelerator (API TCP, IP estático/failover) + Route 53 latency routing"},
+        {"key": "B", "text": "Só um ELB numa região"},
+        {"key": "C", "text": "Só CloudFront pra tudo, inclusive a API TCP com IP estático"},
+        {"key": "D", "text": "Só Route 53 sem CloudFront nem Global Accelerator"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): estático cacheável = CloudFront; TCP com IP estático/failover = Global Accelerator; menor latência = Route 53 latency.",
+        "💡 Rafael (dica 2): CloudFront cacheia; Global Accelerator acelera o transporte (não cacheia)."
+      ],
+      "explanation": "CloudFront cacheia o conteúdo estático na borda; Global Accelerator dá IP estático anycast e failover regional rápido pra a API TCP; Route 53 com latency routing manda o usuário pra a região de menor latência. Cada peça resolve uma parte.",
+      "whyNots": {
+        "B": "Um ELB numa região não dá presença global nem IP estático/failover multi-região.",
+        "C": "CloudFront é pra HTTP cacheável; a API TCP com IP estático é caso de Global Accelerator.",
+        "D": "Route 53 sozinho roteia DNS, mas não cacheia (CloudFront) nem acelera o transporte (Global Accelerator)."
+      }
+    },
+    {
+      "id": "br-cenario2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["auto-scaling", "elb", "cloudwatch"],
+      "situacao": "Uma camada web em EC2 precisa se auto-recuperar (substituir instâncias não-saudáveis) e escalar conforme a carga, distribuindo o tráfego entre as instâncias saudáveis.",
+      "stem": "Qual combinação entrega auto-recuperação, escala e distribuição?",
+      "options": [
+        {"key": "A", "text": "Auto Scaling group (multi-AZ, health checks) + ELB + alarmes do CloudWatch"},
+        {"key": "B", "text": "Uma instância EC2 maior (scale up) apenas"},
+        {"key": "C", "text": "Spot única sem balanceador"},
+        {"key": "D", "text": "Lambda atrás de CloudFront para tudo"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): substituir instância doente + escalar = Auto Scaling group; distribuir = ELB; disparar escala = alarme do CloudWatch.",
+        "💡 Rafael (dica 2): o ASG usa health checks pra trocar a instância não-saudável automaticamente."
+      ],
+      "explanation": "O Auto Scaling group (em várias AZs, com health checks) substitui instâncias não-saudáveis e ajusta a capacidade; o ELB distribui o tráfego entre as instâncias saudáveis; alarmes do CloudWatch disparam as ações de escala. É o trio clássico de elasticidade e auto-recuperação.",
+      "whyNots": {
+        "B": "Scale up de uma instância única não dá auto-recuperação nem distribuição — é ponto único de falha.",
+        "C": "Spot única sem balanceador é frágil e interrompível.",
+        "D": "Lambda+CloudFront é serverless; o cenário é uma camada web em EC2 com ASG/ELB."
+      }
+    }
+  ]
+}

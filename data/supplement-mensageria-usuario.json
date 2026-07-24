@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Mensageria ao Usuário Final (SES e-mail; SNS SMS/push/pub-sub). Pinpoint OMITIDO (fim de suporte 30/out/2026). Cobre o envio de e-mail e notificações ao usuário.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-msg-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ses"],
+      "situacao": "Uma aplicação precisa enviar e-mails transacionais (confirmação de pedido, reset de senha) de forma escalável, via API ou SMTP.",
+      "stem": "Qual serviço é dedicado ao envio de e-mail?",
+      "options": [
+        {"key": "A", "text": "Amazon SES (Simple Email Service)"},
+        {"key": "B", "text": "Amazon SNS"},
+        {"key": "C", "text": "Amazon SQS"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'Email Service' está no nome — SES é o serviço dedicado de e-mail (API e SMTP).",
+        "💡 Rafael (dica 2): SNS manda notificação multicanal (SMS/push), mas o e-mail rico/em massa de aplicação é o SES."
+      ],
+      "explanation": "Amazon SES (Simple Email Service) é o serviço dedicado de e-mail, com API e interface SMTP, ideal pra enviar e-mails transacionais (confirmações, resets) e em massa de forma escalável, cuidando também da deliverability.",
+      "whyNots": {
+        "B": "SNS envia notificações pub/sub (SMS, push, e-mail simples) — não é o serviço de e-mail rico/transacional dedicado.",
+        "C": "SQS é fila de mensagens entre sistemas — não envia e-mail ao usuário.",
+        "D": "CloudFront é CDN — não envia e-mail."
+      }
+    },
+    {
+      "id": "br-msg-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["sns"],
+      "situacao": "Um sistema de alertas precisa enviar mensagens de TEXTO (SMS) pro celular dos usuários quando ocorre um evento crítico.",
+      "stem": "Qual serviço envia SMS aos usuários?",
+      "options": [
+        {"key": "A", "text": "Amazon SNS"},
+        {"key": "B", "text": "Amazon SES"},
+        {"key": "C", "text": "Amazon SQS"},
+        {"key": "D", "text": "AWS Lambda sozinho"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SMS (e push mobile) pro usuário = SNS, que tem canal de SMS e notificação push.",
+        "💡 Rafael (dica 2): SES é só e-mail; pra texto no celular, é SNS."
+      ],
+      "explanation": "Amazon SNS pode enviar mensagens SMS diretamente pro celular dos usuários (além de push mobile, e-mail e HTTP). É a escolha pra alertas por SMS.",
+      "whyNots": {
+        "B": "SES envia e-mail — não SMS.",
+        "C": "SQS é fila entre sistemas — não envia SMS ao usuário.",
+        "D": "Lambda executa código — precisaria de um serviço de mensageria (SNS) pra enviar o SMS."
+      }
+    },
+    {
+      "id": "br-msg-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["sns"],
+      "situacao": "Um app mobile (iOS/Android) precisa receber notificações PUSH (via APNs/FCM) quando há novidades.",
+      "stem": "Qual serviço entrega push notifications pra apps móveis?",
+      "options": [
+        {"key": "A", "text": "Amazon SNS (mobile push)"},
+        {"key": "B", "text": "Amazon SES"},
+        {"key": "C", "text": "Amazon Athena"},
+        {"key": "D", "text": "Amazon EBS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): push pra app iOS/Android (APNs/FCM) = SNS mobile push.",
+        "💡 Rafael (dica 2): SNS fala com APNs (Apple) e FCM (Google) pra entregar a notificação."
+      ],
+      "explanation": "Amazon SNS suporta mobile push, integrando com APNs (Apple) e FCM (Google) pra entregar notificações push a apps iOS/Android. É o canal certo pra push notifications.",
+      "whyNots": {
+        "B": "SES é e-mail — não push mobile.",
+        "C": "Athena é consulta SQL — não envia push.",
+        "D": "EBS é disco em bloco — nada a ver com push."
+      }
+    },
+    {
+      "id": "br-msg-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ses", "sns"],
+      "situacao": "Distinga: (1) enviar e-mails ricos/em massa de uma aplicação (com SMTP e deliverability); (2) enviar SMS, push mobile ou notificar vários inscritos.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Amazon SES; (2) Amazon SNS"},
+        {"key": "B", "text": "(1) Amazon SNS; (2) Amazon SES"},
+        {"key": "C", "text": "(1) Amazon SQS; (2) Amazon SES"},
+        {"key": "D", "text": "(1) Amazon SES; (2) Amazon SQS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): e-mail rico/em massa = SES; SMS/push/notificar inscritos = SNS.",
+        "💡 Rafael (dica 2): SES = email service; SNS = notification service."
+      ],
+      "explanation": "SES é o serviço dedicado de e-mail (transacional/marketing, SMTP, deliverability). SNS é pub/sub de notificações multicanal (SMS, push, e-mail simples, HTTP, fan-out). A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — e-mail rico é SES; SMS/push é SNS.",
+        "C": "SQS é fila entre sistemas — não é o serviço de e-mail.",
+        "D": "SQS não envia SMS/push ao usuário; isso é SNS."
+      }
+    },
+    {
+      "id": "br-msg-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sns", "sqs"],
+      "situacao": "Reforço: um evento precisa ser entregue, ao mesmo tempo, a várias filas SQS (cada uma de um sistema), num padrão fan-out.",
+      "stem": "Qual serviço publica o evento pra todos os inscritos?",
+      "options": [
+        {"key": "A", "text": "Amazon SNS (tópico com fan-out pra filas SQS)"},
+        {"key": "B", "text": "Amazon SES"},
+        {"key": "C", "text": "Amazon CloudWatch"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): um evento → muitos inscritos (filas SQS) = SNS no padrão fan-out (pub/sub).",
+        "💡 Rafael (dica 2): SNS publica; cada SQS inscrita recebe sua cópia."
+      ],
+      "explanation": "Amazon SNS é pub/sub: um tópico publica o evento e cada inscrito (várias filas SQS, Lambda, etc.) recebe sua cópia — o padrão fan-out. Desacopla um produtor de muitos consumidores.",
+      "whyNots": {
+        "B": "SES é e-mail — não faz fan-out pra filas SQS.",
+        "C": "CloudWatch é métricas/logs — não é o pub/sub de eventos pra filas.",
+        "D": "Config avalia conformidade — não publica eventos pra inscritos."
+      }
+    },
+    {
+      "id": "br-msg-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ses"],
+      "situacao": "Uma empresa quer monitorar a REPUTAÇÃO de envio dos seus e-mails — taxas de bounce (rejeição) e complaint (reclamação) — pra não cair em blacklists.",
+      "stem": "Qual serviço cuida do envio de e-mail com esse controle de deliverability?",
+      "options": [
+        {"key": "A", "text": "Amazon SES"},
+        {"key": "B", "text": "Amazon SNS"},
+        {"key": "C", "text": "Amazon Pinpoint (atual)"},
+        {"key": "D", "text": "Amazon SQS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): envio de e-mail + métricas de bounce/complaint (deliverability) = SES.",
+        "💡 Rafael (dica 2): cuidar da reputação de envio é parte central do SES."
+      ],
+      "explanation": "Amazon SES é o serviço de e-mail que monitora a deliverability — taxas de bounce e complaint — ajudando a manter a reputação de envio e evitar blacklists. É o serviço certo pra e-mail com esse controle.",
+      "whyNots": {
+        "B": "SNS é notificação multicanal — não é o serviço de e-mail com gestão de deliverability.",
+        "C": "Pinpoint usava o SES por baixo, mas está em FIM DE SUPORTE (30/out/2026) — não é a escolha atual.",
+        "D": "SQS é fila entre sistemas — não envia e-mail."
+      }
+    },
+    {
+      "id": "br-msg-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ses", "s3", "lambda"],
+      "situacao": "Uma empresa quer RECEBER e-mails de entrada num domínio próprio e, ao receber, salvar o conteúdo no S3 e acionar uma Lambda pra processar.",
+      "stem": "Qual serviço pode receber o e-mail e disparar essas ações?",
+      "options": [
+        {"key": "A", "text": "Amazon SES (recebimento de e-mail / inbound)"},
+        {"key": "B", "text": "Amazon SNS"},
+        {"key": "C", "text": "Amazon Route 53"},
+        {"key": "D", "text": "Amazon EBS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SES não só ENVIA — também RECEBE e-mail (inbound) e pode acionar S3/Lambda/SNS ao receber.",
+        "💡 Rafael (dica 2): é o serviço de e-mail dos dois lados (envio e recebimento)."
+      ],
+      "explanation": "Amazon SES também recebe e-mails (inbound): ao receber uma mensagem no domínio configurado, pode salvar no S3, acionar uma função Lambda ou publicar num tópico SNS pra processamento. É e-mail nos dois sentidos.",
+      "whyNots": {
+        "B": "SNS é notificação pub/sub — não recebe e-mail SMTP de entrada.",
+        "C": "Route 53 é DNS (ainda que aponte o registro MX) — quem recebe e processa o e-mail é o SES.",
+        "D": "EBS é disco — não recebe e-mail."
+      }
+    },
+    {
+      "id": "br-msg-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sns"],
+      "situacao": "Um fluxo de notificações exige que as mensagens cheguem aos inscritos na ORDEM exata e sem duplicação (ex.: sincronizar eventos ordenados com filas SQS FIFO).",
+      "stem": "Qual recurso do SNS atende a ordem e a não-duplicação?",
+      "options": [
+        {"key": "A", "text": "Tópico SNS FIFO"},
+        {"key": "B", "text": "Tópico SNS Standard"},
+        {"key": "C", "text": "SES com SMTP"},
+        {"key": "D", "text": "Um bucket S3"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ordem estrita + sem duplicata no SNS = tópico FIFO (combina com filas SQS FIFO).",
+        "💡 Rafael (dica 2): Standard é alto throughput, mas best-effort em ordem."
+      ],
+      "explanation": "O SNS tem tópicos FIFO que preservam a ordem e evitam duplicação, ideais pra fan-out ordenado pra filas SQS FIFO. O tópico Standard prioriza throughput, com ordem best-effort.",
+      "whyNots": {
+        "B": "Standard é best-effort em ordem e pode duplicar — não garante o pedido.",
+        "C": "SES é e-mail — não é o mecanismo de ordenação de notificações.",
+        "D": "S3 é armazenamento — não é tópico de notificação ordenado."
+      }
+    },
+    {
+      "id": "br-msg-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["sns"],
+      "situacao": "Você quer que administradores recebam um e-mail simples sempre que um alarme do CloudWatch disparar, sem montar um serviço de e-mail completo.",
+      "stem": "Qual serviço entrega essa notificação simples por e-mail/SMS aos inscritos?",
+      "options": [
+        {"key": "A", "text": "Amazon SNS (assinatura por e-mail/SMS no tópico)"},
+        {"key": "B", "text": "Amazon SES com campanha"},
+        {"key": "C", "text": "Amazon QuickSight"},
+        {"key": "D", "text": "AWS Batch"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): alarme → tópico SNS → inscritos recebem e-mail/SMS simples. É o caminho clássico de notificação operacional.",
+        "💡 Rafael (dica 2): pra alerta simples aos inscritos, SNS basta; SES é pra e-mail rico/em massa de aplicação."
+      ],
+      "explanation": "Amazon SNS permite que inscritos (e-mail, SMS) recebam notificações simples de um tópico — o padrão pra alertas operacionais, como um alarme do CloudWatch publicando no tópico SNS que notifica os administradores.",
+      "whyNots": {
+        "B": "SES com campanha é exagero pra um alerta operacional simples; o caminho direto é o SNS.",
+        "C": "QuickSight é BI/dashboards — não envia notificação de alarme.",
+        "D": "Batch roda jobs em lote — não notifica inscritos."
+      }
+    },
+    {
+      "id": "br-msg-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ses", "sns"],
+      "situacao": "Três necessidades: (1) enviar um e-mail transacional rico de uma aplicação; (2) mandar um SMS de alerta pro celular; (3) enviar push notification pra um app mobile.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "SES → SNS (SMS) → SNS (mobile push)"},
+        {"key": "B", "text": "SNS → SES → SQS"},
+        {"key": "C", "text": "SNS (push) → SES → SNS (SMS)"},
+        {"key": "D", "text": "SQS → SES → SNS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): e-mail rico = SES; SMS = SNS; push mobile = SNS.",
+        "💡 Rafael (dica 2): SES cobre o e-mail; o SNS cobre SMS e push."
+      ],
+      "explanation": "E-mail transacional rico de aplicação é o SES; SMS pro celular é o SNS; push pra app mobile também é o SNS (via APNs/FCM). A opção A respeita os três canais.",
+      "whyNots": {
+        "B": "Começa com SNS pra e-mail rico — o e-mail de aplicação é SES; e SQS não notifica o usuário.",
+        "C": "Coloca SES no meio e troca a ordem dos canais do SNS de forma incoerente com o enunciado.",
+        "D": "SQS é fila entre sistemas — não envia e-mail/SMS/push ao usuário."
+      }
+    }
+  ]
+}

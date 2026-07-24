@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Bancos de Dados Especializados (DocumentDB, Neptune, Keyspaces, Timestream, MemoryDB; e a escolha do banco certo). QLDB omitido (fim de suporte 2025). Aprofunda purpose-built databases.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-dbesp-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["documentdb"],
+      "situacao": "Uma equipe tem uma aplicação que usa MongoDB e armazena documentos JSON flexíveis (perfis e preferências de usuário). Querem migrar pra um serviço gerenciado compatível, sem administrar a infra.",
+      "stem": "Qual banco da AWS é o indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon DocumentDB (compatível com MongoDB)"},
+        {"key": "B", "text": "Amazon Neptune"},
+        {"key": "C", "text": "Amazon RDS for MySQL"},
+        {"key": "D", "text": "Amazon Redshift"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): documentos JSON + compatível com MongoDB + gerenciado = DocumentDB.",
+        "💡 Rafael (dica 2): 'document' está no nome. É o banco de documentos da AWS."
+      ],
+      "explanation": "DocumentDB é o banco de documentos gerenciado da AWS, compatível com MongoDB (JSON/BSON). É a escolha pra migrar workloads MongoDB e armazenar documentos flexíveis (perfis, preferências, catálogos) sem gerenciar a infraestrutura.",
+      "whyNots": {
+        "B": "Neptune é banco de grafo (relações), não de documentos.",
+        "C": "RDS for MySQL é relacional — não é compatível com MongoDB nem com documentos flexíveis.",
+        "D": "Redshift é data warehouse analítico — não é banco de documentos transacional."
+      }
+    },
+    {
+      "id": "br-dbesp-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["neptune"],
+      "situacao": "Uma rede social precisa consultar relações complexas ('amigos de amigos', quem conhece quem) e alimentar um motor de recomendação sobre dados altamente conectados.",
+      "stem": "Qual banco é o ideal pra esses dados de grafo?",
+      "options": [
+        {"key": "A", "text": "Amazon Neptune"},
+        {"key": "B", "text": "Amazon DocumentDB"},
+        {"key": "C", "text": "Amazon Timestream"},
+        {"key": "D", "text": "Amazon RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'relações complexas, amigos de amigos, recomendação' = grafo = Neptune (nós + arestas).",
+        "💡 Rafael (dica 2): grafo também brilha em detecção de fraude e knowledge graphs."
+      ],
+      "explanation": "Neptune é o banco de grafo gerenciado: modela entidades como nós e relações como arestas, consultando relações altamente conectadas em segundos. É ideal pra redes sociais, motores de recomendação, detecção de fraude e knowledge graphs.",
+      "whyNots": {
+        "B": "DocumentDB é de documentos — não é otimizado pra atravessar relações de grafo.",
+        "C": "Timestream é de séries temporais — não modela relações.",
+        "D": "RDS relacional faria muitos JOINs caros pra consultas de grafo profundas; o grafo nativo é o Neptune."
+      }
+    },
+    {
+      "id": "br-dbesp-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["keyspaces"],
+      "situacao": "Uma empresa quer migrar workloads Apache Cassandra (CQL) pra a nuvem, de forma gerenciada e serverless, com escala automática e altíssima taxa de leitura/escrita.",
+      "stem": "Qual serviço atende?",
+      "options": [
+        {"key": "A", "text": "Amazon Keyspaces (para Apache Cassandra)"},
+        {"key": "B", "text": "Amazon Neptune"},
+        {"key": "C", "text": "Amazon DocumentDB"},
+        {"key": "D", "text": "Amazon Aurora"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Cassandra/CQL gerenciado e serverless = Amazon Keyspaces.",
+        "💡 Rafael (dica 2): 'for Apache Cassandra' está no nome — wide-column de alta escala."
+      ],
+      "explanation": "Amazon Keyspaces é o serviço gerenciado e serverless compatível com Apache Cassandra (CQL), com escala automática e throughput praticamente ilimitado. É a escolha pra migrar workloads Cassandra sem gerenciar clusters.",
+      "whyNots": {
+        "B": "Neptune é grafo — não é Cassandra/wide-column.",
+        "C": "DocumentDB é de documentos (MongoDB), não Cassandra.",
+        "D": "Aurora é relacional (MySQL/PostgreSQL) — não compatível com CQL/Cassandra."
+      }
+    },
+    {
+      "id": "br-dbesp-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["timestream"],
+      "situacao": "Milhões de sensores IoT enviam leituras carimbadas com tempo (temperatura, vibração) o tempo todo, e você precisa armazenar e analisar essa telemetria por intervalos de tempo de forma eficiente.",
+      "stem": "Qual banco é otimizado pra esses dados de série temporal?",
+      "options": [
+        {"key": "A", "text": "Amazon Timestream"},
+        {"key": "B", "text": "Amazon Neptune"},
+        {"key": "C", "text": "Amazon DocumentDB"},
+        {"key": "D", "text": "Amazon RDS for PostgreSQL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): dados carimbados por TEMPO (IoT, telemetria, métricas) = séries temporais = Timestream.",
+        "💡 Rafael (dica 2): ele é otimizado pra consultas por intervalo de tempo, muito mais rápido que relacional pra isso."
+      ],
+      "explanation": "Timestream é o banco de séries temporais serverless da AWS, otimizado pra armazenar e analisar dados indexados por tempo (sensores IoT, telemetria, métricas de app, monitoramento) — até ~1000x mais rápido que relacional pra esse padrão.",
+      "whyNots": {
+        "B": "Neptune é grafo — não é série temporal.",
+        "C": "DocumentDB é de documentos — não otimizado pra consultas por intervalo de tempo em larga escala.",
+        "D": "RDS PostgreSQL relacional não tem a eficiência do Timestream pra trilhões de eventos por tempo."
+      }
+    },
+    {
+      "id": "br-dbesp-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["memorydb"],
+      "situacao": "Microsserviços precisam de leitura em microssegundos e escrita sub-ms COMO BANCO PRIMÁRIO, com durabilidade (não podem perder dados), compatível com Redis — sem ter que manter um cache e um banco separados.",
+      "stem": "Qual serviço atende?",
+      "options": [
+        {"key": "A", "text": "Amazon MemoryDB (Redis durável)"},
+        {"key": "B", "text": "Amazon ElastiCache (apenas cache)"},
+        {"key": "C", "text": "Amazon S3"},
+        {"key": "D", "text": "Amazon RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): in-memory + durável + compatível com Redis + BANCO PRIMÁRIO = MemoryDB.",
+        "💡 Rafael (dica 2): ElastiCache é cache (pode perder dados); MemoryDB é durável (Multi-AZ), serve de primário."
+      ],
+      "explanation": "MemoryDB é um banco in-memory durável, compatível com Redis, com leitura em microssegundos, escrita sub-ms e durabilidade Multi-AZ. Pode atuar como banco PRIMÁRIO, eliminando a necessidade de manter um cache e um banco durável separados.",
+      "whyNots": {
+        "B": "ElastiCache é cache — os dados podem ser perdidos; não serve de banco primário durável.",
+        "C": "S3 é object storage, não banco in-memory de baixa latência.",
+        "D": "RDS é relacional em disco — não entrega microssegundos in-memory."
+      }
+    },
+    {
+      "id": "br-dbesp-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["memorydb", "elasticache"],
+      "situacao": "Duas situações: (1) acelerar leituras na frente de um RDS, aceitando perder o cache numa falha; (2) ter um banco in-memory que é a fonte primária dos dados e não pode perdê-los.",
+      "stem": "Qual par atende (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) ElastiCache; (2) MemoryDB"},
+        {"key": "B", "text": "(1) MemoryDB; (2) ElastiCache"},
+        {"key": "C", "text": "(1) ElastiCache; (2) DynamoDB"},
+        {"key": "D", "text": "(1) MemoryDB; (2) RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): cache descartável na frente do banco = ElastiCache; banco in-memory durável e primário = MemoryDB.",
+        "💡 Rafael (dica 2): a pista é 'aceita perder' (cache = ElastiCache) vs 'não pode perder' (durável = MemoryDB)."
+      ],
+      "explanation": "ElastiCache é o cache in-memory (aceita perder os dados, fica na frente do banco pra acelerar leituras). MemoryDB é o banco in-memory DURÁVEL (Multi-AZ), usado como fonte primária que não pode perder dados. A distinção 'cache vs durável' é o ponto.",
+      "whyNots": {
+        "B": "Inverte: o durável/primário é o MemoryDB, não o ElastiCache.",
+        "C": "DynamoDB não é in-memory; o caso (2) pede in-memory durável (MemoryDB).",
+        "D": "RDS é em disco, não o banco in-memory durável pedido em (2)."
+      }
+    },
+    {
+      "id": "br-dbesp-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["neptune"],
+      "situacao": "Um banco quer detectar fraude analisando, em tempo quase real, padrões de conexão entre contas, dispositivos e transações (anéis de fraude).",
+      "stem": "Qual banco é o mais adequado pra modelar e consultar essas conexões?",
+      "options": [
+        {"key": "A", "text": "Amazon Neptune (grafo)"},
+        {"key": "B", "text": "Amazon Timestream"},
+        {"key": "C", "text": "Amazon Keyspaces"},
+        {"key": "D", "text": "Amazon Redshift"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'padrões de conexão / anéis de fraude' = relações = grafo = Neptune.",
+        "💡 Rafael (dica 2): detecção de fraude é um caso de uso clássico de banco de grafo."
+      ],
+      "explanation": "Detecção de fraude baseada em relações (anéis de fraude entre contas, dispositivos e transações) é um caso clássico de banco de grafo. Neptune modela essas conexões como nós/arestas e as percorre rapidamente.",
+      "whyNots": {
+        "B": "Timestream é série temporal — não modela relações de grafo.",
+        "C": "Keyspaces é wide-column (Cassandra) — não é grafo.",
+        "D": "Redshift é data warehouse analítico — não percorre relações de grafo em tempo quase real."
+      }
+    },
+    {
+      "id": "br-dbesp-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dynamodb", "documentdb"],
+      "situacao": "Numa decisão de banco NoSQL gerenciado, o time pondera entre um chave-valor/documento serverless de propósito geral com escala massiva, e um banco de documentos compatível com a API do MongoDB.",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Chave-valor/documento serverless de propósito geral = DynamoDB; compatível com MongoDB = DocumentDB"},
+        {"key": "B", "text": "Compatível com MongoDB = DynamoDB; propósito geral = DocumentDB"},
+        {"key": "C", "text": "Ambos são compatíveis com MongoDB"},
+        {"key": "D", "text": "Ambos são bancos relacionais"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): DynamoDB = NoSQL chave-valor/documento serverless da AWS (API própria). DocumentDB = compatível com a API do MongoDB.",
+        "💡 Rafael (dica 2): se o requisito é 'compatível com MongoDB', é DocumentDB; se é NoSQL gerenciado de propósito geral com escala, DynamoDB."
+      ],
+      "explanation": "DynamoDB é o NoSQL chave-valor/documento serverless de propósito geral da AWS (com API própria, escala massiva). DocumentDB é o banco de documentos compatível com a API do MongoDB. A escolha depende de precisar ou não de compatibilidade com MongoDB.",
+      "whyNots": {
+        "B": "Inverte — quem é compatível com MongoDB é o DocumentDB, não o DynamoDB.",
+        "C": "DynamoDB não é compatível com MongoDB; tem API própria.",
+        "D": "Ambos são NoSQL, não relacionais."
+      }
+    },
+    {
+      "id": "br-dbesp-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["timestream"],
+      "situacao": "Uma plataforma de monitoramento coleta métricas de uso e saúde de aplicações ao longo do tempo (latência por minuto, erros por hora) pra dashboards e análise temporal.",
+      "stem": "Qual banco purpose-built encaixa?",
+      "options": [
+        {"key": "A", "text": "Amazon Timestream"},
+        {"key": "B", "text": "Amazon DocumentDB"},
+        {"key": "C", "text": "Amazon Neptune"},
+        {"key": "D", "text": "Amazon Keyspaces"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): métricas 'ao longo do tempo' (por minuto/hora) = séries temporais = Timestream.",
+        "💡 Rafael (dica 2): monitoramento de app/uso e telemetria são casos diretos do Timestream."
+      ],
+      "explanation": "Métricas indexadas por tempo (latência por minuto, erros por hora) são dados de série temporal. Timestream é o banco purpose-built pra isso, com armazenamento e consulta eficientes por intervalos de tempo — ideal pra monitoramento de aplicações e dashboards temporais.",
+      "whyNots": {
+        "B": "DocumentDB é de documentos — não otimizado pra séries temporais.",
+        "C": "Neptune é grafo — não é série temporal.",
+        "D": "Keyspaces é wide-column de propósito mais geral; o purpose-built pra tempo é o Timestream."
+      }
+    },
+    {
+      "id": "br-dbesp-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["documentdb", "neptune", "timestream", "memorydb"],
+      "situacao": "Quatro workloads: (1) documentos JSON estilo MongoDB; (2) relações de recomendação/grafo; (3) telemetria IoT por tempo; (4) banco in-memory durável compatível com Redis.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "DocumentDB → Neptune → Timestream → MemoryDB"},
+        {"key": "B", "text": "Neptune → DocumentDB → MemoryDB → Timestream"},
+        {"key": "C", "text": "Timestream → MemoryDB → DocumentDB → Neptune"},
+        {"key": "D", "text": "MemoryDB → Timestream → Neptune → DocumentDB"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): documento = DocumentDB; grafo = Neptune; tempo = Timestream; in-memory durável = MemoryDB.",
+        "💡 Rafael (dica 2): só a opção A mantém cada banco no seu modelo de dados."
+      ],
+      "explanation": "Cada banco serve um modelo: DocumentDB (documentos JSON/MongoDB), Neptune (grafo/relações), Timestream (séries temporais/IoT) e MemoryDB (in-memory durável compatível com Redis). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca DocumentDB com Neptune e Timestream com MemoryDB.",
+        "C": "Embaralha tudo — Timestream não é documento.",
+        "D": "Inverte completamente; nenhuma posição bate com o modelo certo."
+      }
+    }
+  ]
+}

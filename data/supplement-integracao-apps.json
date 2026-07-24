@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Integração de Aplicações (SQS standard vs FIFO, DLQ, visibility timeout, SNS, Step Functions, API Gateway tipos, Amazon MQ). Aprofunda integração/mensageria além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-integ-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs"],
+      "situacao": "Um front-end recebe picos de pedidos e o back-end não dá conta de processar tudo na hora. Você quer desacoplar os dois pra que o pico não derrube o processamento.",
+      "stem": "Qual serviço coloca uma fila entre produtor e consumidor pra absorver o pico?",
+      "options": [
+        {"key": "A", "text": "Amazon SQS"},
+        {"key": "B", "text": "Amazon CloudFront"},
+        {"key": "C", "text": "Amazon RDS"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): fila entre produtor e consumidor = SQS. O front empilha pedidos, o back consome no seu ritmo.",
+        "💡 Rafael (dica 2): isso desacopla os dois — se o back ficar lento, a fila segura os pedidos sem perder."
+      ],
+      "explanation": "SQS coloca uma fila entre o produtor e o consumidor: o front-end empilha os pedidos e o back-end consome (pull) no próprio ritmo. Absorve picos e desacopla os componentes, sem perder mensagens se o consumidor estiver lento.",
+      "whyNots": {
+        "B": "CloudFront é CDN de conteúdo — não enfileira pedidos pra processamento assíncrono.",
+        "C": "RDS é banco relacional — não é fila de desacoplamento.",
+        "D": "Config avalia conformidade — nada a ver com fila de mensagens."
+      }
+    },
+    {
+      "id": "br-integ-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs"],
+      "situacao": "Um sistema financeiro exige que as mensagens sejam processadas EXATAMENTE uma vez e na ORDEM em que foram enviadas — duplicar ou trocar a ordem causaria erro contábil.",
+      "stem": "Qual tipo de fila SQS atende?",
+      "options": [
+        {"key": "A", "text": "Fila FIFO"},
+        {"key": "B", "text": "Fila Standard"},
+        {"key": "C", "text": "Qualquer uma, dá no mesmo"},
+        {"key": "D", "text": "Fila Standard com mais consumidores"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'ordem estrita + exatamente uma vez' = FIFO (First-In-First-Out). A Standard é best-effort e pode duplicar.",
+        "💡 Rafael (dica 2): FIFO usa MessageGroupId (ordem) e MessageDeduplicationId (sem duplicata)."
+      ],
+      "explanation": "A fila FIFO preserva a ordem estrita de envio e garante processamento exactly-once (sem duplicatas), via MessageGroupId e MessageDeduplicationId. É o tipo certo pra cenários financeiros onde ordem e não-duplicação são críticas. A Standard é at-least-once e ordem best-effort.",
+      "whyNots": {
+        "B": "Standard é at-least-once (pode duplicar) e ordem apenas best-effort — inaceitável pro requisito.",
+        "C": "Não dá no mesmo — só a FIFO garante ordem estrita e exactly-once.",
+        "D": "Mais consumidores na Standard não resolve duplicação nem garante ordem."
+      }
+    },
+    {
+      "id": "br-integ-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs"],
+      "situacao": "Quando um consumidor pega uma mensagem da fila pra processar, você não quer que outro consumidor pegue a MESMA mensagem ao mesmo tempo. Mas, se o processamento falhar, ela deve voltar a ficar disponível.",
+      "stem": "Qual recurso do SQS controla esse comportamento?",
+      "options": [
+        {"key": "A", "text": "Visibility timeout"},
+        {"key": "B", "text": "Dead-letter queue"},
+        {"key": "C", "text": "Long polling"},
+        {"key": "D", "text": "Message group ID"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ao ser recebida, a mensagem fica INVISÍVEL pros outros por um tempo — o visibility timeout. Se não for deletada nesse prazo, reaparece.",
+        "💡 Rafael (dica 2): dá tempo de processar; se falhar (não deletou), ela volta pra ser processada de novo."
+      ],
+      "explanation": "O visibility timeout torna a mensagem invisível pros demais consumidores assim que um a recebe, evitando processamento duplicado simultâneo. Se o consumidor processar e deletar dentro do prazo, ótimo; se falhar (não deletar), a mensagem volta a ficar visível pra nova tentativa.",
+      "whyNots": {
+        "B": "DLQ é pra onde vai a mensagem que falhou repetidas vezes — não é o que esconde temporariamente durante o processamento.",
+        "C": "Long polling reduz chamadas vazias ao buscar mensagens — não controla a invisibilidade durante o processamento.",
+        "D": "Message group ID ordena mensagens em FIFO — não trata a visibilidade durante o processamento."
+      }
+    },
+    {
+      "id": "br-integ-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs"],
+      "situacao": "Algumas mensagens estão 'envenenadas': falham no processamento toda vez e ficam voltando pra fila infinitamente, travando o fluxo e escondendo o problema.",
+      "stem": "Qual recurso isola essas mensagens problemáticas pra análise?",
+      "options": [
+        {"key": "A", "text": "Dead-letter queue (DLQ)"},
+        {"key": "B", "text": "Visibility timeout maior"},
+        {"key": "C", "text": "Fila FIFO"},
+        {"key": "D", "text": "Aumentar o número de consumidores"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): mensagem que falha N vezes (excede o maxReceiveCount) é movida pra uma fila separada — a DLQ — pra você investigar sem travar a principal.",
+        "💡 Rafael (dica 2): DLQ tem que ser do mesmo tipo da fila de origem (standard ou FIFO)."
+      ],
+      "explanation": "A Dead-Letter Queue recebe as mensagens que excedem o maxReceiveCount (falham repetidamente), tirando-as da fila principal pra análise. Evita o loop infinito de reprocessamento e o travamento do fluxo. A DLQ é do mesmo tipo da fila de origem.",
+      "whyNots": {
+        "B": "Aumentar o visibility timeout só adia o reprocessamento — não isola a mensagem problemática.",
+        "C": "FIFO trata ordem/duplicação, não o isolamento de mensagens que falham sempre.",
+        "D": "Mais consumidores não resolve uma mensagem que falha por natureza — só espalha o problema."
+      }
+    },
+    {
+      "id": "br-integ-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sns", "sqs"],
+      "situacao": "Um único evento de 'pedido criado' precisa chegar, ao mesmo tempo, a vários sistemas independentes (estoque, e-mail, BI), cada um com sua própria fila pra processar no seu ritmo.",
+      "stem": "Qual combinação implementa esse fan-out?",
+      "options": [
+        {"key": "A", "text": "SNS publicando pra várias filas SQS inscritas (pub/sub + fila por consumidor)"},
+        {"key": "B", "text": "Uma única fila SQS lida por todos"},
+        {"key": "C", "text": "API Gateway chamando cada sistema em sequência"},
+        {"key": "D", "text": "Step Functions sem nenhuma fila"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'um evento → muitos sistemas, cada um no seu ritmo' = SNS (pub/sub) fazendo fan-out pra uma fila SQS por consumidor.",
+        "💡 Rafael (dica 2): SNS empurra (push) pra os inscritos; cada SQS desacopla o consumidor."
+      ],
+      "explanation": "O padrão fan-out usa um tópico SNS (pub/sub, push) publicando pra várias filas SQS inscritas, uma por consumidor. Cada sistema processa no próprio ritmo, desacoplado — se um ficar lento, os outros seguem. SNS distribui; SQS desacopla.",
+      "whyNots": {
+        "B": "Uma fila única faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento.",
+        "C": "Chamadas em sequência via API Gateway acoplam os sistemas — um lento derruba a cadeia.",
+        "D": "Step Functions orquestra passos, mas o cenário pede entrega simultânea desacoplada (fan-out), que é SNS+SQS."
+      }
+    },
+    {
+      "id": "br-integ-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["step-functions", "lambda"],
+      "situacao": "Um fluxo tem vários passos com dependências, ramificações condicionais e tratamento de erro/retry entre várias funções Lambda. Você não quer codificar essa 'cola' e o controle de estado na mão.",
+      "stem": "Qual serviço orquestra esse fluxo de trabalho?",
+      "options": [
+        {"key": "A", "text": "AWS Step Functions"},
+        {"key": "B", "text": "Uma Lambda gigante chamando outra Lambda"},
+        {"key": "C", "text": "Amazon SQS sozinho"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'vários passos + ramificação + retry/erro, sem codificar a cola' = Step Functions, a máquina de estados serverless.",
+        "💡 Rafael (dica 2): em vez de Lambda chamando Lambda na mão, o Step Functions controla o fluxo, os erros e o estado pra você."
+      ],
+      "explanation": "Step Functions orquestra fluxos como máquina de estados serverless: passos sequenciais/paralelos, branching, retry e catch de erro, timeouts — sem você escrever a lógica de cola nem gerenciar o estado. Coordena Lambda, ECS, SNS, SQS e mais.",
+      "whyNots": {
+        "B": "Encadear Lambda chamando Lambda na mão é frágil, difícil de tratar erro/retry e de visualizar o estado.",
+        "C": "SQS é fila de mensagens, não orquestrador de passos com branching e retry.",
+        "D": "CloudFront é CDN — nada a ver com orquestração de workflow."
+      }
+    },
+    {
+      "id": "br-integ-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["api-gateway"],
+      "situacao": "Você precisa de uma API que mantenha uma conexão BIDIRECIONAL persistente pra enviar atualizações em tempo real ao cliente (um chat ao vivo).",
+      "stem": "Qual tipo de API Gateway atende?",
+      "options": [
+        {"key": "A", "text": "WebSocket API"},
+        {"key": "B", "text": "REST API"},
+        {"key": "C", "text": "HTTP API"},
+        {"key": "D", "text": "Nenhum; API Gateway não suporta tempo real"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conexão bidirecional persistente pra tempo real (chat, push) = WebSocket API.",
+        "💡 Rafael (dica 2): REST e HTTP API são request/response; pra empurrar dados ao cliente continuamente, é WebSocket."
+      ],
+      "explanation": "A WebSocket API do API Gateway mantém uma conexão bidirecional persistente, ideal pra tempo real: chat ao vivo, notificações push, dashboards que atualizam sozinhos. REST e HTTP API são request/response, não mantêm o canal aberto pra empurrar dados.",
+      "whyNots": {
+        "B": "REST API é request/response com muitos recursos (API keys, usage plans), mas não mantém canal bidirecional persistente.",
+        "C": "HTTP API é request/response simples e barato — também não é bidirecional persistente.",
+        "D": "Errado — o API Gateway suporta tempo real via WebSocket API."
+      }
+    },
+    {
+      "id": "br-integ-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["api-gateway"],
+      "situacao": "Você quer uma API simples e barata, de baixa latência, basicamente um proxy pra funções Lambda, SEM precisar de API keys, usage plans ou validação avançada de request.",
+      "stem": "Qual tipo de API Gateway é o mais indicado?",
+      "options": [
+        {"key": "A", "text": "HTTP API"},
+        {"key": "B", "text": "REST API"},
+        {"key": "C", "text": "WebSocket API"},
+        {"key": "D", "text": "Não há diferença de custo entre os tipos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'simples, barato, baixa latência, proxy pra Lambda' = HTTP API. A REST API é mais completa (e mais cara).",
+        "💡 Rafael (dica 2): se você precisasse de API keys/usage plans/validação rica, aí sim seria REST API."
+      ],
+      "explanation": "A HTTP API é mais simples, barata e de baixa latência, ideal como proxy pra Lambda/HTTP quando você não precisa dos recursos avançados (API keys, usage plans, validação de request, cache) da REST API. Pra esse caso enxuto, é a melhor escolha.",
+      "whyNots": {
+        "B": "REST API tem mais recursos (e custo) — exagero quando você só quer um proxy simples e barato.",
+        "C": "WebSocket é pra conexão bidirecional persistente, não pra um proxy request/response simples.",
+        "D": "Há diferença sim — HTTP API costuma ser mais barata e de menor latência que a REST API."
+      }
+    },
+    {
+      "id": "br-integ-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["amazon-mq"],
+      "situacao": "Uma empresa vai migrar pra AWS uma aplicação on-premises que já usa um message broker tradicional com protocolos JMS/AMQP, e NÃO quer reescrever o código de mensageria.",
+      "stem": "Qual serviço facilita essa migração mantendo a compatibilidade de protocolo?",
+      "options": [
+        {"key": "A", "text": "Amazon MQ"},
+        {"key": "B", "text": "Amazon SQS Standard"},
+        {"key": "C", "text": "Amazon SNS"},
+        {"key": "D", "text": "Amazon Kinesis Data Streams"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'migrar broker tradicional com JMS/AMQP sem reescrever' = Amazon MQ (ActiveMQ/RabbitMQ gerenciado), compatível com os protocolos padrão.",
+        "💡 Rafael (dica 2): pra app NOVA cloud-native, SQS/SNS; pra MIGRAR mantendo protocolo, Amazon MQ."
+      ],
+      "explanation": "Amazon MQ é o message broker gerenciado (Apache ActiveMQ e RabbitMQ) compatível com protocolos padrão (JMS, AMQP, MQTT, STOMP, OpenWire). É a escolha pra migrar aplicações existentes que dependem desses protocolos, sem reescrever o código de mensageria. Apps novas se beneficiam mais de SQS/SNS.",
+      "whyNots": {
+        "B": "SQS é ótimo pra apps novas, mas tem API própria — exigiria reescrever o código que usa JMS/AMQP.",
+        "C": "SNS é pub/sub com API própria — também não mantém compatibilidade com os protocolos do broker legado.",
+        "D": "Kinesis é streaming de dados — não é message broker compatível com JMS/AMQP."
+      }
+    },
+    {
+      "id": "br-integ-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs", "sns", "step-functions", "amazon-mq"],
+      "situacao": "Quatro necessidades: (1) desacoplar com fila e processar no ritmo do consumidor; (2) um evento pra muitos inscritos (fan-out); (3) orquestrar um fluxo de vários passos com retry; (4) migrar um broker legado com AMQP sem reescrever.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "SQS → SNS → Step Functions → Amazon MQ"},
+        {"key": "B", "text": "SNS → SQS → Amazon MQ → Step Functions"},
+        {"key": "C", "text": "Step Functions → Amazon MQ → SQS → SNS"},
+        {"key": "D", "text": "Amazon MQ → Step Functions → SNS → SQS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): fila/desacoplar = SQS; fan-out = SNS; orquestrar passos = Step Functions; migrar broker AMQP = Amazon MQ.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: SQS (fila/desacoplamento, pull), SNS (pub/sub, fan-out), Step Functions (orquestração de passos com retry/erro) e Amazon MQ (broker gerenciado pra migrar apps com AMQP/JMS). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca SQS com SNS e Amazon MQ com Step Functions.",
+        "C": "Embaralha tudo — Step Functions não é fila e Amazon MQ não é fan-out.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

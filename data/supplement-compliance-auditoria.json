@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Compliance, Auditoria e Análise de Acesso (AWS Artifact, AWS Audit Manager, IAM Access Analyzer; vs Config/CloudTrail). Aprofunda o domínio de segurança/governança.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-comp-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-artifact"],
+      "situacao": "Um auditor pede os relatórios SOC 2 e PCI DSS que comprovam que a INFRAESTRUTURA da AWS é compatível com esses padrões. A empresa precisa baixá-los.",
+      "stem": "Onde obter esses relatórios de conformidade da AWS?",
+      "options": [
+        {"key": "A", "text": "AWS Artifact"},
+        {"key": "B", "text": "AWS Audit Manager"},
+        {"key": "C", "text": "AWS CloudTrail"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): baixar os relatórios de conformidade DA AWS (SOC, PCI, ISO) = AWS Artifact (portal self-service).",
+        "💡 Rafael (dica 2): Artifact é sobre a conformidade da AWS; Audit Manager é sobre a SUA."
+      ],
+      "explanation": "AWS Artifact é o portal self-service pra baixar os relatórios de conformidade da própria AWS (SOC 1/2/3, PCI DSS, ISO) e acordos legais. Comprova que a infraestrutura da AWS atende aos padrões — pra entregar a auditores/clientes.",
+      "whyNots": {
+        "B": "Audit Manager audita o SEU ambiente — não fornece os relatórios da AWS.",
+        "C": "CloudTrail audita chamadas de API — não é o repositório dos relatórios da AWS.",
+        "D": "Inspector escaneia vulnerabilidades — não fornece relatórios de compliance da AWS."
+      }
+    },
+    {
+      "id": "br-comp-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["audit-manager"],
+      "situacao": "Uma empresa precisa auditar continuamente o próprio uso da AWS e AUTOMATIZAR a coleta de evidências contra frameworks (SOC 2, PCI, GDPR) pra provar que seus controles funcionam.",
+      "stem": "Qual serviço automatiza essa coleta de evidências de auditoria?",
+      "options": [
+        {"key": "A", "text": "AWS Audit Manager"},
+        {"key": "B", "text": "AWS Artifact"},
+        {"key": "C", "text": "Amazon Macie"},
+        {"key": "D", "text": "Amazon Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): auditar o SEU uso + automatizar EVIDÊNCIA contra frameworks = AWS Audit Manager.",
+        "💡 Rafael (dica 2): Artifact baixa o relatório DA AWS; Audit Manager coleta evidência do SEU ambiente."
+      ],
+      "explanation": "AWS Audit Manager audita continuamente o seu uso da AWS e automatiza a coleta de evidências contra frameworks (SOC 2, PCI DSS, GDPR, HIPAA), avaliando se os seus controles estão efetivos. É sobre a conformidade da SUA carga na AWS.",
+      "whyNots": {
+        "B": "Artifact fornece os relatórios da própria AWS — não coleta evidência do seu ambiente.",
+        "C": "Macie descobre dados sensíveis no S3 — não automatiza evidência de auditoria de frameworks.",
+        "D": "Athena é consulta SQL — não é gestão de evidência de auditoria."
+      }
+    },
+    {
+      "id": "br-comp-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-artifact", "audit-manager"],
+      "situacao": "Distinga: (1) provar que a INFRAESTRUTURA DA AWS é compatível (baixar SOC/PCI); (2) provar que a SUA carga na AWS está em conformidade, coletando evidências automaticamente.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) AWS Artifact; (2) AWS Audit Manager"},
+        {"key": "B", "text": "(1) AWS Audit Manager; (2) AWS Artifact"},
+        {"key": "C", "text": "(1) CloudTrail; (2) Config"},
+        {"key": "D", "text": "(1) Inspector; (2) Artifact"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conformidade DA AWS = Artifact; conformidade do SEU ambiente (evidência automática) = Audit Manager.",
+        "💡 Rafael (dica 2): Artifact baixa; Audit Manager coleta."
+      ],
+      "explanation": "AWS Artifact fornece os relatórios de conformidade da própria AWS (provar que a infraestrutura da AWS é compatível). AWS Audit Manager coleta evidências automaticamente sobre o seu ambiente (provar a SUA conformidade). A opção A está correta.",
+      "whyNots": {
+        "B": "Inverte — DA AWS é Artifact; do SEU ambiente é Audit Manager.",
+        "C": "CloudTrail/Config são auditoria de API/configuração — não são os relatórios da AWS nem a coleta de evidência de frameworks.",
+        "D": "Inspector é vulnerabilidade — não é o relatório da AWS."
+      }
+    },
+    {
+      "id": "br-comp-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam-access-analyzer", "s3"],
+      "situacao": "A segurança quer descobrir se algum bucket S3, role IAM ou chave KMS está acessível por uma conta EXTERNA sem querer (compartilhamento não intencional).",
+      "stem": "Qual serviço identifica esse acesso externo?",
+      "options": [
+        {"key": "A", "text": "IAM Access Analyzer"},
+        {"key": "B", "text": "AWS Artifact"},
+        {"key": "C", "text": "Amazon CloudFront"},
+        {"key": "D", "text": "AWS Budgets"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): achar recurso compartilhado com entidade EXTERNA (não intencional) = IAM Access Analyzer.",
+        "💡 Rafael (dica 2): ele analisa as policies baseadas em recurso e gera findings de acesso externo."
+      ],
+      "explanation": "IAM Access Analyzer usa raciocínio baseado em lógica pra analisar as políticas baseadas em recurso e identificar buckets S3, roles, chaves KMS e outros compartilhados com entidades externas, gerando findings de acesso não intencional pra você revisar.",
+      "whyNots": {
+        "B": "Artifact baixa relatórios da AWS — não analisa acesso aos seus recursos.",
+        "C": "CloudFront é CDN — não analisa acesso/policies.",
+        "D": "Budgets é custo — não tem a ver com análise de acesso."
+      }
+    },
+    {
+      "id": "br-comp-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam-access-analyzer"],
+      "situacao": "Antes de aplicar uma policy nova, o time quer PRÉ-VISUALIZAR como ela afetaria o acesso público e cross-account ao recurso, pra evitar exposição acidental.",
+      "stem": "Qual recurso do IAM Access Analyzer ajuda nisso?",
+      "options": [
+        {"key": "A", "text": "Validação/preview de políticas (policy validation)"},
+        {"key": "B", "text": "Download de relatório SOC"},
+        {"key": "C", "text": "Coleta de evidência de framework"},
+        {"key": "D", "text": "Criação de fila SQS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pré-visualizar o efeito da policy no acesso público/cross-account ANTES de aplicar = policy validation/preview do Access Analyzer.",
+        "💡 Rafael (dica 2): ajuda a evitar exposição acidental antes do deploy."
+      ],
+      "explanation": "O IAM Access Analyzer oferece validação e preview de políticas: você vê como uma policy afetaria o acesso público e cross-account ao recurso antes de aplicá-la, prevenindo exposição acidental. Também faz análise de acesso interno (menor privilégio).",
+      "whyNots": {
+        "B": "Download de SOC é o Artifact — não o Access Analyzer.",
+        "C": "Coleta de evidência de framework é o Audit Manager.",
+        "D": "Criar fila SQS não tem a ver com validação de policy."
+      }
+    },
+    {
+      "id": "br-comp-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam-access-analyzer", "aws-config", "cloudtrail"],
+      "situacao": "Três perguntas: (1) este recurso está compartilhado com uma conta externa sem querer? (2) o recurso está com a configuração conforme as regras? (3) quem chamou a API que alterou o recurso?",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "IAM Access Analyzer → AWS Config → AWS CloudTrail"},
+        {"key": "B", "text": "AWS Config → IAM Access Analyzer → CloudTrail"},
+        {"key": "C", "text": "CloudTrail → Config → IAM Access Analyzer"},
+        {"key": "D", "text": "IAM Access Analyzer → CloudTrail → Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): acesso externo = Access Analyzer; configuração conforme = Config; quem chamou API = CloudTrail.",
+        "💡 Rafael (dica 2): só a opção A mantém cada um no seu papel."
+      ],
+      "explanation": "IAM Access Analyzer identifica acesso externo/não intencional; AWS Config avalia se a configuração está conforme; CloudTrail registra quem chamou a API. A opção A respeita os três papéis.",
+      "whyNots": {
+        "B": "Começa com Config pra acesso externo — isso é Access Analyzer.",
+        "C": "Coloca CloudTrail pra acesso externo — embaralhado.",
+        "D": "Troca CloudTrail com Config nas duas últimas posições."
+      }
+    },
+    {
+      "id": "br-comp-q06",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-artifact"],
+      "situacao": "Uma empresa de saúde precisa aceitar e baixar o acordo BAA (Business Associate Agreement) com a AWS pra processar dados sob HIPAA.",
+      "stem": "Onde gerenciar e aceitar esse tipo de acordo legal?",
+      "options": [
+        {"key": "A", "text": "AWS Artifact (relatórios e acordos, como BAA)"},
+        {"key": "B", "text": "AWS Audit Manager"},
+        {"key": "C", "text": "Amazon GuardDuty"},
+        {"key": "D", "text": "AWS WAF"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): além dos relatórios (SOC/PCI), o Artifact gerencia ACORDOS legais com a AWS, como o BAA.",
+        "💡 Rafael (dica 2): é o portal de documentos de compliance da AWS."
+      ],
+      "explanation": "AWS Artifact, além dos relatórios de conformidade, permite revisar, aceitar e gerenciar acordos legais com a AWS, como o BAA (para HIPAA) e o NDA. É o portal central desses documentos.",
+      "whyNots": {
+        "B": "Audit Manager coleta evidência do seu ambiente — não gerencia o BAA com a AWS.",
+        "C": "GuardDuty detecta ameaças — não é o portal de acordos.",
+        "D": "WAF é firewall de aplicação — nada a ver com acordos legais."
+      }
+    },
+    {
+      "id": "br-comp-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam-access-analyzer"],
+      "situacao": "A empresa quer garantir o menor privilégio em recursos críticos, identificando QUAIS principals internos têm acesso a eles.",
+      "stem": "Qual recurso do IAM Access Analyzer ajuda nessa análise interna?",
+      "options": [
+        {"key": "A", "text": "Análise de acesso interno (internal access analysis)"},
+        {"key": "B", "text": "Download de relatório PCI"},
+        {"key": "C", "text": "Criar uma distribuição CloudFront"},
+        {"key": "D", "text": "Rotação de segredo"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): além do acesso externo, o Access Analyzer faz análise INTERNA — quais principals da org acessam os recursos críticos.",
+        "💡 Rafael (dica 2): apoia o menor privilégio, mostrando quem pode acessar o quê."
+      ],
+      "explanation": "O IAM Access Analyzer também faz análise de acesso interno: identifica quais principals dentro da organização/conta têm acesso a recursos críticos, apoiando o princípio do menor privilégio.",
+      "whyNots": {
+        "B": "Relatório PCI é o Artifact — não o Access Analyzer.",
+        "C": "CloudFront é CDN — não analisa acesso interno.",
+        "D": "Rotação de segredo é Secrets Manager — não é a análise de acesso."
+      }
+    },
+    {
+      "id": "br-comp-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["audit-manager"],
+      "situacao": "Pra acelerar uma auditoria de PCI DSS, o time quer um framework pré-construído que mapeia controles e coleta evidências automaticamente do ambiente AWS.",
+      "stem": "Qual serviço oferece esses frameworks de auditoria?",
+      "options": [
+        {"key": "A", "text": "AWS Audit Manager"},
+        {"key": "B", "text": "AWS Artifact"},
+        {"key": "C", "text": "Amazon QuickSight"},
+        {"key": "D", "text": "AWS Lambda"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): frameworks pré-construídos (PCI, SOC2...) + coleta automática de evidência = Audit Manager.",
+        "💡 Rafael (dica 2): ele mapeia controles e junta a evidência do seu ambiente pra você."
+      ],
+      "explanation": "AWS Audit Manager oferece frameworks pré-construídos (PCI DSS, SOC 2, GDPR, etc.) que mapeiam controles e automatizam a coleta de evidências do seu ambiente AWS, acelerando as auditorias.",
+      "whyNots": {
+        "B": "Artifact fornece os relatórios da AWS — não frameworks de coleta de evidência do seu ambiente.",
+        "C": "QuickSight é BI — não é auditoria de conformidade.",
+        "D": "Lambda é função serverless — não é o serviço de frameworks de auditoria."
+      }
+    },
+    {
+      "id": "br-comp-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-artifact", "audit-manager", "iam-access-analyzer"],
+      "situacao": "Quatro necessidades: (1) baixar o SOC 2 da AWS; (2) automatizar evidência de auditoria do seu ambiente; (3) achar um bucket compartilhado com conta externa; (4) saber quem chamou a API que mudou um recurso.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Artifact → Audit Manager → IAM Access Analyzer → CloudTrail"},
+        {"key": "B", "text": "Audit Manager → Artifact → CloudTrail → IAM Access Analyzer"},
+        {"key": "C", "text": "IAM Access Analyzer → CloudTrail → Artifact → Audit Manager"},
+        {"key": "D", "text": "Artifact → IAM Access Analyzer → Audit Manager → CloudTrail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SOC da AWS = Artifact; evidência do seu ambiente = Audit Manager; acesso externo = Access Analyzer; quem chamou API = CloudTrail.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: Artifact (relatórios de conformidade da AWS), Audit Manager (evidência de auditoria do seu ambiente), IAM Access Analyzer (acesso externo/não intencional) e CloudTrail (quem chamou a API). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Artifact com Audit Manager e CloudTrail com Access Analyzer.",
+        "C": "Embaralha tudo — Access Analyzer não baixa o SOC da AWS.",
+        "D": "Troca Audit Manager com Access Analyzer de posição."
+      }
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Migração e Transferência (DMS + SCT, DataSync, Snow Family, Storage Gateway, Application Migration Service/MGN). Cobre o domínio de migração, pouco presente no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-migra-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["dms"],
+      "situacao": "A empresa quer mover um banco MySQL on-premises pra AWS com o mínimo de downtime — o sistema precisa continuar funcionando durante a migração.",
+      "stem": "Qual serviço migra bancos com mínimo downtime, mantendo a fonte operacional?",
+      "options": [
+        {"key": "A", "text": "AWS Database Migration Service (DMS)"},
+        {"key": "B", "text": "AWS DataSync"},
+        {"key": "C", "text": "AWS Snowball Edge"},
+        {"key": "D", "text": "Amazon S3 Transfer Acceleration"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o nome entrega — Database Migration Service. Ele migra o banco e ainda replica as mudanças contínuas, então o downtime é mínimo.",
+        "💡 Rafael (dica 2): DataSync e Snowball movem arquivos/objetos; pra BANCO com app no ar, é DMS."
+      ],
+      "explanation": "DMS migra bancos pra AWS com mínimo downtime: a fonte continua operacional e o DMS replica também as mudanças contínuas (CDC) até o cutover. É a ferramenta certa pra migração de banco de dados.",
+      "whyNots": {
+        "B": "DataSync transfere arquivos/objetos pra S3/EFS/FSx — não migra um banco relacional vivo.",
+        "C": "Snowball é transporte físico offline de dados em massa — não migra banco com replicação contínua.",
+        "D": "S3 Transfer Acceleration acelera upload pro S3 — não tem a ver com migração de banco."
+      }
+    },
+    {
+      "id": "br-migra-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["dms"],
+      "situacao": "A migração é de Oracle pra PostgreSQL — engines DIFERENTES. O esquema e o código (procedures, tipos) não são compatíveis direto.",
+      "stem": "Qual é o caminho correto pra essa migração heterogênea?",
+      "options": [
+        {"key": "A", "text": "Converter o esquema/código com AWS SCT (ou DMS Schema Conversion) e depois migrar os dados com o DMS"},
+        {"key": "B", "text": "Só rodar o DMS direto, sem converter nada"},
+        {"key": "C", "text": "Usar DataSync pra converter o esquema"},
+        {"key": "D", "text": "Exportar pra CSV e importar na mão, é o único jeito"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): engines diferentes = migração heterogênea = DOIS passos. Primeiro converter o esquema (SCT), depois mover os dados (DMS).",
+        "💡 Rafael (dica 2): se fossem o mesmo engine (ex.: MySQL→Aurora MySQL), seria homogênea e o DMS faria em um passo só."
+      ],
+      "explanation": "Migração heterogênea (engines diferentes, como Oracle→PostgreSQL) é em dois passos: (1) AWS SCT (Schema Conversion Tool) ou DMS Schema Conversion converte esquema e a maioria do código pro formato do destino, marcando o que precisa de ajuste manual; (2) o DMS migra os dados. Homogênea (mesmo engine) seria um passo só.",
+      "whyNots": {
+        "B": "Sem converter o esquema, o DMS não tem destino compatível pra um par de engines diferentes.",
+        "C": "DataSync transfere arquivos — não converte esquema de banco.",
+        "D": "Exportar/importar manual é frágil e desnecessário; SCT + DMS automatizam a maior parte."
+      }
+    },
+    {
+      "id": "br-migra-q02",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["datasync"],
+      "situacao": "Há boa conexão de rede e o time precisa copiar milhões de arquivos de um NAS on-premises pro Amazon S3, de forma incremental e agendada.",
+      "stem": "Qual serviço faz essa transferência online de arquivos pra AWS?",
+      "options": [
+        {"key": "A", "text": "AWS DataSync"},
+        {"key": "B", "text": "AWS Snowball Edge"},
+        {"key": "C", "text": "AWS DMS"},
+        {"key": "D", "text": "Amazon Kinesis Data Streams"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'há boa rede' + 'arquivos pro S3, incremental, agendado' = DataSync (online). Ele copia só o que mudou e comprime.",
+        "💡 Rafael (dica 2): se NÃO houvesse banda, aí sim você pensaria em Snowball (offline)."
+      ],
+      "explanation": "DataSync é o serviço de transferência ONLINE de arquivos/objetos pra AWS (S3, EFS, FSx): incremental (só o que mudou), comprime, agenda e se recupera de quedas de rede. É a primeira escolha quando há conectividade disponível.",
+      "whyNots": {
+        "B": "Snowball é offline (dispositivo físico) — indicado quando falta banda, não é o caso aqui.",
+        "C": "DMS migra bancos, não milhões de arquivos de um NAS.",
+        "D": "Kinesis Data Streams é ingestão de streaming em tempo real, não cópia de arquivos pro S3."
+      }
+    },
+    {
+      "id": "br-migra-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["snow"],
+      "situacao": "Uma estação de pesquisa remota gerou 80 TB de dados e tem só uma internet via satélite, lenta e cara. Subir isso online levaria meses.",
+      "stem": "Qual serviço transfere esse volume sem depender da banda?",
+      "options": [
+        {"key": "A", "text": "AWS Snowball Edge (transferência offline)"},
+        {"key": "B", "text": "AWS DataSync pela internet via satélite"},
+        {"key": "C", "text": "Upload direto pro S3 pelo console"},
+        {"key": "D", "text": "AWS Storage Gateway em modo cache"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'volume enorme + sem banda decente' é o cenário clássico do Snowball — você copia no dispositivo físico e manda pela transportadora.",
+        "💡 Rafael (dica 2): a regra: com banda = DataSync (online); sem banda = Snowball (offline)."
+      ],
+      "explanation": "Snowball Edge (Snow Family) faz transferência OFFLINE: você copia os dados num dispositivo físico e o envia pra AWS — ideal pra terabytes/petabytes quando falta banda ou ela é cara. (Nota: desde nov/2025 o Snowball é só pra clientes existentes; novos clientes vão pra DataSync, AWS Data Transfer Terminal ou parceiros — mas o conceito 'offline pra alto volume sem banda' segue sendo cobrado.)",
+      "whyNots": {
+        "B": "DataSync depende de banda — com satélite lento/caro, levaria meses, justamente o que se quer evitar.",
+        "C": "Upload manual pelo console é inviável pra 80 TB numa conexão ruim.",
+        "D": "Storage Gateway é acesso híbrido contínuo, não migração em massa de um backlog offline."
+      }
+    },
+    {
+      "id": "br-migra-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["storage-gateway"],
+      "situacao": "Uma empresa quer manter as aplicações no data center, mas com acesso de baixa latência aos dados e backup automático na nuvem — uma ponte contínua entre on-premises e AWS.",
+      "stem": "Qual serviço entrega esse acesso híbrido contínuo?",
+      "options": [
+        {"key": "A", "text": "AWS Storage Gateway"},
+        {"key": "B", "text": "AWS Snowball Edge"},
+        {"key": "C", "text": "AWS DMS"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'ponte CONTÍNUA on-premises↔nuvem, com cache local de baixa latência' = Storage Gateway. Não é migração pontual, é acesso híbrido do dia a dia.",
+        "💡 Rafael (dica 2): ele guarda um cache local e manda só o dado alterado pra nuvem."
+      ],
+      "explanation": "Storage Gateway é o appliance híbrido que conecta apps on-premises ao armazenamento na AWS, com cache local de baixa latência, mandando só o dado alterado. Serve pra backup/arquivo na nuvem, file share cloud-backed e acesso de baixa latência — uma ponte contínua, não uma migração pontual.",
+      "whyNots": {
+        "B": "Snowball é transferência offline pontual, não acesso híbrido contínuo.",
+        "C": "DMS migra bancos uma vez — não é a ponte de armazenamento do dia a dia.",
+        "D": "CloudFront é CDN de conteúdo na borda — não integra storage on-premises com a nuvem."
+      }
+    },
+    {
+      "id": "br-migra-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["storage-gateway"],
+      "situacao": "O datacenter ainda usa um robô de FITAS físicas pra backup e quer se livrar disso, mantendo o mesmo fluxo de backup, mas guardando as 'fitas' na nuvem (S3/Glacier) por baixo.",
+      "stem": "Qual tipo de Storage Gateway substitui a fita física?",
+      "options": [
+        {"key": "A", "text": "Tape Gateway (VTL)"},
+        {"key": "B", "text": "Volume Gateway"},
+        {"key": "C", "text": "S3 File Gateway"},
+        {"key": "D", "text": "FSx File Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'fita' = Tape. O Tape Gateway é uma fitoteca VIRTUAL (VTL): o software de backup acha que está gravando em fita, mas vai pra S3/Glacier.",
+        "💡 Rafael (dica 2): os outros gateways são pra file share (S3/FSx) ou volumes em bloco (Volume) — não emulam fita."
+      ],
+      "explanation": "Tape Gateway apresenta uma fitoteca virtual (VTL) pro seu software de backup: ele continua 'gravando em fita', mas os dados vão pra S3 e podem arquivar em Glacier — elimina o robô de fita física mantendo o fluxo de backup.",
+      "whyNots": {
+        "B": "Volume Gateway oferece volumes em bloco iSCSI com backup na nuvem — não emula fita.",
+        "C": "S3 File Gateway expõe arquivos via NFS/SMB pro S3 — não é substituto de fita.",
+        "D": "FSx File Gateway dá acesso local a FSx for Windows — não tem a ver com fita de backup."
+      }
+    },
+    {
+      "id": "br-migra-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["mgn"],
+      "situacao": "Uma empresa quer migrar dezenas de SERVIDORES inteiros (a VM como está, com SO e aplicação) do data center pra rodar nativamente em EC2, rápido e com pouco downtime — sem reescrever nada (lift-and-shift).",
+      "stem": "Qual serviço faz esse rehost de servidores pra EC2?",
+      "options": [
+        {"key": "A", "text": "AWS Application Migration Service (MGN)"},
+        {"key": "B", "text": "AWS DMS"},
+        {"key": "C", "text": "AWS DataSync"},
+        {"key": "D", "text": "AWS Storage Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): migrar o SERVIDOR inteiro 'como está' (lift-and-shift / rehost) pra EC2 = Application Migration Service (MGN).",
+        "💡 Rafael (dica 2): não confunda com DMS — DMS migra BANCO; MGN migra a VM/servidor inteiro."
+      ],
+      "explanation": "Application Migration Service (MGN) faz lift-and-shift (rehost): replica os servidores em nível de bloco e os converte pra rodar nativamente em EC2, com mínimo downtime no cutover. É o sucessor do antigo Server Migration Service. DMS é pra bancos; MGN é pra servidores inteiros.",
+      "whyNots": {
+        "B": "DMS migra bancos de dados, não o servidor/VM completo com SO e aplicação.",
+        "C": "DataSync transfere arquivos/objetos — não rehospeda servidores em EC2.",
+        "D": "Storage Gateway é acesso híbrido de armazenamento, não migração de servidor."
+      }
+    },
+    {
+      "id": "br-migra-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dms", "mgn"],
+      "situacao": "Numa migração grande, dois itens aparecem: (1) mover um banco Oracle pra Aurora PostgreSQL; (2) mover um servidor de aplicação Windows inteiro pra EC2.",
+      "stem": "Qual par de serviços é o indicado, respectivamente?",
+      "options": [
+        {"key": "A", "text": "(1) DMS (+SCT); (2) Application Migration Service (MGN)"},
+        {"key": "B", "text": "(1) MGN; (2) DMS"},
+        {"key": "C", "text": "(1) DataSync; (2) Snowball"},
+        {"key": "D", "text": "(1) Storage Gateway; (2) DMS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): banco = DMS (e como é heterogêneo, SCT antes). Servidor/VM inteiro = MGN. Cada ferramenta no seu alvo.",
+        "💡 Rafael (dica 2): a pegadinha é justamente trocar DMS (banco) com MGN (servidor)."
+      ],
+      "explanation": "Banco de dados, ainda mais heterogêneo (Oracle→Aurora PostgreSQL), é DMS com conversão de esquema via SCT. Servidor/aplicação inteiro pra EC2 é Application Migration Service (MGN), o lift-and-shift. A opção A acerta os dois alvos.",
+      "whyNots": {
+        "B": "Inverte: MGN é pra servidor, DMS é pra banco.",
+        "C": "DataSync (arquivos) e Snowball (offline) não migram nem o banco vivo nem rehospedam o servidor.",
+        "D": "Storage Gateway é acesso híbrido; nenhum dos dois itens é o caso dele."
+      }
+    },
+    {
+      "id": "br-migra-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dms"],
+      "situacao": "Um time vai migrar de MySQL on-premises pra Amazon Aurora MySQL — o MESMO engine dos dois lados.",
+      "stem": "Como é essa migração?",
+      "options": [
+        {"key": "A", "text": "Homogênea — esquema compatível, o DMS migra em um passo (sem precisar de SCT)"},
+        {"key": "B", "text": "Heterogênea — precisa converter o esquema com SCT antes"},
+        {"key": "C", "text": "Impossível sem Snowball"},
+        {"key": "D", "text": "Exige reescrever toda a aplicação"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): mesmo engine dos dois lados (MySQL→Aurora MySQL) = homogênea. Esquema já compatível, então não precisa do passo de conversão.",
+        "💡 Rafael (dica 2): SCT entra só quando os engines são diferentes (heterogênea)."
+      ],
+      "explanation": "MySQL → Aurora MySQL é migração homogênea: como o engine é o mesmo, o esquema e o código já são compatíveis e o DMS migra os dados em um passo, sem precisar de conversão de esquema (SCT). A conversão só é necessária em migrações heterogêneas.",
+      "whyNots": {
+        "B": "Heterogênea seria com engines diferentes; aqui é o mesmo (MySQL).",
+        "C": "Snowball é transferência offline de dados — não é requisito pra essa migração de banco.",
+        "D": "Não há reescrita de aplicação numa migração homogênea de banco."
+      }
+    },
+    {
+      "id": "br-migra-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["dms", "datasync", "snow", "storage-gateway"],
+      "situacao": "Quatro necessidades: (1) migrar um banco vivo com mínimo downtime; (2) copiar arquivos pro S3 com boa banda; (3) mover 100 TB sem conectividade decente; (4) dar ao data center acesso híbrido contínuo com cache local.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "DMS → DataSync → Snowball → Storage Gateway"},
+        {"key": "B", "text": "DataSync → DMS → Storage Gateway → Snowball"},
+        {"key": "C", "text": "Snowball → Storage Gateway → DMS → DataSync"},
+        {"key": "D", "text": "Storage Gateway → Snowball → DataSync → DMS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): banco vivo = DMS. Arquivos com banda = DataSync. Sem banda/volume enorme = Snowball. Híbrido contínuo = Storage Gateway.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço no seu papel; as outras embaralham pelo menos um."
+      ],
+      "explanation": "Cada serviço resolve um caso: DMS (banco vivo, mínimo downtime), DataSync (arquivos online quando há banda), Snowball (offline pra alto volume sem conectividade), Storage Gateway (acesso híbrido contínuo com cache local). A opção A respeita os quatro papéis.",
+      "whyNots": {
+        "B": "Troca DMS com DataSync e Snowball com Storage Gateway.",
+        "C": "Embaralha tudo — Snowball não migra banco vivo e DMS não é offline em massa.",
+        "D": "Também inverte os papéis; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

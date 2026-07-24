@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: VPC Fundamentos de Rede (sub-rede pública vs privada, route tables, Internet Gateway, bastion host, VPC peering não-transitivo e CIDR). Base de rede da SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-vpc-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Na prova: o que, exatamente, torna uma sub-rede 'pública'?",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "A route table da sub-rede tem uma rota 0.0.0.0/0 apontando pra um Internet Gateway"},
+        {"key": "B", "text": "A sub-rede tem um atributo 'pública' marcado, independente de rotas"},
+        {"key": "C", "text": "Basta a instância ter um IP público"},
+        {"key": "D", "text": "A sub-rede está numa região, não numa AZ"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o que faz a sub-rede ser pública é a ROTA pro Internet Gateway na route table — não um botão mágico.",
+        "💡 Rafael (dica 2): sem a rota pro IGW, nem IP público resolve — a sub-rede é privada."
+      ],
+      "explanation": "Uma sub-rede é pública quando sua route table contém uma rota (0.0.0.0/0) apontando pra um Internet Gateway. É a rota pro IGW que define a sub-rede como pública — não um atributo isolado nem só o IP público da instância.",
+      "whyNots": {
+        "B": "Não existe um 'atributo pública' que ignore as rotas — é a rota pro IGW que conta.",
+        "C": "Sem rota pro IGW, mesmo com IP público a instância não acessa a internet.",
+        "D": "Sub-rede fica numa AZ; isso não tem a ver com ser pública ou privada."
+      }
+    },
+    {
+      "id": "br-vpc-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Você quer que um banco de dados numa sub-rede NÃO seja acessível pela internet de forma alguma.",
+      "stem": "Como garantir que a sub-rede seja privada?",
+      "options": [
+        {"key": "A", "text": "Não ter rota pro Internet Gateway na route table da sub-rede"},
+        {"key": "B", "text": "Dar um IP público a cada instância"},
+        {"key": "C", "text": "Adicionar uma rota 0.0.0.0/0 pro IGW"},
+        {"key": "D", "text": "Colocar a sub-rede em outra região"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): privada = SEM rota pro IGW. Sem essa rota, não há caminho de/pra internet.",
+        "💡 Rafael (dica 2): se precisar de saída pra updates, use NAT (saída sim, entrada não)."
+      ],
+      "explanation": "Uma sub-rede é privada quando sua route table NÃO tem rota pro Internet Gateway. Sem esse caminho, as instâncias não se comunicam diretamente com a internet (mesmo com IP público). Pra acesso de saída controlado, usa-se um NAT Gateway.",
+      "whyNots": {
+        "B": "IP público sem rota pro IGW não dá acesso à internet — e o objetivo é justamente NÃO expor.",
+        "C": "Adicionar rota pro IGW tornaria a sub-rede pública — o oposto do pedido.",
+        "D": "Mudar de região não torna a sub-rede privada; o que importa é a ausência de rota pro IGW."
+      }
+    },
+    {
+      "id": "br-vpc-q02",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Instâncias numa sub-rede pública precisam de um componente que dê o caminho pra internet e faça a tradução do IPv4 público.",
+      "stem": "Qual componente da VPC é esse?",
+      "options": [
+        {"key": "A", "text": "Internet Gateway (IGW)"},
+        {"key": "B", "text": "NAT Gateway"},
+        {"key": "C", "text": "VPC Peering"},
+        {"key": "D", "text": "Security Group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o portão pra internet da VPC é o Internet Gateway. Ele é o alvo da rota 0.0.0.0/0 nas sub-redes públicas.",
+        "💡 Rafael (dica 2): um IGW por VPC; ele faz o NAT do IPv4 público das instâncias."
+      ],
+      "explanation": "O Internet Gateway (IGW) dá às sub-redes públicas o caminho pra internet e faz a tradução de endereço (NAT) pro IPv4 público das instâncias. É o alvo da rota 0.0.0.0/0 numa route table pública. Há um IGW por VPC.",
+      "whyNots": {
+        "B": "NAT Gateway dá saída pra instâncias PRIVADas; ele mesmo depende de um IGW na sub-rede pública.",
+        "C": "VPC Peering conecta duas VPCs entre si — não dá acesso à internet.",
+        "D": "Security Group é firewall de instância — não é o gateway de internet."
+      }
+    },
+    {
+      "id": "br-vpc-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Numa route table existem várias rotas que casam com o destino de um pacote. Você precisa saber qual delas o roteador da VPC usa.",
+      "stem": "Como a VPC decide qual rota aplicar?",
+      "options": [
+        {"key": "A", "text": "A rota mais específica (longest prefix match) vence"},
+        {"key": "B", "text": "A primeira rota da lista vence"},
+        {"key": "C", "text": "A rota menos específica vence"},
+        {"key": "D", "text": "Escolhe aleatoriamente"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): roteamento usa 'longest prefix match' — a rota com o prefixo mais específico (mais longo) ganha.",
+        "💡 Rafael (dica 2): ex.: 10.0.1.0/24 vence sobre 0.0.0.0/0 pra um destino dentro de 10.0.1.0/24."
+      ],
+      "explanation": "A VPC roteia pelo destino usando longest prefix match: entre as rotas que casam, a mais específica (prefixo mais longo) é escolhida. Por isso uma rota /24 vence uma 0.0.0.0/0 pra um IP que cabe na /24. A rota 'local' da VPC sempre existe pro tráfego interno.",
+      "whyNots": {
+        "B": "Não é por ordem na lista — é pela especificidade do prefixo.",
+        "C": "É o contrário — vence a MAIS específica, não a menos.",
+        "D": "Não é aleatório; segue a regra determinística do longest prefix match."
+      }
+    },
+    {
+      "id": "br-vpc-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "ec2"],
+      "situacao": "Administradores precisam acessar via SSH instâncias que estão numa sub-rede PRIVADA, sem expor essas instâncias diretamente à internet.",
+      "stem": "Qual padrão tradicional resolve esse acesso?",
+      "options": [
+        {"key": "A", "text": "Um bastion host (jump server) numa sub-rede pública, usado como ponte"},
+        {"key": "B", "text": "Dar IP público às instâncias privadas"},
+        {"key": "C", "text": "Abrir a porta 22 pra 0.0.0.0/0 nas instâncias privadas"},
+        {"key": "D", "text": "Mover as instâncias pra uma sub-rede pública"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): bastion host = uma instância na sub-rede pública que serve de PONTE; o admin entra nele e dali alcança as privadas.",
+        "💡 Rafael (dica 2): assim as instâncias privadas nunca ficam expostas direto à internet. (Alternativa sem porta: SSM Session Manager.)"
+      ],
+      "explanation": "O bastion host (jump server) é uma instância numa sub-rede pública que funciona como ponte segura: o administrador conecta nele (SSH/RDP) e, a partir dele, alcança as instâncias da sub-rede privada — sem expor essas instâncias diretamente à internet. Uma alternativa moderna sem abrir porta é o SSM Session Manager.",
+      "whyNots": {
+        "B": "Dar IP público às privadas e expô-las é justamente o que se quer evitar.",
+        "C": "Abrir a porta 22 pra todo mundo nas instâncias privadas é uma falha grave de segurança.",
+        "D": "Mover pra sub-rede pública expõe as instâncias — contraria o objetivo."
+      }
+    },
+    {
+      "id": "br-vpc-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Duas VPCs precisam se comunicar usando IP privado, como se estivessem na mesma rede.",
+      "stem": "Qual recurso conecta duas VPCs diretamente?",
+      "options": [
+        {"key": "A", "text": "VPC Peering"},
+        {"key": "B", "text": "Internet Gateway"},
+        {"key": "C", "text": "Bastion host"},
+        {"key": "D", "text": "NAT Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conectar DUAS VPCs com IP privado = VPC Peering.",
+        "💡 Rafael (dica 2): funciona entre contas e regiões; pra MUITAS VPCs, melhor um hub (Transit Gateway)."
+      ],
+      "explanation": "VPC Peering conecta duas VPCs pra que se comuniquem com IP privado, como se fossem uma rede só (inclusive cross-account e cross-region). Pra interconectar muitas VPCs, o Transit Gateway (hub) escala melhor.",
+      "whyNots": {
+        "B": "Internet Gateway dá acesso à internet — não conecta duas VPCs privadamente.",
+        "C": "Bastion host é ponte de administração SSH/RDP — não interliga VPCs.",
+        "D": "NAT Gateway dá saída à internet pra sub-rede privada — não conecta VPCs."
+      }
+    },
+    {
+      "id": "br-vpc-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["vpc", "transit-gateway"],
+      "situacao": "Há peering entre VPC A↔B e entre VPC A↔C. O time espera que, por isso, a VPC B converse com a VPC C passando pela A.",
+      "stem": "O que está correto sobre essa expectativa?",
+      "options": [
+        {"key": "A", "text": "Errada: VPC Peering NÃO é transitivo; B precisa de peering direto com C (ou usar Transit Gateway)"},
+        {"key": "B", "text": "Certa: o tráfego de B chega em C automaticamente via A"},
+        {"key": "C", "text": "Certa, desde que A tenha um NAT Gateway"},
+        {"key": "D", "text": "Errada, porque peering não existe entre VPCs"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): peering NÃO é transitivo — A↔B e A↔C não fazem B falar com C. Precisa de B↔C direto.",
+        "💡 Rafael (dica 2): pra evitar a malha de peerings, o Transit Gateway centraliza tudo num hub."
+      ],
+      "explanation": "VPC Peering não é transitivo: ter A↔B e A↔C não permite que B converse com C através de A. Pra B falar com C, é preciso um peering direto B↔C. Quando há muitas VPCs, o Transit Gateway (hub) resolve sem a malha de peerings.",
+      "whyNots": {
+        "B": "Não há transitividade — o tráfego de B não chega em C via A automaticamente.",
+        "C": "NAT Gateway não habilita transitividade de peering; ele dá saída à internet.",
+        "D": "Peering existe entre VPCs, sim; o ponto é que não é transitivo."
+      }
+    },
+    {
+      "id": "br-vpc-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Você tenta criar um VPC peering entre duas VPCs, mas ambas usam o mesmo bloco CIDR 10.0.0.0/16, e a criação falha.",
+      "stem": "Qual é a causa?",
+      "options": [
+        {"key": "A", "text": "VPC Peering não permite blocos CIDR que se sobrepõem"},
+        {"key": "B", "text": "Peering exige que as VPCs estejam na mesma AZ"},
+        {"key": "C", "text": "Faltou um Internet Gateway"},
+        {"key": "D", "text": "Peering só funciona com IPv6"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): CIDR sobreposto = peering impossível. As VPCs precisam de faixas de IP que não se sobrepõem.",
+        "💡 Rafael (dica 2): planeje os CIDRs distintos desde o início (ex.: 10.0.0.0/16 e 10.1.0.0/16)."
+      ],
+      "explanation": "VPC Peering não pode ser criado entre VPCs cujos blocos CIDR se sobrepõem — é um requisito estrito. Com ambas usando 10.0.0.0/16, há sobreposição total e a conexão falha. Planejar faixas de IP distintas evita o problema.",
+      "whyNots": {
+        "B": "Peering não exige mesma AZ (nem mesma região/conta) — a questão é o CIDR.",
+        "C": "Peering não depende de Internet Gateway.",
+        "D": "Peering funciona com IPv4; o impedimento aqui é o CIDR sobreposto."
+      }
+    },
+    {
+      "id": "br-vpc-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "nat-gateway"],
+      "situacao": "Instâncias numa sub-rede privada precisam baixar atualizações da internet, mas não podem receber conexões de entrada. Como deve ficar a rota da sub-rede privada?",
+      "stem": "Qual configuração de rota é a correta?",
+      "options": [
+        {"key": "A", "text": "0.0.0.0/0 apontando pra um NAT Gateway (que fica numa sub-rede pública)"},
+        {"key": "B", "text": "0.0.0.0/0 apontando pro Internet Gateway"},
+        {"key": "C", "text": "Nenhuma rota de saída; impossível atualizar"},
+        {"key": "D", "text": "0.0.0.0/0 apontando pra um bastion host"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): saída sim, entrada não = NAT. A rota da privada manda 0.0.0.0/0 pro NAT Gateway.",
+        "💡 Rafael (dica 2): se apontasse direto pro IGW, a sub-rede viraria pública (entrada possível)."
+      ],
+      "explanation": "Pra dar saída sem expor a entrada, a route table da sub-rede privada deve mandar 0.0.0.0/0 pra um NAT Gateway (localizado numa sub-rede pública). O NAT permite conexões de saída (updates) e bloqueia conexões iniciadas de fora.",
+      "whyNots": {
+        "B": "Apontar a privada direto pro IGW a tornaria pública e exporia as instâncias à entrada.",
+        "C": "É possível, sim, dar saída via NAT — não é impossível atualizar.",
+        "D": "Bastion host é pra acesso administrativo SSH/RDP — não é rota de saída pra internet."
+      }
+    },
+    {
+      "id": "br-vpc-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Quatro componentes de rede: (1) dá acesso à internet pra sub-rede pública; (2) dá saída à internet pra sub-rede privada sem expor entrada; (3) ponte de administração SSH pras instâncias privadas; (4) conecta duas VPCs com IP privado.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Internet Gateway → NAT Gateway → Bastion host → VPC Peering"},
+        {"key": "B", "text": "NAT Gateway → Internet Gateway → VPC Peering → Bastion host"},
+        {"key": "C", "text": "Bastion host → VPC Peering → Internet Gateway → NAT Gateway"},
+        {"key": "D", "text": "Internet Gateway → Bastion host → NAT Gateway → VPC Peering"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): internet pra pública = IGW; saída da privada = NAT; ponte SSH = bastion; ligar VPCs = peering.",
+        "💡 Rafael (dica 2): só a opção A mantém cada componente na sua função."
+      ],
+      "explanation": "Cada componente tem seu papel: Internet Gateway (acesso à internet da sub-rede pública), NAT Gateway (saída da sub-rede privada sem expor entrada), Bastion host (ponte de administração SSH/RDP pras instâncias privadas) e VPC Peering (conectar duas VPCs com IP privado). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca IGW com NAT e bastion com peering.",
+        "C": "Embaralha tudo — bastion não dá acesso à internet pra sub-rede pública.",
+        "D": "Troca NAT com bastion; saída da privada é NAT, não bastion."
+      }
+    }
+  ]
+}

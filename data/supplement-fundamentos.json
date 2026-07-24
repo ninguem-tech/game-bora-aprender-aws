@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Fundamentos da Nuvem (caps 01-02) — questões PT.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-f0-q01",
+      "difficulty": "intro",
+      "sourceChapter": "01",
+      "services": [
+        "cloudfront"
+      ],
+      "domain": 0,
+      "domainLabel": "Fundamentos",
+      "situacao": "A Júlia quer pão. Ela pode: comprar farinha e forno e fazer tudo; comprar a massa pronta e só assar; ou comprar o pão já feito na padaria.",
+      "stem": "Usar o Gmail é tipo comprar o pão pronto na padaria. Que modelo é esse?",
+      "options": [
+        {
+          "key": "A",
+          "text": "IaaS — você monta tudo"
+        },
+        {
+          "key": "B",
+          "text": "PaaS — você só põe seu código"
+        },
+        {
+          "key": "C",
+          "text": "SaaS — já vem pronto pra usar"
+        }
+      ],
+      "answers": [
+        "C"
+      ],
+      "hints": [
+        "💡 Rafael (dica): pensa em nuvem como pão 🍞 — IaaS = farinha + forno (você põe a mão na massa em quase tudo); PaaS = massa pronta (você só cuida do código); SaaS = pão da padaria (já vem pronto)."
+      ],
+      "explanation": "Gmail é SaaS — você só usa, não gerencia servidor nem código.",
+      "whyNots": {
+        "A": "IaaS é montar tudo (servidor, sistema). No Gmail você não faz nada disso.",
+        "B": "PaaS é quando você ainda cuida do seu código. No Gmail você nem isso — só usa."
+      },
+      "source": "supplement",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "type": "single"
+    },
+    {
+      "id": "br-f0-q02",
+      "difficulty": "intro",
+      "sourceChapter": "01",
+      "services": [
+        "ec2"
+      ],
+      "domain": 2,
+      "domainLabel": "Resiliência",
+      "situacao": "A Camila precisa garantir que o sistema da empresa NÃO caia se um data center pegar fogo ou ficar sem energia.",
+      "stem": "Qual a forma certa de não cair se um data center falhar?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Uma instância bem grande numa AZ só"
+        },
+        {
+          "key": "B",
+          "text": "Distribuir entre várias AZs da mesma Região"
+        },
+        {
+          "key": "C",
+          "text": "Guardar tudo numa Edge Location"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "hints": [
+        "💡 Rafael (dica): uma Região é uma cidade; as AZs são bairros diferentes, cada um com energia e rede próprias. Se um bairro apaga, o outro segue."
+      ],
+      "explanation": "Várias AZs = se uma cai, as outras seguram. É a base de Alta Disponibilidade.",
+      "whyNots": {
+        "A": "Máquina grande numa AZ só cai junto com a AZ. Tamanho não dá disponibilidade.",
+        "C": "Edge Location é cache de entrega de conteúdo, não redundância de data center."
+      },
+      "source": "supplement",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "type": "single"
+    },
+    {
+      "id": "br-f0-q03",
+      "difficulty": "intro",
+      "sourceChapter": "01",
+      "services": [
+        "cloudfront"
+      ],
+      "domain": 3,
+      "domainLabel": "Alto desempenho",
+      "situacao": "O site da Júlia roda num servidor na Virgínia (EUA). Os usuários no Brasil reclamam que está LENTO pra carregar imagens e vídeos.",
+      "stem": "O que resolve a lentidão pros usuários no Brasil?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trocar o servidor por um maior na Virgínia"
+        },
+        {
+          "key": "B",
+          "text": "Usar CloudFront com Edge Locations perto dos usuários"
+        },
+        {
+          "key": "C",
+          "text": "Mudar tudo de Região toda hora"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "hints": [
+        "💡 Rafael (dica): Edge Location é a padaria da esquina — em vez de buscar o pão na fábrica longe, você pega pertinho. O conteúdo fica em cache perto do usuário."
+      ],
+      "explanation": "CloudFront serve do Edge mais perto — performance lá em cima e usuário feliz.",
+      "whyNots": {
+        "A": "Servidor maior na Virgínia continua longe do Brasil; a distância é o problema, não o tamanho.",
+        "C": "Ficar trocando de Região não aproxima o conteúdo de quem acessa — quem faz isso é o CloudFront."
+      },
+      "source": "supplement",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "type": "single"
+    },
+    {
+      "id": "br-f0-q04",
+      "difficulty": "intro",
+      "sourceChapter": "02",
+      "services": [
+        "ec2"
+      ],
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "situacao": "A Júlia tem MEDO de criar a conta e tomar um susto na fatura no fim do mês.",
+      "stem": "Qual o jeito mais seguro da Júlia começar a praticar sem susto?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Criar a maior instância pra aprender logo"
+        },
+        {
+          "key": "B",
+          "text": "Usar recursos do Free Tier (ex.: t3.micro) e ficar nos limites"
+        },
+        {
+          "key": "C",
+          "text": "Não criar conta e só ler"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "hints": [
+        "💡 Rafael (dica): o Free Tier é a degustação grátis do mercado ☕ — dá pra experimentar sem pagar, desde que você fique nos limites e use recursos elegíveis (tipo a t3.micro)."
+      ],
+      "explanation": "Free Tier + t3.micro = prática de verdade, sem susto. E praticar é o que faz passar.",
+      "whyNots": {
+        "A": "Máquina grande sai da faixa grátis e gera fatura — exatamente o susto que ela teme.",
+        "C": "Só ler não fixa; a prática é o que aprova. Dá pra praticar de graça no Free Tier."
+      },
+      "source": "supplement",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "type": "single"
+    },
+    {
+      "id": "br-f0-q05",
+      "difficulty": "exam",
+      "sourceChapter": "02",
+      "services": [
+        "route53"
+      ],
+      "domain": 1,
+      "domainLabel": "Segurança",
+      "situacao": "Uma lei exige que os dados dos clientes brasileiros NUNCA saiam do Brasil.",
+      "stem": "Como atender a exigência de manter os dados no Brasil?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Usar a Região de São Paulo (sa-east-1)"
+        },
+        {
+          "key": "B",
+          "text": "Usar Edge Locations no Brasil"
+        },
+        {
+          "key": "C",
+          "text": "Tanto faz a Região, a AWS decide"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "hints": [
+        "💡 Rafael (dica 1): escolher a Região é escolher a cidade onde seus dados moram fisicamente.",
+        "💡 Rafael (dica 2): tem Região em São Paulo — a sa-east-1. Os dados ficam aqui."
+      ],
+      "explanation": "A Região define onde os dados ficam fisicamente. sa-east-1 = São Paulo. (Na prova, Route 53 Geolocation pode entrar junto.)",
+      "whyNots": {
+        "B": "Edge Location é só cache de entrega, não onde o dado mora.",
+        "C": "Quem decide onde o dado mora é você, ao escolher a Região — não fica a cargo da AWS."
+      },
+      "source": "supplement",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "type": "single"
+    }
+  ]
+}

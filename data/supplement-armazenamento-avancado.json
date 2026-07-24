@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Armazenamento Aprofundamento (classes do S3 + Glacier, lifecycle, tipos de volume EBS, Instance Store, EFS vs FSx). Aprofunda armazenamento além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-arm2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Logs que são acessados raramente, mas que, quando precisam, têm que estar disponíveis na hora (em milissegundos). Você quer pagar menos de armazenamento que o Standard.",
+      "stem": "Qual classe do S3 encaixa?",
+      "options": [
+        {"key": "A", "text": "S3 Standard-IA"},
+        {"key": "B", "text": "S3 Glacier Deep Archive"},
+        {"key": "C", "text": "S3 Standard"},
+        {"key": "D", "text": "S3 Intelligent-Tiering"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'acesso raro, mas em ms quando precisa, mais barato que Standard' = Standard-IA (Infrequent Access).",
+        "💡 Rafael (dica 2): você economiza no storage, mas paga uma taxa quando recupera. Acesso continua em ms (não é Glacier)."
+      ],
+      "explanation": "S3 Standard-IA é pra dado acessado com pouca frequência, mas que precisa de acesso em milissegundos quando solicitado: storage mais barato que o Standard, em troca de uma taxa de recuperação. Multi-AZ, 11 noves.",
+      "whyNots": {
+        "B": "Deep Archive tem recuperação em 12–48h — não atende o 'na hora, em ms'.",
+        "C": "Standard não reduz o custo de armazenamento pra dado raramente acessado.",
+        "D": "Intelligent-Tiering serve quando o padrão é DESCONHECIDO; aqui o padrão (acesso raro) já é conhecido, então IA é mais direto/barato."
+      }
+    },
+    {
+      "id": "br-arm2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Uma thumbnails gerada a partir de imagens originais: se perder, dá pra recriar fácil. Você quer o menor custo possível e não se importa se ela viver numa única AZ.",
+      "stem": "Qual classe do S3 é a mais econômica pra esse dado recriável?",
+      "options": [
+        {"key": "A", "text": "S3 One Zone-IA"},
+        {"key": "B", "text": "S3 Standard-IA"},
+        {"key": "C", "text": "S3 Standard"},
+        {"key": "D", "text": "S3 Glacier Instant Retrieval"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'dá pra recriar + topa uma única AZ + mais barato' = One Zone-IA, que guarda em uma AZ só (mais barato que o IA multi-AZ).",
+        "💡 Rafael (dica 2): o risco é perder se a AZ for destruída — aceitável pra dado recriável."
+      ],
+      "explanation": "S3 One Zone-IA guarda o dado em uma única AZ, ~20% mais barato que o Standard-IA, com acesso em ms. Tem 11 noves de durabilidade, mas perde o objeto se a AZ for destruída — ideal pra dado infrequente e facilmente recriável (como thumbnails).",
+      "whyNots": {
+        "B": "Standard-IA é multi-AZ e mais caro; pra dado recriável, One Zone-IA economiza mais.",
+        "C": "Standard é o mais caro pra acesso infrequente.",
+        "D": "Glacier Instant é archive; pra dado que ainda é lido às vezes e recriável, One Zone-IA é mais adequado e barato no caso."
+      }
+    },
+    {
+      "id": "br-arm2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Um data lake tem objetos cujo padrão de acesso é IMPREVISÍVEL: alguns viram quentes, outros esfriam, sem regra. Você não quer ficar adivinhando classe nem pagar taxa de recuperação.",
+      "stem": "Qual classe do S3 otimiza o custo automaticamente?",
+      "options": [
+        {"key": "A", "text": "S3 Intelligent-Tiering"},
+        {"key": "B", "text": "S3 Standard-IA"},
+        {"key": "C", "text": "S3 One Zone-IA"},
+        {"key": "D", "text": "S3 Glacier Flexible Retrieval"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'padrão imprevisível + não quero adivinhar + sem taxa de recuperação' = Intelligent-Tiering, que move o objeto entre tiers sozinho.",
+        "💡 Rafael (dica 2): ele cobra uma pequena taxa de monitoramento, mas evita você escolher errado a classe."
+      ],
+      "explanation": "S3 Intelligent-Tiering move cada objeto automaticamente pro tier mais econômico conforme o acesso, sem taxa de recuperação e sem impacto de performance (só uma pequena taxa de monitoramento). É a classe ideal pra padrões de acesso desconhecidos ou variáveis.",
+      "whyNots": {
+        "B": "Standard-IA assume que o acesso é raro e cobra taxa de recuperação — ruim se o objeto virar quente de novo.",
+        "C": "One Zone-IA tem o mesmo problema de IA, mais o risco de AZ única.",
+        "D": "Glacier Flexible é archive com recuperação em minutos/horas — não serve pra dado que pode virar quente a qualquer hora."
+      }
+    },
+    {
+      "id": "br-arm2-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Três arquivos: (1) imagem médica de arquivo que precisa abrir em ms quando o médico pedir; (2) backup que pode esperar minutos/horas pra recuperar; (3) registro de compliance guardado por 10 anos, recuperação em 12–48h tudo bem.",
+      "stem": "Qual trio de classes Glacier atende 1→2→3?",
+      "options": [
+        {"key": "A", "text": "Glacier Instant Retrieval → Glacier Flexible Retrieval → Glacier Deep Archive"},
+        {"key": "B", "text": "Glacier Deep Archive → Glacier Instant → Glacier Flexible"},
+        {"key": "C", "text": "Glacier Flexible → Glacier Deep Archive → Glacier Instant"},
+        {"key": "D", "text": "Standard → Standard-IA → One Zone-IA"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ms imediato = Instant; minutos/horas = Flexible; mais barato e 12–48h = Deep Archive.",
+        "💡 Rafael (dica 2): a ordem de tempo de recuperação sobe: Instant (ms) < Flexible (min–h) < Deep Archive (12–48h), e o custo cai na mesma direção."
+      ],
+      "explanation": "Glacier Instant Retrieval entrega archive com acesso em ms (imagem médica). Glacier Flexible Retrieval recupera em minutos ou bulk grátis em 5–12h (backup/DR). Glacier Deep Archive é o mais barato, recuperação em 12–48h (compliance de longo prazo). A opção A mapeia certo.",
+      "whyNots": {
+        "B": "Inverte: Deep Archive não abre em ms.",
+        "C": "Embaralha os tempos de recuperação.",
+        "D": "Essas não são classes de archive Glacier; o cenário pede archive de longo prazo."
+      }
+    },
+    {
+      "id": "br-arm2-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Você quer que objetos no S3 migrem sozinhos pra classes mais baratas com o tempo (ex.: pra IA aos 30 dias, pra Glacier aos 90) e sejam apagados aos 365 — sem ninguém fazer na mão.",
+      "stem": "Qual recurso do S3 automatiza isso?",
+      "options": [
+        {"key": "A", "text": "Lifecycle policy (regras de ciclo de vida)"},
+        {"key": "B", "text": "Versionamento"},
+        {"key": "C", "text": "Replicação cross-region"},
+        {"key": "D", "text": "Bucket policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'migrar de classe com o tempo e expirar sozinho' = Lifecycle policy. Você define as regras por idade do objeto.",
+        "💡 Rafael (dica 2): faz transição (muda de classe) e expiração (apaga) automaticamente — economia sem trabalho manual."
+      ],
+      "explanation": "A Lifecycle policy do S3 aplica regras automáticas por idade do objeto: transição entre classes (Standard → IA → Glacier) e expiração (exclusão). Otimiza custo sem intervenção manual.",
+      "whyNots": {
+        "B": "Versionamento mantém versões antigas — não move de classe nem expira por idade.",
+        "C": "Replicação copia pra outra região — não gerencia transição de classe por idade.",
+        "D": "Bucket policy controla permissões de acesso — não automatiza ciclo de vida."
+      }
+    },
+    {
+      "id": "br-arm2-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ebs"],
+      "situacao": "Pra um volume de uso geral numa instância EC2, você quer bom desempenho com baseline garantido e ainda poder ajustar IOPS e throughput separadamente, pagando menos que a geração anterior.",
+      "stem": "Qual tipo de volume EBS é a escolha padrão recomendada?",
+      "options": [
+        {"key": "A", "text": "gp3 (General Purpose SSD)"},
+        {"key": "B", "text": "sc1 (Cold HDD)"},
+        {"key": "C", "text": "st1 (Throughput Optimized HDD)"},
+        {"key": "D", "text": "io2 Block Express"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): uso geral, baseline garantido, IOPS/throughput ajustáveis e mais barato que gp2 = gp3, o SSD de propósito geral atual.",
+        "💡 Rafael (dica 2): gp3 dá 3.000 IOPS e 125 MiB/s de base independente do tamanho."
+      ],
+      "explanation": "gp3 é o SSD de propósito geral recomendado: baseline de 3.000 IOPS e 125 MiB/s independente do tamanho, com IOPS e throughput configuráveis separadamente, e ~20% mais barato que o gp2. É a escolha padrão pra maioria dos workloads.",
+      "whyNots": {
+        "B": "sc1 é HDD frio de menor custo, pra dado raramente acessado — não é uso geral com bom IOPS.",
+        "C": "st1 é HDD de throughput pra big data sequencial — não é volume de propósito geral (nem serve de boot).",
+        "D": "io2 Block Express é pra apps críticos de IOPS altíssimo — exagero (e mais caro) pra uso geral."
+      }
+    },
+    {
+      "id": "br-arm2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ebs"],
+      "situacao": "Um banco de dados crítico precisa de IOPS altíssimos, consistentes e baixa latência, com durabilidade reforçada — desempenho previsível é inegociável.",
+      "stem": "Qual tipo de volume EBS atende?",
+      "options": [
+        {"key": "A", "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"},
+        {"key": "B", "text": "gp2"},
+        {"key": "C", "text": "st1 (Throughput Optimized HDD)"},
+        {"key": "D", "text": "sc1 (Cold HDD)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'IOPS altíssimos, consistentes, baixa latência, durabilidade reforçada' = Provisioned IOPS SSD (io1/io2). O io2 Block Express é o topo.",
+        "💡 Rafael (dica 2): você PROVISIONA os IOPS que precisa — desempenho previsível, ideal pra banco crítico."
+      ],
+      "explanation": "io2 (e io2 Block Express) é o SSD de IOPS provisionados: alto desempenho consistente, baixa latência e durabilidade reforçada (até 99,999% no Block Express) — feito pra bancos críticos que exigem IOPS previsíveis e altos.",
+      "whyNots": {
+        "B": "gp2 é de propósito geral; não garante o IOPS altíssimo e consistente de um io2.",
+        "C": "st1 é HDD de throughput — não entrega IOPS altos de baixa latência pra banco.",
+        "D": "sc1 é HDD frio de baixo custo — o oposto de alto desempenho."
+      }
+    },
+    {
+      "id": "br-arm2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ebs"],
+      "situacao": "Um pipeline de big data processa grandes arquivos sequenciais (logs, MapReduce) e o que importa é THROUGHPUT (MB/s) por um custo baixo, não IOPS de acesso aleatório.",
+      "stem": "Qual tipo de volume EBS é o mais adequado?",
+      "options": [
+        {"key": "A", "text": "st1 (Throughput Optimized HDD)"},
+        {"key": "B", "text": "io2 (Provisioned IOPS SSD)"},
+        {"key": "C", "text": "gp3 (General Purpose SSD)"},
+        {"key": "D", "text": "Instance Store efêmero"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'grandes arquivos sequenciais + throughput (MB/s) + custo baixo' = st1, o HDD otimizado pra throughput.",
+        "💡 Rafael (dica 2): pra acesso SEQUENCIAL de big data, HDD de throughput (st1) custa menos que SSD e entrega o MB/s necessário."
+      ],
+      "explanation": "st1 (Throughput Optimized HDD) é otimizado pra throughput (MB/s) em workloads sequenciais frequentes e grandes — big data, MapReduce, log e data warehouse — a um custo menor que SSD. É o caso clássico do enunciado.",
+      "whyNots": {
+        "B": "io2 é caro e focado em IOPS de acesso aleatório — não é o melhor custo pra throughput sequencial.",
+        "C": "gp3 (SSD) funciona, mas pra grandes leituras sequenciais o st1 entrega throughput a menor custo.",
+        "D": "Instance Store é efêmero (perde dados) — arriscado pra um pipeline persistente."
+      }
+    },
+    {
+      "id": "br-arm2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["instance-store", "ebs"],
+      "situacao": "Uma aplicação usa um cache local de altíssimo IOPS que pode ser perdido sem problema quando a instância para (os dados são reconstruíveis).",
+      "stem": "Qual armazenamento é o mais indicado pra esse scratch temporário?",
+      "options": [
+        {"key": "A", "text": "Instance Store (efêmero)"},
+        {"key": "B", "text": "Volume EBS io2"},
+        {"key": "C", "text": "Amazon S3 Standard"},
+        {"key": "D", "text": "Amazon EFS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'cache local altíssimo IOPS, pode perder ao parar' = Instance Store, disco físico no host, efêmero.",
+        "💡 Rafael (dica 2): se os dados PRECISASSEM sobreviver ao stop, aí seria EBS. Como são descartáveis, Instance Store é mais rápido e barato."
+      ],
+      "explanation": "Instance Store é o disco físico anexado ao host: altíssimo IOPS e baixa latência, mas EFÊMERO — perde os dados quando a instância para/termina. É perfeito pra cache, scratch e buffer temporário com dados reconstruíveis.",
+      "whyNots": {
+        "B": "io2 é persistente e mais caro — desnecessário pra dado descartável.",
+        "C": "S3 é object storage, não disco local de baixa latência pra cache.",
+        "D": "EFS é file system compartilhado em rede — não é o scratch local de altíssimo IOPS."
+      }
+    },
+    {
+      "id": "br-arm2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["efs", "fsx"],
+      "situacao": "Três necessidades de arquivo: (1) compartilhar arquivos entre muitos servidores Linux via NFS; (2) file share SMB pra apps Windows com Active Directory; (3) sistema de arquivos de altíssimo throughput pra HPC/treino de ML.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "EFS → FSx for Windows File Server → FSx for Lustre"},
+        {"key": "B", "text": "FSx for Lustre → EFS → FSx for Windows"},
+        {"key": "C", "text": "FSx for Windows → FSx for Lustre → EFS"},
+        {"key": "D", "text": "EFS → FSx for Lustre → FSx for Windows"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Linux/NFS compartilhado = EFS. Windows/SMB/AD = FSx for Windows. HPC/ML alto throughput = FSx for Lustre.",
+        "💡 Rafael (dica 2): só a opção A mantém cada caso com o file system certo."
+      ],
+      "explanation": "EFS é o NFS elástico pra Linux compartilhado entre muitos EC2. FSx for Windows File Server entrega SMB nativo pra apps Windows/Active Directory. FSx for Lustre é o file system de altíssimo throughput pra HPC e treino de ML. A opção A respeita os três casos.",
+      "whyNots": {
+        "B": "Troca os papéis — NFS Linux é EFS, não Lustre.",
+        "C": "Embaralha tudo; EFS não é o de HPC nem o de Windows.",
+        "D": "Troca Lustre com Windows — SMB/AD é FSx for Windows, HPC é Lustre."
+      }
+    },
+    {
+      "id": "br-arm2-q10",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ebs", "efs", "s3"],
+      "situacao": "Três casos: (1) disco em bloco pra UMA instância EC2 (volume do SO/banco); (2) file system compartilhado por VÁRIAS instâncias Linux ao mesmo tempo; (3) armazenamento de objetos pra arquivos/estáticos acessíveis via HTTP.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "EBS → EFS → S3"},
+        {"key": "B", "text": "S3 → EBS → EFS"},
+        {"key": "C", "text": "EFS → S3 → EBS"},
+        {"key": "D", "text": "EBS → S3 → EFS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): bloco pra uma instância = EBS. Arquivo compartilhado entre várias = EFS. Objetos via HTTP = S3.",
+        "💡 Rafael (dica 2): EBS = bloco (geralmente 1 instância); EFS = arquivo compartilhado; S3 = objeto."
+      ],
+      "explanation": "EBS é armazenamento em bloco anexado tipicamente a uma instância (volume de SO/banco). EFS é file system compartilhado por várias instâncias Linux ao mesmo tempo. S3 é object storage pra arquivos/estáticos acessíveis via HTTP/API. A opção A mapeia os três corretamente.",
+      "whyNots": {
+        "B": "Começa com S3 pra disco em bloco — errado; bloco é EBS.",
+        "C": "Coloca EFS como bloco de instância única — EFS é compartilhado, não bloco.",
+        "D": "Troca EFS com S3 — compartilhado entre instâncias é EFS, objetos é S3."
+      }
+    }
+  ]
+}

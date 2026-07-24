@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Route 53 Avançado (Alias vs CNAME, hosted zones público/privado, Resolver inbound/outbound, health checks/failover, registrador/DNSSEC). Complementa a fase de Rede.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-r53-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53", "elb"],
+      "situacao": "Você precisa apontar o domínio RAIZ (apex, ex.: exemplo.com, sem www) pra um Application Load Balancer. Um CNAME no apex não é permitido.",
+      "stem": "Qual tipo de registro do Route 53 resolve isso?",
+      "options": [
+        {"key": "A", "text": "Alias record"},
+        {"key": "B", "text": "CNAME record"},
+        {"key": "C", "text": "TXT record"},
+        {"key": "D", "text": "MX record"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): apontar o APEX (domínio raiz) pra um recurso AWS (ELB/CloudFront/S3) = Alias record (CNAME não funciona no apex).",
+        "💡 Rafael (dica 2): alias pra recurso AWS ainda é de graça nas consultas."
+      ],
+      "explanation": "O Alias record é específico do Route 53 e funciona no zone apex (domínio raiz), apontando pra recursos AWS como ELB, CloudFront e S3. CNAME não é permitido no apex. Além disso, consultas alias a recursos AWS são gratuitas.",
+      "whyNots": {
+        "B": "CNAME não funciona no zone apex — só em subdomínios.",
+        "C": "TXT guarda texto (ex.: verificação de domínio) — não roteia pro ALB.",
+        "D": "MX é pra servidores de e-mail — não aponta o apex pro ALB."
+      }
+    },
+    {
+      "id": "br-r53-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Distinga: (1) aponta o apex pra recursos AWS e é grátis nas consultas a esses recursos; (2) aponta um nome pra qualquer domínio, mas não no apex, e é cobrado.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Alias; (2) CNAME"},
+        {"key": "B", "text": "(1) CNAME; (2) Alias"},
+        {"key": "C", "text": "(1) MX; (2) TXT"},
+        {"key": "D", "text": "(1) A; (2) NS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): apex + recursos AWS + grátis = Alias; qualquer domínio, não no apex, cobrado = CNAME.",
+        "💡 Rafael (dica 2): Alias é exclusivo do Route 53; CNAME é DNS padrão."
+      ],
+      "explanation": "Alias é o registro do Route 53 que funciona no apex, aponta pra recursos AWS e é grátis nessas consultas. CNAME aponta pra qualquer domínio, não funciona no apex e é cobrado. A opção A está correta.",
+      "whyNots": {
+        "B": "Inverte — apex/grátis/AWS é Alias; o padrão cobrado é CNAME.",
+        "C": "MX/TXT são de e-mail/texto — não é a distinção pedida.",
+        "D": "A/NS são outros tipos — não correspondem ao enunciado."
+      }
+    },
+    {
+      "id": "br-r53-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["route53", "vpc"],
+      "situacao": "Uma aplicação interna precisa de nomes DNS (ex.: db.interno.local) que só resolvam DENTRO das VPCs, sem expor os registros (nomes/IPs) à internet.",
+      "stem": "Qual recurso do Route 53 atende?",
+      "options": [
+        {"key": "A", "text": "Private hosted zone"},
+        {"key": "B", "text": "Public hosted zone"},
+        {"key": "C", "text": "Health check"},
+        {"key": "D", "text": "Registro de domínio público"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): DNS interno, só dentro da VPC, sem expor na internet = private hosted zone.",
+        "💡 Rafael (dica 2): a private hosted zone fica associada às VPCs e só responde de dentro delas."
+      ],
+      "explanation": "Uma private hosted zone do Route 53 fornece DNS autoritativo apenas dentro das VPCs associadas, sem expor os registros (nomes e IPs) à internet. É ideal pra nomes internos de aplicações.",
+      "whyNots": {
+        "B": "Public hosted zone expõe os registros na internet — o oposto do pedido.",
+        "C": "Health check monitora saúde de endpoint — não é zona de DNS interno.",
+        "D": "Registro de domínio público é pra domínio na internet — não DNS interno da VPC."
+      }
+    },
+    {
+      "id": "br-r53-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53", "vpc"],
+      "situacao": "Servidores ON-PREMISES precisam resolver nomes DNS hospedados na AWS (ex.: uma private hosted zone), enviando consultas DE FORA pra dentro da VPC, sobre Direct Connect.",
+      "stem": "Qual recurso do Route 53 Resolver atende?",
+      "options": [
+        {"key": "A", "text": "Inbound endpoint"},
+        {"key": "B", "text": "Outbound endpoint"},
+        {"key": "C", "text": "Alias record"},
+        {"key": "D", "text": "Health check"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): consultas ENTRANDO (on-premises → DNS da AWS) = Inbound endpoint.",
+        "💡 Rafael (dica 2): 'inbound' = pra dentro da VPC. O on-prem manda a query pro Resolver."
+      ],
+      "explanation": "O Inbound endpoint do Route 53 Resolver permite que recursos on-premises (ou outra VPC) enviem consultas DNS PRA DENTRO da VPC, resolvendo nomes hospedados na AWS (como uma private hosted zone), tipicamente sobre VPN/Direct Connect.",
+      "whyNots": {
+        "B": "Outbound endpoint é o contrário: VPC consultando DNS on-premises.",
+        "C": "Alias record é tipo de registro — não é o endpoint de DNS híbrido.",
+        "D": "Health check monitora saúde — não resolve DNS híbrido."
+      }
+    },
+    {
+      "id": "br-r53-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53", "vpc"],
+      "situacao": "Distinga no Route 53 Resolver: (1) consultas do on-premises resolvendo DNS da AWS; (2) consultas da VPC resolvendo DNS on-premises.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Inbound endpoint; (2) Outbound endpoint"},
+        {"key": "B", "text": "(1) Outbound endpoint; (2) Inbound endpoint"},
+        {"key": "C", "text": "(1) Alias; (2) CNAME"},
+        {"key": "D", "text": "(1) Public zone; (2) Private zone"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): on-prem → AWS = inbound (entrando); VPC → on-prem = outbound (saindo).",
+        "💡 Rafael (dica 2): pense pela direção da consulta em relação à VPC."
+      ],
+      "explanation": "Inbound endpoint = consultas entrando na VPC (on-premises resolve DNS da AWS). Outbound endpoint = consultas saindo da VPC (a VPC resolve DNS on-premises, via forwarding rules). A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — on-prem→AWS é inbound; VPC→on-prem é outbound.",
+        "C": "Alias/CNAME são tipos de registro, não endpoints de Resolver.",
+        "D": "Public/private hosted zone são tipos de zona, não os endpoints híbridos."
+      }
+    },
+    {
+      "id": "br-r53-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Você tem dois servidores que fazem a mesma função e quer que o Route 53 pare de enviar tráfego pro servidor que ficar fora do ar, mandando tudo pro saudável.",
+      "stem": "Qual recurso permite esse redirecionamento por saúde?",
+      "options": [
+        {"key": "A", "text": "Health checks com roteamento de failover"},
+        {"key": "B", "text": "CNAME no apex"},
+        {"key": "C", "text": "Private hosted zone"},
+        {"key": "D", "text": "Outbound endpoint"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): monitorar a saúde e redirecionar do doente pro saudável = health check + roteamento failover.",
+        "💡 Rafael (dica 2): o health check pode até seguir um alarme do CloudWatch."
+      ],
+      "explanation": "Os health checks do Route 53 monitoram a saúde dos endpoints e, combinados com o roteamento de failover, redirecionam o tráfego de um recurso não-saudável pra um saudável. Podem também disparar alarmes do CloudWatch.",
+      "whyNots": {
+        "B": "CNAME no apex nem é permitido — e não faz failover por saúde.",
+        "C": "Private hosted zone é DNS interno — não faz failover por saúde.",
+        "D": "Outbound endpoint é DNS híbrido — não é o mecanismo de failover por saúde."
+      }
+    },
+    {
+      "id": "br-r53-q06",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Uma empresa quer comprar e gerenciar o domínio 'minhaempresa.com' e usar o Route 53 como DNS autoritativo.",
+      "stem": "O Route 53 pode atuar como?",
+      "options": [
+        {"key": "A", "text": "Registrador de domínios e DNS autoritativo"},
+        {"key": "B", "text": "Apenas balanceador de carga"},
+        {"key": "C", "text": "Apenas cache de CDN"},
+        {"key": "D", "text": "Apenas firewall de aplicação"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Route 53 é serviço de DNS — e também REGISTRADOR de domínios (compra/gerencia o domínio).",
+        "💡 Rafael (dica 2): você pode registrar o domínio e hospedar a zona DNS no mesmo serviço."
+      ],
+      "explanation": "O Route 53 é um serviço de DNS autoritativo e também um registrador de domínios — você pode comprar/gerenciar o domínio e hospedar sua zona DNS no mesmo lugar. Suporta DNSSEC pra assinar a zona.",
+      "whyNots": {
+        "B": "Route 53 não é load balancer (isso é ELB), embora roteie por DNS.",
+        "C": "Cache de CDN é o CloudFront, não o Route 53.",
+        "D": "Firewall de aplicação é o WAF, não o Route 53."
+      }
+    },
+    {
+      "id": "br-r53-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53", "s3", "cloudfront"],
+      "situacao": "Você hospeda um site estático no S3 + CloudFront e quer que o domínio raiz (apex) aponte pra a distribuição CloudFront, sem custo extra de consulta DNS.",
+      "stem": "Qual registro usar?",
+      "options": [
+        {"key": "A", "text": "Alias record apontando pro CloudFront"},
+        {"key": "B", "text": "CNAME no apex apontando pro CloudFront"},
+        {"key": "C", "text": "MX record"},
+        {"key": "D", "text": "Outbound endpoint"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): apex → CloudFront, sem custo de consulta = Alias record.",
+        "💡 Rafael (dica 2): CNAME no apex nem é permitido."
+      ],
+      "explanation": "Um Alias record aponta o domínio raiz (apex) pra a distribuição CloudFront, funciona no apex (onde CNAME não funciona) e não cobra pelas consultas a recursos AWS. É o caminho certo pra o site estático S3+CloudFront.",
+      "whyNots": {
+        "B": "CNAME não é permitido no apex — e seria cobrado.",
+        "C": "MX é pra e-mail — não aponta o site pro CloudFront.",
+        "D": "Outbound endpoint é DNS híbrido — não tem a ver com apontar o apex."
+      }
+    },
+    {
+      "id": "br-r53-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Pra proteger a zona DNS contra spoofing e cache poisoning, a empresa quer assinar criptograficamente as respostas DNS.",
+      "stem": "Qual recurso do Route 53 oferece isso?",
+      "options": [
+        {"key": "A", "text": "DNSSEC (assinatura da zona)"},
+        {"key": "B", "text": "Alias record"},
+        {"key": "C", "text": "Private hosted zone"},
+        {"key": "D", "text": "Health check"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): assinar criptograficamente o DNS contra spoofing/cache poisoning = DNSSEC.",
+        "💡 Rafael (dica 2): o Route 53 suporta DNSSEC signing pra zonas hospedadas."
+      ],
+      "explanation": "DNSSEC assina criptograficamente as respostas da zona DNS, protegendo contra spoofing e cache poisoning (respostas DNS forjadas). O Route 53 suporta DNSSEC signing pras hosted zones.",
+      "whyNots": {
+        "B": "Alias é tipo de registro de roteamento — não assina a zona.",
+        "C": "Private hosted zone limita à VPC — não é assinatura criptográfica.",
+        "D": "Health check monitora saúde — não protege contra spoofing de DNS."
+      }
+    },
+    {
+      "id": "br-r53-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53", "vpc"],
+      "situacao": "Quatro necessidades: (1) apontar o apex pra um ELB; (2) DNS interno só na VPC; (3) on-premises resolver DNS da AWS; (4) redirecionar do recurso doente pro saudável.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Alias → Private hosted zone → Resolver inbound endpoint → Health check failover"},
+        {"key": "B", "text": "CNAME → Public hosted zone → Outbound endpoint → Alias"},
+        {"key": "C", "text": "Private hosted zone → Alias → Health check → Inbound endpoint"},
+        {"key": "D", "text": "Health check → Inbound endpoint → Alias → Private hosted zone"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): apex→ELB = Alias; DNS interno = private hosted zone; on-prem resolve AWS = inbound endpoint; doente→saudável = health check failover.",
+        "💡 Rafael (dica 2): só a opção A mantém cada recurso na sua função."
+      ],
+      "explanation": "Cada recurso tem seu papel: Alias (apex → recurso AWS), private hosted zone (DNS interno na VPC), Resolver inbound endpoint (on-premises resolve DNS da AWS) e health check com failover (redireciona do doente pro saudável). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "CNAME não funciona no apex e o resto está embaralhado.",
+        "C": "Troca os papéis — private hosted zone não é o registro do apex.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

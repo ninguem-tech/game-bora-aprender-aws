@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: IAM e Identidade Aprofundamento (user vs role, STS/AssumeRole, identity vs resource-based policy, permissions boundary, IAM Identity Center, federação SAML). Aprofunda identidade além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-iam2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "ec2"],
+      "situacao": "Uma aplicação numa instância EC2 precisa ler de um bucket S3. Um dev sugeriu colar a access key dentro do código pra autenticar.",
+      "stem": "Qual é a forma SEGURA e recomendada de dar esse acesso?",
+      "options": [
+        {"key": "A", "text": "Anexar uma IAM Role à instância EC2 (instance profile)"},
+        {"key": "B", "text": "Embutir a access key no código"},
+        {"key": "C", "text": "Salvar a secret key num arquivo .txt na instância"},
+        {"key": "D", "text": "Usar a conta root da AWS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): nunca embuta access key. Anexe uma IAM Role na EC2 — ela recebe credenciais TEMPORÁRIAS automaticamente.",
+        "💡 Rafael (dica 2): role = credencial que rotaciona sozinha e não vaza no código. É a boa prática número 1."
+      ],
+      "explanation": "A forma segura é anexar uma IAM Role à instância EC2 (via instance profile): a aplicação recebe credenciais temporárias automaticamente, sem chave de longa duração embutida. Elimina o risco de vazar access key no código.",
+      "whyNots": {
+        "B": "Embutir access key no código é o anti-padrão clássico — vaza fácil (git, logs) e não rotaciona.",
+        "C": "Guardar secret key em arquivo na instância é igualmente inseguro.",
+        "D": "Usar a conta root é proibido pra operação do dia a dia — é a credencial mais perigosa de todas."
+      }
+    },
+    {
+      "id": "br-iam2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam"],
+      "situacao": "Na prova: distinguir uma identidade PERMANENTE com credencial de longa duração de uma identidade ASSUMÍVEL com credencial temporária.",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "IAM User = credencial de longa duração; IAM Role = credencial temporária (assumida)"},
+        {"key": "B", "text": "IAM User = temporária; IAM Role = longa duração"},
+        {"key": "C", "text": "Os dois usam só credenciais temporárias"},
+        {"key": "D", "text": "Os dois são iguais, muda só o nome"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): User = pessoa/app fixo com chave de longa duração. Role = papel que se ASSUME e entrega credencial temporária via STS.",
+        "💡 Rafael (dica 2): serviços (EC2, Lambda) e acesso cross-account usam ROLE, não user."
+      ],
+      "explanation": "IAM User é identidade permanente com credenciais de longa duração (senha, access keys). IAM Role é identidade assumível que entrega credenciais temporárias via STS, usada por serviços AWS, contas externas e usuários federados. Preferir roles é boa prática.",
+      "whyNots": {
+        "B": "Inverte — user é longa duração; role é temporária.",
+        "C": "User usa credencial de longa duração, não temporária.",
+        "D": "São diferentes em natureza (permanente vs assumível) e tipo de credencial."
+      }
+    },
+    {
+      "id": "br-iam2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "sts"],
+      "situacao": "Um usuário da conta A precisa acessar, temporariamente, recursos numa conta B, sem criar um novo usuário na conta B.",
+      "stem": "Qual mecanismo entrega esse acesso cross-account com credenciais temporárias?",
+      "options": [
+        {"key": "A", "text": "STS AssumeRole (assumir um role na conta B)"},
+        {"key": "B", "text": "Criar um IAM User na conta B e compartilhar a senha"},
+        {"key": "C", "text": "Usar a conta root da conta B"},
+        {"key": "D", "text": "Security Group cross-account"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): acesso entre contas com credencial temporária = STS AssumeRole. A conta B cria um role e confia na conta A.",
+        "💡 Rafael (dica 2): a trust policy do role (na conta B) diz quem pode assumi-lo; o usuário da conta A chama AssumeRole e recebe credencial temporária."
+      ],
+      "explanation": "STS AssumeRole é o caminho pra acesso cross-account: a conta B cria um role com uma trust policy que confia na conta A; o usuário da conta A chama AssumeRole e recebe credenciais temporárias (access key + secret + session token) pra agir na conta B — sem criar usuário novo.",
+      "whyNots": {
+        "B": "Criar usuário e compartilhar senha é inseguro e contrário à boa prática de credenciais temporárias.",
+        "C": "Usar a root da conta B é proibido pra esse tipo de acesso.",
+        "D": "Security Group filtra rede — não concede acesso de identidade entre contas."
+      }
+    },
+    {
+      "id": "br-iam2-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "s3"],
+      "situacao": "Você quer permitir que um principal de OUTRA conta acesse um bucket S3 específico, definindo a permissão no próprio bucket.",
+      "stem": "Que tipo de política você usa?",
+      "options": [
+        {"key": "A", "text": "Resource-based policy (bucket policy do S3)"},
+        {"key": "B", "text": "Identity-based policy apenas no usuário"},
+        {"key": "C", "text": "Permissions boundary"},
+        {"key": "D", "text": "Service Control Policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): política presa ao RECURSO que diz QUEM pode acessar = resource-based. No S3, é a bucket policy.",
+        "💡 Rafael (dica 2): resource-based policy aceita um Principal de outra conta — perfeita pra cross-account no S3."
+      ],
+      "explanation": "Uma resource-based policy (como a bucket policy do S3) é anexada ao recurso e especifica QUEM (qual principal, inclusive de outra conta) pode acessá-lo. É o jeito de liberar acesso cross-account diretamente no bucket.",
+      "whyNots": {
+        "B": "Identity-based policy diz o que a identidade pode fazer, mas pra cross-account o recurso também precisa permitir o principal externo (resource-based).",
+        "C": "Permissions boundary limita o máximo de um principal — não concede acesso a um bucket.",
+        "D": "SCP é teto de conta na Organizations — não é o que concede acesso a um bucket específico."
+      }
+    },
+    {
+      "id": "br-iam2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam"],
+      "situacao": "O time central de segurança quer deixar os devs CRIAREM seus próprios roles e policies, mas garantir que nenhum deles consiga conceder a si mesmo permissões além de um teto definido.",
+      "stem": "Qual recurso do IAM impõe esse teto por identidade?",
+      "options": [
+        {"key": "A", "text": "Permissions boundary"},
+        {"key": "B", "text": "Resource-based policy"},
+        {"key": "C", "text": "Access key rotation"},
+        {"key": "D", "text": "MFA"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'teto máximo de permissões de um user/role, mesmo que a policy de identidade conceda mais' = permissions boundary.",
+        "💡 Rafael (dica 2): efetivo = interseção (boundary ∩ policy de identidade). Permite delegar criação de roles com segurança."
+      ],
+      "explanation": "Permissions boundary é uma managed policy que define o MÁXIMO de permissões que a policy de identidade pode conceder a um user/role. O efetivo é a interseção (boundary ∩ identity policy), o que permite delegar a criação de roles aos devs sem risco de escalonamento além do teto.",
+      "whyNots": {
+        "B": "Resource-based policy controla acesso a um recurso, não o teto de permissões de uma identidade.",
+        "C": "Rotação de chave é higiene de credencial — não impõe teto de permissão.",
+        "D": "MFA adiciona um fator de autenticação — não limita o escopo de permissões."
+      }
+    },
+    {
+      "id": "br-iam2-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "organizations"],
+      "situacao": "Numa conta dentro de uma Organization, uma ação é permitida pela policy de identidade do usuário, mas existe também uma SCP e uma permissions boundary aplicáveis.",
+      "stem": "Quando a ação é efetivamente permitida (ignorando deny explícito)?",
+      "options": [
+        {"key": "A", "text": "Só quando a identity policy, a SCP E a permissions boundary permitem (todas)"},
+        {"key": "B", "text": "Quando pelo menos uma das três permite"},
+        {"key": "C", "text": "Quando só a identity policy permite, ignorando SCP e boundary"},
+        {"key": "D", "text": "Quando a SCP permite, ignorando o resto"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa em camadas de teto. Pra valer, TODAS têm que permitir (interseção): identity policy ∩ SCP ∩ boundary.",
+        "💡 Rafael (dica 2): e qualquer DENY explícito em qualquer camada vence sobre allow."
+      ],
+      "explanation": "Quando há identity policy + SCP + permissions boundary, a ação só é permitida se TODAS permitirem (interseção). Cada uma é um teto independente; basta uma não permitir (ou um deny explícito em qualquer lugar) pra bloquear.",
+      "whyNots": {
+        "B": "Não basta uma permitir — é interseção; todas precisam permitir.",
+        "C": "SCP e boundary não podem ser ignoradas; elas limitam o efetivo.",
+        "D": "A SCP sozinha não basta; a identity policy e a boundary também precisam permitir."
+      }
+    },
+    {
+      "id": "br-iam2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam"],
+      "situacao": "Uma empresa com 30 contas AWS quer dar aos funcionários SSO único, com MFA, e gerenciar centralmente quem acessa quais contas e com quais permissões.",
+      "stem": "Qual serviço entrega esse acesso centralizado da força de trabalho?",
+      "options": [
+        {"key": "A", "text": "AWS IAM Identity Center"},
+        {"key": "B", "text": "IAM Users em cada conta"},
+        {"key": "C", "text": "Uma access key compartilhada"},
+        {"key": "D", "text": "Security Group central"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SSO central pra muitas contas, com MFA e permission sets = IAM Identity Center (sucessor do AWS SSO).",
+        "💡 Rafael (dica 2): ele conecta a um IdP externo (SAML/SCIM) ou usa diretório próprio, e dá um ponto único de federação."
+      ],
+      "explanation": "IAM Identity Center (sucessor do AWS SSO) gerencia centralmente o acesso a múltiplas contas AWS, com SSO protegido por MFA e permission sets, conectando-se a um IdP externo (SAML 2.0/SCIM) ou a um diretório próprio. É o serviço recomendado pra acesso da força de trabalho.",
+      "whyNots": {
+        "B": "IAM Users por conta multiplica a gestão e não dá SSO central — o oposto do pedido.",
+        "C": "Access key compartilhada é insegura e não oferece SSO/MFA gerenciado.",
+        "D": "Security Group é firewall de rede — não tem a ver com SSO de identidade."
+      }
+    },
+    {
+      "id": "br-iam2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "sts"],
+      "situacao": "Uma empresa já tem um diretório corporativo (Active Directory) com SAML 2.0 e quer que os funcionários acessem a AWS com essas identidades existentes, sem criar IAM Users.",
+      "stem": "Qual abordagem permite esse acesso federado?",
+      "options": [
+        {"key": "A", "text": "Federação de identidade SAML 2.0 (usuários assumem role via AssumeRoleWithSAML)"},
+        {"key": "B", "text": "Criar um IAM User pra cada funcionário"},
+        {"key": "C", "text": "Compartilhar a conta root"},
+        {"key": "D", "text": "Bucket policy no S3"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): diretório existente + SAML 2.0 + sem criar IAM Users = federação SAML. O IdP autentica e o usuário assume um role na AWS.",
+        "💡 Rafael (dica 2): a chamada é AssumeRoleWithSAML, que devolve credenciais temporárias."
+      ],
+      "explanation": "A federação de identidade SAML 2.0 estabelece confiança entre o IdP corporativo (ex.: AD) e a AWS: o IdP autentica o usuário, que assume um role via AssumeRoleWithSAML e recebe credenciais temporárias — sem criar IAM Users. (Pra muitas contas com SSO central, o IAM Identity Center é ainda mais recomendado.)",
+      "whyNots": {
+        "B": "Criar IAM User por funcionário é justamente o que a federação evita — duplica identidades.",
+        "C": "Compartilhar root é proibido e perigosíssimo.",
+        "D": "Bucket policy controla acesso a um bucket, não autenticação federada de funcionários."
+      }
+    },
+    {
+      "id": "br-iam2-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam"],
+      "situacao": "Auditoria recomenda reduzir o risco da credencial mais poderosa da conta: a conta root.",
+      "stem": "Qual é a boa prática recomendada pela AWS pra a conta root?",
+      "options": [
+        {"key": "A", "text": "Ativar MFA na root, não usá-la no dia a dia e operar com IAM/identidades de menor privilégio"},
+        {"key": "B", "text": "Usar a root pra todas as tarefas administrativas diárias"},
+        {"key": "C", "text": "Compartilhar a senha da root com a equipe"},
+        {"key": "D", "text": "Criar várias access keys da root pra automação"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a root é a chave-mestra. Ative MFA, guarde-a e use identidades de menor privilégio no dia a dia.",
+        "💡 Rafael (dica 2): a AWS recomenda NÃO criar access keys da root e não usá-la pra tarefas rotineiras."
+      ],
+      "explanation": "A boa prática é proteger a conta root com MFA, evitar usá-la no dia a dia e operar com identidades IAM de menor privilégio (roles/usuários com só o necessário). Não se deve criar access keys da root nem compartilhar suas credenciais.",
+      "whyNots": {
+        "B": "Usar a root pra tarefas diárias amplia o risco — ela tem poder irrestrito.",
+        "C": "Compartilhar a senha da root é uma falha grave de segurança.",
+        "D": "Criar access keys da root pra automação é desaconselhado — use roles em vez disso."
+      }
+    },
+    {
+      "id": "br-iam2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam", "organizations"],
+      "situacao": "Quatro mecanismos: (1) o que a identidade PODE fazer; (2) QUEM pode acessar um recurso; (3) teto máximo de um user/role; (4) teto de permissões da conta inteira na Organization.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Identity-based policy → Resource-based policy → Permissions boundary → SCP"},
+        {"key": "B", "text": "Resource-based → Identity-based → SCP → Permissions boundary"},
+        {"key": "C", "text": "SCP → Permissions boundary → Identity-based → Resource-based"},
+        {"key": "D", "text": "Permissions boundary → SCP → Resource-based → Identity-based"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o que a identidade pode = identity-based; quem acessa o recurso = resource-based; teto de um principal = boundary; teto da conta = SCP.",
+        "💡 Rafael (dica 2): só a opção A mantém cada mecanismo na sua função."
+      ],
+      "explanation": "Identity-based policy diz o que a identidade pode fazer; resource-based policy diz quem pode acessar o recurso; permissions boundary é o teto de um user/role; SCP é o teto da conta inteira na Organization. A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca identity com resource-based e SCP com boundary.",
+        "C": "Inverte a ordem — SCP é teto de conta, não 'o que a identidade pode'.",
+        "D": "Embaralha tudo; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

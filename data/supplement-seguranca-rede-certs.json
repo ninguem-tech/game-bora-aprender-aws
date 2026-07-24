@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Segurança de Rede, Certificados e Investigação (ACM, Network Firewall vs WAF, Firewall Manager, Detective, Secrets Manager). Aprofunda o domínio de segurança.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-segredes-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["acm"],
+      "situacao": "Um site atrás de um Application Load Balancer precisa de HTTPS com certificado TLS, e o time não quer pagar pelo certificado nem se preocupar em renová-lo manualmente todo ano.",
+      "stem": "Qual serviço provê e renova o certificado automaticamente?",
+      "options": [
+        {"key": "A", "text": "AWS Certificate Manager (ACM)"},
+        {"key": "B", "text": "AWS KMS"},
+        {"key": "C", "text": "AWS Secrets Manager"},
+        {"key": "D", "text": "AWS CloudHSM"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): certificado SSL/TLS público GRÁTIS, com renovação automática, pra ELB/CloudFront = ACM.",
+        "💡 Rafael (dica 2): ACM cuida de CERTIFICADO; KMS/CloudHSM cuidam de CHAVES de criptografia (coisas diferentes)."
+      ],
+      "explanation": "AWS Certificate Manager (ACM) provisiona certificados SSL/TLS públicos gratuitos e os renova automaticamente (validação por DNS, ~45 dias antes de expirar, mantendo o mesmo ARN), implantando-os em ELB, CloudFront e API Gateway. Elimina a gestão manual de certificados.",
+      "whyNots": {
+        "B": "KMS gerencia CHAVES de criptografia — não emite certificados TLS.",
+        "C": "Secrets Manager guarda segredos (senhas/keys) — não é certificado TLS.",
+        "D": "CloudHSM é HSM dedicado pra chaves — não emite/renova certificados TLS públicos."
+      }
+    },
+    {
+      "id": "br-segredes-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["network-firewall", "vpc"],
+      "situacao": "A empresa quer inspecionar e filtrar TODO o tráfego que entra e sai da VPC (incluindo via Internet Gateway, NAT, VPN), com capacidade de IDS/IPS gerenciada.",
+      "stem": "Qual serviço é um firewall de rede no perímetro da VPC?",
+      "options": [
+        {"key": "A", "text": "AWS Network Firewall"},
+        {"key": "B", "text": "AWS WAF"},
+        {"key": "C", "text": "Security Group"},
+        {"key": "D", "text": "Amazon Detective"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): firewall de REDE no perímetro da VPC, stateful, com IDS/IPS = Network Firewall.",
+        "💡 Rafael (dica 2): WAF é pra app web (HTTP); SG/NACL são L3/L4 por instância/sub-rede. Pra o perímetro da VPC inteira, Network Firewall."
+      ],
+      "explanation": "AWS Network Firewall é um firewall de rede gerenciado e stateful (com IDS/IPS) pra VPC, filtrando o tráfego no perímetro — de/para Internet Gateway, NAT, VPN ou Direct Connect. Vai além de IP/porta (pode filtrar domínio/protocolo/payload).",
+      "whyNots": {
+        "B": "WAF é firewall de aplicação web (HTTP/S), anexado a CloudFront/ALB — não o perímetro de rede da VPC.",
+        "C": "Security Group é firewall de instância (L3/L4) — não inspeciona o perímetro da VPC com IDS/IPS.",
+        "D": "Detective investiga incidentes — não é firewall."
+      }
+    },
+    {
+      "id": "br-segredes-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["network-firewall", "waf"],
+      "situacao": "Distinga: (1) bloquear SQL injection e XSS nas requisições HTTP de uma aplicação web num CloudFront/ALB; (2) filtrar todo o tráfego de rede que entra/sai da VPC com IDS/IPS.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) AWS WAF; (2) AWS Network Firewall"},
+        {"key": "B", "text": "(1) AWS Network Firewall; (2) AWS WAF"},
+        {"key": "C", "text": "(1) Security Group; (2) WAF"},
+        {"key": "D", "text": "(1) Network Firewall; (2) NACL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SQLi/XSS em app web = WAF (camada 7); tráfego de rede da VPC = Network Firewall.",
+        "💡 Rafael (dica 2): WAF protege a APP; Network Firewall protege a REDE da VPC."
+      ],
+      "explanation": "WAF é o firewall de aplicação web (camada 7) que bloqueia SQLi/XSS nas requisições HTTP de um CloudFront/ALB. Network Firewall é o firewall de rede que filtra todo o tráfego do perímetro da VPC com IDS/IPS. A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — SQLi/XSS em app web é WAF; tráfego de rede da VPC é Network Firewall.",
+        "C": "Security Group não inspeciona conteúdo HTTP (SQLi/XSS) — isso é WAF.",
+        "D": "NACL é L3/L4 por sub-rede — não é o firewall de app web pedido em (1)."
+      }
+    },
+    {
+      "id": "br-segredes-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["firewall-manager", "organizations"],
+      "situacao": "Uma empresa com muitas contas numa Organization quer aplicar e MANTER uma política de WAF (e regras de firewall) consistente em todas as contas e VPCs, com contas novas herdando automaticamente.",
+      "stem": "Qual serviço gerencia firewall centralmente entre contas?",
+      "options": [
+        {"key": "A", "text": "AWS Firewall Manager"},
+        {"key": "B", "text": "AWS WAF configurado conta a conta"},
+        {"key": "C", "text": "Amazon Detective"},
+        {"key": "D", "text": "AWS Certificate Manager"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): aplicar política de firewall (WAF/Shield/Network Firewall/SG) CENTRALMENTE em várias contas = Firewall Manager (via Organizations).",
+        "💡 Rafael (dica 2): contas novas herdam a política automaticamente."
+      ],
+      "explanation": "AWS Firewall Manager gerencia centralmente políticas de firewall (regras de WAF, Shield Advanced, Network Firewall e security groups) entre várias contas e VPCs via Organizations — com contas novas herdando a política automaticamente. Garante consistência em escala.",
+      "whyNots": {
+        "B": "Configurar WAF conta a conta não é central nem mantém consistência automática — o oposto do pedido.",
+        "C": "Detective investiga incidentes — não aplica políticas de firewall.",
+        "D": "ACM é certificado TLS — não gerencia políticas de firewall."
+      }
+    },
+    {
+      "id": "br-segredes-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["detective"],
+      "situacao": "Após um alerta de segurança, o time precisa INVESTIGAR a fundo: correlacionar logs, ver atividades históricas relacionadas e descobrir a causa raiz e o alcance do incidente.",
+      "stem": "Qual serviço é feito pra essa investigação?",
+      "options": [
+        {"key": "A", "text": "Amazon Detective"},
+        {"key": "B", "text": "AWS Certificate Manager"},
+        {"key": "C", "text": "AWS Budgets"},
+        {"key": "D", "text": "Amazon Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): INVESTIGAR/achar a causa raiz, correlacionando logs com grafo e ML = Amazon Detective.",
+        "💡 Rafael (dica 2): GuardDuty DETECTA a ameaça; Detective ajuda a INVESTIGAR a fundo."
+      ],
+      "explanation": "Amazon Detective coleta logs automaticamente e usa ML, análise estatística e teoria de grafos pra montar uma visão ligada dos dados, ajudando a investigar incidentes, ver atividades históricas relacionadas e determinar a causa raiz e o alcance. Ingere achados de GuardDuty, Inspector e outros.",
+      "whyNots": {
+        "B": "ACM é certificado TLS — não investiga incidentes.",
+        "C": "Budgets é custo — não é investigação de segurança.",
+        "D": "Lightsail é VPS simples — nada a ver com investigação."
+      }
+    },
+    {
+      "id": "br-segredes-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["guardduty", "security-hub", "detective"],
+      "situacao": "Distinga três papéis: (1) DETECTAR atividade maliciosa; (2) AGREGAR e priorizar os achados num painel; (3) INVESTIGAR a fundo a causa raiz.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "GuardDuty → Security Hub → Detective"},
+        {"key": "B", "text": "Detective → GuardDuty → Security Hub"},
+        {"key": "C", "text": "Security Hub → Detective → GuardDuty"},
+        {"key": "D", "text": "GuardDuty → Detective → Security Hub"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): detectar = GuardDuty; agregar/priorizar = Security Hub; investigar a fundo = Detective.",
+        "💡 Rafael (dica 2): só a opção A mantém cada um no seu papel."
+      ],
+      "explanation": "Os três se complementam: GuardDuty detecta atividade maliciosa, Security Hub agrega e prioriza os achados num painel, e Detective investiga a fundo pra achar a causa raiz. A opção A respeita os três papéis.",
+      "whyNots": {
+        "B": "Começa com Detective como detector — errado; quem detecta é o GuardDuty.",
+        "C": "Inverte os papéis de agregação e detecção.",
+        "D": "Troca Detective com Security Hub — agregar é Security Hub; investigar é Detective."
+      }
+    },
+    {
+      "id": "br-segredes-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["secrets-manager"],
+      "situacao": "Reforço: você precisa armazenar a senha de um banco RDS e ROTACIONÁ-LA automaticamente a cada 30 dias, sem mexer no código.",
+      "stem": "Qual serviço faz a rotação automática nativa?",
+      "options": [
+        {"key": "A", "text": "AWS Secrets Manager"},
+        {"key": "B", "text": "AWS Certificate Manager"},
+        {"key": "C", "text": "Parameter Store (String simples)"},
+        {"key": "D", "text": "Amazon Detective"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): segredo com ROTAÇÃO automática nativa = Secrets Manager.",
+        "💡 Rafael (dica 2): Parameter Store guarda segredo leve, mas não rotaciona sozinho; ACM é certificado, não senha."
+      ],
+      "explanation": "Secrets Manager armazena segredos (como a senha do RDS) com rotação automática nativa (via Lambda), em intervalos configuráveis, sem mexer no código — além de replicação entre regiões. É a escolha quando o requisito é rotação automática.",
+      "whyNots": {
+        "B": "ACM gerencia certificados TLS — não senhas de banco.",
+        "C": "Parameter Store guarda o valor, mas não faz rotação automática de credencial.",
+        "D": "Detective investiga incidentes — não armazena/rotaciona segredo."
+      }
+    },
+    {
+      "id": "br-segredes-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["acm", "kms"],
+      "situacao": "Um arquiteto confunde os papéis: o que gerencia CERTIFICADOS TLS (identidade/criptografia em trânsito) e o que gerencia CHAVES de criptografia (dados em repouso)?",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Certificados TLS = ACM; chaves de criptografia = KMS"},
+        {"key": "B", "text": "Certificados TLS = KMS; chaves = ACM"},
+        {"key": "C", "text": "Os dois fazem a mesma coisa"},
+        {"key": "D", "text": "Certificados = Secrets Manager; chaves = ACM"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ACM = certificado TLS (HTTPS); KMS = chaves de criptografia (S3/EBS/RDS).",
+        "💡 Rafael (dica 2): certificado prova identidade e cifra o trânsito; chave cifra o dado em repouso."
+      ],
+      "explanation": "ACM gerencia certificados SSL/TLS (identidade do site e criptografia em trânsito, HTTPS). KMS gerencia chaves de criptografia (dados em repouso em S3, EBS, RDS, etc.). São responsabilidades distintas e complementares.",
+      "whyNots": {
+        "B": "Inverte — certificado é ACM; chave é KMS.",
+        "C": "Não fazem a mesma coisa — certificado TLS vs chave de criptografia.",
+        "D": "Certificado TLS é ACM, não Secrets Manager."
+      }
+    },
+    {
+      "id": "br-segredes-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["acm", "cloudfront"],
+      "situacao": "Você quer servir um site por HTTPS via CloudFront, com o certificado TLS gerenciado pela AWS e renovado sozinho.",
+      "stem": "Onde você provisiona esse certificado?",
+      "options": [
+        {"key": "A", "text": "No AWS Certificate Manager (ACM) e associa à distribuição CloudFront"},
+        {"key": "B", "text": "Gerando um certificado manual e subindo por FTP"},
+        {"key": "C", "text": "No Amazon S3 como objeto"},
+        {"key": "D", "text": "No AWS Budgets"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): provisiona o certificado no ACM e associa ao CloudFront — renovação automática, sem dor de cabeça.",
+        "💡 Rafael (dica 2): ACM integra nativamente com CloudFront, ELB e API Gateway."
+      ],
+      "explanation": "Você provisiona o certificado TLS no ACM (grátis, com renovação automática) e o associa à distribuição CloudFront pra servir o site por HTTPS — sem precisar gerar e renovar certificado manualmente.",
+      "whyNots": {
+        "B": "Certificado manual via FTP é justamente o trabalho/risco que o ACM elimina.",
+        "C": "S3 guarda objetos — não é onde se gerencia o certificado TLS do CloudFront.",
+        "D": "Budgets é custo — nada a ver com certificado."
+      }
+    },
+    {
+      "id": "br-segredes-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["acm", "network-firewall", "firewall-manager", "detective"],
+      "situacao": "Quatro necessidades: (1) certificado TLS grátis com auto-renovação; (2) firewall de rede no perímetro da VPC; (3) política de firewall central entre contas; (4) investigar a causa raiz de um incidente.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "ACM → Network Firewall → Firewall Manager → Detective"},
+        {"key": "B", "text": "Network Firewall → ACM → Detective → Firewall Manager"},
+        {"key": "C", "text": "Detective → Firewall Manager → ACM → Network Firewall"},
+        {"key": "D", "text": "Firewall Manager → Detective → Network Firewall → ACM"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): cert TLS = ACM; firewall de rede da VPC = Network Firewall; política central = Firewall Manager; investigar = Detective.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: ACM (certificado TLS com auto-renovação), Network Firewall (firewall de rede no perímetro da VPC), Firewall Manager (política de firewall central entre contas) e Detective (investigação/causa raiz). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca ACM com Network Firewall e Detective com Firewall Manager.",
+        "C": "Embaralha tudo — Detective não é certificado.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

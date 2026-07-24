@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Questões PT autorais — Fase Custos e Governança (LACUNA do livro; Custo ~20% da prova). Ferramentas de custo (Cost Explorer, Budgets, CUR, Pricing Calculator, Savings Plans, Compute Optimizer, Trusted Advisor, Cost Allocation Tags, Consolidated Billing). Voz café com leite. Conteúdo do JOGO além do livro (book=null, candidato a próxima edição). Ancorado em doc oficial (sources-cache).",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-custos-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["cost-explorer"],
+      "situacao": "A diretoria quer entender pra onde está indo o dinheiro na AWS: gráfico de gastos por serviço, por mês, e uma previsão pros próximos meses.",
+      "stem": "Qual ferramenta serve pra visualizar, analisar e prever os custos da conta de forma visual?",
+      "options": [
+        { "key": "A", "text": "AWS Cost Explorer" },
+        { "key": "B", "text": "AWS Pricing Calculator" },
+        { "key": "C", "text": "Cost and Usage Report (CUR)" },
+        { "key": "D", "text": "Amazon CloudWatch" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pensa no Cost Explorer como o painel do carro — mostra, em gráfico, quanto você gastou, em quê, e estima quanto vai gastar. É análise visual do que JÁ aconteceu."],
+      "explanation": "Cost Explorer é a ferramenta visual pra analisar custos e uso reais: gráficos por serviço/conta/tag, até 13 meses de histórico, previsão pra frente e recomendações de RI/Savings Plans.",
+      "whyNots": {
+        "B": "Pricing Calculator ESTIMA custo de algo que ainda não foi criado, não analisa o gasto real.",
+        "C": "CUR é o dado bruto, linha a linha, no S3 — não a visão visual pronta.",
+        "D": "CloudWatch é métricas/logs operacionais, não análise de fatura."
+      }
+    },
+    {
+      "id": "br-custos-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["budgets"],
+      "situacao": "A Camila quer ser AVISADA assim que o gasto do mês passar de US$ 1.000 (ou quando a previsão indicar que vai passar), pra não tomar susto na fatura.",
+      "stem": "Qual serviço dispara alertas quando o custo cruza um limite definido?",
+      "options": [
+        { "key": "A", "text": "AWS Budgets" },
+        { "key": "B", "text": "AWS Cost Explorer" },
+        { "key": "C", "text": "Cost and Usage Report (CUR)" },
+        { "key": "D", "text": "AWS Pricing Calculator" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): Budgets é o despertador da fatura — você define o teto, e ele toca (alerta) quando o gasto real ou previsto encosta nele."],
+      "explanation": "AWS Budgets define orçamentos de custo/uso e dispara alertas (e-mail/SNS) quando o gasto real OU previsto cruza o limite. É a ferramenta de ALERTA proativo.",
+      "whyNots": {
+        "B": "Cost Explorer analisa e prevê visualmente, mas não é o mecanismo de alerta por limite.",
+        "C": "CUR é exportação de dados brutos, não alerta.",
+        "D": "Pricing Calculator estima custo futuro de um projeto, não monitora gasto."
+      }
+    },
+    {
+      "id": "br-custos-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["cur", "athena"],
+      "situacao": "O time financeiro quer o dado de billing MAIS detalhado possível — linha a linha, por recurso, por hora, com as tags de centro de custo — pra carregar nas ferramentas de BI deles.",
+      "stem": "Qual recurso entrega esse dado granular num bucket S3 pra análise própria?",
+      "options": [
+        { "key": "A", "text": "Cost and Usage Report (CUR), entregue no S3 (e consultado com Athena/QuickSight)" },
+        { "key": "B", "text": "O painel padrão do Cost Explorer" },
+        { "key": "C", "text": "AWS Budgets" },
+        { "key": "D", "text": "AWS Pricing Calculator" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a palavra é GRANULAR — linha a linha, pra carregar nas ferramentas deles. Não é gráfico pronto, é dado cru.",
+        "💡 Rafael (dica 2): o relatório mais detalhado da AWS cai num bucket S3 teu, pra você consultar com Athena/QuickSight. É o CUR."
+      ],
+      "explanation": "O CUR é o conjunto de dados de billing mais completo — linha a linha, por hora, por recurso e por tags — entregue num bucket S3 (CSV/Parquet) pra carregar em Athena/QuickSight/BI. Cost Explorer é visual; CUR é o dado bruto pra ferramenta própria.",
+      "whyNots": {
+        "B": "Cost Explorer é ótimo pra visualizar, mas não é o export bruto pra ferramentas próprias.",
+        "C": "Budgets é alerta por limite, não fonte de dados granular.",
+        "D": "Pricing Calculator estima custos que ainda não aconteceram."
+      }
+    },
+    {
+      "id": "br-custos-q03", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["pricing-calculator"],
+      "situacao": "Antes de migrar pra AWS, a arquiteta precisa apresentar à liderança o custo mensal estimado da arquitetura proposta (EC2, EBS, RDS). Nada foi criado ainda.",
+      "stem": "Qual ferramenta produz essa estimativa de uma arquitetura que ainda não existe?",
+      "options": [
+        { "key": "A", "text": "AWS Pricing Calculator" },
+        { "key": "B", "text": "AWS Cost Explorer" },
+        { "key": "C", "text": "Cost and Usage Report (CUR)" },
+        { "key": "D", "text": "AWS Budgets" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): 'nada foi criado ainda' derruba qualquer ferramenta que olha gasto REAL. Pra estimar antes de existir, é o Pricing Calculator."],
+      "explanation": "Como nada foi implantado, não há custo real pra analisar — você precisa de uma ESTIMATIVA antecipada da arquitetura proposta, que é exatamente o AWS Pricing Calculator (planejamento, ROI, migração).",
+      "whyNots": {
+        "B": "Cost Explorer analisa custos JÁ incorridos — não existem aqui.",
+        "C": "CUR reporta uso real — não há uso ainda.",
+        "D": "Budgets alerta sobre gasto real/previsto, não estima um projeto novo do zero."
+      }
+    },
+    {
+      "id": "br-custos-q04", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["savings-plans", "ec2"],
+      "situacao": "A empresa terá uma carga de COMPUTAÇÃO estável por 1-3 anos, mas quer flexibilidade pra mudar tipo de instância, região e até usar Fargate/Lambda, sem perder o desconto.",
+      "stem": "Qual modelo de compromisso de uso dá desconto alto com essa flexibilidade?",
+      "options": [
+        { "key": "A", "text": "Compute Savings Plans (compromisso de gasto/hora, flexível entre EC2/Fargate/Lambda)" },
+        { "key": "B", "text": "On-Demand (sem compromisso, preço cheio)" },
+        { "key": "C", "text": "Spot Instances (pode ser interrompido)" },
+        { "key": "D", "text": "Dedicated Hosts" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): uso estável de longo prazo pede compromisso (desconto). Mas você quer poder trocar instância/região/serviço sem perder o desconto.",
+        "💡 Rafael (dica 2): Reserved Instances travam numa família/região; o Compute Savings Plans compromete um valor por hora e vale pra EC2, Fargate e Lambda — bem mais flexível."
+      ],
+      "explanation": "Compute Savings Plans dão até ~72% de desconto por um compromisso de gasto por hora (1 ou 3 anos), e — diferente do Reserved Instances — a flexibilidade vale entre EC2 (qualquer família/região/SO), Fargate e Lambda. Perfeito pra uso estável que ainda pode mudar de forma.",
+      "whyNots": {
+        "B": "On-Demand não tem compromisso, mas é o mais caro pra uso contínuo.",
+        "C": "Spot é baratíssimo mas pode ser interrompido — não serve pra carga estável que precisa ficar de pé.",
+        "D": "Dedicated Hosts é sobre isolamento/licenciamento, não desconto por compromisso flexível."
+      }
+    },
+    {
+      "id": "br-custos-q05", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["compute-optimizer"],
+      "situacao": "A Camila desconfia que várias instâncias EC2 estão grandes demais (superdimensionadas) e gastando à toa. Ela quer recomendações automáticas de redimensionamento.",
+      "stem": "Qual serviço analisa o uso e recomenda o tamanho/tipo ideal dos recursos (right-sizing)?",
+      "options": [
+        { "key": "A", "text": "AWS Compute Optimizer" },
+        { "key": "B", "text": "AWS Budgets" },
+        { "key": "C", "text": "Cost and Usage Report (CUR)" },
+        { "key": "D", "text": "AWS Pricing Calculator" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): existe um serviço que olha as métricas de uso e diz 'essa instância está grande demais, troca por essa menor aqui e economiza'. É o Compute Optimizer."],
+      "explanation": "Compute Optimizer usa métricas de uso (e ML) pra recomendar right-sizing de EC2, Auto Scaling Groups, EBS, Lambda, ECS no Fargate e bancos RDS/Aurora (além de recomendações de licença e de recursos ociosos em outros serviços) — apontando recursos superdimensionados e o tamanho ideal pra economizar.",
+      "whyNots": {
+        "B": "Budgets alerta sobre limite de gasto, não recomenda redimensionamento.",
+        "C": "CUR é dado bruto de billing, não recomendação de right-sizing.",
+        "D": "Pricing Calculator estima custos de projetos novos, não analisa o uso atual."
+      }
+    },
+    {
+      "id": "br-custos-q06", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["trusted-advisor"],
+      "situacao": "A liderança quer um 'check-up' geral da conta: oportunidades de economia, falhas de segurança, limites de serviço perto do teto e pontos de tolerância a falhas.",
+      "stem": "Qual serviço faz essas verificações automáticas em várias categorias (custo, segurança, performance, resiliência/tolerância a falhas, excelência operacional e limites)?",
+      "options": [
+        { "key": "A", "text": "AWS Trusted Advisor" },
+        { "key": "B", "text": "Amazon Inspector" },
+        { "key": "C", "text": "AWS Config" },
+        { "key": "D", "text": "Amazon GuardDuty" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pensa no Trusted Advisor como um check-up de saúde da conta — ele passa um pente fino e aponta economia, riscos de segurança, limites perto do teto e pontos frágeis, em categorias."],
+      "explanation": "Trusted Advisor faz verificações automáticas em 6 categorias — otimização de custos, performance, resiliência (tolerância a falhas), segurança, excelência operacional e limites de serviço — recomendando ações. É o check-up geral da conta. (Verificado na doc oficial 2026-06: são 6 categorias, não 5.)",
+      "whyNots": {
+        "B": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não esse check-up multi-categoria.",
+        "C": "Config monitora conformidade de configuração ao longo do tempo, não o resumo de oportunidades em 5 categorias.",
+        "D": "GuardDuty detecta ameaças, não oportunidades de custo/limites."
+      }
+    },
+    {
+      "id": "br-custos-q07", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["cost-explorer"],
+      "situacao": "A empresa quer saber QUANTO cada time (marketing, dados, plataforma) gasta na AWS, pra ratear custo. Os recursos de cada time precisam ser identificáveis na fatura.",
+      "stem": "Qual recurso permite rastrear e separar custos por time/projeto na conta?",
+      "options": [
+        { "key": "A", "text": "Cost Allocation Tags (tags de alocação de custo)" },
+        { "key": "B", "text": "Security Groups por time" },
+        { "key": "C", "text": "Uma VPC por time" },
+        { "key": "D", "text": "Reserved Instances" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): pra a fatura saber 'isso é do time de dados', cada recurso precisa de uma etiqueta padronizada.",
+        "💡 Rafael (dica 2): você marca os recursos com tags (ex.: Team=dados) e ativa as Cost Allocation Tags — aí o Cost Explorer/CUR separam o gasto por tag."
+      ],
+      "explanation": "Cost Allocation Tags marcam recursos (ex.: Team, Project, Environment); uma vez ativadas no billing, o Cost Explorer e o CUR conseguem agrupar e ratear o custo por essas tags — é assim que se separa gasto por time/projeto.",
+      "whyNots": {
+        "B": "Security Group é firewall, não rastreia custo.",
+        "C": "Uma VPC por time isola rede, mas não é o mecanismo de rateio de custo na fatura.",
+        "D": "Reserved Instances é desconto por compromisso, não rastreamento de custo por time."
+      }
+    },
+    {
+      "id": "br-custos-q08", "difficulty": "exam", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["organizations"],
+      "situacao": "A empresa tem 12 contas AWS (prod, dev, dados…). O financeiro quer UMA fatura só e aproveitar descontos por volume agregando o uso de todas.",
+      "stem": "O que do AWS Organizations entrega fatura única e desconto por volume agregado?",
+      "options": [
+        { "key": "A", "text": "Consolidated Billing (cobrança consolidada)" },
+        { "key": "B", "text": "Service Control Policies (SCPs)" },
+        { "key": "C", "text": "AWS Config Rules" },
+        { "key": "D", "text": "VPC Peering" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): juntar todas as contas debaixo de uma conta pagadora dá uma fatura só — e o uso somado de todas ajuda a alcançar faixas de desconto por volume. Isso é o Consolidated Billing do Organizations."],
+      "explanation": "Consolidated Billing (no AWS Organizations) reúne todas as contas-membro sob uma conta pagadora: fatura única, visão por conta, e os descontos por volume (ex.: S3, transferência) consideram o uso AGREGADO de todas as contas.",
+      "whyNots": {
+        "B": "SCP define o teto de permissões das contas — governança, não cobrança/desconto.",
+        "C": "Config Rules checam conformidade, não consolidam fatura.",
+        "D": "VPC Peering conecta redes, nada a ver com billing."
+      }
+    },
+    {
+      "id": "br-custos-q09", "difficulty": "challenge", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["pricing-calculator", "cost-explorer", "budgets", "cur"],
+      "situacao": "Quatro pedidos no mesmo dia: (1) estimar o custo de uma arquitetura que ainda não existe; (2) entender e prever o gasto do último trimestre num gráfico; (3) ser avisado se o mês passar de um limite; (4) exportar todo o billing linha a linha pra cruzar no Athena.",
+      "stem": "Qual o mapeamento correto ferramenta → tarefa?",
+      "options": [
+        { "key": "A", "text": "1 Pricing Calculator · 2 Cost Explorer · 3 Budgets · 4 CUR" },
+        { "key": "B", "text": "1 Cost Explorer · 2 Pricing Calculator · 3 Budgets · 4 CUR" },
+        { "key": "C", "text": "1 CUR · 2 Budgets · 3 Cost Explorer · 4 Pricing Calculator" },
+        { "key": "D", "text": "1 Pricing Calculator · 2 Budgets · 3 Cost Explorer · 4 CUR" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): quatro verbos diferentes — ESTIMAR (futuro), ANALISAR (passado), ALERTAR (limite), EXPORTAR (dado bruto).",
+        "💡 Rafael (dica 2): estimar=Pricing Calculator; analisar/prever=Cost Explorer; alertar=Budgets; exportar linha a linha=CUR."
+      ],
+      "explanation": "Cada ferramenta de custo tem um verbo: Pricing Calculator ESTIMA o futuro (não-construído); Cost Explorer ANALISA/prevê o gasto real (visual); Budgets ALERTA quando cruza um limite; CUR EXPORTA o dado bruto, linha a linha, pro S3. Saber qual faz o quê é o que a prova cobra.",
+      "whyNots": {
+        "B": "Trocou estimar com analisar: Cost Explorer não estima projeto novo; Pricing Calculator não analisa o passado.",
+        "C": "Embaralhou tudo — CUR não estima, Budgets não analisa trimestre.",
+        "D": "Trocou analisar e alertar de lugar (Budgets alerta, Cost Explorer analisa)."
+      }
+    },
+    {
+      "id": "br-custos-q10", "difficulty": "challenge", "source": "supplement", "sourceChapter": null,
+      "book": null, "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["savings-plans", "ec2"],
+      "situacao": "Dois colegas discutem: um defende Reserved Instances, o outro Savings Plans, pra uma frota EC2 estável que PODE mudar de família de instância ao longo do tempo.",
+      "stem": "Qual a diferença que faz o Savings Plans (Compute) ser a escolha mais flexível aqui?",
+      "options": [
+        { "key": "A", "text": "Savings Plans compromete um valor por hora e vale entre famílias/regiões e até Fargate/Lambda; Reserved tende a travar configuração específica" },
+        { "key": "B", "text": "Reserved Instances dá mais desconto sempre, então é melhor" },
+        { "key": "C", "text": "São idênticos, só muda o nome" },
+        { "key": "D", "text": "Savings Plans só funciona com Spot" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a pista é 'pode MUDAR de família de instância'. Qual modelo não te prende a uma configuração?",
+        "💡 Rafael (dica 2): Reserved costuma travar tipo/região; o Compute Savings Plans compromete gasto/hora e o desconto acompanha você mudando de família, região e até pra Fargate/Lambda."
+      ],
+      "explanation": "Compute Savings Plans dão desconto semelhante ao Reserved, mas o compromisso é de gasto por hora — o desconto segue mesmo se você trocar de família de instância, região ou migrar pra Fargate/Lambda. Reserved Instances (Standard) tendem a amarrar uma configuração específica. Pra frota estável que ainda pode mudar de forma, Savings Plans é mais flexível.",
+      "whyNots": {
+        "B": "Reserved Standard pode dar desconto um pouco maior em troca de MENOS flexibilidade — e aqui flexibilidade é o requisito.",
+        "C": "Não são idênticos: o eixo de flexibilidade é justamente a diferença.",
+        "D": "Savings Plans é sobre compromisso de uso (On-Demand com desconto), não tem a ver com Spot."
+      }
+    }
+  ]
+}

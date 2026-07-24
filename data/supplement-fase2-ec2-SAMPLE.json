@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "SAMPLE — questões PT autorais para a Fase 2 (EC2) do jogo BR 'E aí? Bora Aprender AWS?'. Voz café com leite (Júlia jogadora, Camila traz a situação, Rafael dá a dica). Ancoradas no cap-03 do livro PT. Schema canônico para ligar ao banco depois. Aguardando aprovação de voz antes de escalar.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-f2-ec2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": "03",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Computação de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "A Camila chega na call com um problema: — Preciso de uma máquina pra rodar testes de API. Carga variada o dia todo, nada de pico monstro de processamento. Que tipo de instância eu peço?",
+      "stem": "Para um servidor de API com carga variada, sem picos extremos de CPU ou memória, qual família de instância EC2 é a mais adequada?",
+      "options": [
+        { "key": "A", "text": "General Purpose (ex.: t3, m6i) — equilíbrio entre CPU, memória e rede" },
+        { "key": "B", "text": "Accelerated Computing (ex.: p3, g4dn) — com GPU dedicada" },
+        { "key": "C", "text": "Memory Optimized (ex.: r6i) — muita RAM para dados em memória" },
+        { "key": "D", "text": "Storage Optimized (ex.: i3) — muitos discos rápidos" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): imagina que escolher a instância é escolher o veículo pra viagem. Você não leva uma moto pra mudar de apartamento, nem aluga um caminhão pra ir ao mercado. Pra uma API que não puxa nada demais, o carro do dia a dia — equilibrado — já resolve."],
+      "explanation": "General Purpose equilibra CPU, memória e rede — é a escolha certa quando o trabalho é variado e não estressa nenhum recurso específico. É a família do t3.micro, a mesma do Free Tier.",
+      "whyNots": {
+        "B": "GPU (Accelerated Computing) é pra machine learning ou renderização — caro e desnecessário pra uma API comum.",
+        "C": "Memory Optimized é pra quem precisa segurar muito dado na RAM, tipo Redis grande. Não é o caso.",
+        "D": "Storage Optimized é pra muita leitura/escrita em disco. Uma API de testes não pede isso."
+      }
+    },
+    {
+      "id": "br-f2-ec2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": "03",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "— E quando o time migrar de verdade? — perguntou a Júlia. — A gente vai ter três servidores de produção ligados 24 horas por dia, todo dia, por uns 2 anos. Como a gente paga isso sem torrar dinheiro?",
+      "stem": "Três servidores de produção que ficarão ligados 24/7 por cerca de 2 anos. Qual modelo de compra EC2 é o mais econômico?",
+      "options": [
+        { "key": "A", "text": "Reserved Instances (compromisso de 1 ou 3 anos)" },
+        { "key": "B", "text": "On-Demand (paga por hora, sem compromisso)" },
+        { "key": "C", "text": "Spot Instances (capacidade ociosa, pode ser interrompida)" },
+        { "key": "D", "text": "Dedicated Hosts (servidor físico inteiro só seu)" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): é como o passe do busão. Se você anda todo dia, o mensal sai bem mais barato que pagar cada corrida avulsa. Uso certo e contínuo? Compromisso compensa."],
+      "explanation": "Reserved Instances dão até 72% de desconto em troca de um compromisso de 1 ou 3 anos. Com 2 anos de uso contínuo garantido, o desconto se paga rápido (o break-even costuma vir em uns 7-8 meses). Uso previsível pede compromisso.",
+      "whyNots": {
+        "B": "On-Demand é flexível, mas é o mais caro por hora. Pra algo que fica ligado sempre, você estaria pagando o preço cheio à toa.",
+        "C": "Spot pode ser interrompido com 2 minutos de aviso — você não quer isso num servidor de produção que precisa ficar de pé.",
+        "D": "Dedicated Hosts só se justifica por compliance ou licença de software atrelada ao hardware. Aqui é só custo a mais."
+      }
+    },
+    {
+      "id": "br-f2-ec2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": "03",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "— Tem também um job que roda todo fim de semana, processando dados históricos — disse a Camila. — Se ele cair no meio, tudo bem: é só reiniciar do zero, não perde nada.",
+      "stem": "Um job de processamento em lote que roda no fim de semana e pode ser reiniciado sem perda se for interrompido. Qual modelo de compra economiza mais?",
+      "options": [
+        { "key": "A", "text": "Spot Instances (até 90% de desconto, pode ser interrompida)" },
+        { "key": "B", "text": "On-Demand (sem compromisso, preço cheio)" },
+        { "key": "C", "text": "Reserved Instances (compromisso de 1 a 3 anos)" },
+        { "key": "D", "text": "Dedicated Hosts (hardware isolado)" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): é como pegar o pão da promoção no fim do dia da padaria. Baratíssimo — mas pode acabar a qualquer momento. Se você não tem pressa e pode voltar amanhã, vale demais a pena."],
+      "explanation": "Spot usa capacidade ociosa da AWS com até 90% de desconto. O preço é poder ser interrompido com 2 minutos de aviso — o que não é problema nenhum pra um job que tolera reinício. Carga interrompível + Spot é um par clássico de economia na prova.",
+      "whyNots": {
+        "B": "On-Demand funcionaria, mas você jogaria fora a economia enorme do Spot num trabalho que aceita interrupção numa boa.",
+        "C": "Reserved é pra uso contínuo de longo prazo. Um job de fim de semana não fica ligado o suficiente pra compensar o compromisso.",
+        "D": "Dedicated Hosts não tem nada a ver com esse caso — é isolamento de hardware, não economia de batch."
+      }
+    },
+    {
+      "id": "br-f2-ec2-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": "03",
+      "book": "e-ai-bora-aprender-aws",
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "A pergunta que o Rafael deixou no ar no começo do capítulo: uma carga imprevisível, com picos repentinos e de curta duração, que precisa atender o usuário na hora em que o pico acontece.",
+      "stem": "Um workload imprevisível, com picos repentinos e curtos, que precisa estar disponível EXATAMENTE no momento do pico. Qual modelo de compra faz mais sentido — e por que Spot não serve aqui?",
+      "options": [
+        { "key": "A", "text": "On-Demand — disponível na hora, sem compromisso, e Spot poderia sumir bem no meio do pico" },
+        { "key": "B", "text": "Spot — é sempre o mais barato, então é sempre a melhor escolha" },
+        { "key": "C", "text": "Reserved — compromisso de longo prazo resolve qualquer caso" },
+        { "key": "D", "text": "Dedicated Hosts — só assim dá pra aguentar picos" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pra esse caso, On-Demand é como o táxi. Paga mais caro a corrida, mas ele tá lá na hora que você precisa, sem combinar nada antes. Spot seria a carona que pode cancelar de última hora — ótimo quando você não tem pressa, péssimo quando o cliente já tá te esperando no pico."],
+      "explanation": "Imprevisível elimina o Reserved (compromisso só compensa com uso certo e contínuo). Curto e na hora elimina o Spot: ele pode ser interrompido com 2 minutos de aviso, e justo no pico você não pode arriscar a instância sumir com o usuário esperando. On-Demand dá a flexibilidade de subir capacidade na hora, pagando só pelo que usar.",
+      "whyNots": {
+        "B": "'Spot é sempre o mais barato, logo sempre o melhor' é a pegadinha. Barato não adianta se a instância é interrompida no exato momento em que você precisa dela.",
+        "C": "Reserved exige uso previsível e contínuo pra valer o desconto. Carga imprevisível não casa com compromisso de 1-3 anos.",
+        "D": "Dedicated Hosts é sobre isolamento físico (compliance/licença), não sobre aguentar picos."
+      }
+    }
+  ]
+}

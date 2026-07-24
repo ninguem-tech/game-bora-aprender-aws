@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Segurança Detecção e Proteção (GuardDuty, Inspector, Macie, Security Hub, Shield, WAF, KMS vs CloudHSM). Aprofunda o domínio de segurança além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-seg2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["guardduty"],
+      "situacao": "Você quer um serviço que fique de olho na conta e detecte comportamento suspeito — como uma instância minerando cripto, acesso de um IP estranho ou um bucket comprometido — analisando logs automaticamente, sem instalar agente.",
+      "stem": "Qual serviço faz detecção inteligente de ameaças?",
+      "options": [
+        {"key": "A", "text": "Amazon GuardDuty"},
+        {"key": "B", "text": "Amazon Inspector"},
+        {"key": "C", "text": "Amazon Macie"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'guarda' que vigia o COMPORTAMENTO — GuardDuty analisa Flow Logs, CloudTrail e DNS com ML pra achar atividade maliciosa.",
+        "💡 Rafael (dica 2): ele detecta AMEAÇA/comportamento, não vulnerabilidade de software (isso é o Inspector)."
+      ],
+      "explanation": "GuardDuty é o serviço de detecção de ameaças: analisa VPC Flow Logs, CloudTrail e DNS logs com ML pra identificar atividade maliciosa (recon, instância/conta/bucket/EKS comprometido, malware), sem agente. Foca em comportamento/ameaça.",
+      "whyNots": {
+        "B": "Inspector busca vulnerabilidades de software (CVEs), não comportamento malicioso em tempo real.",
+        "C": "Macie acha dados sensíveis no S3 — não detecta ameaça comportamental.",
+        "D": "Config avalia conformidade de configuração — não é detecção de ameaça."
+      }
+    },
+    {
+      "id": "br-seg2-q01",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["inspector"],
+      "situacao": "O time de segurança quer escanear automaticamente as instâncias EC2, funções Lambda e imagens de container em busca de vulnerabilidades de software conhecidas (CVEs) e exposição de rede.",
+      "stem": "Qual serviço faz gestão de vulnerabilidades?",
+      "options": [
+        {"key": "A", "text": "Amazon Inspector"},
+        {"key": "B", "text": "Amazon GuardDuty"},
+        {"key": "C", "text": "AWS Shield"},
+        {"key": "D", "text": "Amazon Macie"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'inspecionar' o software em busca de buracos conhecidos (CVE) = Inspector. Escaneia EC2, Lambda e imagens de container.",
+        "💡 Rafael (dica 2): vulnerabilidade/CVE = Inspector; ameaça/comportamento = GuardDuty. Não troque os dois."
+      ],
+      "explanation": "Inspector é o serviço de gestão de vulnerabilidades: escaneia continuamente EC2, funções Lambda e imagens de container (ECR) em busca de vulnerabilidades de software (CVEs) e exposição de rede não intencional.",
+      "whyNots": {
+        "B": "GuardDuty detecta ameaça/comportamento malicioso, não faz varredura de CVE.",
+        "C": "Shield protege contra DDoS — não escaneia vulnerabilidade de software.",
+        "D": "Macie procura dados sensíveis no S3 — não é varredura de CVE."
+      }
+    },
+    {
+      "id": "br-seg2-q02",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["macie", "s3"],
+      "situacao": "Compliance quer saber se há CPFs, cartões de crédito ou outros dados pessoais (PII) guardados sem querer dentro dos buckets S3.",
+      "stem": "Qual serviço descobre e classifica dados sensíveis no S3?",
+      "options": [
+        {"key": "A", "text": "Amazon Macie"},
+        {"key": "B", "text": "Amazon Inspector"},
+        {"key": "C", "text": "AWS KMS"},
+        {"key": "D", "text": "Amazon GuardDuty"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Macie é o 'farejador' de PII no S3 — usa ML e padrões pra achar dado sensível (CPF, cartão, etc.).",
+        "💡 Rafael (dica 2): dado sensível no S3 = Macie. É o único do quarteto focado em CONTEÚDO de dados."
+      ],
+      "explanation": "Macie é o serviço de descoberta de dados sensíveis: usa ML e correspondência de padrões pra identificar e classificar PII/PHI e segredos dentro dos buckets S3 — exatamente o que o compliance pediu.",
+      "whyNots": {
+        "B": "Inspector busca vulnerabilidades de software, não dado sensível.",
+        "C": "KMS gerencia chaves de criptografia — não descobre PII.",
+        "D": "GuardDuty detecta ameaça comportamental, não classifica conteúdo de dados."
+      }
+    },
+    {
+      "id": "br-seg2-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["security-hub"],
+      "situacao": "Cada time olha um console diferente: um vê GuardDuty, outro o Inspector, outro o Macie. Falta uma visão ÚNICA que junte e priorize todos os achados de segurança e cheque a conta contra padrões (CIS, PCI).",
+      "stem": "Qual serviço centraliza e correlaciona esses achados?",
+      "options": [
+        {"key": "A", "text": "AWS Security Hub"},
+        {"key": "B", "text": "Amazon GuardDuty"},
+        {"key": "C", "text": "AWS CloudTrail"},
+        {"key": "D", "text": "Amazon CloudWatch"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o 'hub' é o ponto central — Security Hub agrega os achados de GuardDuty, Inspector e Macie num painel só e checa postura/compliance.",
+        "💡 Rafael (dica 2): GuardDuty/Inspector/Macie GERAM achados; o Security Hub JUNTA e prioriza."
+      ],
+      "explanation": "Security Hub é o painel central de postura de segurança: agrega e correlaciona achados de GuardDuty, Inspector e Macie, e faz checagem de conformidade (CSPM) contra padrões como CIS, PCI DSS e AWS FSBP. É a visão única que faltava.",
+      "whyNots": {
+        "B": "GuardDuty é uma das FONTES de achado, não o agregador central.",
+        "C": "CloudTrail audita chamadas de API — não correlaciona achados de segurança.",
+        "D": "CloudWatch é métricas/logs operacionais — não é o hub de postura de segurança."
+      }
+    },
+    {
+      "id": "br-seg2-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["guardduty", "inspector", "macie", "security-hub"],
+      "situacao": "Quatro tarefas: (1) detectar comportamento malicioso na conta; (2) achar CVEs no software das instâncias; (3) descobrir PII nos buckets S3; (4) reunir e priorizar tudo num painel.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "GuardDuty → Inspector → Macie → Security Hub"},
+        {"key": "B", "text": "Inspector → GuardDuty → Security Hub → Macie"},
+        {"key": "C", "text": "Macie → Security Hub → GuardDuty → Inspector"},
+        {"key": "D", "text": "Security Hub → Macie → Inspector → GuardDuty"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): comportamento = GuardDuty; CVE = Inspector; PII no S3 = Macie; painel central = Security Hub.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função; as outras embaralham pelo menos um par."
+      ],
+      "explanation": "Cada serviço tem seu papel: GuardDuty (ameaça/comportamento), Inspector (vulnerabilidade/CVE), Macie (dado sensível no S3) e Security Hub (agrega e prioriza tudo). A opção A respeita as quatro funções.",
+      "whyNots": {
+        "B": "Troca GuardDuty com Inspector e Macie com Security Hub.",
+        "C": "Embaralha tudo — Macie não detecta comportamento e Security Hub não acha CVE.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    },
+    {
+      "id": "br-seg2-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["shield"],
+      "situacao": "Toda conta AWS já vem com uma proteção automática e gratuita contra ataques DDoS comuns de rede (camadas 3 e 4), como SYN/UDP flood.",
+      "stem": "Qual serviço oferece essa proteção básica sem custo extra?",
+      "options": [
+        {"key": "A", "text": "AWS Shield Standard"},
+        {"key": "B", "text": "AWS Shield Advanced"},
+        {"key": "C", "text": "AWS WAF"},
+        {"key": "D", "text": "Amazon GuardDuty"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'automático, grátis, DDoS de rede (L3/L4)' = Shield Standard, que já vem ligado pra todo mundo.",
+        "💡 Rafael (dica 2): o Advanced é a versão paga, com mais proteção e a equipe de resposta (SRT)."
+      ],
+      "explanation": "Shield Standard é incluído automaticamente e sem custo extra pra todos os clientes AWS, protegendo contra os ataques DDoS de infraestrutura mais comuns (camadas 3 e 4), como SYN/UDP floods e reflection.",
+      "whyNots": {
+        "B": "Shield Advanced é pago (assinatura), com proteção expandida e SRT — não é o 'gratuito automático'.",
+        "C": "WAF é firewall de aplicação (L7) pago por uso — não é a proteção DDoS automática de rede.",
+        "D": "GuardDuty detecta ameaça, não mitiga DDoS."
+      }
+    },
+    {
+      "id": "br-seg2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["shield", "waf"],
+      "situacao": "Uma empresa de e-commerce sob ataques DDoS grandes e frequentes quer proteção avançada em CloudFront/ELB/Route 53, mitigação automática na camada 7, acesso a um time de resposta especializado e proteção contra picos de custo causados pelo ataque.",
+      "stem": "Qual serviço atende esses requisitos avançados?",
+      "options": [
+        {"key": "A", "text": "AWS Shield Advanced"},
+        {"key": "B", "text": "AWS Shield Standard"},
+        {"key": "C", "text": "Amazon Inspector"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'mitigação L7 automática + Shield Response Team + proteção de custo' são marcas registradas do Shield Advanced (pago).",
+        "💡 Rafael (dica 2): o Advanced usa o AWS WAF nas proteções de camada de aplicação e cobre EC2, ELB, CloudFront, Route 53 e Global Accelerator."
+      ],
+      "explanation": "Shield Advanced é a assinatura paga com proteção DDoS expandida pra EC2, ELB, CloudFront, Route 53 e Global Accelerator, mitigação automática na camada 7, visibilidade avançada, acesso ao Shield Response Team (SRT) e proteção de custo contra picos por DDoS. Usa o WAF nas proteções L7.",
+      "whyNots": {
+        "B": "Shield Standard é o básico gratuito (L3/L4), sem SRT nem proteção de custo.",
+        "C": "Inspector é vulnerabilidade de software — não é proteção DDoS.",
+        "D": "Config é conformidade de configuração — nada a ver com mitigação de DDoS."
+      }
+    },
+    {
+      "id": "br-seg2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["waf"],
+      "situacao": "A aplicação web está sofrendo tentativas de SQL injection e XSS, e você quer bloquear esses padrões maliciosos de requisição HTTP, além de limitar requisições por IP, no CloudFront/ALB.",
+      "stem": "Qual serviço filtra o tráfego na camada de aplicação (L7)?",
+      "options": [
+        {"key": "A", "text": "AWS WAF"},
+        {"key": "B", "text": "AWS Shield Standard"},
+        {"key": "C", "text": "Security Group"},
+        {"key": "D", "text": "Amazon Macie"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): WAF = Web Application Firewall (camada 7). Ele inspeciona requisições HTTP e bloqueia SQLi/XSS, faz rate limit e regras por IP/geo.",
+        "💡 Rafael (dica 2): se anexa a CloudFront, ALB, API Gateway e AppSync. DDoS de rede é Shield; exploração HTTP é WAF."
+      ],
+      "explanation": "AWS WAF é o firewall de aplicação web (camada 7): inspeciona requisições HTTP(S) e bloqueia ataques como SQL injection e XSS, aplica rate limiting e regras por IP/geo. Anexa a CloudFront, ALB, API Gateway e AppSync.",
+      "whyNots": {
+        "B": "Shield Standard protege contra DDoS de rede (L3/L4), não filtra SQLi/XSS na aplicação.",
+        "C": "Security Group filtra por IP/porta (L3/L4), não entende conteúdo HTTP nem bloqueia SQLi/XSS.",
+        "D": "Macie acha dado sensível no S3 — não filtra requisições web."
+      }
+    },
+    {
+      "id": "br-seg2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["kms", "cloudhsm"],
+      "situacao": "Uma exigência regulatória pede um HSM DEDICADO single-tenant, sob controle exclusivo da empresa, validado em FIPS 140-3 Nível 3, com acesso via PKCS#11.",
+      "stem": "Qual serviço atende esse requisito de conformidade?",
+      "options": [
+        {"key": "A", "text": "AWS CloudHSM"},
+        {"key": "B", "text": "AWS KMS (multi-tenant gerenciado)"},
+        {"key": "C", "text": "AWS Secrets Manager"},
+        {"key": "D", "text": "AWS Certificate Manager"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'HSM dedicado single-tenant, sob seu controle, PKCS#11' grita CloudHSM. O KMS é multi-tenant gerenciado.",
+        "💡 Rafael (dica 2): regra — caso geral é KMS (fácil e barato); só vá pra CloudHSM quando a conformidade exige HSM single-tenant ou interfaces tipo PKCS#11/JCE."
+      ],
+      "explanation": "CloudHSM oferece HSM dedicado single-tenant sob controle exclusivo do cliente, validado em FIPS 140-3 Nível 3, com interfaces PKCS#11/JCE/KSP — exatamente o que a regulação exige. KMS é o caso geral (multi-tenant, gerenciado, mais barato e fácil).",
+      "whyNots": {
+        "B": "KMS usa HSM multi-tenant gerenciado; não atende o requisito de HSM dedicado single-tenant sob controle exclusivo.",
+        "C": "Secrets Manager guarda/rotaciona segredos — não é um HSM.",
+        "D": "Certificate Manager gerencia certificados TLS — não é HSM dedicado."
+      }
+    },
+    {
+      "id": "br-seg2-q09",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["kms"],
+      "situacao": "A maioria das aplicações só precisa criptografar dados em S3, EBS e RDS de um jeito simples, integrado, barato e gerenciado, com controle de acesso por IAM.",
+      "stem": "Qual é o serviço de criptografia padrão pra esse caso geral?",
+      "options": [
+        {"key": "A", "text": "AWS KMS"},
+        {"key": "B", "text": "AWS CloudHSM"},
+        {"key": "C", "text": "AWS Shield"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): caso geral, integrado e barato = KMS. Ele gerencia as chaves e se integra com S3, EBS, RDS, etc., com controle por IAM.",
+        "💡 Rafael (dica 2): só troque pra CloudHSM se a conformidade exigir HSM dedicado — caro e mais trabalhoso."
+      ],
+      "explanation": "KMS é o serviço de criptografia padrão da AWS: gerenciado, HSM multi-tenant (FIPS 140-3 Nível 3), integrado nativamente a S3, EBS, RDS e a maioria dos serviços, com controle por IAM, baixo custo e pouca gestão. Atende o caso geral.",
+      "whyNots": {
+        "B": "CloudHSM é dedicado/single-tenant, mais caro e trabalhoso — só quando a conformidade exige.",
+        "C": "Shield é proteção DDoS — não criptografa dados.",
+        "D": "Inspector é vulnerabilidade de software — não é serviço de chaves/criptografia."
+      }
+    }
+  ]
+}

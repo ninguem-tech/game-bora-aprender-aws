@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Contêineres a Fundo (ECR registry, ECS task definition/task/service/cluster, Fargate vs Fargate Spot, ECS Service Auto Scaling). Aprofunda a fase de Compute/Contêineres.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cont2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecr"],
+      "situacao": "Um time precisa armazenar, versionar e escanear as imagens Docker da aplicação, e fazer o ECS/EKS puxá-las pra rodar.",
+      "stem": "Qual serviço é o registro de imagens de contêiner gerenciado?",
+      "options": [
+        {"key": "A", "text": "Amazon ECR (Elastic Container Registry)"},
+        {"key": "B", "text": "Amazon S3"},
+        {"key": "C", "text": "AWS CodeCommit"},
+        {"key": "D", "text": "Amazon ECS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'registry' de imagens de contêiner = ECR (Elastic Container Registry).",
+        "💡 Rafael (dica 2): ECR guarda/escaneia as imagens; ECS/EKS as executam."
+      ],
+      "explanation": "Amazon ECR é o registro de imagens de contêiner gerenciado (Docker/OCI): armazena, versiona, escaneia vulnerabilidades e distribui as imagens, integrando com ECS, EKS e CI/CD. É de onde os orquestradores puxam a imagem pra rodar.",
+      "whyNots": {
+        "B": "S3 guarda objetos genéricos — não é registry de imagens de contêiner com scan/versionamento.",
+        "C": "CodeCommit é repositório Git de código-fonte — não de imagens de contêiner.",
+        "D": "ECS executa contêineres — não é o registro das imagens (isso é o ECR)."
+      }
+    },
+    {
+      "id": "br-cont2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs"],
+      "situacao": "No ECS, você precisa definir QUAL imagem usar, quanta CPU/memória, quais portas e volumes — o 'molde' da aplicação em JSON.",
+      "stem": "Qual elemento do ECS é esse blueprint?",
+      "options": [
+        {"key": "A", "text": "Task definition"},
+        {"key": "B", "text": "Service"},
+        {"key": "C", "text": "Cluster"},
+        {"key": "D", "text": "Capacity provider"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o 'molde'/blueprint (imagem, CPU/memória, portas) = task definition.",
+        "💡 Rafael (dica 2): a task definition é o molde; a task é a instância rodando dele."
+      ],
+      "explanation": "A task definition é o blueprint (JSON) da aplicação no ECS: especifica a imagem, CPU/memória, portas, volumes e variáveis. É o molde a partir do qual as tasks (instâncias em execução) são criadas.",
+      "whyNots": {
+        "B": "Service mantém N tasks rodando — não é o molde em si.",
+        "C": "Cluster é a infraestrutura/agrupamento — não o molde da aplicação.",
+        "D": "Capacity provider gerencia a capacidade (Fargate/EC2) — não é o blueprint."
+      }
+    },
+    {
+      "id": "br-cont2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ecs"],
+      "situacao": "Você quer garantir que SEMPRE haja, por exemplo, 4 cópias da task rodando; se uma falhar, outra deve subir automaticamente pra manter esse número.",
+      "stem": "Qual elemento do ECS mantém o número desejado de tasks?",
+      "options": [
+        {"key": "A", "text": "Service (ECS Service)"},
+        {"key": "B", "text": "Task definition"},
+        {"key": "C", "text": "Cluster"},
+        {"key": "D", "text": "ECR"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): manter N tasks rodando e substituir as que falham = ECS Service (o scheduler cuida disso).",
+        "💡 Rafael (dica 2): o service também integra com ELB e suporta auto scaling."
+      ],
+      "explanation": "O ECS Service mantém o número desejado de tasks rodando simultaneamente: se uma task falha ou para, o scheduler do service sobe outra a partir da task definition pra manter o desejado. Também integra com ELB e suporta auto scaling.",
+      "whyNots": {
+        "B": "Task definition é o molde — não mantém tasks rodando.",
+        "C": "Cluster é a infra/agrupamento — não gerencia o número desejado de tasks.",
+        "D": "ECR é o registro de imagens — não orquestra a execução."
+      }
+    },
+    {
+      "id": "br-cont2-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs"],
+      "situacao": "Quatro conceitos do ECS: (1) o molde JSON da aplicação; (2) uma instância em execução; (3) o que mantém N cópias rodando; (4) o agrupamento que fornece a capacidade de infra.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Task definition → Task → Service → Cluster"},
+        {"key": "B", "text": "Task → Task definition → Cluster → Service"},
+        {"key": "C", "text": "Service → Cluster → Task → Task definition"},
+        {"key": "D", "text": "Cluster → Service → Task definition → Task"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): molde = task definition; instância = task; mantém N = service; infra = cluster.",
+        "💡 Rafael (dica 2): só a opção A segue a ordem natural do ECS."
+      ],
+      "explanation": "A hierarquia do ECS: task definition (molde/blueprint) → task (instância em execução) → service (mantém N tasks e substitui as que falham) → cluster (infraestrutura que hospeda tudo). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Inverte task com task definition e embaralha service/cluster.",
+        "C": "Começa pelo service e coloca cluster antes da task — fora de ordem.",
+        "D": "Coloca cluster como o molde — errado; o molde é a task definition."
+      }
+    },
+    {
+      "id": "br-cont2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["fargate"],
+      "situacao": "Um job de processamento em lote roda em contêineres no Fargate, é tolerante a interrupção e o time quer reduzir muito o custo, aceitando que as tasks possam ser interrompidas com aviso de 2 minutos.",
+      "stem": "Qual opção entrega até 70% de desconto pra essa carga?",
+      "options": [
+        {"key": "A", "text": "Fargate Spot"},
+        {"key": "B", "text": "Fargate on-demand"},
+        {"key": "C", "text": "Dedicated Hosts"},
+        {"key": "D", "text": "Reserved Instances de EC2"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): contêiner tolerante a interrupção + até 70% off + aviso de 2 min = Fargate Spot (capacidade ociosa).",
+        "💡 Rafael (dica 2): é o 'Spot' do mundo Fargate — barato, mas interrompível."
+      ],
+      "explanation": "Fargate Spot roda tasks em capacidade ociosa com até 70% de desconto sobre o Fargate on-demand, mas as tasks são interrompíveis (aviso de 2 minutos). É ideal pra cargas tolerantes a interrupção, como batch e dev/staging.",
+      "whyNots": {
+        "B": "Fargate on-demand é confiável, mas não dá o desconto agressivo do Spot pra uma carga que aceita interrupção.",
+        "C": "Dedicated Hosts é pra licença/compliance em EC2 — não é o modelo barato de contêiner interrompível.",
+        "D": "RI de EC2 é compromisso de longo prazo de instância — não é o caso do batch interrompível no Fargate."
+      }
+    },
+    {
+      "id": "br-cont2-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["fargate"],
+      "situacao": "Distinga: (1) capacidade confiável on-demand pra a base de produção que não pode ser interrompida; (2) capacidade barata e interrompível pra absorver picos/batch.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Fargate (on-demand); (2) Fargate Spot"},
+        {"key": "B", "text": "(1) Fargate Spot; (2) Fargate (on-demand)"},
+        {"key": "C", "text": "(1) EC2 Spot; (2) Fargate on-demand"},
+        {"key": "D", "text": "(1) Fargate Spot; (2) Reserved Instances"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): base confiável = Fargate on-demand; picos/batch baratos e interrompíveis = Fargate Spot.",
+        "💡 Rafael (dica 2): dá pra misturar os dois (base on-demand + burst Spot)."
+      ],
+      "explanation": "Fargate on-demand fornece capacidade confiável pra a base de produção; Fargate Spot fornece capacidade barata e interrompível pra picos/batch. Eles podem ser combinados (base estável on-demand + burst Spot a menor custo). A opção A está correta.",
+      "whyNots": {
+        "B": "Inverte — confiável é on-demand; interrompível barato é Spot.",
+        "C": "Mistura EC2 Spot indevidamente; o contexto é Fargate.",
+        "D": "Reserved Instances é compromisso de EC2, não a capacidade de burst interrompível do Fargate."
+      }
+    },
+    {
+      "id": "br-cont2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs"],
+      "situacao": "Você quer que o número de tasks do service aumente e diminua automaticamente pra manter a utilização média de CPU em torno de 60%.",
+      "stem": "Qual recurso faz isso da forma mais simples?",
+      "options": [
+        {"key": "A", "text": "ECS Service Auto Scaling com target tracking (ex.: CPU média alvo)"},
+        {"key": "B", "text": "Editar a task definition manualmente"},
+        {"key": "C", "text": "Aumentar o tamanho do cluster na mão"},
+        {"key": "D", "text": "Usar o ECR"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): manter uma métrica num alvo (CPU 60%) ajustando o nº de tasks = ECS Service Auto Scaling, target tracking.",
+        "💡 Rafael (dica 2): target tracking dispensa criar alarmes na mão — você só dá o alvo."
+      ],
+      "explanation": "O ECS Service Auto Scaling com target tracking mantém uma métrica num valor-alvo (ex.: CPU média em 60%, ou ALBRequestCountPerTarget) ajustando automaticamente o número de tasks do service — sem você definir alarmes manualmente.",
+      "whyNots": {
+        "B": "Editar a task definition na mão não escala automaticamente o nº de tasks.",
+        "C": "Mexer no cluster na mão é o oposto de automático.",
+        "D": "ECR é registro de imagens — não escala o service."
+      }
+    },
+    {
+      "id": "br-cont2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecs", "sqs"],
+      "situacao": "O gatilho de escala ideal não é CPU nem memória, mas o número de MENSAGENS aguardando numa fila SQS que as tasks processam.",
+      "stem": "Como escalar o service do ECS por essa métrica?",
+      "options": [
+        {"key": "A", "text": "ECS Service Auto Scaling com métrica custom (ex.: tamanho da fila SQS no CloudWatch)"},
+        {"key": "B", "text": "Não é possível escalar ECS por fila"},
+        {"key": "C", "text": "Trocar o ECS por Lightsail"},
+        {"key": "D", "text": "Usar signed URLs"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): CPU/memória nem sempre são o melhor sinal; dá pra escalar por métrica CUSTOM, como o tamanho da fila SQS.",
+        "💡 Rafael (dica 2): o Application Auto Scaling do ECS aceita métricas custom do CloudWatch."
+      ],
+      "explanation": "O ECS Service Auto Scaling aceita métricas custom (via Application Auto Scaling/CloudWatch), como o número de mensagens numa fila SQS. Quando CPU/memória não refletem a carga real, escalar pela profundidade da fila é mais adequado.",
+      "whyNots": {
+        "B": "É possível, sim — métricas custom (tamanho da fila) são um caso clássico.",
+        "C": "Lightsail é VPS simples — não resolve o escalonamento por fila do ECS.",
+        "D": "Signed URLs são do S3/CloudFront — nada a ver com escalonamento."
+      }
+    },
+    {
+      "id": "br-cont2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecr", "ecs", "fargate"],
+      "situacao": "Numa esteira: você empacota a imagem, guarda num registro, e a roda em contêineres sem gerenciar servidor.",
+      "stem": "Qual combinação representa esse fluxo?",
+      "options": [
+        {"key": "A", "text": "Imagem no ECR → executada em ECS/Fargate"},
+        {"key": "B", "text": "Imagem no ECS → executada no ECR"},
+        {"key": "C", "text": "Imagem no S3 → executada no CloudFront"},
+        {"key": "D", "text": "Imagem no Lightsail → executada no Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ECR guarda a imagem; ECS/Fargate a executa (serverless).",
+        "💡 Rafael (dica 2): registro = ECR; orquestrador/execução = ECS (com Fargate)."
+      ],
+      "explanation": "O fluxo típico: a imagem é empacotada e guardada no ECR (registro), e então executada em contêineres pelo ECS com Fargate (serverless, sem gerenciar servidor). ECR armazena; ECS/Fargate roda.",
+      "whyNots": {
+        "B": "Inverte — a imagem fica no ECR (registro), não no ECS; o ECS executa.",
+        "C": "S3/CloudFront são storage/CDN — não executam contêineres.",
+        "D": "Lightsail/Athena não são registro nem orquestrador de contêineres nesse fluxo."
+      }
+    },
+    {
+      "id": "br-cont2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ecr", "ecs", "fargate"],
+      "situacao": "Quatro papéis: (1) registro de imagens; (2) molde da aplicação; (3) mantém N tasks rodando; (4) capacidade de contêiner serverless on-demand.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "ECR → Task definition → Service → Fargate"},
+        {"key": "B", "text": "Task definition → ECR → Fargate → Service"},
+        {"key": "C", "text": "Service → Fargate → ECR → Task definition"},
+        {"key": "D", "text": "Fargate → Service → Task definition → ECR"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): registro = ECR; molde = task definition; mantém N = service; serverless on-demand = Fargate.",
+        "💡 Rafael (dica 2): só a opção A mantém cada peça na sua função."
+      ],
+      "explanation": "Cada elemento tem seu papel: ECR (registro de imagens), task definition (molde da aplicação), service (mantém N tasks) e Fargate (capacidade de contêiner serverless on-demand). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca ECR com task definition e service com Fargate.",
+        "C": "Embaralha tudo — service não é registro de imagens.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

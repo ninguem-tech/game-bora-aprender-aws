@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Cenários Combinados estilo prova SAA-C03 — questões que misturam vários serviços já verificados em decisões de arquitetura realistas (resiliência, desacoplamento, DR, custo, híbrido, evento, segurança, analytics).",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cenario-q00",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["elb", "auto-scaling", "rds", "elasticache"],
+      "situacao": "Uma aplicação web de 3 camadas precisa: distribuir tráfego HTTP entre instâncias, escalar a frota conforme a carga, sobreviver à queda de uma AZ no banco, e aliviar o banco em leituras repetidas.",
+      "stem": "Qual combinação de serviços atende todos os requisitos?",
+      "options": [
+        {"key": "A", "text": "ALB + Auto Scaling (multi-AZ) + RDS Multi-AZ + ElastiCache"},
+        {"key": "B", "text": "NLB + uma única instância EC2 + RDS Single-AZ"},
+        {"key": "C", "text": "CloudFront + Spot única + DynamoDB local"},
+        {"key": "D", "text": "API Gateway + Lambda + Instance Store"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): destrincha — distribuir HTTP = ALB; escalar = Auto Scaling em várias AZs; sobreviver à queda de AZ no banco = RDS Multi-AZ; aliviar leitura = ElastiCache.",
+        "💡 Rafael (dica 2): cada requisito aponta um serviço; só a opção A junta os quatro certos."
+      ],
+      "explanation": "ALB distribui o tráfego HTTP (camada 7); Auto Scaling em múltiplas AZs ajusta a frota e dá resiliência; RDS Multi-AZ mantém um standby síncrono pra failover automático se uma AZ cair; ElastiCache cacheia leituras repetidas aliviando o banco. É o desenho clássico de 3 camadas resiliente.",
+      "whyNots": {
+        "B": "Uma instância única e RDS Single-AZ não sobrevivem à queda de AZ nem escalam.",
+        "C": "Spot única é interrompível e não dá resiliência; o cenário é uma app web de 3 camadas relacional.",
+        "D": "Instance Store é efêmero e o stack não cobre o banco relacional resiliente pedido."
+      }
+    },
+    {
+      "id": "br-cenario-q01",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["api-gateway", "sqs", "lambda", "dynamodb"],
+      "situacao": "Um endpoint recebe rajadas imprevisíveis de requisições que disparam um processamento. O time quer absorver o pico sem perder requisição e processar de forma serverless e desacoplada.",
+      "stem": "Qual arquitetura serverless desacoplada atende?",
+      "options": [
+        {"key": "A", "text": "API Gateway → SQS → Lambda (consumindo a fila) → DynamoDB"},
+        {"key": "B", "text": "API Gateway → Lambda síncrono direto, sem fila"},
+        {"key": "C", "text": "EC2 único processando tudo na hora"},
+        {"key": "D", "text": "CloudFront → S3 estático"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'absorver pico sem perder + serverless + desacoplado' pede uma FILA no meio. API Gateway põe na SQS, Lambda consome no ritmo, grava no DynamoDB.",
+        "💡 Rafael (dica 2): a SQS amortece a rajada; se o processamento falhar, a mensagem volta (visibility timeout) ou vai pra DLQ."
+      ],
+      "explanation": "Colocar uma fila SQS entre a entrada (API Gateway) e o processamento (Lambda) absorve as rajadas sem perder requisições e desacopla os componentes. O Lambda consome no próprio ritmo e grava no DynamoDB — tudo serverless e resiliente, com DLQ pra mensagens problemáticas.",
+      "whyNots": {
+        "B": "Lambda síncrono direto sem fila pode estourar limites de concorrência na rajada e perder requisições — falta o amortecedor.",
+        "C": "EC2 único não absorve pico nem é serverless/resiliente.",
+        "D": "CloudFront + S3 serve conteúdo estático — não processa as requisições dinâmicas."
+      }
+    },
+    {
+      "id": "br-cenario-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3", "cloudfront", "waf", "route53"],
+      "situacao": "Você vai publicar um site estático global, com o bucket de origem privado, proteção contra SQLi/XSS na borda e um domínio próprio.",
+      "stem": "Qual combinação entrega isso?",
+      "options": [
+        {"key": "A", "text": "S3 privado + CloudFront com OAC + WAF na distribuição + Route 53 pro domínio"},
+        {"key": "B", "text": "S3 público + Route 53, sem CloudFront"},
+        {"key": "C", "text": "EC2 com Nginx numa região só + Security Group"},
+        {"key": "D", "text": "S3 + acesso direto pela URL do bucket"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): estático global = CloudFront; origem privada = OAC; SQLi/XSS na borda = WAF; domínio = Route 53. Empilhe os quatro.",
+        "💡 Rafael (dica 2): o OAC garante que o S3 só responde via CloudFront; o WAF anexa à distribuição."
+      ],
+      "explanation": "S3 privado como origem, CloudFront na frente com OAC (bucket só acessível via CloudFront), AWS WAF anexado à distribuição pra filtrar SQLi/XSS na camada 7, e Route 53 apontando o domínio pra distribuição. É o padrão de site estático seguro e global.",
+      "whyNots": {
+        "B": "S3 público sem CloudFront expõe a origem e não tem CDN nem WAF.",
+        "C": "Um EC2 numa região não dá baixa latência global nem a escala/cache do CloudFront.",
+        "D": "Acesso direto pela URL do bucket expõe a origem e não tem proteção de borda."
+      }
+    },
+    {
+      "id": "br-cenario-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aurora", "route53"],
+      "situacao": "Uma fintech global exige RPO e RTO perto de ZERO, com leitura de baixa latência em vários continentes e recuperação se uma região AWS inteira cair, usando um banco relacional compatível com PostgreSQL.",
+      "stem": "Qual combinação atende o requisito extremo?",
+      "options": [
+        {"key": "A", "text": "Aurora Global Database (multi-Region) + Route 53 com health checks/failover"},
+        {"key": "B", "text": "RDS Single-AZ + snapshots diários"},
+        {"key": "C", "text": "Aurora numa região só com Multi-AZ"},
+        {"key": "D", "text": "DynamoDB local com backup"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'RPO/RTO ~0 + multi-continente + perder a região + PostgreSQL' = Aurora Global Database, com Route 53 roteando entre regiões.",
+        "💡 Rafael (dica 2): Multi-AZ numa região só não protege contra perder a região inteira."
+      ],
+      "explanation": "Aurora Global Database abrange múltiplas regiões com leitura global de baixa latência e DR cross-region (RTO em minutos, replicação rápida), compatível com PostgreSQL. Route 53 com health checks faz o failover de DNS entre regiões. É o desenho pra RPO/RTO mínimos em escala global.",
+      "whyNots": {
+        "B": "Single-AZ + snapshots diários tem RPO/RTO em horas e não protege a região — longe de 'perto de zero'.",
+        "C": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região inteira.",
+        "D": "DynamoDB não é compatível com PostgreSQL (é NoSQL) — não atende o requisito relacional."
+      }
+    },
+    {
+      "id": "br-cenario-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["spot", "s3", "athena"],
+      "situacao": "Um pipeline de processamento em lote, stateless e tolerante a interrupção, roda à noite sobre dados no S3 e depois precisa consultar os resultados com SQL ad-hoc, tudo com o MENOR custo.",
+      "stem": "Qual combinação minimiza o custo?",
+      "options": [
+        {"key": "A", "text": "Instâncias Spot pro processamento + dados no S3 + Athena pra consultar"},
+        {"key": "B", "text": "Instâncias On-Demand 24/7 + Redshift provisionado sempre ligado"},
+        {"key": "C", "text": "Dedicated Hosts + EMR sempre ligado"},
+        {"key": "D", "text": "Reserved Instances de 3 anos pro batch noturno"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): batch interrompível = Spot (até 90% off); dados em S3; SQL ad-hoc serverless = Athena (paga por dado escaneado).",
+        "💡 Rafael (dica 2): nada fica ligado à toa — Spot só quando roda, Athena só quando consulta."
+      ],
+      "explanation": "Spot entrega até 90% de desconto pra um batch noturno stateless e interrompível; os dados ficam no S3; o Athena consulta com SQL ad-hoc de forma serverless (paga só pelo dado escaneado). Nada fica provisionado ocioso — custo mínimo de ponta a ponta.",
+      "whyNots": {
+        "B": "On-Demand 24/7 e Redshift sempre ligado custam caro pra um uso noturno/pontual.",
+        "C": "Dedicated Hosts e EMR sempre ligado são o oposto de menor custo aqui.",
+        "D": "RI de 3 anos pressupõe uso constante; um batch noturno interrompível se beneficia mais do Spot."
+      }
+    },
+    {
+      "id": "br-cenario-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["direct-connect", "vpn", "transit-gateway"],
+      "situacao": "Uma empresa quer ligar o data center a várias VPCs na AWS com baixa latência e banda dedicada, ter um backup automático mais barato se o link dedicado cair, e centralizar a conectividade num hub.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"},
+        {"key": "B", "text": "Só Site-to-Site VPN, sem hub"},
+        {"key": "C", "text": "VPC Peering entre cada par + Internet Gateway"},
+        {"key": "D", "text": "CloudFront + Global Accelerator"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): banda dedicada = Direct Connect; backup barato automático = VPN; hub pra várias VPCs/on-prem = Transit Gateway.",
+        "💡 Rafael (dica 2): é o padrão híbrido clássico — DX manda, VPN segura a queda, TGW centraliza."
+      ],
+      "explanation": "Direct Connect dá o link dedicado de baixa latência; Site-to-Site VPN serve de backup automático (failover via BGP) mais barato que um segundo DX; Transit Gateway centraliza a conectividade entre as várias VPCs e o on-premises num hub. É a arquitetura híbrida resiliente típica.",
+      "whyNots": {
+        "B": "Só VPN não dá a banda dedicada/baixa latência do DX nem o hub central.",
+        "C": "VPC Peering ponto-a-ponto não escala (malha) e Internet Gateway expõe à internet — não liga o data center privado.",
+        "D": "CloudFront e Global Accelerator são pra usuários finais/conteúdo, não conectividade híbrida do data center."
+      }
+    },
+    {
+      "id": "br-cenario-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["s3", "lambda", "dynamodb", "sns"],
+      "situacao": "Toda vez que uma imagem é enviada ao S3, você precisa gerar uma miniatura, gravar metadados num banco NoSQL e notificar vários sistemas — de forma orientada a evento, sem servidor.",
+      "stem": "Qual combinação implementa esse fluxo orientado a evento?",
+      "options": [
+        {"key": "A", "text": "Evento do S3 → Lambda (gera thumbnail) → grava no DynamoDB → publica no SNS (fan-out)"},
+        {"key": "B", "text": "Cron num EC2 que varre o bucket de hora em hora"},
+        {"key": "C", "text": "API Gateway WebSocket + RDS"},
+        {"key": "D", "text": "Kinesis Data Streams + Redshift"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'a cada upload no S3' = evento do S3 acionando Lambda. Metadados NoSQL = DynamoDB. Notificar vários = SNS fan-out.",
+        "💡 Rafael (dica 2): tudo serverless e por evento — nada de ficar varrendo o bucket."
+      ],
+      "explanation": "O evento de criação de objeto no S3 aciona uma função Lambda que gera a miniatura, grava os metadados no DynamoDB e publica num tópico SNS pra notificar vários sistemas (fan-out). É a arquitetura orientada a evento, serverless e desacoplada — sem varredura periódica.",
+      "whyNots": {
+        "B": "Cron varrendo o bucket é ineficiente, com atraso e custo, e não é orientado a evento.",
+        "C": "WebSocket + RDS não é o padrão pra processar uploads no S3 de forma orientada a evento.",
+        "D": "Kinesis/Redshift é pra streaming/analytics, não pra reagir a cada upload com geração de thumbnail."
+      }
+    },
+    {
+      "id": "br-cenario-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3", "kms", "iam", "vpc"],
+      "situacao": "Instâncias EC2 numa sub-rede privada precisam ler dados de um bucket S3 criptografado, sem tráfego pela internet, sem access keys embutidas e com o dado criptografado por uma chave gerenciada.",
+      "stem": "Qual combinação atende segurança e acesso privado?",
+      "options": [
+        {"key": "A", "text": "IAM Role na EC2 + SSE-KMS no S3 + Gateway Endpoint pro S3"},
+        {"key": "B", "text": "Access key embutida + bucket público"},
+        {"key": "C", "text": "NAT Gateway + bucket sem criptografia"},
+        {"key": "D", "text": "Usuário IAM compartilhado + Internet Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): sem chave embutida = IAM Role na EC2; criptografia gerenciada = SSE-KMS; sem internet = Gateway Endpoint pro S3.",
+        "💡 Rafael (dica 2): o Gateway Endpoint mantém o tráfego ao S3 privado (na rede da AWS), sem NAT/internet."
+      ],
+      "explanation": "Uma IAM Role na instância entrega credenciais temporárias (sem access key embutida); o SSE-KMS criptografa os objetos com chave gerenciada; o Gateway Endpoint do VPC dá acesso privado ao S3 sem passar pela internet nem NAT. Cobre acesso seguro e privado de ponta a ponta.",
+      "whyNots": {
+        "B": "Access key embutida e bucket público são falhas graves de segurança.",
+        "C": "NAT Gateway leva tráfego pela internet (com custo) e bucket sem criptografia falha o requisito.",
+        "D": "Usuário compartilhado e Internet Gateway violam menor privilégio e acesso privado."
+      }
+    },
+    {
+      "id": "br-cenario-q08",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["kinesis-data-streams", "data-firehose", "s3", "athena"],
+      "situacao": "Eventos de clickstream chegam em tempo real. Você quer processar parte deles na hora com lógica própria e também descarregar o fluxo bruto num data lake no S3, sem gerenciar servidor, pra consultar depois com SQL.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "Kinesis Data Streams (processamento em tempo real) + Data Firehose (entrega no S3) + Athena (consulta)"},
+        {"key": "B", "text": "SQS + EC2 + MySQL"},
+        {"key": "C", "text": "SNS + Lambda + EBS"},
+        {"key": "D", "text": "CloudFront + S3 estático"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): tempo real com lógica própria = Kinesis Data Streams; entregar bruto no S3 sem código = Data Firehose; SQL no data lake = Athena.",
+        "💡 Rafael (dica 2): Streams e Firehose podem trabalhar juntos — Streams processa, Firehose descarrega no S3."
+      ],
+      "explanation": "Kinesis Data Streams processa o clickstream em tempo real com consumidores próprios; Amazon Data Firehose entrega o fluxo bruto no S3 (gerenciado, sem código), formando o data lake; Athena consulta esses dados com SQL ad-hoc. É o pipeline de streaming/analytics serverless clássico.",
+      "whyNots": {
+        "B": "SQS + EC2 + MySQL não é streaming em tempo real escalável nem data lake consultável por SQL serverless.",
+        "C": "SNS + Lambda + EBS não forma o pipeline de streaming + data lake + consulta SQL pedido.",
+        "D": "CloudFront + S3 estático serve conteúdo — não processa clickstream em tempo real."
+      }
+    },
+    {
+      "id": "br-cenario-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rds", "elasticache", "cloudfront", "s3"],
+      "situacao": "Um portal de notícias tem leitura altíssima: muita gente lendo as mesmas matérias e baixando as mesmas imagens. O banco relacional está sobrecarregado de SELECTs e os usuários distantes reclamam de lentidão nas imagens.",
+      "stem": "Qual combinação melhora desempenho e alivia o banco?",
+      "options": [
+        {"key": "A", "text": "RDS Read Replicas + ElastiCache (cache de consultas) + CloudFront pra os estáticos no S3"},
+        {"key": "B", "text": "RDS Multi-AZ standby servindo as leituras"},
+        {"key": "C", "text": "Aumentar o tamanho do backup do RDS"},
+        {"key": "D", "text": "Mover tudo pra uma instância EC2 maior"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): escalar leitura do banco = Read Replicas; cachear consultas repetidas = ElastiCache; acelerar imagens globais = CloudFront (sobre o S3).",
+        "💡 Rafael (dica 2): cuidado — o standby do Multi-AZ NÃO serve leitura; quem escala leitura é a Read Replica."
+      ],
+      "explanation": "Read Replicas distribuem a carga de leitura do RDS; o ElastiCache cacheia as consultas mais repetidas, aliviando ainda mais o banco; o CloudFront cacheia as imagens estáticas (no S3) perto dos usuários, reduzindo a latência global. Cada peça ataca uma parte do gargalo.",
+      "whyNots": {
+        "B": "O standby do Multi-AZ é só pra failover — NÃO serve tráfego de leitura.",
+        "C": "Backup não tem efeito sobre a carga de leitura em produção.",
+        "D": "Uma EC2 maior (scale up) não resolve a leitura distribuída nem a latência global das imagens."
+      }
+    }
+  ]
+}

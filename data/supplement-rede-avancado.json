@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Rede Aprofundamento (políticas de roteamento do Route 53, VPC Endpoints Gateway vs Interface/PrivateLink, Security Group vs NACL, NAT Gateway, VPC Flow Logs). Aprofunda rede além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-rede2-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "O time vai lançar uma versão nova da aplicação e quer mandar só 10% do tráfego pra ela no começo (canary), aumentando aos poucos, deixando 90% na versão antiga.",
+      "stem": "Qual política de roteamento do Route 53 faz essa divisão por porcentagem?",
+      "options": [
+        {"key": "A", "text": "Weighted (ponderada)"},
+        {"key": "B", "text": "Failover"},
+        {"key": "C", "text": "Latency"},
+        {"key": "D", "text": "Geolocation"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'dividir tráfego por porcentagem' = peso = Weighted. Você dá um peso pra cada destino (ex.: 10 e 90).",
+        "💡 Rafael (dica 2): é a política clássica pra canary/teste A/B e balanceamento simples por DNS."
+      ],
+      "explanation": "A política Weighted (ponderada) distribui o tráfego entre vários recursos nas proporções que você definir (ex.: 10% / 90%). É ideal pra lançamentos canary, testes A/B e balanceamento simples via DNS.",
+      "whyNots": {
+        "B": "Failover é ativo-passivo (primário saudável ou secundário) — não divide por porcentagem.",
+        "C": "Latency manda pro região de menor latência — não controla porcentagem.",
+        "D": "Geolocation roteia pela localização do usuário — não faz split percentual."
+      }
+    },
+    {
+      "id": "br-rede2-q01",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "A aplicação roda em três regiões (EUA, Europa, Brasil) e você quer que cada usuário caia na região que responde mais rápido pra ele.",
+      "stem": "Qual política de roteamento do Route 53 escolhe a região de menor latência?",
+      "options": [
+        {"key": "A", "text": "Latency-based"},
+        {"key": "B", "text": "Weighted"},
+        {"key": "C", "text": "Simple"},
+        {"key": "D", "text": "Multivalue answer"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o nome é literal — Latency. Recursos em várias regiões, cada usuário vai pra de menor latência.",
+        "💡 Rafael (dica 2): não confunda com geolocation (que olha o PAÍS do usuário, não a latência medida)."
+      ],
+      "explanation": "A política Latency-based roteia o usuário pra região AWS que oferece a menor latência pra ele, quando você tem recursos em múltiplas regiões. Otimiza desempenho percebido.",
+      "whyNots": {
+        "B": "Weighted divide por porcentagem, não por latência.",
+        "C": "Simple aponta pra um recurso único, sem escolher por desempenho.",
+        "D": "Multivalue retorna vários registros saudáveis aleatórios — não escolhe pela menor latência."
+      }
+    },
+    {
+      "id": "br-rede2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Você quer um site primário e um site de DR de reserva: enquanto o primário estiver saudável, todo tráfego vai pra ele; se cair (health check falha), o DNS passa a apontar pro secundário.",
+      "stem": "Qual política de roteamento faz esse ativo-passivo?",
+      "options": [
+        {"key": "A", "text": "Failover"},
+        {"key": "B", "text": "Weighted"},
+        {"key": "C", "text": "Geoproximity"},
+        {"key": "D", "text": "Simple"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'primário saudável, senão secundário' é exatamente o Failover (ativo-passivo), apoiado em health check.",
+        "💡 Rafael (dica 2): casa bem com estratégias de DR (pilot light/warm standby) pra redirecionar quando a região primária cai."
+      ],
+      "explanation": "A política Failover implementa o padrão ativo-passivo: o Route 53 manda o tráfego pro recurso primário enquanto o health check indica que ele está saudável; se falhar, redireciona pro secundário. É o roteamento típico de DR.",
+      "whyNots": {
+        "B": "Weighted divide tráfego por proporção — não é primário/secundário por saúde.",
+        "C": "Geoproximity roteia pela localização do recurso com bias — não é failover por health check.",
+        "D": "Simple não tem health check nem secundário de reserva."
+      }
+    },
+    {
+      "id": "br-rede2-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Dois requisitos diferentes: (1) usuários da Alemanha devem ver o site em alemão e só acessar conteúdo permitido naquele país; (2) você quer rotear pela proximidade dos seus recursos e ainda poder 'puxar' mais tráfego de uma região pra outra com um ajuste.",
+      "stem": "Qual par de políticas atende, respectivamente?",
+      "options": [
+        {"key": "A", "text": "(1) Geolocation; (2) Geoproximity (com bias)"},
+        {"key": "B", "text": "(1) Geoproximity; (2) Geolocation"},
+        {"key": "C", "text": "(1) Latency; (2) Weighted"},
+        {"key": "D", "text": "(1) Failover; (2) Simple"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): geolocation olha onde o USUÁRIO está (país/continente) — bom pra idioma/conformidade. Geoproximity olha onde o RECURSO está, e o BIAS desloca o tráfego.",
+        "💡 Rafael (dica 2): a palavra 'bias' (ajuste pra puxar mais/menos tráfego) só existe no geoproximity."
+      ],
+      "explanation": "Geolocation roteia pela localização do USUÁRIO (país/continente) — ideal pra idioma e conformidade por país. Geoproximity roteia pela localização do RECURSO e permite o bias, que expande/encolhe a área pra deslocar tráfego entre regiões. São coisas distintas que a prova adora confundir.",
+      "whyNots": {
+        "B": "Inverte: idioma por país é geolocation; bias é geoproximity.",
+        "C": "Latency é por desempenho e Weighted por porcentagem — nenhum trata localização do usuário/recurso como pedido.",
+        "D": "Failover é ativo-passivo e Simple é recurso único — não atendem os cenários geográficos."
+      }
+    },
+    {
+      "id": "br-rede2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "s3"],
+      "situacao": "Instâncias numa sub-rede PRIVADA precisam acessar o Amazon S3 sem passar pela internet, sem NAT, e sem custo extra de endpoint.",
+      "stem": "Qual tipo de VPC endpoint atende S3 (e DynamoDB) de graça?",
+      "options": [
+        {"key": "A", "text": "Gateway Endpoint"},
+        {"key": "B", "text": "Interface Endpoint (PrivateLink)"},
+        {"key": "C", "text": "NAT Gateway"},
+        {"key": "D", "text": "Internet Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pra S3 e DynamoDB tem um endpoint especial e GRÁTIS, que entra como rota (prefix list) na route table: o Gateway Endpoint.",
+        "💡 Rafael (dica 2): o Interface Endpoint (PrivateLink) é pra muitos outros serviços e TEM custo; pra S3/DynamoDB de graça, é Gateway."
+      ],
+      "explanation": "O Gateway Endpoint dá acesso privado a S3 e DynamoDB sem internet nem NAT, é gratuito e funciona via prefix list na route table. É a escolha certa (e barata) pra esses dois serviços a partir de sub-rede privada.",
+      "whyNots": {
+        "B": "Interface Endpoint (PrivateLink) serve a muitos serviços, mas TEM custo por hora + dado; pra S3/DynamoDB de graça, é o Gateway.",
+        "C": "NAT Gateway daria acesso via internet (com custo), não acesso privado pela rede da AWS.",
+        "D": "Internet Gateway expõe à internet — o oposto de manter privado."
+      }
+    },
+    {
+      "id": "br-rede2-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "privatelink"],
+      "situacao": "Você precisa de acesso PRIVADO a um serviço da AWS que não é S3/DynamoDB (ex.: SQS, ou um serviço próprio), inclusive a partir do data center on-premises via Direct Connect.",
+      "stem": "Qual recurso entrega esse acesso privado?",
+      "options": [
+        {"key": "A", "text": "Interface Endpoint (AWS PrivateLink) — uma ENI privada na sub-rede"},
+        {"key": "B", "text": "Gateway Endpoint"},
+        {"key": "C", "text": "Internet Gateway"},
+        {"key": "D", "text": "Egress-only Internet Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pra outros serviços (além de S3/DynamoDB) e com acesso de on-premises, é o Interface Endpoint via PrivateLink — ele cria uma ENI com IP privado na sua sub-rede.",
+        "💡 Rafael (dica 2): Gateway Endpoint só atende S3/DynamoDB e NÃO é acessível de on-premises."
+      ],
+      "explanation": "O Interface Endpoint (AWS PrivateLink) provisiona uma ENI com IP privado na sub-rede pra acessar serviços da AWS (e de terceiros/próprios) de forma privada — e é acessível de on-premises (VPN/Direct Connect) e de VPCs peered. É o caminho pra serviços fora do par S3/DynamoDB.",
+      "whyNots": {
+        "B": "Gateway Endpoint só serve S3/DynamoDB e não é acessível de on-premises.",
+        "C": "Internet Gateway expõe à internet pública — não é acesso privado.",
+        "D": "Egress-only IGW é pra saída IPv6 — não dá acesso privado a serviços AWS."
+      }
+    },
+    {
+      "id": "br-rede2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Na prova: comparar o firewall do nível da instância com o do nível da sub-rede. Um é stateful (libera a resposta sozinho); o outro é stateless (precisa de regra de ida e de volta).",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Security Group = stateful (instância); NACL = stateless (sub-rede)"},
+        {"key": "B", "text": "Security Group = stateless (sub-rede); NACL = stateful (instância)"},
+        {"key": "C", "text": "Ambos são stateful e idênticos"},
+        {"key": "D", "text": "Ambos atuam só na sub-rede"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Security Group fica na INSTÂNCIA e é stateful — se deixou entrar, a resposta sai sozinha. NACL fica na SUB-REDE e é stateless — você define ida E volta.",
+        "💡 Rafael (dica 2): outra diferença: SG só tem allow; NACL tem allow e DENY (pode bloquear IP)."
+      ],
+      "explanation": "Security Group atua no nível da instância (ENI), é stateful (a resposta ao tráfego permitido é liberada automaticamente) e só tem regras de allow. NACL atua no nível da sub-rede, é stateless (precisa de regra de inbound E outbound) e tem allow e deny.",
+      "whyNots": {
+        "B": "Inverte os dois — SG é stateful/instância; NACL é stateless/sub-rede.",
+        "C": "Não são idênticos: diferem em estado, nível e em ter ou não regra de deny.",
+        "D": "O Security Group atua na instância, não na sub-rede."
+      }
+    },
+    {
+      "id": "br-rede2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Um IP malicioso específico está atacando sua aplicação e você precisa BLOQUEAR explicitamente esse endereço na entrada da sub-rede.",
+      "stem": "Qual recurso permite uma regra de DENY pra um IP?",
+      "options": [
+        {"key": "A", "text": "Network ACL (NACL)"},
+        {"key": "B", "text": "Security Group"},
+        {"key": "C", "text": "Route table"},
+        {"key": "D", "text": "IAM policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Security Group SÓ tem allow (nega por omissão, mas não tem regra de deny). Pra BLOQUEAR um IP específico, é a NACL, que tem deny.",
+        "💡 Rafael (dica 2): NACL é stateless e por sub-rede — perfeita pra barrar um range/IP na borda da sub-rede."
+      ],
+      "explanation": "Só a NACL tem regras de deny explícitas, então é o recurso certo pra bloquear um IP/range específico na entrada da sub-rede. O Security Group só tem regras de allow (não consegue negar um IP individual).",
+      "whyNots": {
+        "B": "Security Group não tem regra de deny — não consegue bloquear um IP específico.",
+        "C": "Route table direciona tráfego, não filtra/bloqueia por IP de origem.",
+        "D": "IAM policy controla permissões de API, não tráfego de rede."
+      }
+    },
+    {
+      "id": "br-rede2-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["nat-gateway", "vpc"],
+      "situacao": "Instâncias numa sub-rede privada precisam baixar atualizações e chamar APIs externas na internet, mas NÃO podem ser acessadas de fora.",
+      "stem": "Qual recurso dá acesso de saída à internet sem expor as instâncias?",
+      "options": [
+        {"key": "A", "text": "NAT Gateway"},
+        {"key": "B", "text": "Internet Gateway diretamente na sub-rede privada"},
+        {"key": "C", "text": "VPC Peering"},
+        {"key": "D", "text": "Gateway Endpoint"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): NAT = saída sim, entrada não. As instâncias privadas saem pra internet (updates/APIs) pelo NAT, mas ninguém de fora inicia conexão com elas.",
+        "💡 Rafael (dica 2): o NAT Gateway fica numa sub-rede pública e é gerenciado/escalável (melhor que NAT instance)."
+      ],
+      "explanation": "O NAT Gateway permite que instâncias em sub-rede privada iniciem conexões de SAÍDA pra internet (atualizações, APIs externas) sem ficarem acessíveis de fora. É gerenciado, escalável, fica em sub-rede pública e precisa de rota.",
+      "whyNots": {
+        "B": "Colocar as instâncias atrás de Internet Gateway as tornaria acessíveis da internet — o que se quer evitar.",
+        "C": "VPC Peering conecta VPCs entre si, não dá saída pra internet.",
+        "D": "Gateway Endpoint dá acesso privado a S3/DynamoDB, não acesso geral de saída à internet."
+      }
+    },
+    {
+      "id": "br-rede2-q09",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "cloudwatch"],
+      "situacao": "Segurança quer registrar quais conexões IP foram aceitas ou rejeitadas na VPC, pra auditar e investigar problemas de conectividade — sem capturar o conteúdo dos pacotes.",
+      "stem": "Qual recurso registra esses metadados de tráfego?",
+      "options": [
+        {"key": "A", "text": "VPC Flow Logs"},
+        {"key": "B", "text": "CloudTrail"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "X-Ray"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'fluxo de rede aceito/rejeitado, sem o conteúdo' = VPC Flow Logs. Ele grava os metadados (IPs, portas, ação) em CloudWatch Logs ou S3.",
+        "💡 Rafael (dica 2): não confunda com CloudTrail (chamadas de API), nem com X-Ray (caminho da requisição na aplicação)."
+      ],
+      "explanation": "VPC Flow Logs capturam os metadados do tráfego IP (origem/destino, portas, aceito/rejeitado) das ENIs/sub-redes/VPC e gravam em CloudWatch Logs ou S3 — pra auditoria e troubleshooting de conectividade/segurança. Não capturam o payload.",
+      "whyNots": {
+        "B": "CloudTrail registra chamadas de API, não tráfego de rede pacote a pacote.",
+        "C": "Config avalia configuração de recursos — não registra fluxo de rede.",
+        "D": "X-Ray rastreia requisições dentro da aplicação, não o tráfego IP da VPC."
+      }
+    }
+  ]
+}

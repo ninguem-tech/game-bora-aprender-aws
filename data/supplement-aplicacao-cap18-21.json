@@ -1,0 +1,384 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Questões PT autorais — Fase Serviços de Aplicação (caps 18-21): Lambda/API Gateway, SQS/SNS/EventBridge/Step Functions, CloudFront/Route 53, ECS/EKS/migração (DMS/MGN/DataSync). Voz café com leite. Dicas opcionais e progressivas (1 a 3). Ancoradas no livro PT.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-app-c18-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "18",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["lambda"],
+      "situacao": "A Camila tinha um job de relatório que rodava 10 minutos por dia, mas a instância EC2 ficava ligada as outras 23h50 sem fazer nada — pagando o mês inteiro.",
+      "stem": "Qual serviço executa código sob demanda, escala sozinho e cobra só pelo tempo de execução?",
+      "options": [
+        { "key": "A", "text": "AWS Lambda (serverless, event-driven)" },
+        { "key": "B", "text": "Uma instância EC2 maior" },
+        { "key": "C", "text": "Amazon S3" },
+        { "key": "D", "text": "Amazon RDS" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): Lambda é tipo micro-ondas — você põe o prato (código), aperta o botão (o evento), ele cozinha pelo tempo necessário e desliga sozinho. Você não mantém o forno ligado esperando o próximo prato."],
+      "explanation": "Lambda é computação serverless event-driven: você sobe a função, um evento (trigger) dispara, a AWS executa num ambiente efêmero e você paga só pela duração + memória. Sem servidor ligado à toa.",
+      "whyNots": {
+        "B": "EC2 maior continua ligada (e cobrando) 24h pra um job de 10 minutos.",
+        "C": "S3 guarda arquivos, não executa código.",
+        "D": "RDS é banco de dados, não execução de código sob demanda."
+      }
+    },
+    {
+      "id": "br-app-c18-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "18",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["lambda", "fargate"],
+      "situacao": "Um processamento de arquivo de 2 GB pode levar até 20 minutos para concluir. O time quer rodar isso no Lambda.",
+      "stem": "O que IMPEDE o uso do Lambda aqui, e qual a alternativa?",
+      "options": [
+        { "key": "A", "text": "O timeout máximo do Lambda é 15 minutos; para 20 min use Fargate (ou EC2)" },
+        { "key": "B", "text": "Nada impede — Lambda roda por qualquer tempo" },
+        { "key": "C", "text": "Lambda não aceita arquivos, só texto" },
+        { "key": "D", "text": "Falta criar um Security Group para a função" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): Lambda tem um teto de tempo por execução. 20 minutos passa desse teto.",
+        "💡 Rafael (dica 2): o limite é 15 minutos. Pra processos mais longos, container gerenciado (Fargate) ou EC2 resolvem."
+      ],
+      "explanation": "Lambda tem timeout máximo de 15 minutos por execução. Um job de ~20 minutos estoura esse limite, então a alternativa é um container em Fargate (ou uma instância EC2), que não têm esse teto.",
+      "whyNots": {
+        "B": "Lambda NÃO roda por qualquer tempo — para em 15 minutos.",
+        "C": "Lambda processa arquivos (tem /tmp de até 10 GB); o problema é o tempo.",
+        "D": "Security Group não tem relação com o limite de duração da função."
+      }
+    },
+    {
+      "id": "br-app-c18-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "18",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["lambda"],
+      "situacao": "Uma API de pagamentos em Lambda tem SLA de latência rígido. O cold start (tempo de inicialização na primeira invocação) está estourando o SLA.",
+      "stem": "O que elimina o cold start mantendo ambientes pré-aquecidos?",
+      "options": [
+        { "key": "A", "text": "Provisioned Concurrency" },
+        { "key": "B", "text": "Reserved Concurrency" },
+        { "key": "C", "text": "Aumentar o timeout da função" },
+        { "key": "D", "text": "Trocar a função por um Lambda Layer" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): cold start é o tempo de 'ligar' o ambiente. Pra matar isso, você precisa deixar ambientes já ligados, esperando.",
+        "💡 Rafael (dica 2): existe um recurso que mantém execuções pré-inicializadas (aquecidas). Cuidado pra não confundir com o que só GARANTE/limita número de execuções."
+      ],
+      "explanation": "Provisioned Concurrency mantém ambientes de execução pré-inicializados (aquecidos), eliminando o cold start — ideal para endpoints críticos com SLA de latência. Reserved Concurrency garante/limita o número de execuções, mas não elimina o cold start.",
+      "whyNots": {
+        "B": "Reserved Concurrency reserva/limita a quantidade de execuções concorrentes, mas não aquece os ambientes — o cold start continua.",
+        "C": "Timeout maior não reduz o tempo de inicialização.",
+        "D": "Layer compartilha dependências entre funções; não trata cold start."
+      }
+    },
+    {
+      "id": "br-app-c18-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "18",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["api-gateway"],
+      "situacao": "Um app de chat em tempo real precisa que o servidor ENVIE mensagens ao cliente enquanto a janela está aberta — sem o cliente ficar perguntando (polling).",
+      "stem": "Qual tipo de API do API Gateway é o adequado?",
+      "options": [
+        { "key": "A", "text": "WebSocket API (conexão persistente bidirecional)" },
+        { "key": "B", "text": "REST API" },
+        { "key": "C", "text": "HTTP API" },
+        { "key": "D", "text": "Nenhum — API Gateway não serve para chat" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): REST e HTTP API são pergunta-resposta (stateless): o servidor só fala quando o cliente pede. Aqui o servidor precisa EMPURRAR mensagens.",
+        "💡 Rafael (dica 2): pra o servidor mandar dados ao cliente a qualquer hora, com conexão aberta nos dois sentidos, o tipo certo é o WebSocket."
+      ],
+      "explanation": "WebSocket API mantém uma conexão persistente bidirecional: o cliente conecta uma vez e o servidor pode enviar mensagens a qualquer momento (postToConnection) — exatamente o que chat em tempo real precisa. REST/HTTP API são request-response (o servidor só responde quando perguntado).",
+      "whyNots": {
+        "B": "REST API é request-response; pra push em tempo real exigiria polling, que é ineficiente.",
+        "C": "HTTP API também é stateless request-response, sem push do servidor.",
+        "D": "API Gateway serve sim para chat — com o tipo WebSocket."
+      }
+    },
+
+    {
+      "id": "br-app-c19-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "19",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["sqs"],
+      "situacao": "No cadastro, a aplicação tentava enviar o e-mail de boas-vindas na MESMA requisição. Se o serviço de e-mail caía, o cadastro falhava junto.",
+      "stem": "Qual padrão/serviço DESACOPLA os dois processos, pra o cadastro não depender do e-mail?",
+      "options": [
+        { "key": "A", "text": "Uma fila Amazon SQS — registra a mensagem, responde 200, e um consumidor envia o e-mail depois" },
+        { "key": "B", "text": "Aumentar o timeout da requisição de cadastro" },
+        { "key": "C", "text": "Rodar tudo numa instância EC2 maior" },
+        { "key": "D", "text": "Colocar o serviço de e-mail num Security Group" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): SQS é como a caixa de entrada do e-mail — quem envia não espera você ler. O cadastro larga a mensagem na fila, responde na hora, e outro processo envia o e-mail no próprio ritmo. Se o e-mail cai, a mensagem espera na fila."],
+      "explanation": "SQS desacopla produtor e consumidor: a aplicação põe a mensagem na fila e responde 200 imediatamente; um consumidor separado processa e envia o e-mail depois. Se o serviço de e-mail cair, as mensagens ficam na fila esperando — o cadastro não falha junto.",
+      "whyNots": {
+        "B": "Timeout maior só faz o usuário esperar mais; o acoplamento continua.",
+        "C": "Instância maior não desacopla os processos.",
+        "D": "Security Group é firewall — não tem a ver com desacoplar processos."
+      }
+    },
+    {
+      "id": "br-app-c19-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "19",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["sqs"],
+      "situacao": "Uma bolsa de valores processa pedidos de compra/venda onde a ORDEM de chegada determina o preço, e duplicatas são inaceitáveis.",
+      "stem": "Qual tipo de fila SQS atende esse requisito?",
+      "options": [
+        { "key": "A", "text": "SQS FIFO (ordem garantida, exatamente uma vez)" },
+        { "key": "B", "text": "SQS Standard (alto throughput, ordem best-effort)" },
+        { "key": "C", "text": "SNS Topic" },
+        { "key": "D", "text": "EventBridge bus" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): as duas palavras-chave são 'ordem importa' e 'sem duplicatas'.",
+        "💡 Rafael (dica 2): Standard é rápido mas pode entregar fora de ordem e duplicar. Quem garante ordem (First In, First Out) e entrega exatamente uma vez é o FIFO."
+      ],
+      "explanation": "FIFO (First In, First Out) garante a ordem exata de chegada e entrega exatamente uma vez — essencial quando a sequência define o resultado (preço de execução) e duplicatas são inaceitáveis. Standard tem mais throughput, mas ordem best-effort e pode duplicar.",
+      "whyNots": {
+        "B": "Standard pode entregar fora de ordem e duplicar — inaceitável para pedidos de bolsa.",
+        "C": "SNS é pub/sub (broadcast), não fila ordenada de processamento.",
+        "D": "EventBridge roteia eventos por regra, não garante ordem FIFO de processamento."
+      }
+    },
+    {
+      "id": "br-app-c19-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "19",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["sns", "sqs"],
+      "situacao": "Quando um pedido é confirmado, TRÊS coisas precisam acontecer em paralelo: enviar e-mail, atualizar estoque e registrar analytics — cada uma independente da outra.",
+      "stem": "Qual padrão entrega o mesmo evento a múltiplos consumidores em paralelo, com buffer e retry por consumidor?",
+      "options": [
+        { "key": "A", "text": "Fan-out: SNS Topic → uma fila SQS para cada consumidor" },
+        { "key": "B", "text": "Uma única fila SQS lida pelos três processos" },
+        { "key": "C", "text": "Chamar os três serviços em sequência dentro da mesma requisição" },
+        { "key": "D", "text": "Um Security Group para cada serviço" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): você quer que UM evento vire CÓPIAS pra vários destinos, e que a falha de um não derrube os outros.",
+        "💡 Rafael (dica 2): SNS publica pra vários inscritos (pub/sub). Pondo uma SQS na frente de cada um, cada consumidor tem buffer e retry próprios. Isso é o fan-out."
+      ],
+      "explanation": "O padrão fan-out usa SNS (pub/sub) entregando uma cópia do evento a múltiplas filas SQS — uma por consumidor. Cada SQS dá buffer e retry independentes, então se o estoque cair, e-mail e analytics seguem. SNS direto para Lambda perderia o evento se a Lambda falhasse.",
+      "whyNots": {
+        "B": "Uma fila única, cada mensagem é consumida por um só consumidor — não entrega aos três.",
+        "C": "Em sequência na mesma requisição volta ao acoplamento (lento e frágil).",
+        "D": "Security Group é firewall, irrelevante para distribuição de eventos."
+      }
+    },
+    {
+      "id": "br-app-c19-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "19",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["sqs"],
+      "situacao": "Numa fila SQS, uma mensagem específica sempre falha no processamento e volta pra fila, sendo reprocessada de novo e de novo, atrapalhando o resto.",
+      "stem": "O que isola essas mensagens que falham repetidamente, sem bloquear a fila?",
+      "options": [
+        { "key": "A", "text": "Uma Dead Letter Queue (DLQ) com maxReceiveCount configurado" },
+        { "key": "B", "text": "Aumentar o Visibility Timeout para 12 horas" },
+        { "key": "C", "text": "Deletar a fila e criar outra" },
+        { "key": "D", "text": "Trocar a fila Standard por FIFO" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): você não quer que a 'mensagem envenenada' fique girando pra sempre. Quer mandá-la pra um canto e analisar depois.",
+        "💡 Rafael (dica 2): configurando um número máximo de tentativas, depois disso o SQS move a mensagem automaticamente pra uma fila separada — a Dead Letter Queue."
+      ],
+      "explanation": "A DLQ recebe automaticamente as mensagens que falharam mais de maxReceiveCount vezes (ex.: 3). Assim, a 'mensagem envenenada' é isolada para análise sem ficar reprocessando para sempre e sem bloquear o restante da fila. É boa prática em produção.",
+      "whyNots": {
+        "B": "Visibility Timeout maior só adia o reprocessamento; a mensagem ainda fica presa na fila.",
+        "C": "Recriar a fila perderia tudo e não resolve a causa (a mensagem que falha).",
+        "D": "Trocar para FIFO muda ordem/duplicação, não isola mensagens que falham."
+      }
+    },
+
+    {
+      "id": "br-app-c20-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "20",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["cloudfront"],
+      "situacao": "O site carrega rápido em São Paulo, mas clientes em Porto Alegre e Lisboa reclamam que imagens demoram 2-3 segundos. O conteúdo está no S3 em São Paulo.",
+      "stem": "Qual serviço aproxima o conteúdo dos usuários, servindo de um cache global?",
+      "options": [
+        { "key": "A", "text": "Amazon CloudFront (CDN, com Edge Locations perto dos usuários)" },
+        { "key": "B", "text": "Um servidor EC2 maior em São Paulo" },
+        { "key": "C", "text": "Amazon RDS Read Replica" },
+        { "key": "D", "text": "Amazon SQS" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pensa numa biblioteca em São Paulo e cópias em filiais. Em vez de todo mundo ir até SP buscar o livro, o conteúdo fica em cache na filial (Edge Location) mais perto de quem acessa. Essa rede de filiais é o CloudFront."],
+      "explanation": "CloudFront é o CDN da AWS: distribui o conteúdo de 400+ Edge Locations e serve do ponto mais próximo do usuário (cache hit), reduzindo latência. Só vai até a origem (S3) quando não tem o conteúdo em cache.",
+      "whyNots": {
+        "B": "Servidor maior em SP continua longe de Porto Alegre/Lisboa — a distância é o problema.",
+        "C": "Read Replica escala leitura de banco, não entrega de conteúdo estático global.",
+        "D": "SQS é fila de mensagens, nada a ver com entrega de conteúdo."
+      }
+    },
+    {
+      "id": "br-app-c20-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "20",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["cloudfront", "s3"],
+      "situacao": "Você quer servir um bucket S3 via CloudFront, mas o bucket deve continuar PRIVADO — ninguém pode acessá-lo direto pela internet, só através do CloudFront.",
+      "stem": "Qual recurso dá ao CloudFront acesso ao bucket privado sem torná-lo público?",
+      "options": [
+        { "key": "A", "text": "Origin Access Control (OAC)" },
+        { "key": "B", "text": "Desativar o Block Public Access e abrir o bucket" },
+        { "key": "C", "text": "Uma Presigned URL para cada objeto" },
+        { "key": "D", "text": "Um NAT Gateway na frente do bucket" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o bucket continua privado, mas precisa aceitar requests de UM cliente específico: o CloudFront.",
+        "💡 Rafael (dica 2): existe um recurso que faz o CloudFront assinar as requisições pro S3, e a Bucket Policy aceita só ele. É o OAC (sucessor do OAI)."
+      ],
+      "explanation": "Com OAC (Origin Access Control), o CloudFront assina as requisições para o S3, e a Bucket Policy aceita apenas o CloudFront — o bucket fica privado e ninguém o acessa direto. OAC é o sucessor moderno do OAI (suporta SSE-KMS e regiões novas).",
+      "whyNots": {
+        "B": "Abrir o bucket viola o requisito de mantê-lo privado.",
+        "C": "Presigned URL serve acesso pontual a objetos, não é a forma de integrar CloudFront a bucket privado.",
+        "D": "NAT Gateway é saída de subnet privada para a internet — nada a ver com servir o bucket."
+      }
+    },
+    {
+      "id": "br-app-c20-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "20",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["route53"],
+      "situacao": "A aplicação tem um ambiente primário em sa-east-1 e um de disaster recovery em us-east-1. Se o primário cair, o DNS deve apontar para o DR automaticamente.",
+      "stem": "Qual routing policy do Route 53 faz esse failover automático?",
+      "options": [
+        { "key": "A", "text": "Failover (com Health Check no primário)" },
+        { "key": "B", "text": "Weighted" },
+        { "key": "C", "text": "Geolocation" },
+        { "key": "D", "text": "Simple" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): o cenário é clássico de DR — um ativo (primário) e um reserva (standby), troca automática na falha.",
+        "💡 Rafael (dica 2): tem uma política que marca um destino como Primary e outro como Secondary, e troca via Health Check quando o primário falha."
+      ],
+      "explanation": "A policy Failover define o primário (sa-east-1) e o secundário (us-east-1). Com Health Check no primário, se ele falhar o Route 53 passa automaticamente a responder com o DR. É a política de DR ativo/passivo.",
+      "whyNots": {
+        "B": "Weighted divide o tráfego por peso (A/B), não faz failover por saúde.",
+        "C": "Geolocation roteia por país/continente, não por falha do recurso.",
+        "D": "Simple devolve um destino só, sem health check nem failover."
+      }
+    },
+    {
+      "id": "br-app-c20-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "20",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["route53"],
+      "situacao": "Por compliance de residência de dados, usuários brasileiros DEVEM ser atendidos pelo servidor no Brasil e europeus pelo servidor na Europa — de forma determinística por país, não por latência.",
+      "stem": "Qual routing policy do Route 53 garante esse roteamento por localização geográfica?",
+      "options": [
+        { "key": "A", "text": "Geolocation" },
+        { "key": "B", "text": "Latency-based" },
+        { "key": "C", "text": "Weighted" },
+        { "key": "D", "text": "Multi-Value" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): cuidado com a pegadinha — Latency-based mandaria pro mais rápido, mas o requisito é por PAÍS, de forma determinística (compliance).",
+        "💡 Rafael (dica 2): a política que decide pela localização geográfica de quem consulta (país/continente) é a Geolocation."
+      ],
+      "explanation": "Geolocation roteia pela localização geográfica de origem da consulta (país/continente), de forma determinística — ideal para compliance de residência de dados (brasileiro → Brasil, europeu → Europa). Latency-based mandaria para o mais rápido, o que normalmente coincide, mas não garante a regra por país.",
+      "whyNots": {
+        "B": "Latency-based otimiza latência, não garante a residência por país exigida por compliance.",
+        "C": "Weighted divide por porcentagem, sem relação com geografia.",
+        "D": "Multi-Value retorna vários IPs saudáveis, não roteia por país."
+      }
+    },
+
+    {
+      "id": "br-app-c21-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "21",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["ecs", "fargate"],
+      "situacao": "A Camila tem uma imagem Docker pronta e quer rodá-la em produção na AWS, SEM gerenciar nenhum servidor.",
+      "stem": "Qual combinação roda containers sem você gerenciar instâncias?",
+      "options": [
+        { "key": "A", "text": "Amazon ECS com launch type Fargate" },
+        { "key": "B", "text": "Uma instância EC2 onde você instala o Docker na mão" },
+        { "key": "C", "text": "Amazon S3" },
+        { "key": "D", "text": "AWS Lambda Layer" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): você quer só dizer 'roda esse container com tanto de CPU e memória' e não cuidar de servidor nenhum. No ECS, o launch type que faz isso (a AWS aloca a infra invisível) é o Fargate."],
+      "explanation": "ECS com Fargate roda containers sem você gerenciar servidores: define CPU e memória da task e a AWS aloca a infraestrutura, cobrando por vCPU/memória por segundo. É o caminho mais simples para a maioria dos casos.",
+      "whyNots": {
+        "B": "EC2 com Docker na mão te devolve toda a gestão de servidor que você quer evitar.",
+        "C": "S3 guarda objetos, não roda containers.",
+        "D": "Layer compartilha dependências de Lambda; não roda containers de longa duração."
+      }
+    },
+    {
+      "id": "br-app-c21-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "21",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["mgn", "ec2"],
+      "situacao": "Um servidor Windows on-premise com IIS e uma aplicação .NET precisa ir para EC2. A aplicação NÃO pode ser reescrita (lift-and-shift).",
+      "stem": "Qual serviço replica o servidor inteiro para EC2 sem reescrever a aplicação?",
+      "options": [
+        { "key": "A", "text": "AWS Application Migration Service (MGN)" },
+        { "key": "B", "text": "AWS DMS (Database Migration Service)" },
+        { "key": "C", "text": "AWS DataSync" },
+        { "key": "D", "text": "Amazon ECR" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): aqui não é só o banco nem só arquivos — é o SERVIDOR inteiro, do jeito que está, indo virar uma EC2.",
+        "💡 Rafael (dica 2): existe um serviço de lift-and-shift que instala um agente, replica o disco do servidor continuamente e sobe uma EC2 igual. É o MGN."
+      ],
+      "explanation": "MGN (Application Migration Service) faz lift-and-shift: um agente replica continuamente o disco do servidor de origem para a AWS; quando pronto, o Cutover sobe uma EC2 com a aplicação rodando exatamente como estava — sem reescrita. DMS migra bancos; DataSync migra arquivos.",
+      "whyNots": {
+        "B": "DMS migra DADOS de banco de dados, não o servidor inteiro com a aplicação.",
+        "C": "DataSync transfere ARQUIVOS entre armazenamentos, não levanta o servidor como EC2.",
+        "D": "ECR é repositório de imagens de container, não migração de servidor."
+      }
+    },
+    {
+      "id": "br-app-c21-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "21",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["dms"],
+      "situacao": "Um banco Oracle on-premise (800 GB) precisa migrar para Amazon Aurora PostgreSQL, com conversão de schema e o MÍNIMO de downtime.",
+      "stem": "Qual serviço (e ferramenta auxiliar) faz essa migração de banco?",
+      "options": [
+        { "key": "A", "text": "AWS DMS (Full Load + CDC) com o Schema Conversion Tool (SCT) para o schema" },
+        { "key": "B", "text": "AWS MGN (Application Migration Service)" },
+        { "key": "C", "text": "AWS DataSync" },
+        { "key": "D", "text": "AWS Snowmobile" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): é migração de BANCO de dados, e ainda muda de engine (Oracle → PostgreSQL = heterogênea).",
+        "💡 Rafael (dica 2): o DMS faz a cópia inicial (Full Load) + replicação contínua (CDC) com downtime mínimo; e como muda de engine, o SCT converte o schema antes."
+      ],
+      "explanation": "DMS migra bancos com Full Load (cópia inicial) + CDC (captura de mudanças em tempo real), permitindo cutover com downtime mínimo. Como é migração heterogênea (Oracle → PostgreSQL), o Schema Conversion Tool (SCT) converte o schema antes.",
+      "whyNots": {
+        "B": "MGN migra servidores inteiros para EC2, não converte/migra banco entre engines.",
+        "C": "DataSync transfere arquivos, não migra banco relacional com CDC.",
+        "D": "Snowmobile é transporte físico de exabytes — exagero e fora de contexto para 800 GB de banco com CDC."
+      }
+    },
+    {
+      "id": "br-app-c21-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "21",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["datasync", "snow", "dms"],
+      "situacao": "Um NAS on-premise com 50 TB de arquivos precisa ser transferido para o Amazon S3, e a conexão de rede da empresa tem capacidade suficiente.",
+      "stem": "Qual serviço é o indicado para essa transferência de ARQUIVOS pela rede?",
+      "options": [
+        { "key": "A", "text": "AWS DataSync" },
+        { "key": "B", "text": "AWS DMS" },
+        { "key": "C", "text": "AWS MGN" },
+        { "key": "D", "text": "AWS Snowmobile" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): cuidado pra não confundir as ferramentas de migração: aqui é ARQUIVO (NAS), não banco e não servidor.",
+        "💡 Rafael (dica 2): DMS = banco; MGN = servidor; Snow = hardware físico quando a rede não dá conta. Arquivos via rede (NFS/SMB → S3/EFS/FSx) = DataSync."
+      ],
+      "explanation": "DataSync é especializado em transferir ARQUIVOS entre armazenamentos (NFS/SMB on-premise → S3/EFS/FSx) pela rede, com agendamento, verificação e criptografia. Como a rede comporta os 50 TB, DataSync é o caminho (se a rede fosse insuficiente, aí sim Snowball Edge).",
+      "whyNots": {
+        "B": "DMS migra bancos de dados relacionais, não arquivos de um NAS.",
+        "C": "MGN migra servidores inteiros para EC2, não arquivos.",
+        "D": "Snowmobile/Snow é transporte físico — só quando a rede não dá conta; aqui a rede comporta."
+      }
+    }
+  ]
+}

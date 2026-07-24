@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Revisão de Pegadinhas e Comparações — as confusões clássicas da SAA-C03 entre serviços já cobertos, pra fixar as diferenças.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-revis-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["rds"],
+      "situacao": "Pegadinha nº 1: qual a diferença entre RDS Multi-AZ e Read Replica?",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Multi-AZ = alta disponibilidade (standby síncrono, não serve leitura); Read Replica = escalar leitura (assíncrona, read-only)"},
+        {"key": "B", "text": "Multi-AZ escala leitura; Read Replica é só failover"},
+        {"key": "C", "text": "São a mesma coisa"},
+        {"key": "D", "text": "Read Replica é síncrona e serve failover automático"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Multi-AZ = disponibilidade (standby não lê); Read Replica = escalar leitura."
+      ],
+      "explanation": "Multi-AZ mantém um standby síncrono pra failover automático (não serve leitura); Read Replica é assíncrona e read-only, pra escalar throughput de leitura. São complementares.",
+      "whyNots": {
+        "B": "Inverte os papéis.",
+        "C": "São diferentes em objetivo e mecanismo.",
+        "D": "Read Replica é assíncrona e não é o mecanismo de failover automático."
+      }
+    },
+    {
+      "id": "br-revis-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc"],
+      "situacao": "Pegadinha: Security Group vs NACL.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "SG é stateful (instância, só allow); NACL é stateless (sub-rede, allow e deny)"},
+        {"key": "B", "text": "SG é stateless e tem regra de deny"},
+        {"key": "C", "text": "NACL é stateful e atua na instância"},
+        {"key": "D", "text": "Os dois só têm regras de deny"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SG stateful/instância/só allow; NACL stateless/sub-rede/allow+deny."
+      ],
+      "explanation": "Security Group é stateful, atua na instância e só tem regras de allow (a resposta é liberada sozinha). NACL é stateless, atua na sub-rede e tem allow e deny (precisa regra de ida e volta). Pra bloquear um IP específico, é NACL.",
+      "whyNots": {
+        "B": "SG não tem regra de deny e é stateful.",
+        "C": "NACL é stateless e atua na sub-rede.",
+        "D": "SG só tem allow; só a NACL tem deny."
+      }
+    },
+    {
+      "id": "br-revis-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs", "sns"],
+      "situacao": "Pegadinha: SQS vs SNS.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "SQS = fila (pull, um grupo de consumidores); SNS = pub/sub (push, fan-out pra muitos)"},
+        {"key": "B", "text": "SQS é pub/sub e SNS é fila"},
+        {"key": "C", "text": "Os dois enviam e-mail rico de marketing"},
+        {"key": "D", "text": "SQS envia push pra apps móveis"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SQS = fila (pull); SNS = pub/sub (push, fan-out)."
+      ],
+      "explanation": "SQS é fila (consumidores puxam mensagens, desacoplamento). SNS é pub/sub (empurra o evento pra muitos inscritos — fan-out). Combinados formam o padrão fan-out (SNS → várias SQS).",
+      "whyNots": {
+        "B": "Inverte — fila é SQS; pub/sub é SNS.",
+        "C": "E-mail rico de marketing é o SES.",
+        "D": "Push mobile é canal do SNS, mas a fila SQS não envia push."
+      }
+    },
+    {
+      "id": "br-revis-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Pegadinha: Alias vs CNAME no Route 53.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Alias funciona no apex e é grátis pra recursos AWS; CNAME não funciona no apex e é cobrado"},
+        {"key": "B", "text": "CNAME funciona no apex; Alias não"},
+        {"key": "C", "text": "Os dois só apontam pra recursos AWS"},
+        {"key": "D", "text": "Alias aponta pra qualquer domínio externo"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Alias = apex + recursos AWS + grátis; CNAME = não-apex + cobrado + qualquer domínio."
+      ],
+      "explanation": "Alias funciona no zone apex, aponta pra recursos AWS e é grátis nessas consultas; CNAME não funciona no apex, aponta pra qualquer domínio e é cobrado.",
+      "whyNots": {
+        "B": "Inverte — CNAME NÃO funciona no apex; Alias sim.",
+        "C": "CNAME aponta pra qualquer domínio, não só AWS.",
+        "D": "Quem aponta pra qualquer domínio é o CNAME."
+      }
+    },
+    {
+      "id": "br-revis-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["acm", "kms"],
+      "situacao": "Pegadinha: ACM vs KMS.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "ACM gerencia certificados TLS (em trânsito); KMS gerencia chaves de criptografia (em repouso)"},
+        {"key": "B", "text": "ACM gerencia chaves; KMS emite certificados TLS"},
+        {"key": "C", "text": "Os dois fazem a mesma coisa"},
+        {"key": "D", "text": "ACM rotaciona senhas de banco"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ACM = certificado (TLS/HTTPS); KMS = chave (dados em repouso)."
+      ],
+      "explanation": "ACM gerencia certificados SSL/TLS (identidade + criptografia em trânsito). KMS gerencia chaves de criptografia (dados em repouso em S3/EBS/RDS). Papéis distintos.",
+      "whyNots": {
+        "B": "Inverte — certificado é ACM; chave é KMS.",
+        "C": "Fazem coisas diferentes.",
+        "D": "Rotacionar senha de banco é Secrets Manager."
+      }
+    },
+    {
+      "id": "br-revis-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudwatch", "cloudtrail"],
+      "situacao": "Pegadinha: CloudWatch vs CloudTrail.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "CloudWatch = métricas/logs/alarmes (desempenho); CloudTrail = auditoria de chamadas de API (quem fez o quê)"},
+        {"key": "B", "text": "CloudWatch audita API; CloudTrail é métrica"},
+        {"key": "C", "text": "Os dois são a mesma coisa"},
+        {"key": "D", "text": "CloudTrail mede uso de CPU"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Watch = vigiar números (métrica); Trail = trilha de quem chamou a API."
+      ],
+      "explanation": "CloudWatch cuida de métricas, logs e alarmes (saúde/desempenho). CloudTrail registra chamadas de API (quem fez o quê, quando). X-Ray, por sua vez, rastreia o caminho da requisição.",
+      "whyNots": {
+        "B": "Inverte os papéis.",
+        "C": "São diferentes.",
+        "D": "CPU é métrica do CloudWatch, não do CloudTrail."
+      }
+    },
+    {
+      "id": "br-revis-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["kinesis-data-streams", "data-firehose"],
+      "situacao": "Pegadinha: Kinesis Data Streams vs Amazon Data Firehose.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Data Streams = processar em tempo real com consumidores/replay; Data Firehose = entregar no S3/Redshift sem código"},
+        {"key": "B", "text": "Firehose é pra replay/consumidores; Streams entrega no S3 sem código"},
+        {"key": "C", "text": "Os dois só entregam e-mail"},
+        {"key": "D", "text": "Data Firehose foi descontinuado"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Streams = processar (pull/replay); Firehose = entregar (push, sem código)."
+      ],
+      "explanation": "Kinesis Data Streams é pra processamento em tempo real com consumidores próprios e replay; Amazon Data Firehose (antigo Kinesis Data Firehose) entrega o stream em destinos como S3/Redshift, gerenciado e sem código.",
+      "whyNots": {
+        "B": "Inverte — replay/consumidores é Streams; entrega sem código é Firehose.",
+        "C": "Nenhum dos dois é serviço de e-mail.",
+        "D": "Firehose não foi descontinuado; foi renomeado pra Amazon Data Firehose."
+      }
+    },
+    {
+      "id": "br-revis-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["global-accelerator", "cloudfront"],
+      "situacao": "Pegadinha: Global Accelerator vs CloudFront.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "CloudFront = CDN que cacheia conteúdo HTTP na borda; Global Accelerator = IP estático anycast, acelera TCP/UDP (não cacheia)"},
+        {"key": "B", "text": "Global Accelerator cacheia conteúdo; CloudFront dá IP estático"},
+        {"key": "C", "text": "Os dois são bancos de dados"},
+        {"key": "D", "text": "CloudFront é só pra UDP de jogos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): CloudFront cacheia (HTTP); Global Accelerator acelera transporte (TCP/UDP, IP estático), sem cache."
+      ],
+      "explanation": "CloudFront é CDN e cacheia conteúdo HTTP(S) na borda. Global Accelerator dá IPs estáticos anycast e acelera o transporte TCP/UDP pela rede da AWS, com failover regional rápido — não faz cache.",
+      "whyNots": {
+        "B": "Inverte — cache é CloudFront; IP estático/anycast é Global Accelerator.",
+        "C": "Não são bancos de dados.",
+        "D": "CloudFront é pra HTTP cacheável; UDP de jogos é Global Accelerator."
+      }
+    },
+    {
+      "id": "br-revis-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["elasticache", "memorydb"],
+      "situacao": "Pegadinha: ElastiCache vs MemoryDB.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "ElastiCache = cache in-memory (pode perder dados); MemoryDB = banco in-memory DURÁVEL (primário)"},
+        {"key": "B", "text": "ElastiCache é durável e primário; MemoryDB é só cache"},
+        {"key": "C", "text": "Os dois são data warehouses"},
+        {"key": "D", "text": "MemoryDB é object storage"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): ElastiCache = cache (descartável); MemoryDB = durável (banco primário)."
+      ],
+      "explanation": "ElastiCache é cache in-memory (os dados podem ser perdidos, fica na frente do banco). MemoryDB é banco in-memory durável (Multi-AZ), que pode ser a fonte primária. Ambos compatíveis com Redis.",
+      "whyNots": {
+        "B": "Inverte — o durável/primário é o MemoryDB.",
+        "C": "Não são data warehouses (isso é Redshift).",
+        "D": "MemoryDB é in-memory, não object storage."
+      }
+    },
+    {
+      "id": "br-revis-q09",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["kms", "cloudhsm"],
+      "situacao": "Pegadinha: KMS vs CloudHSM.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "KMS = multi-tenant gerenciado (caso geral); CloudHSM = HSM dedicado single-tenant (compliance/PKCS#11)"},
+        {"key": "B", "text": "KMS é single-tenant dedicado; CloudHSM é multi-tenant"},
+        {"key": "C", "text": "Os dois emitem certificados TLS"},
+        {"key": "D", "text": "CloudHSM é um CDN"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): KMS = gerenciado multi-tenant (padrão); CloudHSM = dedicado single-tenant (compliance)."
+      ],
+      "explanation": "KMS usa HSM multi-tenant gerenciado — fácil, barato, caso geral. CloudHSM é HSM dedicado single-tenant sob seu controle, pra compliance que exige isso ou interfaces PKCS#11/JCE.",
+      "whyNots": {
+        "B": "Inverte — dedicado/single-tenant é CloudHSM.",
+        "C": "Certificado TLS é o ACM.",
+        "D": "CloudHSM não é CDN."
+      }
+    },
+    {
+      "id": "br-revis-q10",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["mgn", "drs"],
+      "situacao": "Pegadinha: Application Migration Service (MGN) vs Elastic Disaster Recovery (DRS).",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "MGN = migração lift-and-shift (uma vez); DRS = DR contínuo de servidores (failover rápido)"},
+        {"key": "B", "text": "MGN é DR contínuo; DRS é migração única"},
+        {"key": "C", "text": "Os dois são serviços de e-mail"},
+        {"key": "D", "text": "DRS transfere arquivos por SFTP"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): MGN = migrar de vez; DRS = replicar sempre pra failover."
+      ],
+      "explanation": "MGN faz a migração lift-and-shift de servidores pra EC2 (uma vez). DRS replica servidores continuamente pra failover rápido em desastre (RPO seg/RTO min).",
+      "whyNots": {
+        "B": "Inverte os papéis.",
+        "C": "Não são serviços de e-mail.",
+        "D": "SFTP é o Transfer Family, não o DRS."
+      }
+    },
+    {
+      "id": "br-revis-q11",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-artifact", "audit-manager"],
+      "situacao": "Pegadinha: AWS Artifact vs Audit Manager.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Artifact = baixar relatórios de conformidade DA AWS; Audit Manager = coletar evidência da SUA conformidade"},
+        {"key": "B", "text": "Artifact audita seu ambiente; Audit Manager baixa o SOC da AWS"},
+        {"key": "C", "text": "Os dois são firewalls"},
+        {"key": "D", "text": "Audit Manager é um CDN"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Artifact = conformidade DA AWS (baixar SOC/PCI); Audit Manager = a SUA (coletar evidência)."
+      ],
+      "explanation": "Artifact é o portal pra baixar os relatórios de conformidade da própria AWS (SOC/PCI/ISO). Audit Manager automatiza a coleta de evidências sobre o seu ambiente pra demonstrar a sua conformidade.",
+      "whyNots": {
+        "B": "Inverte — baixar SOC da AWS é Artifact; auditar seu ambiente é Audit Manager.",
+        "C": "Não são firewalls.",
+        "D": "Audit Manager não é CDN."
+      }
+    },
+    {
+      "id": "br-revis-q12",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transfer-family", "datasync"],
+      "situacao": "Pegadinha: Transfer Family vs DataSync.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Transfer Family = endpoint SFTP/FTPS gerenciado (troca com parceiros); DataSync = migração/cópia em massa entre storages"},
+        {"key": "B", "text": "Transfer Family é migração em massa; DataSync é SFTP"},
+        {"key": "C", "text": "Os dois são bancos de dados"},
+        {"key": "D", "text": "DataSync emite certificados"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SFTP com parceiros = Transfer Family; migração/cópia em massa = DataSync."
+      ],
+      "explanation": "Transfer Family é o endpoint de protocolo padrão (SFTP/FTPS/FTP/AS2) → S3/EFS, pra troca com parceiros. DataSync automatiza a migração/cópia em massa entre sistemas de armazenamento (NFS/SMB/S3/EFS/FSx).",
+      "whyNots": {
+        "B": "Inverte — SFTP é Transfer Family; migração em massa é DataSync.",
+        "C": "Não são bancos de dados.",
+        "D": "Certificados são o ACM."
+      }
+    }
+  ]
+}

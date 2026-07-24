@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: S3 Recursos Avançados (versionamento, replicação CRR/SRR, Object Lock, Transfer Acceleration, presigned URLs, event notifications). Aprofunda S3 além de classes/durabilidade.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-s3adv-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Um time apaga e sobrescreve objetos por engano no S3 e perde dados. Você quer manter as versões antigas pra poder restaurar.",
+      "stem": "Qual recurso do S3 protege contra exclusão/sobrescrita acidental?",
+      "options": [
+        {"key": "A", "text": "Versionamento"},
+        {"key": "B", "text": "Transfer Acceleration"},
+        {"key": "C", "text": "Storage class One Zone-IA"},
+        {"key": "D", "text": "Presigned URL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): guardar VERSÕES antigas do objeto = versionamento. Sobrescrever cria nova versão; apagar cria um delete marker (dá pra reverter).",
+        "💡 Rafael (dica 2): versionamento ainda é pré-requisito pra replicação e Object Lock."
+      ],
+      "explanation": "O versionamento mantém múltiplas versões do mesmo objeto: sobrescrever gera uma nova versão e apagar cria um delete marker, então você consegue restaurar o estado anterior. Protege contra erros acidentais e é pré-requisito pra Replication e Object Lock.",
+      "whyNots": {
+        "B": "Transfer Acceleration acelera upload de longa distância — não preserva versões.",
+        "C": "One Zone-IA é classe de armazenamento (custo) — não guarda versões antigas.",
+        "D": "Presigned URL dá acesso temporário a um objeto — não versiona."
+      }
+    },
+    {
+      "id": "br-s3adv-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Por exigência de DR e conformidade, uma cópia dos objetos precisa existir em OUTRA região AWS, atualizada automaticamente.",
+      "stem": "Qual recurso do S3 atende?",
+      "options": [
+        {"key": "A", "text": "Cross-Region Replication (CRR)"},
+        {"key": "B", "text": "Same-Region Replication (SRR)"},
+        {"key": "C", "text": "Transfer Acceleration"},
+        {"key": "D", "text": "Lifecycle policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'cópia em OUTRA região, automática' = CRR (Cross-Region Replication).",
+        "💡 Rafael (dica 2): exige versionamento na origem e no destino; CRR tem custo de transferência inter-região."
+      ],
+      "explanation": "CRR replica os objetos automaticamente pra um bucket em outra região — ideal pra DR, conformidade geográfica e menor latência de acesso em outra região. Requer versionamento na origem e no destino, e incorre custo de transferência inter-região.",
+      "whyNots": {
+        "B": "SRR replica na MESMA região — não atende o requisito de outra região.",
+        "C": "Transfer Acceleration acelera upload — não cria cópia replicada em outra região.",
+        "D": "Lifecycle policy muda classe/expira objetos — não replica entre regiões."
+      }
+    },
+    {
+      "id": "br-s3adv-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Vários buckets de aplicações na MESMA região geram logs, e você quer agregá-los automaticamente num bucket central, sem custo de transferência entre regiões.",
+      "stem": "Qual recurso do S3 é o mais indicado?",
+      "options": [
+        {"key": "A", "text": "Same-Region Replication (SRR)"},
+        {"key": "B", "text": "Cross-Region Replication (CRR)"},
+        {"key": "C", "text": "Object Lock"},
+        {"key": "D", "text": "Presigned URL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): mesma região + agregar logs + sem custo inter-região = SRR (Same-Region Replication).",
+        "💡 Rafael (dica 2): CRR resolveria, mas pagaria transferência entre regiões à toa — aqui tudo está na mesma região."
+      ],
+      "explanation": "SRR replica objetos pra um bucket na mesma região, sem custo de transferência inter-região — perfeito pra agregar logs de vários buckets num central, replicar prod→test ou atender residência de dados na mesma região.",
+      "whyNots": {
+        "B": "CRR é entre regiões e cobraria transferência inter-região desnecessária aqui.",
+        "C": "Object Lock é WORM/imutabilidade — não agrega/replica logs.",
+        "D": "Presigned URL é acesso temporário a objeto — não replica buckets."
+      }
+    },
+    {
+      "id": "br-s3adv-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Você tentou habilitar a replicação do S3 e ela não funciona. Falta um pré-requisito básico nos buckets.",
+      "stem": "O que é OBRIGATÓRIO pra a replicação (CRR ou SRR) funcionar?",
+      "options": [
+        {"key": "A", "text": "Versionamento ligado na origem E no destino"},
+        {"key": "B", "text": "Os buckets serem públicos"},
+        {"key": "C", "text": "Usar a classe Glacier Deep Archive"},
+        {"key": "D", "text": "Transfer Acceleration ativado"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): replicação só funciona com VERSIONAMENTO ligado nos dois buckets (origem e destino).",
+        "💡 Rafael (dica 2): sem versionamento, o S3 não tem como rastrear/replicar as versões dos objetos."
+      ],
+      "explanation": "A replicação do S3 (CRR ou SRR) exige versionamento habilitado tanto na origem quanto no destino. É o pré-requisito básico — sem ele, a replicação não pode ser configurada.",
+      "whyNots": {
+        "B": "Buckets públicos não são requisito de replicação (e seriam um risco de segurança).",
+        "C": "A classe de armazenamento não é pré-requisito pra replicar.",
+        "D": "Transfer Acceleration é independente — não habilita replicação."
+      }
+    },
+    {
+      "id": "br-s3adv-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Uma regulação exige que certos registros NÃO possam ser alterados nem apagados por NINGUÉM (nem pela conta root) durante um período definido.",
+      "stem": "Qual recurso do S3 garante essa imutabilidade?",
+      "options": [
+        {"key": "A", "text": "Object Lock no modo Compliance (WORM)"},
+        {"key": "B", "text": "Bucket policy de leitura"},
+        {"key": "C", "text": "Versionamento sozinho"},
+        {"key": "D", "text": "Storage class Standard-IA"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'ninguém, nem a root, apaga durante o período' = Object Lock no modo Compliance (WORM).",
+        "💡 Rafael (dica 2): no modo Governance, usuários com permissão especial poderiam burlar; no Compliance, nem eles."
+      ],
+      "explanation": "Object Lock aplica o modelo WORM. No modo Compliance, nenhuma identidade — nem a conta root — pode alterar ou apagar a versão do objeto até o período de retenção expirar. É o controle de imutabilidade pra compliance regulatório. (Exige versionamento.)",
+      "whyNots": {
+        "B": "Bucket policy de leitura controla acesso, mas não impede que um admin com permissão apague o objeto.",
+        "C": "Versionamento ajuda a reverter, mas não impede a exclusão definitiva por quem tem permissão — não é WORM.",
+        "D": "Standard-IA é classe de custo — não garante imutabilidade."
+      }
+    },
+    {
+      "id": "br-s3adv-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "No Object Lock, distinga: (1) travar o objeto por um período FIXO de tempo; (2) travar o objeto SEM prazo definido, até alguém remover a trava manualmente (ex.: durante um processo judicial).",
+      "stem": "Qual par de mecanismos corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Retention period; (2) Legal hold"},
+        {"key": "B", "text": "(1) Legal hold; (2) Retention period"},
+        {"key": "C", "text": "(1) Governance mode; (2) Compliance mode"},
+        {"key": "D", "text": "(1) Versionamento; (2) Lifecycle"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): prazo FIXO = retention period; SEM prazo, até remover na mão = legal hold (tipo 'congelado por ordem judicial').",
+        "💡 Rafael (dica 2): um objeto pode ter retention, legal hold, ou os dois ao mesmo tempo."
+      ],
+      "explanation": "No Object Lock, o retention period trava a versão por um período fixo de tempo; o legal hold trava sem prazo definido, valendo até ser removido manualmente (útil em litígios/investigações). Um objeto pode ter um, outro ou ambos.",
+      "whyNots": {
+        "B": "Inverte: prazo fixo é retention period; sem prazo é legal hold.",
+        "C": "Governance/Compliance são MODOS de retenção (quem pode burlar), não os mecanismos de prazo fixo vs. indefinido.",
+        "D": "Versionamento e lifecycle não são os mecanismos de travamento do Object Lock."
+      }
+    },
+    {
+      "id": "br-s3adv-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Usuários no mundo todo enviam arquivos grandes pra um bucket S3 numa região distante, e os uploads estão lentos e variáveis pela internet pública.",
+      "stem": "Qual recurso do S3 acelera esses uploads de longa distância?",
+      "options": [
+        {"key": "A", "text": "S3 Transfer Acceleration"},
+        {"key": "B", "text": "Versionamento"},
+        {"key": "C", "text": "Object Lock"},
+        {"key": "D", "text": "Standard-IA"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): upload global lento pra bucket distante = Transfer Acceleration, que usa edge locations + backbone da AWS.",
+        "💡 Rafael (dica 2): encurta logicamente a distância até o S3; combina bem com multipart upload pra arquivos grandes."
+      ],
+      "explanation": "S3 Transfer Acceleration roteia o upload pela edge location mais próxima e pela backbone da AWS (em vez da internet pública variável), acelerando transferências de longa distância de objetos grandes em 50–500%. É a solução pra usuários globais enviando pra um bucket distante.",
+      "whyNots": {
+        "B": "Versionamento preserva versões — não acelera transferência.",
+        "C": "Object Lock é imutabilidade WORM — não tem efeito na velocidade de upload.",
+        "D": "Standard-IA é classe de custo — não acelera upload."
+      }
+    },
+    {
+      "id": "br-s3adv-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Você quer permitir que um usuário externo faça upload de UM arquivo específico pro seu bucket, por tempo limitado, SEM dar a ele credenciais nem permissões da AWS.",
+      "stem": "Qual recurso do S3 entrega esse acesso temporário?",
+      "options": [
+        {"key": "A", "text": "Presigned URL"},
+        {"key": "B", "text": "Tornar o bucket público"},
+        {"key": "C", "text": "Criar um IAM User pra ele"},
+        {"key": "D", "text": "Object Lock"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'upload de um arquivo, por tempo limitado, sem dar credencial' = presigned URL.",
+        "💡 Rafael (dica 2): você assina a URL com suas credenciais; o terceiro só usa o link, que expira (até 7 dias via SDK/CLI)."
+      ],
+      "explanation": "Uma presigned URL concede permissão temporária pra baixar ou enviar um objeto específico, sem que o terceiro tenha credenciais/permissões da AWS. Quem gera assina com as próprias credenciais; a URL expira (1 min–12h no console, até 7 dias via SDK/CLI).",
+      "whyNots": {
+        "B": "Tornar o bucket público é um risco de segurança e não limita ao arquivo/tempo desejado.",
+        "C": "Criar IAM User pra um upload pontual é excessivo e contra a boa prática de credenciais temporárias.",
+        "D": "Object Lock é imutabilidade — não concede acesso de upload temporário."
+      }
+    },
+    {
+      "id": "br-s3adv-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3", "sqs", "lambda"],
+      "situacao": "Você configurou event notifications do S3 pra mandar pra uma fila SQS, mas escolheu uma fila FIFO e a configuração falha.",
+      "stem": "Qual é a explicação correta?",
+      "options": [
+        {"key": "A", "text": "S3 event notifications NÃO suportam SQS FIFO como destino (só SQS standard, SNS ou Lambda)"},
+        {"key": "B", "text": "S3 não envia eventos pra SQS de jeito nenhum"},
+        {"key": "C", "text": "Eventos do S3 só vão pra EC2"},
+        {"key": "D", "text": "Faltou habilitar Transfer Acceleration"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pegadinha — destino de event notification pode ser SQS standard, SNS ou Lambda; FIFO NÃO é suportado.",
+        "💡 Rafael (dica 2): troque a fila pra standard que funciona."
+      ],
+      "explanation": "S3 event notifications publicam pra Lambda, SNS e SQS — mas filas SQS FIFO NÃO são suportadas como destino, apenas SQS standard. Por isso a configuração com FIFO falha; basta usar uma fila standard.",
+      "whyNots": {
+        "B": "O S3 envia, sim, pra SQS — desde que seja standard.",
+        "C": "Eventos do S3 vão pra Lambda/SNS/SQS/EventBridge, não 'só pra EC2'.",
+        "D": "Transfer Acceleration é sobre upload — nada a ver com o destino de event notification."
+      }
+    },
+    {
+      "id": "br-s3adv-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Quatro necessidades no S3: (1) restaurar um objeto apagado por engano; (2) cópia automática em outra região pra DR; (3) registros imutáveis por lei; (4) upload global rápido pra um bucket distante.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Versionamento → CRR → Object Lock → Transfer Acceleration"},
+        {"key": "B", "text": "CRR → Versionamento → Transfer Acceleration → Object Lock"},
+        {"key": "C", "text": "Object Lock → Transfer Acceleration → Versionamento → CRR"},
+        {"key": "D", "text": "Transfer Acceleration → Object Lock → CRR → Versionamento"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): restaurar = versionamento; cópia em outra região = CRR; imutável por lei = Object Lock; upload global rápido = Transfer Acceleration.",
+        "💡 Rafael (dica 2): só a opção A mantém cada recurso na sua função."
+      ],
+      "explanation": "Cada recurso resolve um caso: versionamento (restaurar objeto apagado), CRR (cópia automática em outra região pra DR), Object Lock (imutabilidade WORM por exigência legal) e Transfer Acceleration (upload global rápido pra bucket distante). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca versionamento com CRR e Object Lock com Transfer Acceleration.",
+        "C": "Embaralha tudo — Object Lock não restaura objeto apagado.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

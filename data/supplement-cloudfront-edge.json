@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: CloudFront e Edge (OAC vs OAI, signed URLs vs signed cookies, geo restriction, cache TTL, CloudFront Functions vs Lambda@Edge). Aprofunda CDN/borda além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cf-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront", "s3"],
+      "situacao": "Um site serve arquivos de um bucket S3 via CloudFront. Você quer que ninguém consiga baixar direto pela URL do S3 — só através do CloudFront.",
+      "stem": "Qual recurso restringe o acesso ao bucket de origem dessa forma (modo atual recomendado)?",
+      "options": [
+        {"key": "A", "text": "Origin Access Control (OAC)"},
+        {"key": "B", "text": "Bucket público com ACL aberta"},
+        {"key": "C", "text": "Signed cookies"},
+        {"key": "D", "text": "Security Group no bucket"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'só via CloudFront, não direto pelo S3' = Origin Access Control (OAC), o sucessor do OAI.",
+        "💡 Rafael (dica 2): você dá leitura do bucket ao OAC do CloudFront e remove o acesso público/direto ao S3."
+      ],
+      "explanation": "OAC (Origin Access Control) é a forma atual de permitir que o bucket S3 seja acessado apenas pela distribuição CloudFront, bloqueando acesso direto pela URL do S3. Suporta todas as regiões, SSE-KMS e usa credenciais de curta duração — substitui o legado OAI.",
+      "whyNots": {
+        "B": "Bucket público é o oposto do que se quer — expõe os arquivos direto.",
+        "C": "Signed cookies controlam quem acessa o conteúdo distribuído, não restringem a ORIGEM S3 ao CloudFront.",
+        "D": "Security Group é firewall de instância/ENI — não se aplica a bucket S3."
+      }
+    },
+    {
+      "id": "br-cf-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Você vende um arquivo específico (um e-book) e quer dar a cada comprador um link temporário, válido só por 24h, pra baixar AQUELE arquivo.",
+      "stem": "Qual recurso do CloudFront entrega esse acesso a um arquivo individual?",
+      "options": [
+        {"key": "A", "text": "Signed URL"},
+        {"key": "B", "text": "Signed cookies"},
+        {"key": "C", "text": "OAC"},
+        {"key": "D", "text": "Geo restriction"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): acesso a UM arquivo específico com link temporário = Signed URL (uma URL assinada por item, com expiração).",
+        "💡 Rafael (dica 2): se fossem VÁRIOS arquivos sem mudar URLs, aí seria signed cookies."
+      ],
+      "explanation": "Signed URL controla o acesso a um arquivo individual: você gera uma URL assinada com expiração (e opcionalmente IP), perfeita pra liberar um download específico (o e-book) por tempo limitado a cada comprador.",
+      "whyNots": {
+        "B": "Signed cookies são pra liberar VÁRIOS arquivos de uma vez sem alterar as URLs — exagero pra um único item.",
+        "C": "OAC restringe a origem S3 ao CloudFront — não emite link temporário por arquivo pro usuário.",
+        "D": "Geo restriction bloqueia por país — não controla acesso temporário a um arquivo específico."
+      }
+    },
+    {
+      "id": "br-cf-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Uma plataforma de streaming quer liberar o catálogo inteiro (muitos arquivos) pra um assinante autenticado, sem ter que assinar uma URL pra cada vídeo.",
+      "stem": "Qual recurso do CloudFront é o mais adequado?",
+      "options": [
+        {"key": "A", "text": "Signed cookies"},
+        {"key": "B", "text": "Signed URL por vídeo"},
+        {"key": "C", "text": "OAC"},
+        {"key": "D", "text": "Cache TTL longo"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'liberar MUITOS arquivos sem assinar URL de cada um' = Signed cookies. Um cookie assinado dá acesso ao conjunto.",
+        "💡 Rafael (dica 2): signed URL é por arquivo; signed cookie é pra vários arquivos/área restrita."
+      ],
+      "explanation": "Signed cookies liberam acesso a vários arquivos restritos sem precisar mudar/assinar cada URL — ideal pra streaming, onde o assinante autenticado recebe um cookie assinado (com expiração) que dá acesso ao catálogo inteiro.",
+      "whyNots": {
+        "B": "Signed URL por vídeo exigiria gerar e gerenciar uma URL assinada pra cada arquivo — trabalhoso pra um catálogo grande.",
+        "C": "OAC protege a origem S3 — não é o mecanismo de liberar conteúdo pro usuário final.",
+        "D": "Cache TTL afeta cache, não controle de acesso ao conteúdo privado."
+      }
+    },
+    {
+      "id": "br-cf-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Por licenciamento, um conteúdo só pode ser exibido em certos países e deve ser bloqueado nos demais.",
+      "stem": "Qual recurso do CloudFront aplica esse bloqueio por país?",
+      "options": [
+        {"key": "A", "text": "Geographic restrictions (geo restriction)"},
+        {"key": "B", "text": "Signed URL"},
+        {"key": "C", "text": "Cache policy"},
+        {"key": "D", "text": "OAC"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): bloquear/permitir por PAÍS = geo restriction. Você define allowlist ou blocklist de países pra distribuição.",
+        "💡 Rafael (dica 2): aplica à distribuição inteira, não por path individual."
+      ],
+      "explanation": "A restrição geográfica (geo restriction) do CloudFront permite bloquear ou liberar o acesso por país (allowlist/blocklist), aplicada a toda a distribuição. É o recurso certo pra requisitos de licenciamento/conformidade por região.",
+      "whyNots": {
+        "B": "Signed URL controla acesso temporário a arquivo — não filtra por país.",
+        "C": "Cache policy define a chave/TTL de cache — não restringe geografia.",
+        "D": "OAC protege a origem S3 — não bloqueia por país."
+      }
+    },
+    {
+      "id": "br-cf-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Você quer controlar por quanto tempo os objetos ficam em cache na borda antes do CloudFront checar a origem por uma versão atualizada.",
+      "stem": "Qual configuração controla isso?",
+      "options": [
+        {"key": "A", "text": "TTL (minimum, default e maximum)"},
+        {"key": "B", "text": "Visibility timeout"},
+        {"key": "C", "text": "Permissions boundary"},
+        {"key": "D", "text": "Multi-AZ"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): tempo de vida do objeto em cache = TTL. Há minimum, default (padrão de 1 dia) e maximum.",
+        "💡 Rafael (dica 2): TTL menor = conteúdo mais fresco (mais idas à origem); TTL maior = mais cache (menos custo/origem)."
+      ],
+      "explanation": "Os TTLs (minimum, default e maximum) controlam por quanto tempo o CloudFront mantém o objeto em cache antes de checar a origem por atualização. O Default TTL padrão é 86400s (1 dia). Ajustar o TTL equilibra frescor do conteúdo vs. carga na origem/custo.",
+      "whyNots": {
+        "B": "Visibility timeout é do SQS — nada a ver com cache do CloudFront.",
+        "C": "Permissions boundary é IAM — não controla cache.",
+        "D": "Multi-AZ é resiliência de banco/infra — não é TTL de CDN."
+      }
+    },
+    {
+      "id": "br-cf-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Você precisa de uma lógica leve e baratíssima na borda pra reescrever URLs e ajustar headers em CADA requisição do viewer, com latência mínima e escala enorme — sem chamada de rede externa.",
+      "stem": "Qual recurso de edge é o mais indicado?",
+      "options": [
+        {"key": "A", "text": "CloudFront Functions"},
+        {"key": "B", "text": "Lambda@Edge"},
+        {"key": "C", "text": "Amazon EC2 na borda"},
+        {"key": "D", "text": "Step Functions"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'leve, baratíssimo, header/URL no viewer, sub-ms, escala enorme, sem rede externa' = CloudFront Functions (JavaScript).",
+        "💡 Rafael (dica 2): se precisasse de mais poder ou chamada externa, aí seria Lambda@Edge (mais caro/lento)."
+      ],
+      "explanation": "CloudFront Functions roda JavaScript leve em eventos do viewer (request/response), com startup sub-ms, escala a milhões de req/s e custa ~1/6 do Lambda@Edge. É ideal pra manipular headers, reescrever/redirecionar URL e normalizar cache key — mas não faz chamadas de rede externas.",
+      "whyNots": {
+        "B": "Lambda@Edge tem mais poder e permite rede externa, mas é mais caro/lento — exagero pra uma reescrita de URL/header simples.",
+        "C": "Não existe 'EC2 na borda' como esse recurso — a borda do CloudFront usa edge functions.",
+        "D": "Step Functions orquestra workflows — não roda na borda do CloudFront por requisição."
+      }
+    },
+    {
+      "id": "br-cf-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront", "lambda"],
+      "situacao": "Você precisa, na borda, gerar conteúdo dinâmico e fazer uma CHAMADA a um serviço externo (ex.: buscar dados de uma API) antes de a resposta ser cacheada, podendo agir também no evento de origem.",
+      "stem": "Qual recurso de edge atende essa lógica mais pesada?",
+      "options": [
+        {"key": "A", "text": "Lambda@Edge"},
+        {"key": "B", "text": "CloudFront Functions"},
+        {"key": "C", "text": "Geo restriction"},
+        {"key": "D", "text": "Signed cookies"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'chamada de rede externa + evento de origem + lógica mais pesada' = Lambda@Edge (Node/Python). CloudFront Functions não faz rede externa.",
+        "💡 Rafael (dica 2): Lambda@Edge roda em viewer E origin; CloudFront Functions só no viewer."
+      ],
+      "explanation": "Lambda@Edge roda Node.js/Python na borda, em eventos de viewer E de origin, com mais poder de computação e capacidade de chamadas de rede externas — ideal pra gerar/manipular conteúdo (inclusive antes de cachear). CloudFront Functions é leve e não faz rede externa nem roda em eventos de origem.",
+      "whyNots": {
+        "B": "CloudFront Functions é leve, só no viewer e SEM chamada de rede externa — não atende o requisito.",
+        "C": "Geo restriction bloqueia por país — não executa lógica/chamada externa.",
+        "D": "Signed cookies controlam acesso — não geram conteúdo dinâmico na borda."
+      }
+    },
+    {
+      "id": "br-cf-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront", "s3", "waf"],
+      "situacao": "Você vai hospedar um site estático com baixa latência global e proteção contra SQLi/XSS, mantendo o bucket de origem privado.",
+      "stem": "Qual arquitetura atende?",
+      "options": [
+        {"key": "A", "text": "S3 privado + CloudFront com OAC + WAF na distribuição"},
+        {"key": "B", "text": "S3 público sem CloudFront"},
+        {"key": "C", "text": "EC2 único numa região servindo o site"},
+        {"key": "D", "text": "S3 + acesso direto pela URL do bucket"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): site estático global + origem privada + filtro L7 = S3 privado + CloudFront (OAC) + WAF anexado à distribuição.",
+        "💡 Rafael (dica 2): OAC mantém o bucket privado; o CloudFront acelera; o WAF bloqueia SQLi/XSS na borda."
+      ],
+      "explanation": "O padrão clássico de site estático seguro e global: S3 privado como origem, CloudFront na frente com OAC (bucket só acessível via CloudFront), e AWS WAF anexado à distribuição pra filtrar SQLi/XSS na camada 7. Acelera, protege e mantém a origem privada.",
+      "whyNots": {
+        "B": "S3 público sem CloudFront não dá baixa latência global nem o filtro do WAF, e expõe o bucket.",
+        "C": "Um EC2 único numa região não entrega baixa latência global nem a escala/caching do CloudFront.",
+        "D": "Acesso direto pela URL do bucket expõe a origem e não tem CDN nem WAF."
+      }
+    },
+    {
+      "id": "br-cf-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Um site tem muitos usuários no mundo todo baixando as mesmas imagens e vídeos estáticos do servidor de origem, sobrecarregando-o e com latência alta pra quem está longe.",
+      "stem": "Qual serviço cacheia esse conteúdo na borda, perto dos usuários?",
+      "options": [
+        {"key": "A", "text": "Amazon CloudFront"},
+        {"key": "B", "text": "Amazon SQS"},
+        {"key": "C", "text": "AWS Direct Connect"},
+        {"key": "D", "text": "Amazon EBS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conteúdo estático repetido + usuários globais + aliviar a origem = CDN = CloudFront, que cacheia nas edge locations.",
+        "💡 Rafael (dica 2): o usuário pega do ponto de presença mais próximo, e a origem para de ser martelada."
+      ],
+      "explanation": "CloudFront é a CDN da AWS: cacheia o conteúdo (estático e dinâmico) nas edge locations perto dos usuários, reduzindo latência global e aliviando a carga no servidor de origem. É o caso de uso clássico pra imagens/vídeos estáticos acessados mundialmente.",
+      "whyNots": {
+        "B": "SQS é fila de mensagens — não é CDN nem cacheia conteúdo.",
+        "C": "Direct Connect é link híbrido on-premises↔AWS — não distribui conteúdo a usuários globais.",
+        "D": "EBS é disco em bloco de uma instância — não é distribuição de conteúdo na borda."
+      }
+    },
+    {
+      "id": "br-cf-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Quatro necessidades no CloudFront: (1) manter o bucket S3 acessível só via CloudFront; (2) dar link temporário a UM arquivo; (3) liberar VÁRIOS arquivos a um assinante sem mudar URLs; (4) bloquear acesso por país.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "OAC → Signed URL → Signed cookies → Geo restriction"},
+        {"key": "B", "text": "Signed URL → OAC → Geo restriction → Signed cookies"},
+        {"key": "C", "text": "Geo restriction → Signed cookies → OAC → Signed URL"},
+        {"key": "D", "text": "OAC → Signed cookies → Signed URL → Geo restriction"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): origem privada = OAC; um arquivo = Signed URL; vários arquivos = Signed cookies; por país = Geo restriction.",
+        "💡 Rafael (dica 2): só a opção A mantém cada recurso na sua função."
+      ],
+      "explanation": "Cada recurso tem seu papel: OAC restringe a origem S3 ao CloudFront; Signed URL libera um arquivo individual por tempo limitado; Signed cookies liberam vários arquivos sem mudar URLs; Geo restriction bloqueia/permite por país. A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca OAC com Signed URL e Geo restriction com Signed cookies.",
+        "C": "Inverte a ordem — geo restriction não é origem privada.",
+        "D": "Troca Signed URL com Signed cookies — um arquivo é Signed URL; vários é cookies."
+      }
+    }
+  ]
+}

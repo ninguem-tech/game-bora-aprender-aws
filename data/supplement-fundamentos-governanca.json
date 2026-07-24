@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Fundamentos e Governança (Regiões/AZs/edge/Local Zones, modelo de responsabilidade compartilhada, 6 pilares do Well-Architected, consolidated billing). Planos de suporte OMITIDOS (tiers em mudança 2026/2027).",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-fund-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "Na prova, é preciso distinguir a área geográfica isolada (ex.: São Paulo, Virgínia) do conjunto de data centers isolados DENTRO dela.",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Região = área geográfica; Availability Zone (AZ) = um ou mais data centers isolados dentro da região"},
+        {"key": "B", "text": "Região = um data center; AZ = um continente"},
+        {"key": "C", "text": "Região e AZ são a mesma coisa"},
+        {"key": "D", "text": "AZ = área geográfica; Região = um rack"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Região é o 'lugar no mapa' (São Paulo); a AZ é um (ou mais) data center isolado dentro daquela região.",
+        "💡 Rafael (dica 2): uma região tem várias AZs — é isso que permite alta disponibilidade dentro dela."
+      ],
+      "explanation": "Uma Região é uma área geográfica isolada (ex.: sa-east-1, São Paulo). Cada Região tem várias Availability Zones (AZs), que são um ou mais data centers isolados (energia/rede próprias). Distribuir entre AZs dá resiliência dentro da região.",
+      "whyNots": {
+        "B": "Região não é um único data center, e AZ não é um continente.",
+        "C": "São conceitos diferentes — região contém várias AZs.",
+        "D": "Inverte tudo — a área geográfica é a região, não a AZ."
+      }
+    },
+    {
+      "id": "br-fund-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Você quer que uma aplicação sobreviva à falha de um data center, mantendo-se no ar dentro da mesma região, com baixa latência entre os componentes.",
+      "stem": "Qual é a prática recomendada?",
+      "options": [
+        {"key": "A", "text": "Distribuir os recursos por múltiplas Availability Zones na mesma região"},
+        {"key": "B", "text": "Colocar tudo numa única AZ"},
+        {"key": "C", "text": "Colocar tudo numa edge location"},
+        {"key": "D", "text": "Usar uma região só com uma instância"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): sobreviver à queda de um data center DENTRO da região = espalhar por várias AZs (multi-AZ).",
+        "💡 Rafael (dica 2): AZs são isoladas mas próximas — alta disponibilidade com baixa latência."
+      ],
+      "explanation": "Distribuir os recursos por múltiplas AZs (multi-AZ) na mesma região é a prática de alta disponibilidade: se uma AZ (data center) cair, as outras seguem servindo, e a latência entre AZs é baixa. É a base de designs resilientes como RDS Multi-AZ e ASG multi-AZ.",
+      "whyNots": {
+        "B": "Tudo numa AZ só cria ponto único de falha — se ela cair, a app cai.",
+        "C": "Edge locations são pontos de CDN/cache, não onde se hospeda a aplicação resiliente.",
+        "D": "Uma instância numa região não tem redundância nenhuma."
+      }
+    },
+    {
+      "id": "br-fund-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": [],
+      "situacao": "Uma aplicação precisa de latência de poucos milissegundos pra usuários numa grande cidade, mais perto do que a região AWS mais próxima consegue entregar.",
+      "stem": "Qual recurso estende a infraestrutura da AWS pra perto desses usuários?",
+      "options": [
+        {"key": "A", "text": "AWS Local Zones"},
+        {"key": "B", "text": "Uma segunda região do outro lado do mundo"},
+        {"key": "C", "text": "Mais Availability Zones na mesma região distante"},
+        {"key": "D", "text": "Uma bucket policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'estender a AWS pra perto de uma grande cidade, latência de poucos ms' = Local Zones.",
+        "💡 Rafael (dica 2): elas trazem compute/armazenamento pra mais perto do usuário do que a região faria."
+      ],
+      "explanation": "AWS Local Zones estendem uma região da AWS pra perto de grandes centros urbanos, entregando compute e armazenamento com latência de poucos milissegundos pros usuários locais — útil pra jogos, streaming e workloads sensíveis a latência.",
+      "whyNots": {
+        "B": "Uma região distante aumentaria a latência, não reduziria.",
+        "C": "Mais AZs numa região distante não aproxima a infraestrutura dos usuários locais.",
+        "D": "Bucket policy é permissão de S3 — nada a ver com latência geográfica."
+      }
+    },
+    {
+      "id": "br-fund-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": [],
+      "situacao": "No modelo de responsabilidade compartilhada, é preciso saber o que é responsabilidade da AWS e o que é do cliente.",
+      "stem": "O que é responsabilidade da AWS ('segurança DA nuvem')?",
+      "options": [
+        {"key": "A", "text": "Proteger a infraestrutura física: hardware, software base, rede e instalações"},
+        {"key": "B", "text": "Configurar as permissões IAM do cliente"},
+        {"key": "C", "text": "Criptografar os dados da aplicação do cliente"},
+        {"key": "D", "text": "Aplicar patches no sistema operacional convidado do EC2 do cliente"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): AWS cuida da segurança DA nuvem (a base física: hardware, instalações, rede). O cliente cuida da segurança NA nuvem.",
+        "💡 Rafael (dica 2): IAM, criptografia de dados e patch do SO convidado são do CLIENTE."
+      ],
+      "explanation": "A AWS é responsável pela 'segurança DA nuvem': a infraestrutura física que roda os serviços — hardware, software base, rede e instalações (data centers). O cliente cuida da 'segurança NA nuvem' (dados, IAM, criptografia, e, em IaaS, o SO convidado).",
+      "whyNots": {
+        "B": "Configurar IAM é responsabilidade do CLIENTE.",
+        "C": "Criptografar os dados da aplicação é do CLIENTE.",
+        "D": "Patch do SO convidado do EC2 é do CLIENTE (em IaaS)."
+      }
+    },
+    {
+      "id": "br-fund-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Uma instância EC2 está rodando um sistema operacional desatualizado, com vulnerabilidades. Quem é responsável por aplicar os patches do SO convidado?",
+      "stem": "De quem é essa responsabilidade?",
+      "options": [
+        {"key": "A", "text": "Do cliente (segurança NA nuvem, em IaaS)"},
+        {"key": "B", "text": "Da AWS, sempre"},
+        {"key": "C", "text": "De ninguém; o EC2 se atualiza sozinho"},
+        {"key": "D", "text": "Do provedor de internet"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): em IaaS (EC2), o SO convidado é do CLIENTE — patch, hardening e firewall (security group) são responsabilidade sua.",
+        "💡 Rafael (dica 2): a AWS cuida do hardware/hipervisor; do SO pra cima (em EC2) é o cliente."
+      ],
+      "explanation": "Em serviços IaaS como o EC2, aplicar patches no sistema operacional convidado é responsabilidade do CLIENTE (segurança NA nuvem), junto com a aplicação, dados e configuração de security group. A AWS cuida da camada física/hipervisor abaixo disso.",
+      "whyNots": {
+        "B": "A AWS não aplica patch no SO convidado de EC2 do cliente — isso é do cliente.",
+        "C": "O EC2 não atualiza o SO convidado sozinho.",
+        "D": "O provedor de internet não tem nada a ver com patch de SO."
+      }
+    },
+    {
+      "id": "br-fund-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["s3"],
+      "situacao": "Num serviço gerenciado/abstraído como o S3, a divisão de responsabilidade muda em relação ao EC2.",
+      "stem": "No S3, o que continua sendo responsabilidade do CLIENTE?",
+      "options": [
+        {"key": "A", "text": "Gerenciar os dados: classificá-los, definir criptografia e controlar acesso via IAM/políticas"},
+        {"key": "B", "text": "Aplicar patch no sistema operacional dos servidores do S3"},
+        {"key": "C", "text": "Manter o hardware dos data centers do S3"},
+        {"key": "D", "text": "Operar a rede física entre os data centers"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): em serviço abstraído (S3, DynamoDB), a AWS opera infra E SO. O cliente cuida dos DADOS: classificação, criptografia e permissões.",
+        "💡 Rafael (dica 2): a responsabilidade varia por tipo de serviço — em IaaS o cliente cuida de mais; em abstraídos, de menos (só dados/acesso)."
+      ],
+      "explanation": "Em serviços abstraídos como o S3, a AWS opera a infraestrutura e o sistema operacional. O cliente continua responsável por gerenciar seus DADOS: classificar, escolher opções de criptografia e controlar o acesso com IAM e políticas de bucket. A divisão de responsabilidade varia conforme o tipo de serviço.",
+      "whyNots": {
+        "B": "No S3, o patch do SO dos servidores é da AWS — não do cliente.",
+        "C": "Hardware dos data centers é responsabilidade da AWS.",
+        "D": "A rede física é responsabilidade da AWS."
+      }
+    },
+    {
+      "id": "br-fund-q06",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "O AWS Well-Architected Framework organiza boas práticas em pilares. Um time confunde quais são.",
+      "stem": "Qual destes é um dos seis pilares do Well-Architected?",
+      "options": [
+        {"key": "A", "text": "Sustentabilidade"},
+        {"key": "B", "text": "Marketing"},
+        {"key": "C", "text": "Gamificação"},
+        {"key": "D", "text": "Contabilidade"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): os 6 pilares são excelência operacional, segurança, confiabilidade, eficiência de desempenho, otimização de custos e sustentabilidade.",
+        "💡 Rafael (dica 2): sustentabilidade foi o 6º pilar, adicionado em 2021."
+      ],
+      "explanation": "Os seis pilares do Well-Architected Framework são: excelência operacional, segurança, confiabilidade, eficiência de desempenho, otimização de custos e sustentabilidade. Sustentabilidade é o sexto, adicionado em 2021.",
+      "whyNots": {
+        "B": "Marketing não é um pilar do framework.",
+        "C": "Gamificação não é um pilar (é só o tema deste jogo!).",
+        "D": "Contabilidade não é um pilar; o relacionado a finanças é 'otimização de custos'."
+      }
+    },
+    {
+      "id": "br-fund-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["organizations"],
+      "situacao": "Uma empresa tem várias contas AWS numa Organization e quer uma fatura única, além de compartilhar descontos de volume, Reserved Instances e Savings Plans entre as contas.",
+      "stem": "Qual recurso entrega isso, sem custo adicional?",
+      "options": [
+        {"key": "A", "text": "Consolidated billing (cobrança consolidada) do AWS Organizations"},
+        {"key": "B", "text": "Criar uma conta gigante única e migrar tudo"},
+        {"key": "C", "text": "Trusted Advisor"},
+        {"key": "D", "text": "Cost Explorer apenas"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): fatura única + compartilhar descontos de volume/RI/Savings entre contas = consolidated billing (Organizations).",
+        "💡 Rafael (dica 2): é sem custo adicional, e a management account paga a conta de todas."
+      ],
+      "explanation": "O consolidated billing do AWS Organizations dá uma fatura única (a management account paga) e combina o uso de todas as contas, compartilhando descontos por volume, Reserved Instances e Savings Plans — geralmente reduzindo o custo total. É oferecido sem custo adicional.",
+      "whyNots": {
+        "B": "Migrar tudo pra uma conta gigante é arriscado e perde o isolamento entre contas — não é a solução.",
+        "C": "Trusted Advisor dá recomendações — não consolida a fatura nem compartilha descontos.",
+        "D": "Cost Explorer analisa/visualiza custos — não é o mecanismo de cobrança consolidada com partilha de descontos."
+      }
+    },
+    {
+      "id": "br-fund-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudfront"],
+      "situacao": "Um usuário pergunta o que são as 'edge locations' (pontos de presença) da AWS.",
+      "stem": "O que são as edge locations?",
+      "options": [
+        {"key": "A", "text": "Pontos da rede da AWS, perto dos usuários, usados por serviços como CloudFront e Global Accelerator"},
+        {"key": "B", "text": "Data centers onde você hospeda seus bancos relacionais primários"},
+        {"key": "C", "text": "Sub-redes privadas dentro de uma VPC"},
+        {"key": "D", "text": "Tipos de instância EC2"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): edge location = ponto de presença (PoP) perto do usuário, usado por CDN (CloudFront) e Global Accelerator.",
+        "💡 Rafael (dica 2): não é onde você hospeda o app — é a 'borda' que acelera a entrega/entrada do tráfego."
+      ],
+      "explanation": "Edge locations (pontos de presença/PoPs) são locais da rede global da AWS, próximos dos usuários, usados por serviços de borda como CloudFront (cache de conteúdo) e Global Accelerator (entrada de tráfego). São muito mais numerosas que as regiões.",
+      "whyNots": {
+        "B": "Você não hospeda bancos primários nas edge locations — isso é nas regiões/AZs.",
+        "C": "Sub-redes ficam dentro da VPC numa região — não são edge locations.",
+        "D": "Edge locations não são tipos de instância."
+      }
+    },
+    {
+      "id": "br-fund-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": [],
+      "situacao": "Quatro itens: (1) área geográfica isolada; (2) data center(s) isolado(s) dentro dela; (3) ponto de presença perto do usuário; (4) responsabilidade da AWS no modelo compartilhado.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Região → Availability Zone → Edge location → Segurança DA nuvem (infra física)"},
+        {"key": "B", "text": "Availability Zone → Região → Segurança DA nuvem → Edge location"},
+        {"key": "C", "text": "Edge location → Região → Availability Zone → Segurança NA nuvem"},
+        {"key": "D", "text": "Região → Edge location → Availability Zone → Segurança NA nuvem"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): área geográfica = Região; data centers isolados = AZ; perto do usuário = Edge location; responsabilidade da AWS = segurança DA nuvem (infra).",
+        "💡 Rafael (dica 2): só a opção A mantém cada conceito no lugar."
+      ],
+      "explanation": "Região é a área geográfica; Availability Zone é o(s) data center(s) isolado(s) dentro dela; Edge location é o ponto de presença perto do usuário; e 'segurança DA nuvem' (infraestrutura física) é a responsabilidade da AWS no modelo compartilhado. A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Região com AZ e bagunça o resto.",
+        "C": "Começa com edge location como área geográfica — errado.",
+        "D": "Troca AZ com Edge location e atribui ao cliente o que é da AWS."
+      }
+    }
+  ]
+}

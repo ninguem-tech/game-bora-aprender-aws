@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Operações e Governança (Systems Manager, AWS Config, CloudWatch/EventBridge, e a tríade de auditoria). Serviços relevantes pra SAA-C03 com pouca cobertura no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-operacoes-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["ssm"],
+      "situacao": "A Júlia quer guardar a string de conexão do banco e algumas configs da aplicação num lugar central, barato, com versionamento e controle por IAM — e poder criptografar os valores sensíveis.",
+      "stem": "Qual recurso do Systems Manager guarda configuração e segredos leves de forma hierárquica?",
+      "options": [
+        {"key": "A", "text": "Parameter Store"},
+        {"key": "B", "text": "Session Manager"},
+        {"key": "C", "text": "Patch Manager"},
+        {"key": "D", "text": "Run Command"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o nome diz — é uma \"loja de parâmetros\". Você guarda chave-valor de forma hierárquica (tipo pastas), com versão e acesso por IAM.",
+        "💡 Rafael (dica 2): pra criptografar, use o tipo SecureString, que usa o KMS por baixo. String e StringList ficam em texto puro."
+      ],
+      "explanation": "Parameter Store guarda configuração e segredos leves de forma hierárquica, com versionamento e controle por IAM. Os tipos String e StringList ficam em texto puro; SecureString criptografa o valor com KMS. Barato e integrado a EC2, Lambda, ECS, CloudFormation.",
+      "whyNots": {
+        "B": "Session Manager dá acesso shell às instâncias — não guarda configuração.",
+        "C": "Patch Manager aplica patches na frota — não armazena parâmetros.",
+        "D": "Run Command executa comandos remotos nas instâncias — não é um cofre de configuração."
+      }
+    },
+    {
+      "id": "br-operacoes-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["secrets-manager", "ssm"],
+      "situacao": "Segurança exige que a senha do banco RDS seja TROCADA automaticamente a cada 30 dias, sem ninguém mexer no código. Também querem replicar o segredo pra outra região.",
+      "stem": "Qual serviço atende a rotação automática nativa de credenciais?",
+      "options": [
+        {"key": "A", "text": "AWS Secrets Manager"},
+        {"key": "B", "text": "Parameter Store (String)"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "Amazon S3 com versionamento"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a palavra-chave é ROTAÇÃO AUTOMÁTICA. Parameter Store guarda segredo, mas quem roda a troca sozinho (via Lambda) é o Secrets Manager.",
+        "💡 Rafael (dica 2): Secrets Manager também replica segredo entre regiões e foi feito pra credencial de banco. Parameter Store é mais pra config simples e barata."
+      ],
+      "explanation": "Secrets Manager foi feito pra segredos com rotação automática nativa (via Lambda, em intervalos configuráveis), integração com bancos e replicação entre regiões. Parameter Store guarda segredo leve e barato, mas não rotaciona sozinho. Regra de bolso da prova: precisa de rotação automática = Secrets Manager.",
+      "whyNots": {
+        "B": "Parameter Store guarda o valor, mas não faz rotação automática de credenciais.",
+        "C": "Config avalia conformidade de recursos — não guarda nem rotaciona senha.",
+        "D": "S3 versionado guarda objetos, não é cofre de credencial com rotação."
+      }
+    },
+    {
+      "id": "br-operacoes-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["ssm", "ec2"],
+      "situacao": "Auditoria pediu pra FECHAR a porta 22 (SSH) de todas as instâncias e parar de gerenciar chaves SSH e bastion hosts. Mas o time ainda precisa abrir um shell nas instâncias pra investigar problemas.",
+      "stem": "Qual recurso do Systems Manager dá acesso shell sem abrir porta de entrada nem usar chave SSH?",
+      "options": [
+        {"key": "A", "text": "Session Manager"},
+        {"key": "B", "text": "Parameter Store"},
+        {"key": "C", "text": "EC2 Instance Connect via porta 22"},
+        {"key": "D", "text": "Patch Manager"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"Session\" = sessão de shell. Ele conecta pelo agente do SSM (saída pra AWS), então você não precisa abrir a porta 22 nem manter bastion.",
+        "💡 Rafael (dica 2): acesso controlado por IAM e registrado/auditável — exatamente o que a auditoria quer."
+      ],
+      "explanation": "Session Manager abre shell interativo nas instâncias através do agente do SSM (conexão de saída), sem inbound na porta 22, sem chave SSH e sem bastion. O acesso é controlado por IAM e pode ser logado pra auditoria — reduz a superfície de ataque.",
+      "whyNots": {
+        "B": "Parameter Store guarda configuração — não dá shell.",
+        "C": "Instance Connect ainda envolve a porta 22, que é justamente o que a auditoria mandou fechar.",
+        "D": "Patch Manager aplica patches — não abre sessão interativa de shell."
+      }
+    },
+    {
+      "id": "br-operacoes-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["ssm", "ec2"],
+      "situacao": "Você tem uma frota de centenas de instâncias e precisa aplicar atualizações de segurança em escala, além de saber QUAIS estão fora de conformidade de patch.",
+      "stem": "Qual recurso do Systems Manager resolve isso?",
+      "options": [
+        {"key": "A", "text": "Patch Manager"},
+        {"key": "B", "text": "Session Manager"},
+        {"key": "C", "text": "Parameter Store"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"Patch\" = remendo/atualização. Ele aplica patches na frota inteira e mostra o painel de conformidade (quem está atualizado e quem não está)."
+      ],
+      "explanation": "Patch Manager aplica patches em escala na frota e dá visibilidade de conformidade — quais nós estão atualizados e quais não. Trabalha com baselines de patch e janelas de manutenção.",
+      "whyNots": {
+        "B": "Session Manager dá shell, não automatiza patch de frota.",
+        "C": "Parameter Store guarda configuração — nada a ver com patch.",
+        "D": "Config avalia conformidade de configuração de recursos em geral, mas quem aplica o patch é o Patch Manager."
+      }
+    },
+    {
+      "id": "br-operacoes-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-config"],
+      "situacao": "Auditoria pergunta: \"Como estava configurado este security group há três semanas, e como ele mudou ao longo do tempo?\" Você precisa de um histórico da configuração dos recursos.",
+      "stem": "Qual serviço registra e avalia a configuração dos recursos ao longo do tempo?",
+      "options": [
+        {"key": "A", "text": "AWS Config"},
+        {"key": "B", "text": "AWS CloudTrail"},
+        {"key": "C", "text": "Amazon CloudWatch"},
+        {"key": "D", "text": "AWS Trusted Advisor"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa numa \"linha do tempo\" de cada recurso — como ele estava configurado ontem, semana passada, hoje. Esse é o foco do Config.",
+        "💡 Rafael (dica 2): Config responde \"COMO o recurso estava/está configurado\". CloudTrail responde \"QUEM chamou qual API\". São perguntas diferentes."
+      ],
+      "explanation": "AWS Config registra continuamente a configuração dos recursos e mantém uma linha do tempo (resource timeline), permitindo auditar como cada recurso estava configurado e como mudou. Também avalia conformidade via regras.",
+      "whyNots": {
+        "B": "CloudTrail registra chamadas de API (quem fez o quê) — não a foto da configuração ao longo do tempo.",
+        "C": "CloudWatch é métricas/logs/alarmes operacionais — não histórico de configuração.",
+        "D": "Trusted Advisor dá recomendações por categorias — não mantém linha do tempo de configuração."
+      }
+    },
+    {
+      "id": "br-operacoes-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-config", "organizations"],
+      "situacao": "Compliance quer garantir, em TODAS as contas da organização, regras como \"todo bucket S3 deve estar criptografado\" e \"nenhum security group pode liberar 0.0.0.0/0 na porta 22\", já com remediação — num pacote só.",
+      "stem": "Qual recurso do AWS Config empacota várias regras (e remediações) pra implantar em escala?",
+      "options": [
+        {"key": "A", "text": "Conformance packs"},
+        {"key": "B", "text": "Uma única Config rule gerenciada"},
+        {"key": "C", "text": "Change sets"},
+        {"key": "D", "text": "Service Control Policies (SCP)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"conformance pack\" = pacote de conformidade. Junta um monte de Config rules + remediações num pacote único, implantável na conta/região ou na organização inteira.",
+        "💡 Rafael (dica 2): cuidado pra não confundir com SCP — SCP nega/permite AÇÕES de API; Config rule AVALIA se o recurso está conforme."
+      ],
+      "explanation": "Um conformance pack é uma coleção de Config rules + ações de remediação empacotadas numa única entidade, implantável numa conta/região ou em toda a organização (via Organizations). Simplifica compliance e relatório em escala. Config rule sozinha avalia uma regra; o pack junta várias.",
+      "whyNots": {
+        "B": "Uma única regra cobre só um critério; o cenário pede um conjunto + remediação implantado de uma vez.",
+        "C": "Change sets são do CloudFormation (pré-visualizar mudanças) — nada a ver com compliance do Config.",
+        "D": "SCP restringe quais ações de API são permitidas nas contas; não AVALIA a configuração existente dos recursos como o Config faz."
+      }
+    },
+    {
+      "id": "br-operacoes-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-config", "cloudtrail"],
+      "situacao": "Um recurso foi alterado e causou um incidente. Você precisa de DUAS respostas: (1) o que mudou na configuração do recurso; (2) quem chamou a API que fez a mudança e quando.",
+      "stem": "Qual par de serviços responde, respectivamente, ao 'o quê' e ao 'quem'?",
+      "options": [
+        {"key": "A", "text": "(1) AWS Config; (2) AWS CloudTrail"},
+        {"key": "B", "text": "(1) AWS CloudTrail; (2) AWS Config"},
+        {"key": "C", "text": "(1) CloudWatch; (2) AWS Config"},
+        {"key": "D", "text": "(1) CloudTrail; (2) CloudWatch"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Config = o QUÊ mudou na configuração do recurso. CloudTrail = QUEM (e quando) chamou a API. Eles se completam numa investigação."
+      ],
+      "explanation": "Na investigação, AWS Config mostra O QUE mudou na configuração do recurso (e o histórico), enquanto CloudTrail mostra QUEM chamou qual API, quando e de onde. Juntos respondem o incidente completo: o quê + quem + quando.",
+      "whyNots": {
+        "B": "Inverte os papéis — CloudTrail é o 'quem', não o 'o quê' da configuração.",
+        "C": "CloudWatch é métrica/log operacional, não detalhe de configuração do recurso.",
+        "D": "Nenhum dos dois responde 'o que mudou na configuração'; falta o Config."
+      }
+    },
+    {
+      "id": "br-operacoes-q07",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations"],
+      "situacao": "A empresa tem 25 contas AWS e quer impedir, de cima pra baixo, que QUALQUER conta-filha consiga, por exemplo, desligar o CloudTrail ou criar recursos fora de certas regiões — independente do que o IAM da conta permita.",
+      "stem": "Qual recurso do AWS Organizations impõe esse limite máximo de permissões nas contas?",
+      "options": [
+        {"key": "A", "text": "Service Control Policies (SCP)"},
+        {"key": "B", "text": "IAM roles na conta de gerência"},
+        {"key": "C", "text": "Conformance packs"},
+        {"key": "D", "text": "Security groups"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): SCP é um \"teto\" de permissões para a conta inteira. Mesmo que o IAM local permita, se a SCP nega, a ação não acontece.",
+        "💡 Rafael (dica 2): SCP não CONCEDE permissão — ela só limita o máximo possível (guardrail). Quem concede é o IAM dentro da conta."
+      ],
+      "explanation": "SCPs, aplicadas via AWS Organizations a OUs/contas, definem o teto de permissões (guardrails): nenhuma identidade na conta pode ultrapassar o que a SCP permite, mesmo com IAM liberando. SCP não concede acesso — só restringe o máximo. Perfeito pra proibir desligar CloudTrail ou usar regiões não autorizadas.",
+      "whyNots": {
+        "B": "IAM roles concedem permissão dentro de uma conta — não impõem um teto sobre todas as contas-filhas.",
+        "C": "Conformance packs avaliam conformidade de configuração (Config) — não bloqueiam ações de API.",
+        "D": "Security groups controlam tráfego de rede — nada a ver com permissões de API entre contas."
+      }
+    },
+    {
+      "id": "br-operacoes-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["cloudwatch", "lambda"],
+      "situacao": "Você quer reagir AUTOMATICAMENTE a eventos: quando uma instância EC2 muda de estado, ou num horário agendado, disparar uma função Lambda — sem ninguém apertar botão.",
+      "stem": "Qual serviço roteia eventos da AWS (e agendamentos) pra alvos como Lambda?",
+      "options": [
+        {"key": "A", "text": "Amazon EventBridge (CloudWatch Events)"},
+        {"key": "B", "text": "AWS Config"},
+        {"key": "C", "text": "Amazon SQS"},
+        {"key": "D", "text": "AWS CloudTrail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa num \"barramento de eventos\" — coisas acontecem na AWS, e regras decidem pra qual alvo (Lambda, SNS, SQS...) mandar. Também faz agendamento tipo cron.",
+        "💡 Rafael (dica 2): EventBridge é a evolução do CloudWatch Events. Regra por padrão de evento OU por agenda → alvo."
+      ],
+      "explanation": "EventBridge (antigo CloudWatch Events) é o barramento de eventos: regras casam padrões de evento (ex.: mudança de estado de EC2) ou agendas (cron) e roteiam pra alvos como Lambda, SNS, SQS, Step Functions. É a base de automação orientada a eventos.",
+      "whyNots": {
+        "B": "Config avalia conformidade; pode emitir eventos, mas não é o roteador de eventos/agendamento que dispara o fluxo.",
+        "C": "SQS é fila de mensagens (pull) — não roteia eventos da AWS por regra/padrão nem agenda cron.",
+        "D": "CloudTrail registra chamadas de API; não é o mecanismo de roteamento/automação de eventos."
+      }
+    },
+    {
+      "id": "br-operacoes-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-config", "cloudtrail", "cloudwatch", "organizations"],
+      "situacao": "Numa revisão de governança, quatro perguntas aparecem: (1) este recurso está conforme as regras? (2) quem chamou esta API e quando? (3) o uso de CPU ultrapassou o limite? (4) como impedir todas as contas de usarem uma região proibida?",
+      "stem": "Qual mapeamento responde corretamente as quatro?",
+      "options": [
+        {"key": "A", "text": "(1) Config; (2) CloudTrail; (3) CloudWatch; (4) SCP no Organizations"},
+        {"key": "B", "text": "(1) CloudTrail; (2) Config; (3) SCP; (4) CloudWatch"},
+        {"key": "C", "text": "(1) CloudWatch; (2) SCP; (3) Config; (4) CloudTrail"},
+        {"key": "D", "text": "(1) SCP; (2) CloudWatch; (3) CloudTrail; (4) Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): separa por verbo. Conformidade de config = Config. Quem chamou API = CloudTrail. Métrica/limite = CloudWatch. Teto de permissão entre contas = SCP.",
+        "💡 Rafael (dica 2): a pegadinha é misturar Config (o quê/conforme) com CloudTrail (quem) e SCP (bloqueia ação). Cada um responde uma pergunta diferente.",
+        "💡 Rafael (dica 3): só a opção A mantém cada serviço na sua função natural; as outras embaralham pelo menos um par."
+      ],
+      "explanation": "Cada serviço tem um papel: Config avalia conformidade/configuração dos recursos; CloudTrail registra quem chamou qual API e quando; CloudWatch mede métricas e dispara alarme em limite (ex.: CPU); SCP (via Organizations) impõe o teto de permissões que bloqueia ações como usar região proibida. A opção A é a única que respeita as quatro funções.",
+      "whyNots": {
+        "B": "Troca Config com CloudTrail e usa SCP pra métrica, o que está errado.",
+        "C": "Coloca CloudWatch como avaliador de conformidade e SCP como auditoria de API — embaralhado.",
+        "D": "Usa SCP pra conformidade e Config pra bloquear região — inverte os papéis."
+      }
+    }
+  ]
+}

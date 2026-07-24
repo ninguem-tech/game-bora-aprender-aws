@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Governança Multi-Conta e Escala (Organizations/OUs, Control Tower landing zone e guardrails preventivos vs detectivos, RAM, Service Catalog). Aprofunda governança em escala.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-gov-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations"],
+      "situacao": "Uma empresa tem dezenas de contas AWS e quer agrupá-las em unidades lógicas (Produção, Desenvolvimento, Sandbox) pra aplicar políticas diferentes a cada grupo.",
+      "stem": "Qual recurso do AWS Organizations permite esse agrupamento?",
+      "options": [
+        {"key": "A", "text": "Organizational Units (OUs)"},
+        {"key": "B", "text": "Security Groups"},
+        {"key": "C", "text": "Availability Zones"},
+        {"key": "D", "text": "Route tables"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): agrupar CONTAS em unidades lógicas = Organizational Units (OUs).",
+        "💡 Rafael (dica 2): você aplica SCPs por OU, então cada grupo pode ter políticas diferentes."
+      ],
+      "explanation": "Organizational Units (OUs) agrupam contas do AWS Organizations em unidades lógicas (Prod, Dev, Sandbox). Você aplica SCPs por OU, dando a cada grupo de contas as políticas/guardrails apropriados.",
+      "whyNots": {
+        "B": "Security Groups são firewall de instância — não agrupam contas.",
+        "C": "Availability Zones são data centers numa região — não organizam contas.",
+        "D": "Route tables roteiam tráfego de rede — não agrupam contas."
+      }
+    },
+    {
+      "id": "br-gov-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["control-tower", "organizations"],
+      "situacao": "Uma empresa quer montar do zero um ambiente multi-conta bem-arquitetado, com governança e boas práticas de segurança já aplicadas automaticamente (landing zone), em vez de configurar tudo na mão.",
+      "stem": "Qual serviço automatiza isso?",
+      "options": [
+        {"key": "A", "text": "AWS Control Tower"},
+        {"key": "B", "text": "AWS Organizations sozinho"},
+        {"key": "C", "text": "Amazon CloudFront"},
+        {"key": "D", "text": "AWS Resource Access Manager"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): montar uma 'landing zone' multi-conta com governança automática = Control Tower (a camada de automação em cima do Organizations).",
+        "💡 Rafael (dica 2): Organizations é a fundação; Control Tower é a automação que aplica as boas práticas."
+      ],
+      "explanation": "Control Tower cria e governa uma landing zone (ambiente multi-conta bem-arquitetado) automaticamente, orquestrando Organizations, Service Catalog e IAM Identity Center. É a camada de automação/governança em cima do Organizations.",
+      "whyNots": {
+        "B": "Organizations é a fundação (contas/OUs/SCPs), mas montar a landing zone automática com boas práticas é o papel do Control Tower.",
+        "C": "CloudFront é CDN — nada a ver com governança multi-conta.",
+        "D": "RAM compartilha recursos entre contas — não monta a landing zone."
+      }
+    },
+    {
+      "id": "br-gov-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["control-tower"],
+      "situacao": "No Control Tower, distinga: (1) um guardrail que PROÍBE uma ação que viola a política (ex.: bloquear regiões não autorizadas); (2) um guardrail que DETECTA e reporta não-conformidade (ex.: bucket S3 público), sem bloquear.",
+      "stem": "Qual par de tipos corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Preventivo (via SCP); (2) Detectivo (via AWS Config)"},
+        {"key": "B", "text": "(1) Detectivo (via Config); (2) Preventivo (via SCP)"},
+        {"key": "C", "text": "(1) Reativo; (2) Proativo"},
+        {"key": "D", "text": "Os dois usam apenas SCPs"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): preventivo PROÍBE (usa SCP, herda pela OU); detectivo só REPORTA (usa Config rules).",
+        "💡 Rafael (dica 2): 'bloquear' = preventivo; 'detectar/reportar' = detectivo."
+      ],
+      "explanation": "Os guardrails preventivos usam SCPs pra proibir ações que violam a política (e herdam pela hierarquia de OUs). Os detectivos usam AWS Config rules pra detectar e reportar não-conformidade, sem bloquear. A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — proibir é preventivo (SCP); detectar é detectivo (Config).",
+        "C": "Os nomes corretos são preventivo e detectivo, não 'reativo/proativo'.",
+        "D": "Os detectivos usam Config rules, não SCPs."
+      }
+    },
+    {
+      "id": "br-gov-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ram", "vpc"],
+      "situacao": "A empresa quer que várias contas usem as MESMAS sub-redes de uma VPC central, sem ter que recriar a rede em cada conta.",
+      "stem": "Qual serviço compartilha esse recurso entre contas?",
+      "options": [
+        {"key": "A", "text": "AWS Resource Access Manager (RAM)"},
+        {"key": "B", "text": "VPC Peering"},
+        {"key": "C", "text": "AWS Service Catalog"},
+        {"key": "D", "text": "CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): COMPARTILHAR um recurso (sub-rede de VPC, Transit Gateway...) entre contas, sem duplicar = RAM.",
+        "💡 Rafael (dica 2): você cria a sub-rede uma vez e a compartilha; pras outras contas ela aparece como se fosse delas."
+      ],
+      "explanation": "AWS Resource Access Manager (RAM) compartilha recursos com segurança entre contas (e OUs), como sub-redes de VPC, Transit Gateway e regras do Route 53 Resolver. Cria-se o recurso uma vez e compartilha, evitando duplicação em cada conta.",
+      "whyNots": {
+        "B": "VPC Peering conecta duas VPCs pra se comunicarem — não compartilha a MESMA sub-rede entre contas.",
+        "C": "Service Catalog cura produtos pra autosserviço — não compartilha um recurso existente entre contas.",
+        "D": "CloudFront é CDN — não compartilha recursos entre contas."
+      }
+    },
+    {
+      "id": "br-gov-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["service-catalog"],
+      "situacao": "Uma empresa quer que os times lancem apenas configurações de infraestrutura APROVADAS (ex.: um EC2 padronizado, uma VPC baseline), em autosserviço, sem sair dos padrões de segurança.",
+      "stem": "Qual serviço entrega esse catálogo curado de produtos aprovados?",
+      "options": [
+        {"key": "A", "text": "AWS Service Catalog"},
+        {"key": "B", "text": "AWS Resource Access Manager"},
+        {"key": "C", "text": "Amazon Inspector"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): catálogo de produtos (templates IaC) APROVADOS pra autosserviço = Service Catalog.",
+        "💡 Rafael (dica 2): os usuários só lançam o que foi aprovado — padronização e governança."
+      ],
+      "explanation": "AWS Service Catalog cria um catálogo curado de produtos aprovados (templates IaC, geralmente CloudFormation) que os usuários finais podem implantar em autosserviço, dentro das permissões definidas. Padroniza ambientes e garante governança/compliance.",
+      "whyNots": {
+        "B": "RAM compartilha recursos entre contas — não é um catálogo de produtos pra lançar.",
+        "C": "Inspector escaneia vulnerabilidades — não cura produtos de infraestrutura.",
+        "D": "Config avalia conformidade — não é o catálogo de autosserviço."
+      }
+    },
+    {
+      "id": "br-gov-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations", "control-tower"],
+      "situacao": "Um arquiteto confunde os dois: o que é a FUNDAÇÃO de gestão multi-conta e o que é a CAMADA de automação/governança com landing zone?",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Fundação = AWS Organizations; automação/landing zone = AWS Control Tower"},
+        {"key": "B", "text": "Fundação = Control Tower; automação = Organizations"},
+        {"key": "C", "text": "Os dois são o mesmo serviço"},
+        {"key": "D", "text": "Fundação = RAM; automação = Service Catalog"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Organizations é a base (contas, OUs, SCPs); Control Tower automatiza e governa em cima dela (landing zone, guardrails).",
+        "💡 Rafael (dica 2): Control Tower USA o Organizations por baixo."
+      ],
+      "explanation": "AWS Organizations é a fundação da gestão multi-conta (contas, OUs, SCPs, consolidated billing). Control Tower é a camada de automação/governança em cima, que monta a landing zone e aplica guardrails usando o Organizations por baixo.",
+      "whyNots": {
+        "B": "Inverte — a fundação é o Organizations; a automação é o Control Tower.",
+        "C": "São serviços distintos (relacionados, mas não iguais).",
+        "D": "RAM e Service Catalog não são a fundação/automação de gestão multi-conta."
+      }
+    },
+    {
+      "id": "br-gov-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ram"],
+      "situacao": "Para reduzir custo e overhead, a empresa quer evitar provisionar o mesmo Transit Gateway separadamente em cada conta.",
+      "stem": "Como compartilhar um único Transit Gateway entre as contas?",
+      "options": [
+        {"key": "A", "text": "Compartilhar via AWS RAM (criar uma vez e compartilhar)"},
+        {"key": "B", "text": "Recriar o Transit Gateway em cada conta"},
+        {"key": "C", "text": "Usar signed URLs"},
+        {"key": "D", "text": "Usar uma bucket policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): criar o recurso UMA vez e compartilhar entre contas = RAM. Evita duplicar (e pagar) o mesmo recurso várias vezes.",
+        "💡 Rafael (dica 2): Transit Gateway é um dos recursos clássicos compartilháveis via RAM."
+      ],
+      "explanation": "Com o AWS RAM, você cria o Transit Gateway uma vez e o compartilha com as outras contas (ou OUs), evitando provisionar e pagar por recursos duplicados em cada conta. Reduz custo e overhead operacional, mantendo consistência.",
+      "whyNots": {
+        "B": "Recriar em cada conta é exatamente a duplicação que se quer evitar.",
+        "C": "Signed URLs são do S3/CloudFront — não compartilham um Transit Gateway.",
+        "D": "Bucket policy é permissão de S3 — não compartilha recurso de rede entre contas."
+      }
+    },
+    {
+      "id": "br-gov-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["control-tower"],
+      "situacao": "Você quer um guardrail que IMPEÇA, em todas as contas de uma OU, a criação de recursos numa região proibida — bloqueando de fato a ação.",
+      "stem": "Que tipo de guardrail do Control Tower faz isso, e com qual mecanismo?",
+      "options": [
+        {"key": "A", "text": "Guardrail preventivo, implementado via SCP"},
+        {"key": "B", "text": "Guardrail detectivo, via AWS Config"},
+        {"key": "C", "text": "Um alarme do CloudWatch"},
+        {"key": "D", "text": "Uma regra de NACL"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'IMPEDIR/bloquear a ação' = guardrail preventivo, que usa SCP por baixo e herda pela OU.",
+        "💡 Rafael (dica 2): se fosse só 'detectar e reportar', seria detectivo (Config)."
+      ],
+      "explanation": "Pra bloquear de fato a ação (criar recurso em região proibida) em toda a OU, usa-se um guardrail PREVENTIVO do Control Tower, implementado via SCP — que proíbe a ação e é herdado pela hierarquia de OUs. Detectivo apenas reportaria.",
+      "whyNots": {
+        "B": "Detectivo (Config) apenas detecta/reporta — não bloqueia a ação.",
+        "C": "Alarme do CloudWatch avisa sobre métricas — não impede a criação de recursos.",
+        "D": "NACL filtra tráfego de rede — não bloqueia ações de API por região."
+      }
+    },
+    {
+      "id": "br-gov-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations"],
+      "situacao": "Reforço: qual recurso do Organizations impõe o TETO de permissões (guardrail) sobre as contas, independente do que o IAM local permita?",
+      "stem": "Qual é?",
+      "options": [
+        {"key": "A", "text": "Service Control Policies (SCPs)"},
+        {"key": "B", "text": "Resource Access Manager"},
+        {"key": "C", "text": "Service Catalog"},
+        {"key": "D", "text": "Security Group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): teto de permissões da conta (guardrail), mesmo que o IAM permita = SCP.",
+        "💡 Rafael (dica 2): SCP não concede acesso — só limita o máximo possível."
+      ],
+      "explanation": "SCPs (Service Control Policies) do AWS Organizations definem o teto de permissões das contas/OUs: nenhuma identidade pode ultrapassar o que a SCP permite, mesmo com o IAM local liberando. SCP não concede acesso — apenas restringe o máximo.",
+      "whyNots": {
+        "B": "RAM compartilha recursos entre contas — não impõe teto de permissões.",
+        "C": "Service Catalog cura produtos de autosserviço — não é o guardrail de permissões.",
+        "D": "Security Group é firewall de rede — não limita permissões de API entre contas."
+      }
+    },
+    {
+      "id": "br-gov-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations", "control-tower", "ram", "service-catalog"],
+      "situacao": "Quatro necessidades: (1) agrupar contas e aplicar política por grupo; (2) montar um ambiente multi-conta governado automaticamente (landing zone); (3) compartilhar uma sub-rede entre contas sem duplicar; (4) oferecer um catálogo de produtos aprovados pra autosserviço.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Organizations (OUs) → Control Tower → RAM → Service Catalog"},
+        {"key": "B", "text": "Control Tower → Organizations → Service Catalog → RAM"},
+        {"key": "C", "text": "RAM → Service Catalog → Organizations → Control Tower"},
+        {"key": "D", "text": "Service Catalog → RAM → Control Tower → Organizations"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): agrupar contas = Organizations/OUs; landing zone automática = Control Tower; compartilhar recurso = RAM; catálogo de produtos = Service Catalog.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: Organizations/OUs (agrupar contas + políticas por grupo), Control Tower (landing zone governada automaticamente), RAM (compartilhar recursos entre contas) e Service Catalog (catálogo de produtos aprovados pra autosserviço). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Organizations com Control Tower e RAM com Service Catalog.",
+        "C": "Embaralha tudo — RAM não agrupa contas.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

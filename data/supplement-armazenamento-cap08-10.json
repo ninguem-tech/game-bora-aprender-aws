@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Questões PT autorais — Fase Armazenamento (caps 08-10): S3 (objetos, classes, lifecycle, segurança), EBS/EFS/FSx, Snow Family. Voz café com leite. Dicas opcionais e progressivas (1 a 3). Ancoradas no livro PT.",
+  "lang": "pt-BR",
+  "book": "e-ai-bora-aprender-aws",
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-arm-c08-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "08",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["s3"],
+      "situacao": "A Camila salvava os arquivos de usuário dentro da instância. Quando o Auto Scaling derrubava a instância, os arquivos sumiam. Precisa de um lugar central, fora da instância.",
+      "stem": "O que é o Amazon S3?",
+      "options": [
+        { "key": "A", "text": "Armazenamento de objetos (arquivos), acessado por chave — não é banco de dados nem sistema de arquivos" },
+        { "key": "B", "text": "Um banco de dados relacional gerenciado" },
+        { "key": "C", "text": "O disco virtual que se anexa a uma instância EC2" },
+        { "key": "D", "text": "Um firewall de rede" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): pensa no S3 como um depósito com prateleiras numeradas. Você guarda uma caixa (objeto) e anota o número (a chave). Pra pegar de volta, pede pelo número. Não é pasta de verdade — é rótulo."],
+      "explanation": "S3 é armazenamento de OBJETOS: qualquer arquivo (imagem, vídeo, backup, log), guardado num bucket e recuperado por chave. Durabilidade de 11 noves. Não é sistema de arquivos nem banco de dados.",
+      "whyNots": {
+        "B": "Banco relacional gerenciado é o RDS.",
+        "C": "Disco da instância é o EBS.",
+        "D": "Firewall é Security Group / NACL."
+      }
+    },
+    {
+      "id": "br-arm-c08-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "08",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["s3"],
+      "situacao": "Logs de auditoria precisam ser guardados por 7 anos ao menor custo possível. Quase nunca são acessados — e, quando são, esperar até 12 horas pra recuperar é aceitável.",
+      "stem": "Qual classe de armazenamento S3 é a mais indicada?",
+      "options": [
+        { "key": "A", "text": "S3 Glacier Deep Archive" },
+        { "key": "B", "text": "S3 Standard" },
+        { "key": "C", "text": "S3 Standard-IA" },
+        { "key": "D", "text": "S3 Glacier Instant Retrieval" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a regra é — quanto menos você acessa, mais barato guardar (e mais lento/caro recuperar). Aqui o acesso é raríssimo e a pressa é zero.",
+        "💡 Rafael (dica 2): 12 horas de espera é o sinal verde pro nível mais barato de todos, feito pra arquivo morto de compliance."
+      ],
+      "explanation": "Glacier Deep Archive é o mais barato pra guardar, com recuperação em 12–48h — perfeito pra retenção longa de compliance que quase nunca é lida. O custo de espera é aceitável pelo enunciado.",
+      "whyNots": {
+        "B": "Standard é pra acesso frequente — caríssimo pra guardar 7 anos de log parado.",
+        "C": "Standard-IA é mais barato que Standard, mas ainda bem mais caro que Glacier pra arquivo de 7 anos.",
+        "D": "Glacier Instant entrega em milissegundos (e custa mais) — você está pagando por uma rapidez que o enunciado não exige."
+      }
+    },
+    {
+      "id": "br-arm-c08-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "08",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["s3"],
+      "situacao": "Um conjunto de dados tem padrão de acesso IMPREVISÍVEL — às vezes muito acessado, às vezes esquecido por meses. A Júlia não quer ficar adivinhando a classe na mão.",
+      "stem": "Qual classe S3 move os objetos entre camadas de custo automaticamente, conforme o acesso?",
+      "options": [
+        { "key": "A", "text": "S3 Intelligent-Tiering" },
+        { "key": "B", "text": "S3 Standard" },
+        { "key": "C", "text": "S3 One Zone-IA" },
+        { "key": "D", "text": "S3 Glacier Flexible Retrieval" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): quando você NÃO sabe o padrão de acesso, deixa a AWS observar e mover sozinha. Tem uma classe que faz exatamente isso, por uma taxinha de monitoramento."],
+      "explanation": "Intelligent-Tiering monitora o acesso e move os objetos entre as camadas (frequente, infrequente...) automaticamente, sem custo de recuperação — só uma pequena taxa de monitoramento. É a escolha quando o padrão é imprevisível.",
+      "whyNots": {
+        "B": "Standard é fixo no nível mais caro — não otimiza sozinho.",
+        "C": "One Zone-IA é barato mas guarda em uma AZ só (risco de perda) e não move automaticamente.",
+        "D": "Glacier Flexible é arquivamento com recuperação em horas — ruim pra dado que às vezes é muito acessado."
+      }
+    },
+    {
+      "id": "br-arm-c08-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "08",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 4, "domainLabel": "Otimização de custos",
+      "type": "single", "services": ["s3"],
+      "situacao": "Backups noturnos do banco: raramente são usados, mas se precisar restaurar, o time tem que conseguir acessar em até 5 minutos.",
+      "stem": "Qual classe equilibra custo baixo de armazenamento E disponibilidade quase imediata (minutos)?",
+      "options": [
+        { "key": "A", "text": "S3 Glacier Instant Retrieval (acesso em milissegundos, armazenamento barato)" },
+        { "key": "B", "text": "S3 Glacier Flexible Retrieval" },
+        { "key": "C", "text": "S3 Glacier Deep Archive" },
+        { "key": "D", "text": "S3 Standard" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): a pegadinha está no tempo de recuperação. 'Em até 5 minutos' derruba qualquer classe que leve HORAS.",
+        "💡 Rafael (dica 2): você quer arquivamento barato MAS com acesso rápido. Tem um Glacier que entrega em milissegundos — esse mesmo."
+      ],
+      "explanation": "Glacier Instant Retrieval guarda barato (arquivo raramente acessado) e devolve em milissegundos — atende o 'em até 5 minutos'. Standard-IA também serviria, mas o Glacier Instant tem custo de armazenamento menor pra dado pouco acessado.",
+      "whyNots": {
+        "B": "Glacier Flexible leva de minutos a horas (Standard 3–5h) — arrisca estourar os 5 minutos.",
+        "C": "Deep Archive leva 12–48h — muito longe do exigido.",
+        "D": "Standard atende a rapidez, mas é o mais caro pra guardar algo que quase nunca é acessado."
+      }
+    },
+
+    {
+      "id": "br-arm-c09-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "09",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["s3", "iam", "lambda"],
+      "situacao": "Uma função Lambda precisa gravar arquivos num bucket S3. A Camila pensou em colocar uma chave de acesso fixa no código.",
+      "stem": "Qual a forma CORRETA de dar à Lambda permissão no S3, sem expor credenciais no código?",
+      "options": [
+        { "key": "A", "text": "Atribuir uma IAM Role à Lambda com permissão s3:PutObject" },
+        { "key": "B", "text": "Colocar a Access Key e a Secret Key fixas no código da Lambda" },
+        { "key": "C", "text": "Deixar o bucket público pra qualquer um gravar" },
+        { "key": "D", "text": "Compartilhar o arquivo .pem da instância com a Lambda" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): credencial no código é furo de segurança clássico. O jeito certo é a Lambda 'vestir um crachá' temporário ao rodar — uma IAM Role — que diz o que ela pode fazer."],
+      "explanation": "A Lambda assume uma IAM Role na execução, e essa Role carrega a permissão (ex.: s3:PutObject). Nada de chave fixa no código — a credencial é temporária e gerenciada pela AWS.",
+      "whyNots": {
+        "B": "Chave fixa no código vaza fácil (repositório, log) e é péssima prática.",
+        "C": "Bucket público abre o conteúdo pro mundo — o oposto de seguro.",
+        "D": ".pem é chave de SSH de instância EC2, não tem a ver com permissão da Lambda no S3."
+      }
+    },
+    {
+      "id": "br-arm-c09-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "09",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["s3"],
+      "situacao": "Regulação exige que certos objetos no S3 NÃO possam ser deletados nem alterados por NINGUÉM — nem pelo usuário root da conta — durante 5 anos.",
+      "stem": "Qual recurso garante essa imutabilidade total?",
+      "options": [
+        { "key": "A", "text": "S3 Object Lock no modo Compliance" },
+        { "key": "B", "text": "S3 Object Lock no modo Governance" },
+        { "key": "C", "text": "Uma Bucket Policy com Deny no DeleteObject" },
+        { "key": "D", "text": "Ativar o versionamento do bucket" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): 'nem o root pode' é a pista. Existe um modo que não abre exceção pra ninguém.",
+        "💡 Rafael (dica 2): Object Lock tem dois modos. Um permite bypass por quem tem permissão especial (Governance); o outro é imutabilidade real, sem exceção — Compliance."
+      ],
+      "explanation": "Object Lock no modo Compliance impede deleção/alteração por qualquer entidade — incluindo a conta raiz — até o fim do período de retenção. É imutabilidade de verdade, pra compliance.",
+      "whyNots": {
+        "B": "No modo Governance, quem tem permissão especial PODE sobrescrever — não atende o 'nem o root'.",
+        "C": "Bucket Policy pode ser alterada por quem administra a conta; não é imutabilidade garantida.",
+        "D": "Versionamento guarda versões, mas não impede a deleção/exclusão definitiva como o Object Lock Compliance."
+      }
+    },
+    {
+      "id": "br-arm-c09-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "09",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["s3", "kms"],
+      "situacao": "Uma empresa de saúde guarda prontuários no S3. Precisa: criptografia em repouso, log de quem usou a chave e quando, e poder revogar o acesso à chave SEM deletar os dados.",
+      "stem": "Qual opção de criptografia atende a todos esses requisitos?",
+      "options": [
+        { "key": "A", "text": "SSE-KMS (chave gerenciada no KMS, com auditoria no CloudTrail e revogação)" },
+        { "key": "B", "text": "SSE-S3 (a AWS gerencia tudo automaticamente)" },
+        { "key": "C", "text": "SSE-C (você fornece a chave em cada request)" },
+        { "key": "D", "text": "Nenhuma — S3 não criptografa em repouso" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): as palavras-chave são 'auditável' e 'revogar acesso'. Qual serviço de chaves registra cada uso e deixa você desligar a chave?",
+        "💡 Rafael (dica 2): SSE-S3 é automático mas não audita por chave; SSE-C você guarda a chave sem auditoria AWS. Quem registra no CloudTrail e permite revogar é o KMS."
+      ],
+      "explanation": "SSE-KMS usa o KMS: cada uso da chave fica registrado no CloudTrail (auditoria), e você pode desabilitar a chave para revogar o acesso sem deletar os objetos (eles continuam no S3, só ficam inacessíveis).",
+      "whyNots": {
+        "B": "SSE-S3 criptografa, mas não dá auditoria por chave nem revogação controlada.",
+        "C": "SSE-C deixa a chave com você, sem auditoria gerenciada pela AWS.",
+        "D": "S3 criptografa em repouso sim — inclusive SSE-S3 é padrão desde 2023."
+      }
+    },
+    {
+      "id": "br-arm-c09-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "09",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
+      "type": "single", "services": ["s3"],
+      "situacao": "Um usuário quer baixar o próprio documento guardado no S3. O bucket é PRIVADO (e tem que continuar privado), e o usuário não tem credenciais AWS.",
+      "stem": "Como liberar o download desse arquivo sem tornar o bucket público?",
+      "options": [
+        { "key": "A", "text": "O backend gera uma Presigned URL temporária (ex.: 15 min) e entrega ao usuário autenticado" },
+        { "key": "B", "text": "Desativar o Block Public Access e tornar o bucket público" },
+        { "key": "C", "text": "Dar uma chave de acesso AWS pro usuário final" },
+        { "key": "D", "text": "Mover o arquivo pro Glacier Deep Archive" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): dá pra abrir uma porta só pra aquele arquivo, por tempo limitado, sem escancarar o bucket inteiro.",
+        "💡 Rafael (dica 2): o backend (com a IAM Role) assina uma URL com validade curta. Quem recebe acessa só aquele objeto até expirar — sem credencial AWS."
+      ],
+      "explanation": "Presigned URL: o backend, autenticado pela IAM Role, gera uma URL temporária para aquele objeto específico. O usuário baixa direto do S3 até a URL expirar, e o bucket continua privado. É o padrão para acesso pontual sem expor o bucket.",
+      "whyNots": {
+        "B": "Tornar o bucket público viola o requisito (e expõe arquivos de todo mundo).",
+        "C": "Dar credencial AWS a usuário final é grave risco de segurança.",
+        "D": "Mudar a classe de armazenamento não tem nada a ver com liberar o download com segurança."
+      }
+    },
+
+    {
+      "id": "br-arm-c10-q00", "difficulty": "intro", "source": "supplement", "sourceChapter": "10",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["ebs", "s3"],
+      "situacao": "A Júlia percebeu que toda instância EC2 já vem com um disco. Ela quer entender como esse disco difere do S3.",
+      "stem": "O que é o Amazon EBS?",
+      "options": [
+        { "key": "A", "text": "Armazenamento em bloco — um disco (HD/SSD) virtual que se anexa a uma instância EC2" },
+        { "key": "B", "text": "Armazenamento de objetos acessado por HTTP" },
+        { "key": "C", "text": "Um sistema de arquivos compartilhado entre várias instâncias" },
+        { "key": "D", "text": "Um banco de dados gerenciado" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): a diferença é tipo pen drive vs HD interno. O S3 é um depósito que você acessa por chave (HTTP). O EBS é o disco da instância — ela enxerga como um HD normal e instala o sistema operacional ali."],
+      "explanation": "EBS (Elastic Block Store) é armazenamento em bloco: um disco virtual anexado a uma instância EC2, que o enxerga como HD/SSD local. Fica em uma única AZ e persiste após a instância parar.",
+      "whyNots": {
+        "B": "Objetos por HTTP é o S3.",
+        "C": "Sistema de arquivos compartilhado entre instâncias é o EFS.",
+        "D": "Banco gerenciado é o RDS."
+      }
+    },
+    {
+      "id": "br-arm-c10-q01", "difficulty": "exam", "source": "supplement", "sourceChapter": "10",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["efs", "ebs"],
+      "situacao": "Duas instâncias EC2, em AZs DIFERENTES, precisam ler e escrever no MESMO sistema de arquivos ao mesmo tempo.",
+      "stem": "Qual serviço de armazenamento atende esse compartilhamento entre AZs?",
+      "options": [
+        { "key": "A", "text": "Amazon EFS (sistema de arquivos NFS compartilhado, multi-AZ)" },
+        { "key": "B", "text": "Amazon EBS (um volume por instância, preso a uma AZ)" },
+        { "key": "C", "text": "Amazon S3 com File Gateway local" },
+        { "key": "D", "text": "Instance Store (disco efêmero da instância)" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): EBS é o HD do seu notebook — só você usa. Aqui você precisa do servidor de arquivos da empresa, que todo mundo monta ao mesmo tempo.",
+        "💡 Rafael (dica 2): tem que funcionar entre AZs diferentes. EBS fica preso a UMA AZ. O sistema de arquivos NFS gerenciado, multi-AZ, é o EFS."
+      ],
+      "explanation": "EFS é um sistema de arquivos NFS gerenciado, acessível de qualquer AZ da região: várias instâncias montam e compartilham os mesmos arquivos ao mesmo tempo. EBS é por instância e preso a uma AZ (Multi-Attach io1/io2 só vale na mesma AZ).",
+      "whyNots": {
+        "B": "EBS é preso a uma AZ e, em geral, a uma instância — não é o compartilhamento multi-AZ pedido.",
+        "C": "File Gateway é pra estender storage on-premises, não pra compartilhar entre EC2 na nuvem.",
+        "D": "Instance Store é disco efêmero — some quando a instância para, e não é compartilhado."
+      }
+    },
+    {
+      "id": "br-arm-c10-q02", "difficulty": "exam", "source": "supplement", "sourceChapter": "10",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 2, "domainLabel": "Resiliência",
+      "type": "single", "services": ["snow", "s3"],
+      "situacao": "Um banco precisa migrar 2 PB de dados históricos do data center pro S3. A internet da empresa é de 1 Gbps (subir tudo levaria mais de um ano).",
+      "stem": "Qual a forma mais rápida e prática de migrar esses dados?",
+      "options": [
+        { "key": "A", "text": "AWS Snow Family (ex.: Snowball Edge) — dispositivo físico que a AWS envia, você copia e devolve" },
+        { "key": "B", "text": "Subir tudo pela internet com upload paralelo" },
+        { "key": "C", "text": "Usar Transfer Acceleration" },
+        { "key": "D", "text": "Comprar uma instância maior" }
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): se subir pela internet levaria mais de uma semana, calcula o Snow. A AWS te manda um (ou vários) dispositivos físicos, você copia, devolve, e os dados aparecem no S3."],
+      "explanation": "Pra volumes enormes com banda limitada, a Snow Family é o caminho: dispositivos físicos (Snowball Edge tem 80 TB cada; pra 2 PB, vários em paralelo) que a AWS envia, você copia, devolve, e ela carrega no seu S3. Mais rápido e barato que a internet aqui.",
+      "whyNots": {
+        "B": "2 PB a 1 Gbps levaria mais de um ano, mesmo paralelizando — inviável.",
+        "C": "Transfer Acceleration ajuda uploads longos, mas não resolve a ordem de grandeza de 2 PB em 1 Gbps.",
+        "D": "Instância maior não acelera a transferência pela internet."
+      }
+    },
+    {
+      "id": "br-arm-c10-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "10",
+      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 3, "domainLabel": "Alto desempenho",
+      "type": "single", "services": ["ebs"],
+      "situacao": "Uma instância EC2 roda SQL Server e precisa de 50.000 IOPS consistentes — sem oscilar.",
+      "stem": "Qual tipo de volume EBS atende essa exigência de IOPS alto e consistente?",
+      "options": [
+        { "key": "A", "text": "io2 (ou io1) — SSD com IOPS provisionado, até 64.000 (256.000 no io2 Block Express)" },
+        { "key": "B", "text": "gp3 — SSD de uso geral, até 16.000 IOPS" },
+        { "key": "C", "text": "st1 — HDD de throughput" },
+        { "key": "D", "text": "sc1 — HDD frio, o mais barato" }
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica 1): 50.000 IOPS consistentes é muito. Tem família de EBS feita pra banco de dados crítico, com IOPS provisionado.",
+        "💡 Rafael (dica 2): o gp3 vai até 16.000 IOPS — não chega aos 50.000. Quem entrega IOPS alto garantido é a família io (io1/io2)."
+      ],
+      "explanation": "io2/io1 são SSD com IOPS provisionado e consistente — io2 chega a 64.000 (256.000 no Block Express), cobrindo os 50.000 exigidos por um banco de dados crítico. O gp3 para em 16.000 IOPS, insuficiente.",
+      "whyNots": {
+        "B": "gp3 é ótimo de custo, mas seu teto (16.000 IOPS) fica abaixo dos 50.000 pedidos.",
+        "C": "st1 é HDD de throughput (acesso sequencial), não de IOPS alto aleatório de banco.",
+        "D": "sc1 é HDD frio, o mais barato e mais lento — o oposto do necessário."
+      }
+    }
+  ]
+}

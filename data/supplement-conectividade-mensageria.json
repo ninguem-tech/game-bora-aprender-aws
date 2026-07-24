@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Conectividade Híbrida e Mensageria (Direct Connect, Site-to-Site VPN, Transit Gateway, Kinesis Data Streams, Amazon Data Firehose, SNS fan-out, Cognito). Cobre a lacuna de conectividade híbrida e streaming, pouco presente no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-conect-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["direct-connect"],
+      "situacao": "Uma empresa transfere terabytes por dia entre o data center dela e a AWS. A internet pública está dando latência instável e eles querem banda dedicada e previsível.",
+      "stem": "Qual serviço dá uma conexão de rede privada e dedicada do on-premises pra AWS, sem passar pela internet?",
+      "options": [
+        {"key": "A", "text": "AWS Direct Connect"},
+        {"key": "B", "text": "AWS Site-to-Site VPN"},
+        {"key": "C", "text": "Amazon CloudFront"},
+        {"key": "D", "text": "AWS Global Accelerator"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"Direct Connect\" = conexão direta. É um link físico dedicado, fora da internet pública, com banda e latência previsíveis.",
+        "💡 Rafael (dica 2): a VPN também conecta on-premises, mas vai POR CIMA da internet (mais barata, menos previsível). Pra banda dedicada e constante, é Direct Connect."
+      ],
+      "explanation": "Direct Connect é uma conexão de rede dedicada e privada entre o data center e a AWS, sem passar pela internet pública — baixa latência, banda consistente e throughput previsível. É a escolha pra transferência alta e constante. Custa mais e demora pra provisionar (link físico).",
+      "whyNots": {
+        "B": "Site-to-Site VPN é criptografada, mas trafega pela internet pública — latência e banda variáveis.",
+        "C": "CloudFront é CDN pra conteúdo na borda — não conecta data center à AWS.",
+        "D": "Global Accelerator acelera usuários finais pela rede da AWS — não é link híbrido on-premises↔AWS."
+      }
+    },
+    {
+      "id": "br-conect-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpn", "direct-connect"],
+      "situacao": "Uma startup precisa conectar o escritório à VPC AGORA, com tráfego criptografado, gastando pouco e sem esperar provisionar link físico. O volume é modesto.",
+      "stem": "Qual opção atende melhor?",
+      "options": [
+        {"key": "A", "text": "AWS Site-to-Site VPN (túnel IPsec sobre a internet)"},
+        {"key": "B", "text": "AWS Direct Connect dedicado"},
+        {"key": "C", "text": "VPC Peering com a conta da AWS"},
+        {"key": "D", "text": "Internet Gateway público sem criptografia"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): as palavras-chave são \"agora\", \"criptografado\", \"barato\", \"volume modesto\". Isso é o perfil da VPN, não do Direct Connect.",
+        "💡 Rafael (dica 2): Direct Connect é ótimo, mas é caro e demora (link físico). Pra subir rápido e seguro, Site-to-Site VPN."
+      ],
+      "explanation": "Site-to-Site VPN cria um túnel IPsec criptografado entre o on-premises e a VPC sobre a internet — rápido de configurar e barato, ideal pra volume modesto e necessidade imediata. Direct Connect seria melhor em banda/latência, mas custa mais e demora pra provisionar.",
+      "whyNots": {
+        "B": "Direct Connect demora pra provisionar e é mais caro — não bate com \"agora\" e \"gastando pouco\".",
+        "C": "VPC Peering conecta VPCs entre si, não um escritório on-premises à VPC.",
+        "D": "Internet Gateway sem criptografia não atende o requisito de tráfego criptografado e seguro."
+      }
+    },
+    {
+      "id": "br-conect-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["direct-connect", "vpn"],
+      "situacao": "Um banco usa Direct Connect pra ligar o data center à AWS, pela latência e banda. Mas teme que, se o link DX cair, a conexão fique fora do ar. Querem um backup automático e mais barato.",
+      "stem": "Qual arquitetura resolve com melhor custo-benefício?",
+      "options": [
+        {"key": "A", "text": "Direct Connect como primário + Site-to-Site VPN como backup (failover automático)"},
+        {"key": "B", "text": "Dois Direct Connect idênticos, sem VPN"},
+        {"key": "C", "text": "Só Site-to-Site VPN, descartando o Direct Connect"},
+        {"key": "D", "text": "Direct Connect + CloudFront como rota reserva"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a banca adora esse padrão — DX é caro e ótimo; a VPN é barata e \"boa o bastante\" pra emergência. Junte os dois: DX manda, VPN segura a queda.",
+        "💡 Rafael (dica 2): o failover é automático via BGP; o DX é sempre preferido quando está de pé.",
+        "💡 Rafael (dica 3): dois DX dão redundância máxima, mas o enunciado pede backup \"mais barato\" — aí entra a VPN."
+      ],
+      "explanation": "O padrão clássico de prova: Direct Connect como caminho primário (latência/banda) + Site-to-Site VPN como backup. Se o DX cair, o tráfego falha pra VPN automaticamente (via BGP), com custo bem menor que um segundo DX. O DX é sempre preferido quando ativo.",
+      "whyNots": {
+        "B": "Dois DX dão alta resiliência, mas é a opção mais cara — o enunciado pede backup \"mais barato\".",
+        "C": "Abrir mão do DX perde a baixa latência/banda que o banco precisa no dia a dia.",
+        "D": "CloudFront é CDN de conteúdo — não serve de rota reserva pra conectividade híbrida."
+      }
+    },
+    {
+      "id": "br-conect-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["transit-gateway", "vpc"],
+      "situacao": "A empresa tem 40 VPCs em contas diferentes e precisa que todas se comuniquem entre si e com o on-premises. Fazer VPC peering de cada uma com todas virou um pesadelo de malha.",
+      "stem": "Qual serviço centraliza essa conectividade num hub?",
+      "options": [
+        {"key": "A", "text": "AWS Transit Gateway"},
+        {"key": "B", "text": "Mais VPC Peerings, um pra cada par"},
+        {"key": "C", "text": "Internet Gateway compartilhado"},
+        {"key": "D", "text": "AWS Direct Connect sozinho"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"Transit\" = trânsito central. Em vez de ligar cada VPC com todas (malha que explode), você liga todas a um hub único.",
+        "💡 Rafael (dica 2): VPC peering não é transitivo e não escala pra dezenas de VPCs. Transit Gateway é o hub-and-spoke que resolve."
+      ],
+      "explanation": "Transit Gateway é o hub central que conecta muitas VPCs e redes on-premises (via VPN/DX) numa topologia hub-and-spoke, com roteamento centralizado. Substitui a malha de VPC peering ponto-a-ponto, que não é transitiva e não escala pra dezenas de VPCs/contas.",
+      "whyNots": {
+        "B": "VPC peering ponto-a-ponto explode em complexidade (n² conexões) e não é transitivo — é justamente o problema do enunciado.",
+        "C": "Internet Gateway dá acesso à internet pública — não interconecta VPCs privadas entre si.",
+        "D": "Direct Connect liga on-premises à AWS, mas não resolve a interconexão entre as 40 VPCs."
+      }
+    },
+    {
+      "id": "br-conect-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["kinesis-data-streams"],
+      "situacao": "Um app de carona captura eventos de GPS dos motoristas em tempo real e precisa processar esse fluxo na hora, com vários consumidores diferentes e possibilidade de reprocessar (replay) os dados.",
+      "stem": "Qual serviço ingere e disponibiliza esse stream em tempo real, com replay?",
+      "options": [
+        {"key": "A", "text": "Amazon Kinesis Data Streams"},
+        {"key": "B", "text": "Amazon SQS Standard"},
+        {"key": "C", "text": "Amazon S3"},
+        {"key": "D", "text": "AWS Glue"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a pista é \"tempo real + vários consumidores + replay\". Kinesis Data Streams retém os dados e deixa consumidores lerem (PULL), reprocessando se quiser.",
+        "💡 Rafael (dica 2): SQS entrega e some a mensagem ao processar — não foi feito pra replay nem pra múltiplos consumidores lendo o mesmo fluxo ordenado."
+      ],
+      "explanation": "Kinesis Data Streams ingere streaming em tempo real, mantém os dados por um período (replay) e permite vários consumidores lerem o mesmo fluxo (PULL), ordenado por shard. Ideal pra processamento em tempo real com lógica própria (Lambda, KCL, EC2).",
+      "whyNots": {
+        "B": "SQS é fila de mensagens; a mensagem some ao ser processada — não há replay nem leitura por múltiplos consumidores do mesmo fluxo.",
+        "C": "S3 é armazenamento de objetos — não é pipeline de streaming em tempo real.",
+        "D": "Glue é ETL (batch/serverless), não ingestão de stream em tempo real."
+      }
+    },
+    {
+      "id": "br-conect-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["data-firehose"],
+      "situacao": "O time só quer JOGAR um fluxo de logs direto num bucket S3 (e depois no Redshift), com buffer, compressão e sem escrever nem manter código de pipeline.",
+      "stem": "Qual serviço entrega o streaming nesses destinos, totalmente gerenciado e sem código?",
+      "options": [
+        {"key": "A", "text": "Amazon Data Firehose (antigo Kinesis Data Firehose)"},
+        {"key": "B", "text": "Amazon Kinesis Data Streams"},
+        {"key": "C", "text": "Amazon EC2 com um script próprio"},
+        {"key": "D", "text": "Amazon SNS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a pista é \"entregar direto no S3/Redshift, sem código, gerenciado\". Esse é o Data Firehose — ele faz PUSH pro destino, com buffer e compressão.",
+        "💡 Rafael (dica 2): cuidado com o nome — desde fev/2024 ele se chama \"Amazon Data Firehose\" (era \"Kinesis Data Firehose\"). Mesma coisa, nome novo."
+      ],
+      "explanation": "Amazon Data Firehose (renomeado em 2024; era Kinesis Data Firehose) é totalmente gerenciado e entrega streaming direto em destinos como S3, Redshift, OpenSearch e Splunk — com buffer por tamanho/tempo, compressão, transformação e criptografia, sem você escrever nem manter código de pipeline.",
+      "whyNots": {
+        "B": "Data Streams é pra PROCESSAR em tempo real com consumidores próprios — exige código; não entrega sozinho no S3 sem trabalho.",
+        "C": "Script em EC2 é exatamente o código/manutenção que o time quer evitar.",
+        "D": "SNS é pub/sub de mensagens (push pra inscritos) — não é pipeline de entrega de streaming pra S3/Redshift."
+      }
+    },
+    {
+      "id": "br-conect-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["kinesis-data-streams", "data-firehose"],
+      "situacao": "Dois requisitos: (1) processar eventos em tempo real com lógica customizada, múltiplos consumidores e replay; (2) só descarregar o fluxo já tratado num data lake no S3, sem manter código.",
+      "stem": "Qual combinação está correta?",
+      "options": [
+        {"key": "A", "text": "(1) Kinesis Data Streams; (2) Amazon Data Firehose"},
+        {"key": "B", "text": "(1) Amazon Data Firehose; (2) Kinesis Data Streams"},
+        {"key": "C", "text": "Ambos com Data Firehose, pois Data Streams foi descontinuado"},
+        {"key": "D", "text": "Ambos com Data Streams, pois Firehose não entrega no S3"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"processar em tempo real com replay\" = Data Streams (PULL, consumidores). \"Só entregar no S3 sem código\" = Data Firehose (PUSH, gerenciado).",
+        "💡 Rafael (dica 2): inclusive dá pra usar os dois juntos — Data Streams processa e o Firehose lê do stream e entrega no destino.",
+        "💡 Rafael (dica 3): Streams = você escreve o consumidor; Firehose = você só aponta o destino."
+      ],
+      "explanation": "Kinesis Data Streams é pra processamento em tempo real com consumidores próprios e replay (PULL). Amazon Data Firehose é entrega gerenciada, sem código, pra destinos como S3/Redshift (PUSH com buffer). Eles podem até trabalhar juntos: Streams processa, Firehose lê do stream e descarrega no destino.",
+      "whyNots": {
+        "B": "Inverte: quem processa com lógica/replay é o Data Streams, não o Firehose.",
+        "C": "Data Streams não foi descontinuado; segue ativo e distinto do Firehose.",
+        "D": "Firehose ENTREGA no S3 nativamente — é exatamente o caso de uso dele."
+      }
+    },
+    {
+      "id": "br-conect-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sns", "sqs"],
+      "situacao": "Quando um pedido é criado, três sistemas precisam reagir (estoque, e-mail, e análise) — cada um no seu ritmo, desacoplados, sem que um derrube o outro se ficar lento.",
+      "stem": "Qual padrão entrega o evento a todos os três de forma desacoplada?",
+      "options": [
+        {"key": "A", "text": "Fan-out: um tópico SNS publicando pra várias filas SQS inscritas"},
+        {"key": "B", "text": "Uma única fila SQS lida pelos três ao mesmo tempo"},
+        {"key": "C", "text": "Chamar os três sistemas via API síncrona, em sequência"},
+        {"key": "D", "text": "Gravar tudo num único item do DynamoDB"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): \"um evento → muitos reagindo, cada um no seu ritmo\" é o padrão fan-out. SNS publica pro tópico; cada serviço tem a própria fila SQS inscrita.",
+        "💡 Rafael (dica 2): assim cada consumidor processa no próprio tempo e um lento não trava os outros — desacoplamento total."
+      ],
+      "explanation": "O padrão fan-out usa um tópico SNS que publica para várias filas SQS inscritas (uma por consumidor). Cada sistema lê da sua fila no próprio ritmo, desacoplado — se um ficar lento ou cair, os outros seguem. É resiliência e desacoplamento clássicos da prova.",
+      "whyNots": {
+        "B": "Uma fila única compartilhada faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento.",
+        "C": "Chamadas síncronas em sequência acoplam os sistemas: um lento ou fora do ar derruba a cadeia.",
+        "D": "Gravar num item do DynamoDB não distribui o evento nem desacopla o processamento."
+      }
+    },
+    {
+      "id": "br-conect-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cognito"],
+      "situacao": "Um app mobile precisa de cadastro e login de usuários (inclusive entrar com Google e Apple), com gerenciamento do diretório de usuários e emissão de tokens.",
+      "stem": "Qual recurso do Amazon Cognito cuida da AUTENTICAÇÃO dos usuários?",
+      "options": [
+        {"key": "A", "text": "User Pool"},
+        {"key": "B", "text": "Identity Pool"},
+        {"key": "C", "text": "IAM User"},
+        {"key": "D", "text": "Security Group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): User Pool = \"piscina de usuários\". É o diretório que faz sign-up/sign-in, federa com Google/Apple e emite tokens JWT. Responde \"QUEM é o usuário\".",
+        "💡 Rafael (dica 2): não confunda com Identity Pool, que entra depois, pra dar credencial AWS temporária (autorização)."
+      ],
+      "explanation": "O User Pool do Cognito é o diretório de usuários: cuida de sign-up/sign-in, atributos, MFA e federação com IdPs (Google, Apple, OIDC, SAML), emitindo tokens JWT (OAuth 2.0). É a camada de AUTENTICAÇÃO — responde \"quem é o usuário\".",
+      "whyNots": {
+        "B": "Identity Pool é AUTORIZAÇÃO — troca o token por credenciais AWS temporárias; não é o diretório de login.",
+        "C": "IAM User é identidade pra operar a conta AWS (admin/dev), não pra usuários finais de um app.",
+        "D": "Security Group é firewall de rede — nada a ver com autenticação de usuário."
+      }
+    },
+    {
+      "id": "br-conect-q09",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cognito", "iam"],
+      "situacao": "Depois do login, o app precisa que cada usuário autenticado consiga acessar DIRETAMENTE um bucket S3 e uma tabela DynamoDB, usando credenciais AWS temporárias com permissões via IAM role.",
+      "stem": "Qual recurso do Cognito fornece essas credenciais AWS temporárias?",
+      "options": [
+        {"key": "A", "text": "Identity Pool"},
+        {"key": "B", "text": "User Pool"},
+        {"key": "C", "text": "Access Key de IAM fixa embutida no app"},
+        {"key": "D", "text": "KMS Customer Managed Key"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): User Pool diz QUEM você é (token). Identity Pool diz O QUE você pode acessar na AWS — ele troca o token por credencial AWS temporária via IAM role.",
+        "💡 Rafael (dica 2): embutir Access Key fixa no app é furo de segurança grave — credencial temporária via Identity Pool é o jeito certo."
+      ],
+      "explanation": "O Identity Pool do Cognito troca um token (de um User Pool ou IdP) por credenciais AWS temporárias, associadas a IAM roles, pra acessar serviços como S3 e DynamoDB diretamente. Suporta até usuário anônimo. É a camada de AUTORIZAÇÃO — \"o que o usuário pode acessar na AWS\".",
+      "whyNots": {
+        "B": "User Pool autentica e emite token, mas não entrega credenciais AWS pra acessar S3/DynamoDB — isso é papel do Identity Pool.",
+        "C": "Access Key fixa embutida no app é uma falha de segurança séria; nunca embuta credencial de longa duração no cliente.",
+        "D": "KMS gerencia chaves de criptografia — não fornece credenciais de acesso a serviços."
+      }
+    }
+  ]
+}

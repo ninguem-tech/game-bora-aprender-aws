@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: CI/CD e Ferramentas de Desenvolvedor (CodeCommit, CodeBuild, CodeDeploy, CodePipeline, e IaC CloudFormation vs SAM vs CDK). Cobre a suíte de developer tools da SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cicd-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codepipeline"],
+      "situacao": "Um time quer automatizar todo o fluxo de release — do commit do código até o deploy em produção — modelando estágios de source, build, test e deploy.",
+      "stem": "Qual serviço ORQUESTRA esse pipeline de CI/CD de ponta a ponta?",
+      "options": [
+        {"key": "A", "text": "AWS CodePipeline"},
+        {"key": "B", "text": "AWS CodeBuild"},
+        {"key": "C", "text": "AWS CodeCommit"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'pipeline' está no nome — CodePipeline orquestra os estágios (source → build → test → deploy).",
+        "💡 Rafael (dica 2): os outros Code* são peças DENTRO do pipeline; o maestro é o CodePipeline."
+      ],
+      "explanation": "CodePipeline modela e orquestra o fluxo de CI/CD de ponta a ponta em estágios (source, build, test, deploy), cada um com ações. Ele chama os outros serviços (CodeBuild pra buildar, CodeDeploy pra implantar) como parte do fluxo.",
+      "whyNots": {
+        "B": "CodeBuild faz o build/test — é uma etapa, não o orquestrador.",
+        "C": "CodeCommit é o repositório de código — a fonte, não o orquestrador.",
+        "D": "CloudFront é CDN — nada a ver com pipeline de CI/CD."
+      }
+    },
+    {
+      "id": "br-cicd-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codebuild"],
+      "situacao": "Você quer compilar, testar e empacotar o código a cada mudança, sem manter servidores de build próprios, com escala automática.",
+      "stem": "Qual serviço faz o build gerenciado?",
+      "options": [
+        {"key": "A", "text": "AWS CodeBuild"},
+        {"key": "B", "text": "AWS CodeDeploy"},
+        {"key": "C", "text": "AWS CodePipeline"},
+        {"key": "D", "text": "Amazon EC2 com Jenkins na mão"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'build sem servidor próprio, escala sozinho' = CodeBuild.",
+        "💡 Rafael (dica 2): ele compila/testa/empacota; o deploy é com CodeDeploy."
+      ],
+      "explanation": "CodeBuild é o serviço de build totalmente gerenciado: compila, testa e empacota o código sem você manter servidores de build, escalando a capacidade automaticamente conforme a carga.",
+      "whyNots": {
+        "B": "CodeDeploy faz o deploy, não o build.",
+        "C": "CodePipeline orquestra; o build em si é o CodeBuild.",
+        "D": "Jenkins em EC2 na mão é justamente o servidor de build que o CodeBuild evita."
+      }
+    },
+    {
+      "id": "br-cicd-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codedeploy"],
+      "situacao": "Você quer automatizar a implantação da aplicação em instâncias EC2, funções Lambda e serviços ECS, com a opção de fazer blue/green pra trocar o tráfego com rollback fácil.",
+      "stem": "Qual serviço automatiza esse deploy?",
+      "options": [
+        {"key": "A", "text": "AWS CodeDeploy"},
+        {"key": "B", "text": "AWS CodeBuild"},
+        {"key": "C", "text": "AWS CodeCommit"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): automatizar o DEPLOY (EC2/Lambda/ECS) com in-place ou blue/green = CodeDeploy.",
+        "💡 Rafael (dica 2): blue/green sobe ambiente novo e troca o tráfego — rollback é só voltar pro antigo."
+      ],
+      "explanation": "CodeDeploy automatiza a implantação em EC2, on-premises, Lambda e ECS, com estratégias como in-place (atualiza as instâncias existentes) e blue/green (sobe um ambiente novo e troca o tráfego, facilitando o rollback).",
+      "whyNots": {
+        "B": "CodeBuild faz build/test — não implanta.",
+        "C": "CodeCommit guarda o código — não faz deploy.",
+        "D": "Inspector escaneia vulnerabilidades — não implanta aplicação."
+      }
+    },
+    {
+      "id": "br-cicd-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codecommit"],
+      "situacao": "A empresa quer hospedar seus repositórios Git privados num serviço gerenciado da AWS, integrado à conta e ao IAM.",
+      "stem": "Qual serviço é o repositório Git gerenciado?",
+      "options": [
+        {"key": "A", "text": "AWS CodeCommit"},
+        {"key": "B", "text": "AWS CodePipeline"},
+        {"key": "C", "text": "Amazon S3"},
+        {"key": "D", "text": "AWS CodeDeploy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): repositório Git gerenciado da AWS = CodeCommit (o 'commit' entrega).",
+        "💡 Rafael (dica 2): ele voltou à disponibilidade geral em nov/2025, após um período fechado a novos clientes."
+      ],
+      "explanation": "CodeCommit é o serviço de repositório Git privado e gerenciado da AWS, integrado ao IAM. (Status: foi fechado a novos clientes em jul/2024, mas retornou à disponibilidade geral em nov/2025.) É a fonte do código no pipeline.",
+      "whyNots": {
+        "B": "CodePipeline orquestra o fluxo — não é repositório de código.",
+        "C": "S3 é object storage — não é repositório Git.",
+        "D": "CodeDeploy implanta — não armazena o código-fonte."
+      }
+    },
+    {
+      "id": "br-cicd-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codepipeline", "codebuild", "codedeploy", "codecommit"],
+      "situacao": "Numa esteira de CI/CD: (1) guardar o código; (2) orquestrar os estágios; (3) compilar e testar; (4) implantar nas instâncias.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "CodeCommit → CodePipeline → CodeBuild → CodeDeploy"},
+        {"key": "B", "text": "CodePipeline → CodeCommit → CodeDeploy → CodeBuild"},
+        {"key": "C", "text": "CodeBuild → CodeDeploy → CodeCommit → CodePipeline"},
+        {"key": "D", "text": "CodeDeploy → CodeBuild → CodePipeline → CodeCommit"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): código = CodeCommit; orquestra = CodePipeline; build/test = CodeBuild; deploy = CodeDeploy.",
+        "💡 Rafael (dica 2): só a opção A mantém cada peça na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: CodeCommit (repositório/código), CodePipeline (orquestra os estágios), CodeBuild (compila e testa) e CodeDeploy (implanta). A opção A respeita os quatro na ordem natural do pipeline.",
+      "whyNots": {
+        "B": "Troca CodeCommit com CodePipeline e CodeBuild com CodeDeploy.",
+        "C": "Embaralha tudo — CodeBuild não guarda código.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    },
+    {
+      "id": "br-cicd-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cdk", "cloudformation"],
+      "situacao": "Um time de desenvolvedores quer definir a infraestrutura usando uma linguagem de programação familiar (TypeScript/Python), em vez de escrever YAML, e que isso vire CloudFormation por baixo.",
+      "stem": "Qual ferramenta de IaC atende?",
+      "options": [
+        {"key": "A", "text": "AWS CDK (Cloud Development Kit)"},
+        {"key": "B", "text": "CloudFormation em YAML puro"},
+        {"key": "C", "text": "AWS CodeBuild"},
+        {"key": "D", "text": "Amazon QuickSight"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): infra em LINGUAGEM DE PROGRAMAÇÃO (TS/Python/Java) que compila pra CloudFormation = CDK.",
+        "💡 Rafael (dica 2): se preferisse YAML declarativo, seria CloudFormation direto."
+      ],
+      "explanation": "AWS CDK permite definir a infraestrutura em linguagens de programação (TypeScript, Python, Java, C#); ao rodar, o CDK compila tudo pra templates CloudFormation. É a escolha pra quem prefere código a YAML.",
+      "whyNots": {
+        "B": "CloudFormation em YAML puro é o oposto do pedido (linguagem de programação).",
+        "C": "CodeBuild faz build — não é ferramenta de IaC.",
+        "D": "QuickSight é BI — nada a ver com IaC."
+      }
+    },
+    {
+      "id": "br-cicd-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sam", "lambda"],
+      "situacao": "Um time serverless quer um framework de IaC enxuto e declarativo, específico pra Lambda/API Gateway/DynamoDB, com CLI pra testar as funções localmente antes do deploy.",
+      "stem": "Qual ferramenta é a indicada?",
+      "options": [
+        {"key": "A", "text": "AWS SAM (Serverless Application Model)"},
+        {"key": "B", "text": "AWS CDK"},
+        {"key": "C", "text": "AWS CodeDeploy"},
+        {"key": "D", "text": "Amazon Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): IaC declarativa compacta FOCADA em serverless + CLI pra testar local = SAM.",
+        "💡 Rafael (dica 2): SAM é um atalho do CloudFormation pra serverless; CDK é linguagem de programação genérica."
+      ],
+      "explanation": "AWS SAM é o framework de IaC focado em serverless: sintaxe declarativa compacta (atalho do CloudFormation) pra Lambda, API Gateway e DynamoDB, com o SAM CLI pra testar e depurar funções localmente antes de implantar.",
+      "whyNots": {
+        "B": "CDK usa linguagem de programação e é genérico; o pedido é o framework declarativo focado em serverless (SAM).",
+        "C": "CodeDeploy é deploy — não é framework de IaC declarativo serverless.",
+        "D": "Athena é consulta SQL — não é IaC."
+      }
+    },
+    {
+      "id": "br-cicd-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["cloudformation", "sam", "cdk"],
+      "situacao": "Três preferências de IaC: (1) templates declarativos YAML/JSON genéricos; (2) framework declarativo focado em serverless; (3) infra definida em linguagem de programação.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "CloudFormation → SAM → CDK"},
+        {"key": "B", "text": "SAM → CDK → CloudFormation"},
+        {"key": "C", "text": "CDK → CloudFormation → SAM"},
+        {"key": "D", "text": "CloudFormation → CDK → SAM"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): YAML genérico = CloudFormation; serverless declarativo = SAM; linguagem de programação = CDK.",
+        "💡 Rafael (dica 2): SAM e CDK geram CloudFormation por baixo; só a opção A mantém cada um no lugar."
+      ],
+      "explanation": "CloudFormation é a IaC declarativa genérica (YAML/JSON); SAM é o framework declarativo focado em serverless; CDK define a infra em linguagem de programação. Tanto SAM quanto CDK compilam/expandem pra CloudFormation por baixo. A opção A respeita os três.",
+      "whyNots": {
+        "B": "Começa com SAM como genérico — errado; o genérico é o CloudFormation.",
+        "C": "Coloca CDK como genérico e SAM como linguagem de programação — embaralhado.",
+        "D": "Troca CDK com SAM — serverless é SAM, linguagem de programação é CDK."
+      }
+    },
+    {
+      "id": "br-cicd-q08",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codedeploy"],
+      "situacao": "Distinga duas estratégias do CodeDeploy: (1) atualizar a aplicação NAS próprias instâncias existentes; (2) subir um ambiente NOVO em paralelo e trocar o tráfego pra ele, com rollback fácil.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) In-place; (2) Blue/Green"},
+        {"key": "B", "text": "(1) Blue/Green; (2) In-place"},
+        {"key": "C", "text": "(1) Canary; (2) All-at-once"},
+        {"key": "D", "text": "(1) Rolling; (2) Spot"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): atualizar nas instâncias existentes = in-place; ambiente novo + troca de tráfego = blue/green.",
+        "💡 Rafael (dica 2): blue/green facilita o rollback — é só apontar de volta pro ambiente antigo."
+      ],
+      "explanation": "In-place atualiza a aplicação nas instâncias existentes; blue/green cria um ambiente novo em paralelo e troca o tráfego pra ele, permitindo rollback rápido (voltar pro ambiente antigo). São as duas estratégias clássicas do CodeDeploy.",
+      "whyNots": {
+        "B": "Inverte — atualizar nas existentes é in-place; ambiente novo é blue/green.",
+        "C": "Canary/all-at-once são modos de avanço do tráfego, não a distinção pedida entre existente vs ambiente novo.",
+        "D": "'Rolling/Spot' não são o par correto aqui (Spot é modelo de compra de EC2)."
+      }
+    },
+    {
+      "id": "br-cicd-q09",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["codepipeline", "codecommit"],
+      "situacao": "Você quer que, a cada push no repositório, o pipeline rode automaticamente. A fonte pode ser CodeCommit, GitHub, S3 ou ECR.",
+      "stem": "Qual serviço dispara e conduz esse fluxo a partir da fonte?",
+      "options": [
+        {"key": "A", "text": "AWS CodePipeline (estágio de source acionado pela mudança)"},
+        {"key": "B", "text": "AWS CodeDeploy sozinho"},
+        {"key": "C", "text": "Amazon Route 53"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o estágio de SOURCE do CodePipeline detecta a mudança (CodeCommit/GitHub/S3/ECR) e dispara o fluxo.",
+        "💡 Rafael (dica 2): a partir daí ele encadeia build (CodeBuild) e deploy (CodeDeploy)."
+      ],
+      "explanation": "CodePipeline tem um estágio de source que monitora a fonte (CodeCommit, GitHub, S3 ou ECR) e, a cada mudança, dispara o pipeline — encadeando build (CodeBuild) e deploy (CodeDeploy) automaticamente.",
+      "whyNots": {
+        "B": "CodeDeploy é só a etapa de deploy — não orquestra o fluxo a partir da fonte.",
+        "C": "Route 53 é DNS — não dispara pipelines.",
+        "D": "Config avalia conformidade — não conduz CI/CD."
+      }
+    }
+  ]
+}

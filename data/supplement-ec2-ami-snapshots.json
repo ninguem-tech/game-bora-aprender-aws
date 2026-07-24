@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: EC2 AMI, Snapshots e Recursos (AMI/golden image, EBS snapshots incrementais/cross-region, famílias de instância, Elastic IP, user data). Aprofunda fundamentos do EC2.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-ec2r-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Um time quer lançar dezenas de instâncias EC2 idênticas e rápidas, com o SO, patches e a aplicação já instalados, sem repetir a configuração toda vez.",
+      "stem": "Qual recurso é a 'imagem dourada' pra lançar instâncias pré-configuradas?",
+      "options": [
+        {"key": "A", "text": "Uma AMI (Amazon Machine Image) customizada"},
+        {"key": "B", "text": "Um snapshot de EBS sozinho"},
+        {"key": "C", "text": "Um Elastic IP"},
+        {"key": "D", "text": "Uma bucket policy"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): molde pra lançar instâncias com SO+software prontos = AMI (golden image).",
+        "💡 Rafael (dica 2): você cria a AMI uma vez e lança N instâncias idênticas a partir dela."
+      ],
+      "explanation": "Uma AMI (Amazon Machine Image) é o molde que contém o SO, software e configuração pra lançar instâncias EC2. Criar uma AMI customizada (golden image) permite lançar dezenas de instâncias idênticas e rápidas, sem repetir a configuração.",
+      "whyNots": {
+        "B": "Um snapshot de EBS é backup de um volume — não é o molde completo de lançamento da instância (a AMI referencia snapshots, mas o molde é a AMI).",
+        "C": "Elastic IP é um IP estático — não é imagem de lançamento.",
+        "D": "Bucket policy é permissão de S3 — nada a ver com lançar instância."
+      }
+    },
+    {
+      "id": "br-ec2r-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Você tem uma AMI customizada numa região e precisa lançar instâncias com a MESMA configuração em outra região AWS.",
+      "stem": "O que é necessário?",
+      "options": [
+        {"key": "A", "text": "Copiar a AMI pra a outra região (AMIs são específicas da região)"},
+        {"key": "B", "text": "A AMI já funciona em qualquer região automaticamente"},
+        {"key": "C", "text": "Criar um Elastic IP na outra região"},
+        {"key": "D", "text": "Habilitar Transfer Acceleration"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): AMI é específica da REGIÃO — pra usar em outra, copie a AMI pra lá.",
+        "💡 Rafael (dica 2): é um passo comum em DR/expansão multi-região."
+      ],
+      "explanation": "AMIs são específicas da região em que foram criadas. Pra lançar instâncias com a mesma configuração em outra região, é preciso copiar a AMI pra essa região. Comum em estratégias multi-região/DR.",
+      "whyNots": {
+        "B": "Errado — a AMI não é global; precisa ser copiada pra a outra região.",
+        "C": "Elastic IP é IP estático — não replica a AMI.",
+        "D": "Transfer Acceleration é upload pro S3 — não copia AMI entre regiões."
+      }
+    },
+    {
+      "id": "br-ec2r-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ebs"],
+      "situacao": "Você faz backups diários de um volume EBS. Quer saber por que o segundo backup em diante é rápido e barato.",
+      "stem": "Qual característica dos snapshots de EBS explica isso?",
+      "options": [
+        {"key": "A", "text": "São incrementais (só os blocos alterados são salvos)"},
+        {"key": "B", "text": "Cada snapshot copia o volume inteiro toda vez"},
+        {"key": "C", "text": "Snapshots não guardam dados, só metadados"},
+        {"key": "D", "text": "Snapshots ficam no próprio volume"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): snapshot de EBS é INCREMENTAL — depois do primeiro, só o que MUDOU é salvo.",
+        "💡 Rafael (dica 2): por isso os backups seguintes são rápidos e baratos; ficam no S3 gerenciado."
+      ],
+      "explanation": "Os snapshots de EBS são incrementais: o primeiro captura tudo, e os seguintes salvam apenas os blocos alterados desde o último — economizando tempo e espaço. Ficam armazenados no S3 (gerenciado pela AWS).",
+      "whyNots": {
+        "B": "Não copia o volume inteiro toda vez — só o delta (incremental).",
+        "C": "Snapshots guardam os dados dos blocos, não só metadados.",
+        "D": "Snapshots ficam no S3, não no próprio volume."
+      }
+    },
+    {
+      "id": "br-ec2r-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ebs"],
+      "situacao": "Por DR, a empresa quer manter cópias dos backups de EBS em OUTRA região e em uma conta isolada, criptografadas com uma chave própria.",
+      "stem": "Qual recurso dos snapshots atende?",
+      "options": [
+        {"key": "A", "text": "Cópia cross-Region e cross-account de snapshots (com criptografia KMS)"},
+        {"key": "B", "text": "Snapshots só existem na mesma AZ"},
+        {"key": "C", "text": "Elastic IP replicado"},
+        {"key": "D", "text": "User data com o backup"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): copiar snapshot pra outra REGIÃO e outra CONTA, re-criptografando = padrão de DR do EBS.",
+        "💡 Rafael (dica 2): dá pra automatizar isso com o Data Lifecycle Manager (DLM)."
+      ],
+      "explanation": "Os snapshots de EBS podem ser copiados cross-Region e cross-account, com criptografia via KMS — permitindo manter backups numa região/conta isolada pra DR e proteção contra comprometimento da conta. O Data Lifecycle Manager automatiza isso.",
+      "whyNots": {
+        "B": "Errado — snapshots (no S3) podem ser copiados entre regiões/contas.",
+        "C": "Elastic IP é IP estático — não é backup replicado.",
+        "D": "User data é script de boot — não replica backups."
+      }
+    },
+    {
+      "id": "br-ec2r-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Um banco de dados IN-MEMORY processa datasets enormes na RAM e precisa de MUITA memória por instância.",
+      "stem": "Qual família de instância EC2 é a indicada?",
+      "options": [
+        {"key": "A", "text": "Memory optimized (ex.: R/X)"},
+        {"key": "B", "text": "Compute optimized (C)"},
+        {"key": "C", "text": "Storage optimized (I/D)"},
+        {"key": "D", "text": "General purpose (T)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'in-memory + muita RAM' = família Memory optimized (R, X).",
+        "💡 Rafael (dica 2): escolha a família pela dimensão dominante — aqui é memória."
+      ],
+      "explanation": "As instâncias Memory optimized (famílias R, X) entregam muita RAM por instância, ideais pra bancos in-memory, análise de grandes datasets em memória e apps enterprise (SAP). A família se escolhe pela dimensão que o workload mais consome.",
+      "whyNots": {
+        "B": "Compute optimized é pra CPU alta (batch, transcoding) — não é o foco em memória.",
+        "C": "Storage optimized é pra alto I/O local — não é RAM.",
+        "D": "General purpose é equilíbrio — não maximiza memória como a Memory optimized."
+      }
+    },
+    {
+      "id": "br-ec2r-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Um workload de transcodificação de mídia e processamento em lote é limitado por CPU (compute-bound) e se beneficia de processadores de alto desempenho.",
+      "stem": "Qual família de instância é a indicada?",
+      "options": [
+        {"key": "A", "text": "Compute optimized (ex.: C)"},
+        {"key": "B", "text": "Memory optimized (R)"},
+        {"key": "C", "text": "Storage optimized (D)"},
+        {"key": "D", "text": "Accelerated (P)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): compute-bound (transcoding, batch) = Compute optimized (C), CPU de alto desempenho.",
+        "💡 Rafael (dica 2): se precisasse de GPU (ML/gráficos), aí sim Accelerated."
+      ],
+      "explanation": "Compute optimized (família C) oferece processadores de alto desempenho pra cargas compute-bound — batch, media transcoding, game servers e HPC. É a família certa quando o gargalo é CPU.",
+      "whyNots": {
+        "B": "Memory optimized foca RAM — não é o gargalo aqui.",
+        "C": "Storage optimized foca I/O local — não CPU.",
+        "D": "Accelerated é GPU/FPGA (ML/gráficos) — não é o caso de transcoding CPU-bound genérico (embora GPU ajude em alguns casos, o pedido é 'compute-bound + CPU de alto desempenho')."
+      }
+    },
+    {
+      "id": "br-ec2r-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Quatro workloads: (1) muita RAM pra banco in-memory; (2) CPU alta pra batch; (3) GPU pra treino de ML; (4) alto I/O local pra big data.",
+      "stem": "Qual mapeamento 1→2→3→4 de famílias está correto?",
+      "options": [
+        {"key": "A", "text": "Memory → Compute → Accelerated → Storage"},
+        {"key": "B", "text": "Compute → Memory → Storage → Accelerated"},
+        {"key": "C", "text": "Storage → Accelerated → Memory → Compute"},
+        {"key": "D", "text": "Memory → Storage → Compute → Accelerated"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): RAM = Memory; CPU = Compute; GPU = Accelerated; I/O local = Storage.",
+        "💡 Rafael (dica 2): só a opção A casa cada workload com a família certa."
+      ],
+      "explanation": "Cada família atende uma dimensão: Memory optimized (RAM/in-memory), Compute optimized (CPU/batch), Accelerated (GPU/ML) e Storage optimized (I/O local/big data). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Memory com Compute e Storage com Accelerated.",
+        "C": "Embaralha tudo — Storage não é o de RAM.",
+        "D": "Troca Compute com Storage nas posições."
+      }
+    },
+    {
+      "id": "br-ec2r-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Uma aplicação precisa de um endereço IP público FIXO que possa ser rapidamente remapeado pra uma instância de reserva se a instância atual falhar.",
+      "stem": "Qual recurso fornece esse IP estático remapeável?",
+      "options": [
+        {"key": "A", "text": "Elastic IP (EIP)"},
+        {"key": "B", "text": "Um IP público dinâmico padrão"},
+        {"key": "C", "text": "Um snapshot de EBS"},
+        {"key": "D", "text": "Uma AMI"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): IP público ESTÁTICO que remapeia pra outra instância na falha = Elastic IP.",
+        "💡 Rafael (dica 2): o IP público padrão muda quando a instância para; o EIP é fixo até você liberar."
+      ],
+      "explanation": "Um Elastic IP é um IPv4 público estático alocado à sua conta, que pode ser remapeado rapidamente pra outra instância — mascarando a falha da instância original. O IP público padrão, por outro lado, muda quando a instância para/inicia.",
+      "whyNots": {
+        "B": "O IP público dinâmico padrão muda ao parar/iniciar — não é fixo nem remapeável do mesmo jeito.",
+        "C": "Snapshot é backup de volume — não é IP.",
+        "D": "AMI é imagem de lançamento — não é IP."
+      }
+    },
+    {
+      "id": "br-ec2r-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Você quer que, ao INICIAR a instância EC2, ela execute automaticamente um script pra instalar pacotes e configurar a aplicação (bootstrap).",
+      "stem": "Qual recurso do EC2 executa esse script no lançamento?",
+      "options": [
+        {"key": "A", "text": "User data"},
+        {"key": "B", "text": "Instance metadata (IMDS)"},
+        {"key": "C", "text": "Elastic IP"},
+        {"key": "D", "text": "Placement group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): script de bootstrap executado no boot da instância = user data (limite de 16 KB).",
+        "💡 Rafael (dica 2): não confunda com instance metadata, que só EXPÕE dados sobre a instância."
+      ],
+      "explanation": "O user data é o script/comandos que a instância executa no lançamento, pra bootstrap (instalar pacotes, configurar a app). É limitado a 16 KB (raw). O instance metadata (IMDS) apenas fornece informações sobre a própria instância.",
+      "whyNots": {
+        "B": "Instance metadata expõe dados da instância (ID, IP, role) — não executa o script de bootstrap.",
+        "C": "Elastic IP é IP estático — não roda script.",
+        "D": "Placement group controla o posicionamento físico — não executa bootstrap."
+      }
+    },
+    {
+      "id": "br-ec2r-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2", "ebs"],
+      "situacao": "Quatro conceitos: (1) molde pra lançar instância; (2) backup incremental de volume; (3) IP público estático remapeável; (4) script de bootstrap no boot.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "AMI → EBS snapshot → Elastic IP → user data"},
+        {"key": "B", "text": "EBS snapshot → AMI → user data → Elastic IP"},
+        {"key": "C", "text": "Elastic IP → user data → AMI → EBS snapshot"},
+        {"key": "D", "text": "AMI → Elastic IP → EBS snapshot → user data"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): molde = AMI; backup incremental = snapshot; IP fixo remapeável = Elastic IP; bootstrap = user data.",
+        "💡 Rafael (dica 2): só a opção A mantém cada conceito no lugar."
+      ],
+      "explanation": "Cada recurso tem seu papel: AMI (molde de lançamento), EBS snapshot (backup incremental de volume), Elastic IP (IP público estático remapeável) e user data (script de bootstrap no boot). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca AMI com snapshot e user data com Elastic IP.",
+        "C": "Embaralha tudo — Elastic IP não é o molde.",
+        "D": "Troca Elastic IP com EBS snapshot de posição."
+      }
+    }
+  ]
+}

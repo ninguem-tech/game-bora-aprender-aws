@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Resiliência e Recuperação de Desastres (RTO/RPO, AWS Backup, as 4 estratégias de DR, Multi-AZ vs Multi-Region, Route 53 failover). Domínio de arquiteturas resilientes, pouco aprofundado no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-dr-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "Numa reunião de DR, alguém pergunta: 'depois de um desastre, quanto DADO a gente pode perder?' e 'em quanto TEMPO o sistema tem que voltar?'",
+      "stem": "Qual par de métricas responde, respectivamente, a essas duas perguntas?",
+      "options": [
+        {"key": "A", "text": "RPO (dado que se pode perder) e RTO (tempo até voltar)"},
+        {"key": "B", "text": "RTO (dado que se pode perder) e RPO (tempo até voltar)"},
+        {"key": "C", "text": "SLA e TPS"},
+        {"key": "D", "text": "IOPS e throughput"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): RPO tem 'P' de Ponto — até que PONTO no passado você recupera (quanto dado perde). RTO tem 'T' de Tempo — em quanto TEMPO você volta.",
+        "💡 Rafael (dica 2): RPO depende da frequência do backup/replicação; RTO depende de quão rápido você consegue restaurar/escalar."
+      ],
+      "explanation": "RPO (Recovery Point Objective) é quanto dado se pode perder, medido em tempo (até que ponto no passado você recupera) — depende da frequência de backup/replicação. RTO (Recovery Time Objective) é quanto tempo o sistema pode ficar fora até voltar. Menor em ambos = melhor, porém mais caro.",
+      "whyNots": {
+        "B": "Inverte os dois: RPO é sobre DADO/ponto; RTO é sobre TEMPO de recuperação.",
+        "C": "SLA é acordo de nível de serviço e TPS é transações por segundo — não são as métricas de DR aqui.",
+        "D": "IOPS e throughput medem desempenho de armazenamento — nada a ver com objetivos de recuperação."
+      }
+    },
+    {
+      "id": "br-dr-q01",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aws-backup"],
+      "situacao": "A empresa tem backups espalhados: snapshot de EBS aqui, dump de RDS ali, EFS de outro jeito. Querem centralizar tudo numa política única, automatizada, com agendamento e retenção.",
+      "stem": "Qual serviço centraliza e automatiza backup entre vários serviços AWS?",
+      "options": [
+        {"key": "A", "text": "AWS Backup"},
+        {"key": "B", "text": "Amazon S3 Glacier"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "Snapshots manuais de cada serviço"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o nome é literal — AWS Backup. Um lugar só, baseado em política, pra agendar e reter backups de EC2, EBS, RDS, DynamoDB, EFS, S3 e mais.",
+        "💡 Rafael (dica 2): em vez de cada time fazer do seu jeito, você define um plano de backup central e ele aplica em tudo."
+      ],
+      "explanation": "AWS Backup é o serviço centralizado e gerenciado, baseado em política, pra automatizar backup entre vários serviços (EC2, EBS, RDS, Aurora, DynamoDB, EFS, S3, EKS, e mais), com agendamento, retenção, monitoramento e criptografia via KMS.",
+      "whyNots": {
+        "B": "Glacier é classe de armazenamento de arquivamento barato — destino possível de backup, mas não a orquestração central de políticas.",
+        "C": "Config avalia conformidade de configuração — não faz backup.",
+        "D": "Snapshots manuais por serviço são justamente a bagunça descentralizada que o enunciado quer resolver."
+      }
+    },
+    {
+      "id": "br-dr-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["aws-backup"],
+      "situacao": "Por exigência de compliance, os backups NÃO podem ser apagados nem alterados por ninguém (nem por um admin ou ransomware) durante o período de retenção.",
+      "stem": "Qual recurso do AWS Backup garante esse modelo WORM (write-once, read-many)?",
+      "options": [
+        {"key": "A", "text": "AWS Backup Vault Lock"},
+        {"key": "B", "text": "Versionamento do S3"},
+        {"key": "C", "text": "Security group no vault"},
+        {"key": "D", "text": "Multi-AZ"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'Vault' é cofre e 'Lock' é tranca. Vault Lock aplica WORM — depois de gravado, ninguém apaga nem altera dentro da retenção.",
+        "💡 Rafael (dica 2): é a defesa clássica contra exclusão acidental e ransomware/insider — nem o root consegue burlar no modo compliance."
+      ],
+      "explanation": "Backup Vault Lock aplica o modelo WORM (write-once-read-many) ao cofre de backup: dentro do período de retenção, os backups não podem ser apagados nem alterados — protege contra exclusão acidental, insider malicioso e ransomware. É o controle de imutabilidade pra compliance.",
+      "whyNots": {
+        "B": "Versionamento do S3 ajuda contra sobrescrita, mas não é o controle de imutabilidade WORM do cofre de backup gerenciado.",
+        "C": "Security group é firewall de rede — não impede exclusão de backup.",
+        "D": "Multi-AZ é alta disponibilidade, não imutabilidade de backup."
+      }
+    },
+    {
+      "id": "br-dr-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aws-backup"],
+      "situacao": "Compliance exige guardar uma cópia dos backups a uma distância mínima da produção, pra sobreviver à perda da região inteira.",
+      "stem": "Qual capacidade do AWS Backup atende isso?",
+      "options": [
+        {"key": "A", "text": "Cópia cross-Region dos backups"},
+        {"key": "B", "text": "Aumentar a frequência do backup na mesma região"},
+        {"key": "C", "text": "Mudar a classe de armazenamento pra Glacier"},
+        {"key": "D", "text": "Habilitar Multi-AZ no RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a pista é 'distância mínima' e 'perder a região inteira'. Backup na mesma região não salva se a região cai — precisa copiar pra OUTRA região.",
+        "💡 Rafael (dica 2): AWS Backup copia backups cross-Region (e cross-account) por política, justamente pra continuidade e compliance."
+      ],
+      "explanation": "AWS Backup copia backups cross-Region (e cross-account via Organizations) por política — leva a cópia pra longe da produção, sobrevivendo à perda da região inteira. É o requisito típico de continuidade de negócio e compliance.",
+      "whyNots": {
+        "B": "Mais frequência melhora o RPO, mas tudo continua na MESMA região — não sobrevive à queda dela.",
+        "C": "Glacier reduz custo de arquivamento, mas não resolve a separação geográfica por si só.",
+        "D": "Multi-AZ protege contra falha de AZ dentro da região — não contra perder a região toda."
+      }
+    },
+    {
+      "id": "br-dr-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "Uma ONG com orçamento apertado tolera ficar algumas horas fora em caso de desastre. Quer a estratégia de DR mais barata e simples possível.",
+      "stem": "Qual estratégia de DR atende?",
+      "options": [
+        {"key": "A", "text": "Backup & Restore"},
+        {"key": "B", "text": "Multi-site Active/Active"},
+        {"key": "C", "text": "Warm Standby"},
+        {"key": "D", "text": "Pilot Light"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'mais barata e simples' + 'tolera horas fora' = a ponta de baixo do espectro. Você só guarda backups e restaura quando precisar.",
+        "💡 Rafael (dica 2): as quatro estratégias vão de barata/lenta pra cara/rápida: Backup&Restore → Pilot Light → Warm Standby → Active/Active."
+      ],
+      "explanation": "Backup & Restore é a estratégia mais simples e barata: você mantém backups e restaura na região de recuperação quando preciso. Em troca, tem o MAIOR RTO/RPO (horas) — aceitável pra quem tolera ficar um tempo fora e prioriza custo.",
+      "whyNots": {
+        "B": "Multi-site Active/Active é a mais cara e complexa (RTO/RPO perto de zero) — o oposto do orçamento apertado.",
+        "C": "Warm Standby mantém um ambiente reduzido sempre ligado — custa mais que só backups.",
+        "D": "Pilot Light já replica dados e mantém o núcleo pronto — mais caro que simplesmente Backup & Restore."
+      }
+    },
+    {
+      "id": "br-dr-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "Numa região de recuperação, a empresa mantém os DADOS sempre replicados e o núcleo da infra pronto, mas os servidores de aplicação DESLIGADOS — só liga e escala quando o desastre vier.",
+      "stem": "Que estratégia de DR é essa?",
+      "options": [
+        {"key": "A", "text": "Pilot Light"},
+        {"key": "B", "text": "Backup & Restore"},
+        {"key": "C", "text": "Warm Standby"},
+        {"key": "D", "text": "Multi-site Active/Active"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pensa na chama-piloto do fogão — fica acesa só o miolo (os dados replicados), e você 'acende' o resto (os servidores) na hora do desastre.",
+        "💡 Rafael (dica 2): a diferença pro Warm Standby é que aqui a aplicação está DESLIGADA; no Warm Standby ela já roda reduzida."
+      ],
+      "explanation": "Pilot Light replica os dados continuamente e mantém o núcleo da infra provisionado na região de DR, mas com os servidores de aplicação desligados — eles são ligados e escalados quando o desastre acontece. RPO em minutos, RTO em dezenas de minutos.",
+      "whyNots": {
+        "B": "Backup & Restore não mantém infra de pé na região de DR — você reconstrói a partir do backup (mais lento).",
+        "C": "No Warm Standby a aplicação JÁ está rodando (reduzida); aqui ela está desligada.",
+        "D": "Active/Active tem tudo rodando e servindo tráfego nas duas regiões — bem além do pilot light."
+      }
+    },
+    {
+      "id": "br-dr-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "O time quer recuperação mais rápida que o pilot light: aceita pagar pra manter na região de DR uma versão REDUZIDA, porém totalmente funcional e já rodando, que aguente tráfego baixo na hora e só precise escalar.",
+      "stem": "Qual estratégia descreve isso?",
+      "options": [
+        {"key": "A", "text": "Warm Standby"},
+        {"key": "B", "text": "Pilot Light"},
+        {"key": "C", "text": "Backup & Restore"},
+        {"key": "D", "text": "Cold Standby (sem nada ligado)"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'morno' (warm) = já está rodando, só que pequeno. No desastre você só aumenta (scale up/out), o que dá RTO menor que pilot light.",
+        "💡 Rafael (dica 2): pilot light = app desligado (você liga). Warm standby = app ligado e reduzido (você escala). Essa é a pegadinha clássica entre os dois."
+      ],
+      "explanation": "Warm Standby mantém uma versão reduzida, mas totalmente funcional e já em execução na região de DR — aguenta tráfego em nível baixo imediatamente e a recuperação é só escalar pra capacidade de produção. Por isso tem RTO menor que o pilot light (onde a aplicação está desligada).",
+      "whyNots": {
+        "B": "No Pilot Light a aplicação está DESLIGADA (só dados/núcleo prontos); aqui ela já roda reduzida.",
+        "C": "Backup & Restore não mantém nada rodando — é o mais lento pra recuperar.",
+        "D": "'Cold standby' não é uma das quatro estratégias nomeadas pela AWS; a ideia de nada ligado se aproxima de Backup & Restore."
+      }
+    },
+    {
+      "id": "br-dr-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["route53"],
+      "situacao": "Uma fintech não pode ficar fora do ar de jeito nenhum: exige RPO perto de zero e RTO perto de zero, e topa o custo de operar em mais de uma região ao mesmo tempo.",
+      "stem": "Qual estratégia de DR atende esse requisito extremo?",
+      "options": [
+        {"key": "A", "text": "Multi-site Active/Active (multi-Region)"},
+        {"key": "B", "text": "Backup & Restore"},
+        {"key": "C", "text": "Pilot Light"},
+        {"key": "D", "text": "Snapshot diário em outra AZ"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): RPO~0 e RTO~0 só sai com tudo já rodando e servindo tráfego em mais de uma região ao mesmo tempo — e topando o custo.",
+        "💡 Rafael (dica 2): Route 53 (health checks + roteamento) distribui/redireciona o tráfego entre as regiões ativas."
+      ],
+      "explanation": "Multi-site Active/Active mantém o workload implantado e SERVINDO tráfego em várias regiões simultaneamente, com RPO e RTO perto de zero — a estratégia de menor RTO/RPO, em troca do maior custo e complexidade. Route 53 com health checks roteia/redireciona o tráfego entre as regiões.",
+      "whyNots": {
+        "B": "Backup & Restore tem RTO/RPO em horas — longe de 'perto de zero'.",
+        "C": "Pilot Light recupera em dezenas de minutos — não atende RTO perto de zero.",
+        "D": "Snapshot em outra AZ não protege contra perda de região e não dá RTO/RPO quase zero."
+      }
+    },
+    {
+      "id": "br-dr-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["rds", "route53"],
+      "situacao": "Um arquiteto confunde os termos. Ele precisa entender: o que protege contra a falha de UMA zona de disponibilidade, e o que protege contra a perda de uma REGIÃO inteira?",
+      "stem": "Qual associação está correta?",
+      "options": [
+        {"key": "A", "text": "Multi-AZ protege contra falha de AZ; Multi-Region protege contra perda de região"},
+        {"key": "B", "text": "Multi-AZ protege contra perda de região; Multi-Region protege contra falha de AZ"},
+        {"key": "C", "text": "Os dois protegem só contra falha de instância única"},
+        {"key": "D", "text": "Nenhum dos dois ajuda em desastre; só backup ajuda"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conta as caixas. Multi-AZ = várias zonas DENTRO de uma região (sobrevive a perder uma AZ). Multi-Region = regiões diferentes (sobrevive a perder a região).",
+        "💡 Rafael (dica 2): RDS Multi-AZ é alta disponibilidade local; read replica cross-Region / S3 CRR / Aurora Global = território de DR de região."
+      ],
+      "explanation": "Multi-AZ distribui recursos por várias zonas de disponibilidade dentro de UMA região — sobrevive à falha de uma AZ (alta disponibilidade local). Multi-Region (read replica cross-Region, S3 CRR, Aurora Global Database, com Route 53 failover) protege contra a perda de uma REGIÃO inteira — território de DR.",
+      "whyNots": {
+        "B": "Inverte: Multi-AZ é dentro da região; quem cobre perda de região é Multi-Region.",
+        "C": "Ambos vão além de uma única instância — cobrem AZ e região, respectivamente.",
+        "D": "Multi-AZ e Multi-Region são justamente pilares de resiliência/DR, junto com backup."
+      }
+    },
+    {
+      "id": "br-dr-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": [],
+      "situacao": "Quatro requisitos chegam: (1) menor custo, tolera horas fora; (2) dados replicados mas app desligado; (3) ambiente reduzido já rodando; (4) zero downtime, servindo em duas regiões.",
+      "stem": "Qual ordem de estratégias mapeia 1→2→3→4 corretamente?",
+      "options": [
+        {"key": "A", "text": "Backup & Restore → Pilot Light → Warm Standby → Active/Active"},
+        {"key": "B", "text": "Pilot Light → Backup & Restore → Active/Active → Warm Standby"},
+        {"key": "C", "text": "Warm Standby → Active/Active → Backup & Restore → Pilot Light"},
+        {"key": "D", "text": "Active/Active → Warm Standby → Pilot Light → Backup & Restore"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): é o espectro de custo/RTO. Mais barato e lento embaixo (Backup&Restore), mais caro e instantâneo no topo (Active/Active).",
+        "💡 Rafael (dica 2): a pista 2 'app desligado' = Pilot Light; pista 3 'reduzido rodando' = Warm Standby. Só a opção A respeita a ordem crescente.",
+        "💡 Rafael (dica 3): decora a escada — Backup&Restore, Pilot Light, Warm Standby, Active/Active, nessa ordem de custo subindo e RTO/RPO caindo."
+      ],
+      "explanation": "As quatro estratégias em ordem crescente de custo/complexidade e decrescente de RTO/RPO: (1) Backup & Restore (barato, horas), (2) Pilot Light (dados replicados, app desligado), (3) Warm Standby (reduzido já rodando), (4) Multi-site Active/Active (zero downtime, multi-Region). A opção A é a única que respeita o espectro.",
+      "whyNots": {
+        "B": "Embaralha a ordem — Backup & Restore é o mais barato, não o segundo, e Active/Active não vem antes de Warm Standby.",
+        "C": "Começa pelo meio/topo e joga o mais barato pro fim — fora da escada de custo.",
+        "D": "É a ordem invertida (do mais caro pro mais barato), não o mapeamento pedido."
+      }
+    }
+  ]
+}

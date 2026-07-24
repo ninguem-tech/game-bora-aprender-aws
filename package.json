@@ -1,0 +1,13 @@
+{
+  "name": "bora-aprender-aws-game",
+  "version": "1.0.0",
+  "description": "Jogo de estudos interativo para a certificação AWS SAA-C03",
+  "main": "src/jogo.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test testes/*.test.js && python3 -m unittest discover -s testes -p 'test_*.py'",
+    "build:bank": "python3 data/build-bank.py"
+  },
+  "author": "nin-guem <299251671+ninguem-tech@users.noreply.github.com>",
+  "license": "AGPL-3.0"
+}

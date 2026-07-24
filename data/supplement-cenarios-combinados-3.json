@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Cenários Combinados III (estilo prova SAA-C03) — síntese de serviços já verificados, em decisões de arquitetura realistas e novas.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-cen3-q00",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["sqs", "lambda", "s3"],
+      "situacao": "Imagens enviadas pra um bucket S3 precisam ser processadas de forma assíncrona, absorvendo picos e sem perder nenhuma, com processamento serverless.",
+      "stem": "Qual arquitetura é a mais resiliente?",
+      "options": [
+        {"key": "A", "text": "Evento do S3 → SQS → Lambda consumindo a fila (com DLQ)"},
+        {"key": "B", "text": "Evento do S3 → Lambda síncrono sem fila"},
+        {"key": "C", "text": "Cron em EC2 varrendo o bucket"},
+        {"key": "D", "text": "Gravar as imagens no RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): absorver pico sem perder = fila (SQS) entre o evento e o Lambda; DLQ pra falhas.",
+        "💡 Rafael (dica 2): o S3 pode notificar uma fila SQS (standard) que o Lambda consome no ritmo."
+      ],
+      "explanation": "O evento do S3 publica numa fila SQS que amortece os picos; o Lambda consome no próprio ritmo (event source mapping), com DLQ pra mensagens problemáticas. Nenhuma imagem se perde e o processamento é serverless e desacoplado.",
+      "whyNots": {
+        "B": "Lambda síncrono sem fila pode estourar concorrência no pico e perder eventos.",
+        "C": "Cron varrendo o bucket é ineficiente e não é orientado a evento.",
+        "D": "Gravar imagem no RDS não processa nem absorve pico."
+      }
+    },
+    {
+      "id": "br-cen3-q01",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["cloudfront", "s3", "acm", "route53"],
+      "situacao": "Um site estático HTTPS global, com o bucket privado, domínio próprio no apex e certificado TLS gerenciado com auto-renovação.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "S3 privado + CloudFront (OAC) + ACM (certificado) + Route 53 Alias no apex"},
+        {"key": "B", "text": "S3 público + CNAME no apex"},
+        {"key": "C", "text": "EC2 com certificado manual"},
+        {"key": "D", "text": "S3 + Route 53 sem CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): global+privado = CloudFront(OAC); TLS gerenciado = ACM; apex = Alias do Route 53.",
+        "💡 Rafael (dica 2): CNAME não funciona no apex; o Alias sim."
+      ],
+      "explanation": "S3 privado com OAC (só via CloudFront), CloudFront pra baixa latência global e HTTPS, ACM pro certificado TLS com auto-renovação, e Route 53 com Alias apontando o apex pra a distribuição. É o padrão de site estático seguro.",
+      "whyNots": {
+        "B": "S3 público expõe a origem e CNAME não funciona no apex.",
+        "C": "EC2 com cert manual não dá baixa latência global nem auto-renovação gerenciada.",
+        "D": "Sem CloudFront não há CDN/HTTPS gerenciado na borda do jeito pedido."
+      }
+    },
+    {
+      "id": "br-cen3-q02",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rds", "elasticache"],
+      "situacao": "Um portal de leitura intensa sobrecarrega o banco relacional com os mesmos SELECTs repetidos.",
+      "stem": "Qual combinação alivia o banco mantendo consistência relacional?",
+      "options": [
+        {"key": "A", "text": "RDS Read Replicas + ElastiCache pra cachear as consultas quentes"},
+        {"key": "B", "text": "Standby do Multi-AZ servindo leitura"},
+        {"key": "C", "text": "Trocar o RDS por S3"},
+        {"key": "D", "text": "Aumentar só o backup"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): escalar leitura = Read Replica; cachear repetido = ElastiCache.",
+        "💡 Rafael (dica 2): lembre — o standby do Multi-AZ NÃO serve leitura."
+      ],
+      "explanation": "Read Replicas distribuem a carga de leitura e o ElastiCache cacheia as consultas mais repetidas, aliviando o RDS. O standby do Multi-AZ é só pra failover, não serve leitura.",
+      "whyNots": {
+        "B": "O standby do Multi-AZ não atende leitura — pegadinha clássica.",
+        "C": "S3 é object storage — não substitui o banco relacional.",
+        "D": "Backup não reduz a carga de leitura em produção."
+      }
+    },
+    {
+      "id": "br-cen3-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["spot", "ecs", "fargate"],
+      "situacao": "Um processamento em lote em contêineres é tolerante a interrupção e o time quer o menor custo possível.",
+      "stem": "Qual opção reduz o custo aceitando interrupção?",
+      "options": [
+        {"key": "A", "text": "Fargate Spot (até 70% de desconto)"},
+        {"key": "B", "text": "Fargate on-demand 24/7"},
+        {"key": "C", "text": "Dedicated Hosts"},
+        {"key": "D", "text": "Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): batch de contêiner interrompível = Fargate Spot (capacidade ociosa, barato).",
+        "💡 Rafael (dica 2): aviso de 2 minutos na interrupção — ok pra batch."
+      ],
+      "explanation": "Fargate Spot roda tasks interrompíveis em capacidade ociosa com até 70% de desconto — ideal pra batch tolerante a interrupção. On-demand seria mais caro pra essa carga.",
+      "whyNots": {
+        "B": "On-demand 24/7 não dá o desconto do Spot pra uma carga que aceita interrupção.",
+        "C": "Dedicated Hosts é licença/compliance — não é o mais barato aqui.",
+        "D": "Lightsail é VPS simples — não é o modelo de batch de contêiner interrompível."
+      }
+    },
+    {
+      "id": "br-cen3-q04",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["dynamodb", "lambda"],
+      "situacao": "Toda alteração numa tabela DynamoDB precisa disparar, em tempo real, uma função que atualiza um índice de busca e notifica sistemas.",
+      "stem": "Qual recurso entrega o fluxo de mudanças?",
+      "options": [
+        {"key": "A", "text": "DynamoDB Streams acionando Lambda"},
+        {"key": "B", "text": "Scan periódico da tabela"},
+        {"key": "C", "text": "DAX"},
+        {"key": "D", "text": "Global Tables"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): reagir a cada mudança da tabela = DynamoDB Streams + Lambda.",
+        "💡 Rafael (dica 2): DAX é cache de leitura; Global Tables é multi-região — nenhum é o log de mudanças."
+      ],
+      "explanation": "DynamoDB Streams captura os eventos de insert/update/delete em ordem e aciona uma Lambda em tempo real — base de arquiteturas orientadas a evento/CDC. DAX (cache) e Global Tables (multi-região) resolvem outras coisas.",
+      "whyNots": {
+        "B": "Scan periódico é caro, lento e não é tempo real.",
+        "C": "DAX acelera leitura — não entrega fluxo de mudanças.",
+        "D": "Global Tables replica entre regiões — não é o gatilho por mudança."
+      }
+    },
+    {
+      "id": "br-cen3-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["vpc", "s3", "iam"],
+      "situacao": "Instâncias numa sub-rede privada devem acessar o S3 sem internet, sem NAT e sem access keys embutidas.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "IAM Role na EC2 + Gateway Endpoint pro S3"},
+        {"key": "B", "text": "NAT Gateway + access key embutida"},
+        {"key": "C", "text": "Internet Gateway + bucket público"},
+        {"key": "D", "text": "VPC Peering com a conta da AWS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): sem internet/NAT pro S3 = Gateway Endpoint (grátis); sem chave = IAM Role.",
+        "💡 Rafael (dica 2): o Gateway Endpoint roteia o tráfego ao S3 pela rede da AWS."
+      ],
+      "explanation": "Uma IAM Role dá credenciais temporárias (sem chave embutida) e o Gateway Endpoint dá acesso privado ao S3 sem internet nem NAT. Cobre acesso seguro e privado.",
+      "whyNots": {
+        "B": "NAT leva pela internet (com custo) e access key embutida é insegura.",
+        "C": "Internet Gateway + bucket público expõe tudo.",
+        "D": "VPC Peering conecta VPCs — não dá acesso privado ao S3 assim."
+      }
+    },
+    {
+      "id": "br-cen3-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aurora", "route53"],
+      "situacao": "Uma aplicação global exige RPO/RTO próximos de zero e leitura de baixa latência em vários continentes, num banco compatível com MySQL.",
+      "stem": "Qual solução atende?",
+      "options": [
+        {"key": "A", "text": "Aurora Global Database (multi-Region) + Route 53"},
+        {"key": "B", "text": "RDS Single-AZ + snapshots"},
+        {"key": "C", "text": "Aurora numa região com Multi-AZ apenas"},
+        {"key": "D", "text": "DynamoDB Global Tables"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): multi-continente + RPO/RTO ~0 + compatível MySQL = Aurora Global Database.",
+        "💡 Rafael (dica 2): Multi-AZ só cobre AZ dentro de uma região."
+      ],
+      "explanation": "Aurora Global Database abrange múltiplas regiões com leitura global de baixa latência e DR cross-region (RTO em minutos), compatível com MySQL/PostgreSQL. Route 53 roteia entre regiões.",
+      "whyNots": {
+        "B": "Single-AZ + snapshots tem RPO/RTO em horas.",
+        "C": "Multi-AZ não cobre perda de região nem dá presença global.",
+        "D": "DynamoDB não é compatível com MySQL (é NoSQL)."
+      }
+    },
+    {
+      "id": "br-cen3-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["data-firehose", "s3", "athena", "quicksight"],
+      "situacao": "Você quer descarregar um stream de eventos no S3 sem código, consultar com SQL e montar dashboards, tudo serverless.",
+      "stem": "Qual pipeline atende?",
+      "options": [
+        {"key": "A", "text": "Data Firehose → S3 → Athena → QuickSight"},
+        {"key": "B", "text": "Kinesis Data Streams → EC2 → MySQL"},
+        {"key": "C", "text": "SQS → Lambda → EBS"},
+        {"key": "D", "text": "CloudFront → S3 estático"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): entregar stream no S3 sem código = Firehose; SQL no S3 = Athena; dashboard = QuickSight.",
+        "💡 Rafael (dica 2): tudo serverless, sem cluster."
+      ],
+      "explanation": "Amazon Data Firehose entrega o stream no S3 sem código; Athena consulta com SQL; QuickSight monta os dashboards. Pipeline serverless de ponta a ponta.",
+      "whyNots": {
+        "B": "EC2 + MySQL não é serverless nem o pipeline pedido.",
+        "C": "SQS/Lambda/EBS não forma o data lake + SQL + dashboard.",
+        "D": "CloudFront + S3 serve conteúdo estático — não é pipeline analítico."
+      }
+    },
+    {
+      "id": "br-cen3-q08",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["direct-connect", "vpn", "transit-gateway"],
+      "situacao": "Ligar o data center a várias VPCs com baixa latência/banda dedicada, com backup automático barato se o link cair, tudo centralizado num hub.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"},
+        {"key": "B", "text": "Só VPN, sem hub"},
+        {"key": "C", "text": "VPC Peering ponto-a-ponto entre tudo"},
+        {"key": "D", "text": "CloudFront + Global Accelerator"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): banda dedicada = DX; backup barato = VPN; hub multi-VPC = Transit Gateway.",
+        "💡 Rafael (dica 2): padrão híbrido resiliente clássico."
+      ],
+      "explanation": "Direct Connect dá o link dedicado; a Site-to-Site VPN é o backup automático (failover BGP) mais barato; o Transit Gateway centraliza as VPCs e o on-premises num hub.",
+      "whyNots": {
+        "B": "Só VPN não dá banda dedicada nem hub central.",
+        "C": "VPC Peering ponto-a-ponto não escala e não liga o data center.",
+        "D": "CloudFront/Global Accelerator são pra usuários finais, não conectividade híbrida."
+      }
+    },
+    {
+      "id": "br-cen3-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["organizations", "control-tower", "aws-config"],
+      "situacao": "Governar dezenas de contas com baseline automático, guardrails que bloqueiam ações proibidas e detecção de não-conformidade.",
+      "stem": "Qual base atende?",
+      "options": [
+        {"key": "A", "text": "Control Tower (landing zone) sobre Organizations, com guardrails preventivos (SCP) e detectivos (Config)"},
+        {"key": "B", "text": "Configurar cada conta manualmente"},
+        {"key": "C", "text": "Um Security Group global"},
+        {"key": "D", "text": "CloudFront em todas as contas"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): landing zone automática + guardrails = Control Tower sobre Organizations.",
+        "💡 Rafael (dica 2): preventivo (SCP) bloqueia; detectivo (Config) reporta."
+      ],
+      "explanation": "Control Tower monta a landing zone governada sobre o Organizations, com guardrails preventivos (SCP) e detectivos (Config). Governança multi-conta com mínimo esforço manual.",
+      "whyNots": {
+        "B": "Configurar conta a conta é o trabalho que o Control Tower evita.",
+        "C": "Security Group é firewall de instância — não é governança.",
+        "D": "CloudFront é CDN — irrelevante aqui."
+      }
+    },
+    {
+      "id": "br-cen3-q10",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["api-gateway", "lambda", "dynamodb", "cognito"],
+      "situacao": "Uma API REST serverless precisa autenticar usuários finais e persistir dados NoSQL, sem servidor pra gerenciar.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "API Gateway + Lambda + DynamoDB, com Cognito autenticando os usuários"},
+        {"key": "B", "text": "EC2 + MySQL + IAM Users pra cada usuário final"},
+        {"key": "C", "text": "CloudFront + S3 + KMS"},
+        {"key": "D", "text": "SQS + SES + EBS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): API serverless = API Gateway + Lambda + DynamoDB; login de usuário final = Cognito.",
+        "💡 Rafael (dica 2): IAM Users são pra operar a conta, não pra usuários de app."
+      ],
+      "explanation": "API Gateway + Lambda + DynamoDB entregam a API serverless; o Cognito (User Pool) autentica os usuários finais e pode emitir tokens. Nenhum servidor pra gerenciar.",
+      "whyNots": {
+        "B": "EC2/MySQL não é serverless, e IAM User por usuário final é anti-padrão.",
+        "C": "CloudFront/S3/KMS não formam a API dinâmica com auth de usuário.",
+        "D": "SQS/SES/EBS não é a stack de API REST autenticada."
+      }
+    },
+    {
+      "id": "br-cen3-q11",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["auto-scaling", "elb", "route53"],
+      "situacao": "Uma web app em EC2 precisa distribuir tráfego, escalar por demanda, substituir instâncias doentes e apontar o domínio raiz pra o balanceador.",
+      "stem": "Qual combinação atende?",
+      "options": [
+        {"key": "A", "text": "ELB + Auto Scaling (multi-AZ, health checks) + Route 53 Alias pro apex → ELB"},
+        {"key": "B", "text": "Uma instância única com Elastic IP"},
+        {"key": "C", "text": "CNAME no apex apontando pro ELB"},
+        {"key": "D", "text": "Só CloudFront, sem ELB nem ASG"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): distribuir = ELB; escalar/curar = ASG; apex → ELB = Alias do Route 53.",
+        "💡 Rafael (dica 2): CNAME não funciona no apex — use Alias."
+      ],
+      "explanation": "ELB distribui o tráfego, o Auto Scaling group (multi-AZ, health checks) escala e substitui instâncias não-saudáveis, e o Route 53 com Alias aponta o apex pro ELB. Elasticidade + auto-recuperação + DNS correto.",
+      "whyNots": {
+        "B": "Instância única é ponto único de falha, sem escala.",
+        "C": "CNAME não é permitido no apex — o correto é Alias.",
+        "D": "Sem ELB/ASG não há distribuição nem auto-recuperação da camada EC2."
+      }
+    }
+  ]
+}

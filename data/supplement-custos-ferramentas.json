@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Otimização de Custos Ferramentas Avançadas (Cost Anomaly Detection, Cost Allocation Tags, Budgets+Actions, Compute Optimizer, S3 Storage Lens, Cost Explorer vs CUR). Complementa a fase Custos e Governança.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-custo2-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["cost-anomaly-detection"],
+      "situacao": "A empresa quer ser avisada automaticamente de PICOS de gasto inesperados (ex.: um recurso esquecido ligado), sem ter que definir um valor-limite fixo, usando aprendizado do padrão histórico.",
+      "stem": "Qual ferramenta detecta gastos anômalos com ML?",
+      "options": [
+        {"key": "A", "text": "AWS Cost Anomaly Detection"},
+        {"key": "B", "text": "AWS Budgets com limite fixo"},
+        {"key": "C", "text": "AWS Pricing Calculator"},
+        {"key": "D", "text": "AWS Trusted Advisor"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'pico anômalo, sem limite fixo, com base no histórico' = Cost Anomaly Detection (usa ML).",
+        "💡 Rafael (dica 2): Budgets precisa de um limite definido; o Anomaly Detection aprende o normal e avisa do anormal."
+      ],
+      "explanation": "Cost Anomaly Detection usa machine learning pra aprender o padrão histórico de gasto e detectar anomalias (picos fora do esperado), com análise de causa raiz e alertas — sem você precisar definir um valor-limite fixo.",
+      "whyNots": {
+        "B": "Budgets dispara em cima de um limite que VOCÊ define — não aprende o padrão nem detecta anomalia automaticamente.",
+        "C": "Pricing Calculator estima custo de algo a criar — não monitora gasto real.",
+        "D": "Trusted Advisor dá recomendações por categorias — não é detecção de anomalia de gasto por ML."
+      }
+    },
+    {
+      "id": "br-custo2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["cost-allocation-tags"],
+      "situacao": "A diretoria quer saber quanto cada TIME e cada AMBIENTE (prod/dev) gasta na AWS, quebrando a fatura por esses critérios.",
+      "stem": "Qual recurso permite essa quebra de custo?",
+      "options": [
+        {"key": "A", "text": "Cost Allocation Tags (ativadas e analisadas no Cost Explorer/CUR)"},
+        {"key": "B", "text": "Security Groups"},
+        {"key": "C", "text": "Placement Groups"},
+        {"key": "D", "text": "Route 53 health checks"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): etiquetar recursos (ex.: time=marketing, ambiente=prod) e ATIVAR as tags pra ver o custo por elas = Cost Allocation Tags.",
+        "💡 Rafael (dica 2): depois de ativadas no Billing, elas aparecem no Cost Explorer e no CUR pra filtrar/agrupar."
+      ],
+      "explanation": "Cost Allocation Tags são tags (chave-valor) aplicadas aos recursos e ativadas no console de Billing. Uma vez ativas, aparecem no Cost Explorer e no CUR, permitindo quebrar o custo por time, projeto ou ambiente.",
+      "whyNots": {
+        "B": "Security Groups são firewall — não rastreiam custo.",
+        "C": "Placement Groups controlam posicionamento de instâncias — não custo por tag.",
+        "D": "Route 53 health checks monitoram saúde de endpoint — não custo."
+      }
+    },
+    {
+      "id": "br-custo2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["budgets"],
+      "situacao": "Quando o orçamento de um ambiente de desenvolvimento estourar um limite, você quer que o sistema PARE automaticamente as instâncias EC2 desse ambiente, sem intervenção manual.",
+      "stem": "Qual recurso executa essa ação automática ao exceder o orçamento?",
+      "options": [
+        {"key": "A", "text": "AWS Budgets Actions (parar EC2/RDS, aplicar IAM/SCP)"},
+        {"key": "B", "text": "Cost Explorer"},
+        {"key": "C", "text": "Cost Anomaly Detection"},
+        {"key": "D", "text": "Pricing Calculator"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): orçamento estourou → AÇÃO automática (parar EC2/RDS, aplicar IAM policy ou SCP) = Budget Actions.",
+        "💡 Rafael (dica 2): Budgets só alerta; Budget Actions toma a ação de fato."
+      ],
+      "explanation": "AWS Budgets Actions executam uma resposta automática (ou com aprovação) quando o orçamento ultrapassa o limite: aplicar uma IAM policy, aplicar uma SCP, ou parar instâncias EC2/RDS específicas. É o controle de custo ativo, além do simples alerta.",
+      "whyNots": {
+        "B": "Cost Explorer analisa/visualiza custos — não executa ação ao estourar orçamento.",
+        "C": "Cost Anomaly Detection alerta sobre anomalias — não para instâncias por orçamento.",
+        "D": "Pricing Calculator estima custos — não toma ação."
+      }
+    },
+    {
+      "id": "br-custo2-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["compute-optimizer"],
+      "situacao": "Você suspeita que muitas instâncias EC2 e volumes EBS estão superdimensionados (pagando por capacidade que não usa) e quer recomendações de tamanho ideal baseadas no uso real.",
+      "stem": "Qual serviço dá recomendações de rightsizing?",
+      "options": [
+        {"key": "A", "text": "AWS Compute Optimizer"},
+        {"key": "B", "text": "AWS Budgets"},
+        {"key": "C", "text": "Amazon Inspector"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'tamanho ideal de recurso, com base no uso real' = Compute Optimizer (rightsizing por ML).",
+        "💡 Rafael (dica 2): ele cobre EC2, ASG, EBS, ECS/Fargate, Lambda e RDS, e detecta superdimensionado/subdimensionado/ocioso."
+      ],
+      "explanation": "Compute Optimizer analisa o uso real (ML) e recomenda configurações de rightsizing pra EC2, Auto Scaling, EBS, ECS/Fargate, Lambda e RDS — identificando recursos superdimensionados (economia), subdimensionados (performance) e ociosos.",
+      "whyNots": {
+        "B": "Budgets controla orçamento/limites — não recomenda tamanho de recurso.",
+        "C": "Inspector escaneia vulnerabilidades — não faz rightsizing.",
+        "D": "Config avalia conformidade — não recomenda dimensionamento."
+      }
+    },
+    {
+      "id": "br-custo2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["storage-lens", "s3"],
+      "situacao": "Uma empresa com centenas de buckets S3 em várias contas quer uma visão única de uso, tendências e recomendações pra otimizar o custo do armazenamento de toda a organização.",
+      "stem": "Qual ferramenta entrega essa visibilidade org-wide do S3?",
+      "options": [
+        {"key": "A", "text": "Amazon S3 Storage Lens"},
+        {"key": "B", "text": "Amazon CloudWatch Logs"},
+        {"key": "C", "text": "AWS Config"},
+        {"key": "D", "text": "Amazon Athena apenas"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): visão org-wide do USO do S3 + recomendações de custo = S3 Storage Lens (dashboard).",
+        "💡 Rafael (dica 2): tem métricas grátis e avançadas; integra com Organizations pra ver todas as contas."
+      ],
+      "explanation": "S3 Storage Lens dá visibilidade de toda a organização sobre o armazenamento S3 (uso, tendências de atividade) com recomendações acionáveis pra otimizar custo, performance e proteção. Apresenta tudo num dashboard, com métricas grátis e avançadas.",
+      "whyNots": {
+        "B": "CloudWatch Logs guarda logs — não dá a visão agregada de uso/custo do S3.",
+        "C": "Config avalia conformidade de configuração — não é o painel de uso/otimização do S3.",
+        "D": "Athena consulta dados — não é o dashboard pronto de visibilidade do S3 org-wide."
+      }
+    },
+    {
+      "id": "br-custo2-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["cost-explorer", "cur"],
+      "situacao": "Dois usos: (1) uma análise visual rápida da tendência de gastos com previsão; (2) o dado bruto, linha a linha, pra processar com Athena/Redshift numa análise profunda.",
+      "stem": "Qual par atende (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Cost Explorer; (2) Cost and Usage Report (CUR)"},
+        {"key": "B", "text": "(1) CUR; (2) Cost Explorer"},
+        {"key": "C", "text": "(1) Budgets; (2) Pricing Calculator"},
+        {"key": "D", "text": "(1) Storage Lens; (2) Compute Optimizer"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): análise visual rápida + previsão = Cost Explorer; dado bruto detalhado no S3 pra Athena = CUR.",
+        "💡 Rafael (dica 2): Cost Explorer é o painel; CUR é a matéria-prima granular."
+      ],
+      "explanation": "Cost Explorer é a ferramenta visual pra analisar e prever custos (gráficos, histórico, forecast). O Cost and Usage Report (CUR) é o dado bruto mais detalhado, entregue no S3, ideal pra análise profunda e integração com Athena/Redshift/QuickSight.",
+      "whyNots": {
+        "B": "Inverte — análise visual é Cost Explorer; dado bruto granular é CUR.",
+        "C": "Budgets/Pricing Calculator não são análise visual de gasto real nem o dado bruto.",
+        "D": "Storage Lens/Compute Optimizer não são a análise visual de custo geral nem o dado bruto de faturamento."
+      }
+    },
+    {
+      "id": "br-custo2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["budgets", "cost-anomaly-detection"],
+      "situacao": "Distinga: (1) avisar quando o gasto ULTRAPASSA um valor-alvo que você definiu; (2) avisar quando o gasto foge do padrão histórico aprendido, sem alvo fixo.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) AWS Budgets; (2) Cost Anomaly Detection"},
+        {"key": "B", "text": "(1) Cost Anomaly Detection; (2) AWS Budgets"},
+        {"key": "C", "text": "(1) Cost Explorer; (2) CUR"},
+        {"key": "D", "text": "(1) Compute Optimizer; (2) Storage Lens"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): limite que VOCÊ define = Budgets; padrão aprendido por ML, sem alvo fixo = Cost Anomaly Detection.",
+        "💡 Rafael (dica 2): Budgets = você diz o teto; Anomaly = a IA diz o que é anormal."
+      ],
+      "explanation": "AWS Budgets avisa quando o gasto ultrapassa um limite que VOCÊ define (alvo fixo). Cost Anomaly Detection usa ML pra avisar quando o gasto foge do padrão histórico aprendido, sem precisar de alvo fixo. São complementares.",
+      "whyNots": {
+        "B": "Inverte — o limite definido é Budgets; o padrão aprendido é Anomaly Detection.",
+        "C": "Cost Explorer/CUR são análise/dado bruto — não são alertas por limite vs anomalia.",
+        "D": "Compute Optimizer/Storage Lens não são alertas de gasto por limite/anomalia."
+      }
+    },
+    {
+      "id": "br-custo2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["compute-optimizer"],
+      "situacao": "Algumas instâncias estão praticamente OCIOSAS (uso muito baixo) e desperdiçando dinheiro. Você quer identificá-las e receber recomendação do que fazer.",
+      "stem": "Qual serviço identifica recursos ociosos e recomenda ação?",
+      "options": [
+        {"key": "A", "text": "AWS Compute Optimizer (idle/rightsizing recommendations)"},
+        {"key": "B", "text": "AWS WAF"},
+        {"key": "C", "text": "Amazon Macie"},
+        {"key": "D", "text": "AWS Shield"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): identificar recurso OCIOSO + recomendar = Compute Optimizer (tem detecção de idle).",
+        "💡 Rafael (dica 2): ele olha o uso real e sugere reduzir/desligar o que está sobrando."
+      ],
+      "explanation": "Compute Optimizer, além do rightsizing, faz detecção de recursos ociosos (idle) — identifica instâncias com uso muito baixo e recomenda ação, ajudando a cortar desperdício.",
+      "whyNots": {
+        "B": "WAF é firewall de aplicação — não analisa uso/custo de recursos.",
+        "C": "Macie acha dados sensíveis no S3 — não detecta recurso ocioso.",
+        "D": "Shield é proteção DDoS — nada a ver com recursos ociosos."
+      }
+    },
+    {
+      "id": "br-custo2-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["cost-explorer"],
+      "situacao": "Um gestor quer abrir um painel e ver, em gráficos, quanto gastou por serviço nos últimos meses e uma previsão pros próximos.",
+      "stem": "Qual ferramenta entrega essa visão visual e previsão?",
+      "options": [
+        {"key": "A", "text": "AWS Cost Explorer"},
+        {"key": "B", "text": "Cost and Usage Report (CUR)"},
+        {"key": "C", "text": "AWS CloudTrail"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): painel visual de gasto por serviço + previsão = Cost Explorer.",
+        "💡 Rafael (dica 2): o CUR é o dado bruto; pra o gráfico pronto, é o Cost Explorer."
+      ],
+      "explanation": "Cost Explorer é a ferramenta visual pra analisar custos e uso: gráficos por serviço/conta/tag, histórico de até 13 meses e previsão pros próximos meses. Perfeita pra o painel que o gestor quer.",
+      "whyNots": {
+        "B": "CUR é o dado bruto linha a linha no S3 — não a visão visual pronta.",
+        "C": "CloudTrail audita chamadas de API — não mostra gastos.",
+        "D": "Inspector é vulnerabilidades — não custos."
+      }
+    },
+    {
+      "id": "br-custo2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["cost-anomaly-detection", "cost-allocation-tags", "compute-optimizer", "storage-lens"],
+      "situacao": "Quatro objetivos: (1) detectar pico de gasto anômalo por ML; (2) quebrar o custo por time/ambiente; (3) achar o tamanho ideal das instâncias; (4) visibilidade e otimização do S3 da organização.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Cost Anomaly Detection → Cost Allocation Tags → Compute Optimizer → S3 Storage Lens"},
+        {"key": "B", "text": "Cost Allocation Tags → Cost Anomaly Detection → Storage Lens → Compute Optimizer"},
+        {"key": "C", "text": "Compute Optimizer → Storage Lens → Cost Anomaly Detection → Cost Allocation Tags"},
+        {"key": "D", "text": "S3 Storage Lens → Compute Optimizer → Cost Allocation Tags → Cost Anomaly Detection"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): anomalia por ML = Cost Anomaly Detection; custo por time = Cost Allocation Tags; tamanho ideal = Compute Optimizer; S3 org-wide = Storage Lens.",
+        "💡 Rafael (dica 2): só a opção A mantém cada ferramenta na sua função."
+      ],
+      "explanation": "Cada ferramenta tem seu papel: Cost Anomaly Detection (pico anômalo por ML), Cost Allocation Tags (custo por time/ambiente), Compute Optimizer (rightsizing/idle) e S3 Storage Lens (visibilidade/otimização do S3 org-wide). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca as duas primeiras e as duas últimas de lugar.",
+        "C": "Embaralha tudo — Compute Optimizer não detecta anomalia de gasto.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

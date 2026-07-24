@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Diretório e Computação de Usuário Final (AWS Directory Service: Managed Microsoft AD/AD Connector/Simple AD; WorkSpaces; AppStream 2.0). Cobre directory services e EUC da SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-dir-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service"],
+      "situacao": "Uma empresa com mais de 5.000 usuários precisa de um Active Directory REAL da Microsoft gerenciado na AWS, com relação de confiança (trust) com o AD on-premises e suporte a workloads Windows (RDS for SQL Server, FSx for Windows).",
+      "stem": "Qual opção do Directory Service atende?",
+      "options": [
+        {"key": "A", "text": "AWS Managed Microsoft AD"},
+        {"key": "B", "text": "Simple AD"},
+        {"key": "C", "text": "AD Connector"},
+        {"key": "D", "text": "Amazon Cognito"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'AD real da Microsoft + trust + >5.000 usuários + workloads Windows' = AWS Managed Microsoft AD.",
+        "💡 Rafael (dica 2): Simple AD não suporta trust; AD Connector só faz proxy pro AD on-prem (não é um AD novo)."
+      ],
+      "explanation": "AWS Managed Microsoft AD é um Active Directory real da Microsoft gerenciado pela AWS (2 DCs em AZs distintas), com suporte a trusts com o AD on-premises e a workloads Windows (RDS SQL Server, FSx for Windows, join de EC2). É a escolha pra AD completo em escala.",
+      "whyNots": {
+        "B": "Simple AD é baixo custo/escala (≤5.000) e NÃO suporta trust.",
+        "C": "AD Connector é um proxy pro AD on-prem existente — não é um AD gerenciado completo na AWS.",
+        "D": "Cognito é autenticação de usuários de app (web/mobile) — não é Active Directory corporativo."
+      }
+    },
+    {
+      "id": "br-dir-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service"],
+      "situacao": "A empresa já tem um Active Directory on-premises e quer que serviços AWS autentiquem contra esse diretório EXISTENTE, encaminhando as requisições, SEM armazenar/cachear os dados do diretório na nuvem.",
+      "stem": "Qual opção do Directory Service é a indicada?",
+      "options": [
+        {"key": "A", "text": "AD Connector"},
+        {"key": "B", "text": "AWS Managed Microsoft AD"},
+        {"key": "C", "text": "Simple AD"},
+        {"key": "D", "text": "IAM Identity Center"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'usar o AD on-prem EXISTENTE, proxy, sem cachear na nuvem' = AD Connector (um gateway).",
+        "💡 Rafael (dica 2): se quisesse um AD novo na nuvem, seria Managed Microsoft AD."
+      ],
+      "explanation": "AD Connector é um gateway de diretório que encaminha (proxy) as autenticações dos serviços AWS pro seu Active Directory on-premises existente, sem cachear informações na nuvem. É ideal pra reaproveitar o diretório on-prem com serviços AWS.",
+      "whyNots": {
+        "B": "Managed Microsoft AD cria um AD novo gerenciado na AWS — o cenário pede usar o on-prem existente.",
+        "C": "Simple AD é um diretório próprio (Samba) na AWS — não faz proxy pro AD on-prem.",
+        "D": "IAM Identity Center é SSO da força de trabalho — não é o gateway pro AD on-prem nesse sentido."
+      }
+    },
+    {
+      "id": "br-dir-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service"],
+      "situacao": "Uma empresa pequena (menos de 5.000 usuários) quer um diretório compatível com AD de baixo custo, com contas/grupos, join de EC2 e SSO Kerberos — e NÃO precisa de relação de confiança com outro AD.",
+      "stem": "Qual opção do Directory Service é a mais econômica e adequada?",
+      "options": [
+        {"key": "A", "text": "Simple AD"},
+        {"key": "B", "text": "AWS Managed Microsoft AD"},
+        {"key": "C", "text": "AD Connector"},
+        {"key": "D", "text": "AWS CloudHSM"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pequeno, barato, compatível com AD, SEM trust = Simple AD (baseado em Samba 4).",
+        "💡 Rafael (dica 2): se precisasse de trust ou >5.000 usuários, seria Managed Microsoft AD."
+      ],
+      "explanation": "Simple AD é um diretório gerenciado baseado em Samba 4, de baixo custo e escala (≤5.000 usuários), com um subconjunto do AD (contas, grupos, join de EC2, Kerberos SSO, Group Policies). Não suporta relação de confiança — adequado quando trust não é necessário.",
+      "whyNots": {
+        "B": "Managed Microsoft AD é mais robusto/caro — exagero pra esse caso pequeno sem trust.",
+        "C": "AD Connector é proxy pro AD on-prem — o cenário quer um diretório próprio simples na AWS.",
+        "D": "CloudHSM é HSM pra chaves — não é diretório."
+      }
+    },
+    {
+      "id": "br-dir-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service"],
+      "situacao": "Três cenários: (1) AD real gerenciado com trust e workloads Windows; (2) proxy pro AD on-prem existente sem cachear; (3) diretório pequeno e barato sem trust.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "Managed Microsoft AD → AD Connector → Simple AD"},
+        {"key": "B", "text": "Simple AD → Managed Microsoft AD → AD Connector"},
+        {"key": "C", "text": "AD Connector → Simple AD → Managed Microsoft AD"},
+        {"key": "D", "text": "Managed Microsoft AD → Simple AD → AD Connector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): AD real/trust = Managed Microsoft AD; proxy on-prem = AD Connector; pequeno/barato sem trust = Simple AD.",
+        "💡 Rafael (dica 2): só a opção A mantém cada um na sua função."
+      ],
+      "explanation": "Managed Microsoft AD (AD real com trust e workloads Windows); AD Connector (proxy pro AD on-prem existente, sem cache); Simple AD (diretório pequeno e barato, sem trust). A opção A respeita os três.",
+      "whyNots": {
+        "B": "Começa com Simple AD pra o caso de trust — errado; trust é Managed Microsoft AD.",
+        "C": "Inverte a ordem — AD Connector não é o AD real com trust.",
+        "D": "Troca Simple AD com AD Connector nas duas últimas posições."
+      }
+    },
+    {
+      "id": "br-dir-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["workspaces"],
+      "situacao": "Uma empresa quer dar aos funcionários remotos uma ÁREA DE TRABALHO virtual completa (Windows ou Linux), persistente e gerenciada na nuvem, acessível de qualquer lugar.",
+      "stem": "Qual serviço entrega esse desktop virtual (VDI)?",
+      "options": [
+        {"key": "A", "text": "Amazon WorkSpaces"},
+        {"key": "B", "text": "Amazon AppStream 2.0"},
+        {"key": "C", "text": "AWS Lambda"},
+        {"key": "D", "text": "Amazon Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): DESKTOP virtual completo e persistente na nuvem (VDI) = Amazon WorkSpaces.",
+        "💡 Rafael (dica 2): se fosse só transmitir UM aplicativo, seria AppStream."
+      ],
+      "explanation": "Amazon WorkSpaces fornece desktops virtuais (VDI) persistentes e gerenciados na nuvem — Windows ou Linux — acessíveis de qualquer lugar. É ideal pra trabalhadores remotos que precisam de uma área de trabalho completa e sempre disponível.",
+      "whyNots": {
+        "B": "AppStream 2.0 transmite APLICATIVOS individuais, não o desktop inteiro persistente.",
+        "C": "Lambda é função serverless — não é desktop virtual.",
+        "D": "Lightsail é VPS — não é desktop de usuário final (VDI)."
+      }
+    },
+    {
+      "id": "br-dir-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["appstream"],
+      "situacao": "Uma universidade quer dar a cada aluno acesso a UM software específico (ex.: um app de CAD) via navegador, em qualquer computador, sem instalar nada localmente, de forma transmitida.",
+      "stem": "Qual serviço transmite o aplicativo aos usuários?",
+      "options": [
+        {"key": "A", "text": "Amazon AppStream 2.0"},
+        {"key": "B", "text": "Amazon WorkSpaces"},
+        {"key": "C", "text": "Amazon S3"},
+        {"key": "D", "text": "AWS Batch"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): transmitir UM APLICATIVO via navegador, sem instalar = AppStream 2.0 (application streaming).",
+        "💡 Rafael (dica 2): WorkSpaces entrega o desktop inteiro; AppStream, só o app."
+      ],
+      "explanation": "AppStream 2.0 é streaming de aplicações: entrega aplicativos individuais aos usuários via navegador, sem instalação local, tipicamente não-persistente. É perfeito pra dar acesso a um software a estudantes em qualquer computador, demos e treinamentos. (Foi reagrupado como WorkSpaces Applications.)",
+      "whyNots": {
+        "B": "WorkSpaces entrega o DESKTOP inteiro persistente — exagero quando se quer só um app.",
+        "C": "S3 é object storage — não transmite aplicativos.",
+        "D": "Batch roda jobs em lote — não transmite app interativo."
+      }
+    },
+    {
+      "id": "br-dir-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["workspaces", "appstream"],
+      "situacao": "Distinga: (1) entregar uma área de trabalho virtual completa e persistente; (2) transmitir apenas um aplicativo específico, sem persistência.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) WorkSpaces; (2) AppStream 2.0"},
+        {"key": "B", "text": "(1) AppStream 2.0; (2) WorkSpaces"},
+        {"key": "C", "text": "(1) Lightsail; (2) WorkSpaces"},
+        {"key": "D", "text": "(1) AppStream 2.0; (2) Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): desktop inteiro persistente = WorkSpaces; um app transmitido sem persistência = AppStream 2.0.",
+        "💡 Rafael (dica 2): WorkSpaces = área de trabalho; AppStream = aplicativo."
+      ],
+      "explanation": "WorkSpaces entrega o desktop virtual completo e persistente (VDI); AppStream 2.0 transmite apenas um aplicativo específico, geralmente sem persistência. A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — desktop inteiro é WorkSpaces; app transmitido é AppStream.",
+        "C": "Lightsail é VPS, não desktop virtual de usuário final.",
+        "D": "Troca os papéis e inclui Lightsail indevidamente."
+      }
+    },
+    {
+      "id": "br-dir-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service", "ec2"],
+      "situacao": "Você quer fazer o domain join de instâncias EC2 Windows a um Active Directory gerenciado na AWS, com autenticação centralizada e Group Policies.",
+      "stem": "Qual serviço fornece esse AD gerenciado?",
+      "options": [
+        {"key": "A", "text": "AWS Directory Service (Managed Microsoft AD)"},
+        {"key": "B", "text": "Amazon Cognito"},
+        {"key": "C", "text": "AWS WAF"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): domain join de EC2 Windows + Group Policies + auth centralizada = AD gerenciado = Directory Service (Managed Microsoft AD).",
+        "💡 Rafael (dica 2): Cognito é pra usuários de app, não Active Directory corporativo."
+      ],
+      "explanation": "O AWS Directory Service (Managed Microsoft AD) fornece um Active Directory gerenciado pra fazer domain join de instâncias EC2 Windows, com autenticação centralizada, Group Policies e integração com workloads Windows. É a base de identidade corporativa na AWS.",
+      "whyNots": {
+        "B": "Cognito autentica usuários de aplicações web/mobile — não é AD pra domain join de EC2 Windows.",
+        "C": "WAF é firewall de app web — nada a ver com Active Directory.",
+        "D": "Inspector escaneia vulnerabilidades — não é diretório."
+      }
+    },
+    {
+      "id": "br-dir-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["appstream"],
+      "situacao": "Um fornecedor de software quer oferecer DEMOS e TRIALS do seu aplicativo desktop sem que o cliente precise baixar ou instalar nada.",
+      "stem": "Qual serviço entrega o app via streaming pra esse caso?",
+      "options": [
+        {"key": "A", "text": "Amazon AppStream 2.0"},
+        {"key": "B", "text": "Amazon WorkSpaces"},
+        {"key": "C", "text": "AWS CodeDeploy"},
+        {"key": "D", "text": "Amazon Polly"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): demo/trial de app sem instalar nada = AppStream 2.0 (streaming de aplicação).",
+        "💡 Rafael (dica 2): o cliente roda o app pelo navegador; nada é baixado/instalado."
+      ],
+      "explanation": "AppStream 2.0 permite transmitir aplicativos via navegador sem download/instalação — perfeito pra fornecedores oferecerem demos, trials e treinamentos do software, e pra dar acesso a apps em qualquer computador.",
+      "whyNots": {
+        "B": "WorkSpaces entrega o desktop completo — desnecessário pra apenas demonstrar um app.",
+        "C": "CodeDeploy automatiza deploy de software — não transmite app pro usuário final.",
+        "D": "Polly é texto-em-fala — nada a ver com streaming de aplicativo."
+      }
+    },
+    {
+      "id": "br-dir-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["directory-service", "workspaces", "appstream"],
+      "situacao": "Quatro necessidades: (1) AD real gerenciado com trust; (2) proxy pro AD on-prem existente; (3) desktop virtual persistente; (4) streaming de um aplicativo.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Managed Microsoft AD → AD Connector → WorkSpaces → AppStream 2.0"},
+        {"key": "B", "text": "AD Connector → Managed Microsoft AD → AppStream 2.0 → WorkSpaces"},
+        {"key": "C", "text": "WorkSpaces → AppStream 2.0 → Managed Microsoft AD → AD Connector"},
+        {"key": "D", "text": "Managed Microsoft AD → WorkSpaces → AD Connector → AppStream 2.0"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): AD com trust = Managed Microsoft AD; proxy on-prem = AD Connector; desktop = WorkSpaces; app streaming = AppStream.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: Managed Microsoft AD (AD real com trust), AD Connector (proxy pro AD on-prem), WorkSpaces (desktop virtual persistente) e AppStream 2.0 (streaming de aplicativo). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Managed Microsoft AD com AD Connector e WorkSpaces com AppStream.",
+        "C": "Embaralha tudo — WorkSpaces não é AD com trust.",
+        "D": "Troca AD Connector com WorkSpaces de posição."
+      }
+    }
+  ]
+}

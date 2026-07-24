@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: AWS Lambda Aprofundamento (timeout/limites, reserved vs provisioned concurrency, modelos de invocação, DLQ, layers, VPC, cold start). Aprofunda Lambda além do básico.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-lambda2-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda", "fargate"],
+      "situacao": "Um processamento precisa rodar por cerca de 40 minutos sem parar. O time pensou em usar uma função Lambda.",
+      "stem": "Qual é a limitação e a alternativa correta?",
+      "options": [
+        {"key": "A", "text": "Lambda tem timeout máximo de 15 minutos; pra 40 min use Fargate/ECS, Step Functions ou Batch"},
+        {"key": "B", "text": "Lambda roda por tempo ilimitado, então serve"},
+        {"key": "C", "text": "Basta aumentar a memória que o timeout some"},
+        {"key": "D", "text": "Lambda só roda por 1 minuto"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Lambda tem teto de 15 minutos por invocação. 40 min não cabe — vai pra contêiner (Fargate/ECS) ou orquestração (Step Functions).",
+        "💡 Rafael (dica 2): Lambda é pra tarefas curtas e orientadas a evento, não processos longos."
+      ],
+      "explanation": "O timeout máximo de uma invocação Lambda é 15 minutos (900s). Um processamento de 40 minutos não cabe — a alternativa é um contêiner de longa duração (Fargate/ECS), AWS Batch, ou quebrar em passos com Step Functions.",
+      "whyNots": {
+        "B": "Lambda NÃO roda por tempo ilimitado — o teto é 15 minutos.",
+        "C": "Aumentar memória melhora CPU, mas não remove o limite de 15 minutos.",
+        "D": "Não é 1 minuto — o máximo é 15 minutos."
+      }
+    },
+    {
+      "id": "br-lambda2-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Uma API web sensível a latência sofre com a demora da PRIMEIRA invocação (cold start) quando a função estava ociosa, prejudicando a experiência do usuário.",
+      "stem": "O que elimina o cold start mantendo ambientes prontos?",
+      "options": [
+        {"key": "A", "text": "Provisioned concurrency"},
+        {"key": "B", "text": "Reserved concurrency"},
+        {"key": "C", "text": "Aumentar o timeout"},
+        {"key": "D", "text": "Diminuir a memória"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'eliminar cold start, ambientes pré-inicializados' = provisioned concurrency (resposta em dezenas de ms).",
+        "💡 Rafael (dica 2): reserved concurrency reserva capacidade, mas NÃO pré-aquece os ambientes (não tira o cold start)."
+      ],
+      "explanation": "Provisioned concurrency pré-inicializa um número definido de ambientes de execução, mantendo-os prontos antes da invocação — elimina o cold start e entrega resposta em dezenas de ms. É ideal pra workloads interativos sensíveis a latência (APIs web/mobile).",
+      "whyNots": {
+        "B": "Reserved concurrency reserva/limita capacidade concorrente, mas não pré-aquece ambientes — o cold start continua.",
+        "C": "Timeout é o tempo máximo de execução — não tem a ver com cold start.",
+        "D": "Reduzir memória até piora o desempenho; não resolve cold start."
+      }
+    },
+    {
+      "id": "br-lambda2-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Uma função crítica precisa SEMPRE ter capacidade concorrente garantida, sem ser 'sufocada' por outras funções da conta que disparam ao mesmo tempo.",
+      "stem": "Qual recurso garante esse pool de concorrência exclusivo?",
+      "options": [
+        {"key": "A", "text": "Reserved concurrency"},
+        {"key": "B", "text": "Provisioned concurrency apenas"},
+        {"key": "C", "text": "Aumentar o /tmp"},
+        {"key": "D", "text": "Lambda Layers"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): reservar um teto de concorrência só pra aquela função (que ninguém mais usa) = reserved concurrency.",
+        "💡 Rafael (dica 2): também serve pra LIMITAR uma função e proteger o resto da conta de esgotar a concorrência."
+      ],
+      "explanation": "Reserved concurrency reserva um pool de execuções concorrentes exclusivo pra uma função — garantindo que ela sempre tenha capacidade, e que outras funções não consumam esse pool. Também pode ser usada pra limitar (throttle) uma função e proteger a cota da conta.",
+      "whyNots": {
+        "B": "Provisioned concurrency pré-aquece ambientes (latência), mas o que GARANTE/isola o pool de concorrência é a reserved (podem ser combinadas).",
+        "C": "/tmp é storage efêmero — não tem a ver com concorrência garantida.",
+        "D": "Layers empacotam dependências — não gerenciam concorrência."
+      }
+    },
+    {
+      "id": "br-lambda2-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["lambda", "s3", "sqs"],
+      "situacao": "Uma função é invocada de forma ASSÍNCRONA por eventos do S3. Às vezes ela falha no processamento e você não quer perder esses eventos — quer capturá-los pra investigar/reprocessar.",
+      "stem": "Qual recurso captura os eventos de invocação assíncrona que falharam?",
+      "options": [
+        {"key": "A", "text": "Dead-Letter Queue (DLQ) — SQS ou SNS"},
+        {"key": "B", "text": "Provisioned concurrency"},
+        {"key": "C", "text": "Aumentar o timeout"},
+        {"key": "D", "text": "Multi-AZ"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): invocação assíncrona que falhou (após os retries) vai pra uma DLQ (SQS ou SNS) pra não se perder.",
+        "💡 Rafael (dica 2): S3/SNS/EventBridge invocam o Lambda de forma assíncrona — por isso a DLQ faz sentido aqui."
+      ],
+      "explanation": "Em invocações assíncronas (S3, SNS, EventBridge), o Lambda faz retries automáticos e, se ainda falhar, pode enviar o evento pra uma Dead-Letter Queue (SQS ou SNS) — capturando o que falhou pra análise/reprocessamento, sem perder o evento. (Lambda Destinations também roteiam sucesso/falha.)",
+      "whyNots": {
+        "B": "Provisioned concurrency reduz cold start — não captura falhas.",
+        "C": "Aumentar timeout não evita perder eventos que falharam.",
+        "D": "Multi-AZ é resiliência de infra — não captura eventos de Lambda que falharam."
+      }
+    },
+    {
+      "id": "br-lambda2-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda", "sqs"],
+      "situacao": "Você quer que uma função Lambda processe mensagens de uma fila SQS em lotes, com o Lambda buscando as mensagens da fila automaticamente.",
+      "stem": "Qual mecanismo conecta a fila SQS ao Lambda dessa forma?",
+      "options": [
+        {"key": "A", "text": "Event source mapping (o Lambda faz polling da fila em lotes)"},
+        {"key": "B", "text": "Uma invocação síncrona via API Gateway"},
+        {"key": "C", "text": "Um signed URL"},
+        {"key": "D", "text": "Provisioned concurrency"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pra SQS, Kinesis e DynamoDB Streams, o Lambda usa event source mapping — ele faz POLLING e invoca com lotes.",
+        "💡 Rafael (dica 2): diferente do S3/SNS (assíncrono push), aqui o Lambda PUXA da fonte."
+      ],
+      "explanation": "Pra fontes baseadas em polling (SQS, Kinesis Data Streams, DynamoDB Streams), o Lambda usa um event source mapping: ele faz polling da fonte automaticamente e invoca a função com lotes (batches) de registros. É o modelo poll-based de integração.",
+      "whyNots": {
+        "B": "API Gateway é invocação síncrona (request/response) — não é o polling de uma fila SQS.",
+        "C": "Signed URL é acesso a objeto no S3/CloudFront — nada a ver com consumir fila.",
+        "D": "Provisioned concurrency trata latência/cold start — não conecta a fila ao Lambda."
+      }
+    },
+    {
+      "id": "br-lambda2-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Várias funções Lambda compartilham as mesmas bibliotecas pesadas, e o pacote de deploy de cada uma está ficando grande e repetitivo.",
+      "stem": "Qual recurso permite compartilhar dependências entre funções e reduzir o pacote?",
+      "options": [
+        {"key": "A", "text": "Lambda Layers"},
+        {"key": "B", "text": "Reserved concurrency"},
+        {"key": "C", "text": "Dead-Letter Queue"},
+        {"key": "D", "text": "S3 Transfer Acceleration"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): empacotar bibliotecas/dependências separadas e compartilhar entre funções = Lambda Layers.",
+        "💡 Rafael (dica 2): reduz o tamanho do deploy de cada função e centraliza as dependências comuns."
+      ],
+      "explanation": "Lambda Layers empacotam bibliotecas, dependências ou runtimes customizados separados do código da função, podendo ser compartilhados entre várias funções. Reduzem o tamanho do pacote de deploy e centralizam dependências comuns.",
+      "whyNots": {
+        "B": "Reserved concurrency gerencia concorrência — não compartilha dependências.",
+        "C": "DLQ captura falhas — não tem a ver com pacote/dependências.",
+        "D": "Transfer Acceleration acelera upload pro S3 — não é recurso de Lambda."
+      }
+    },
+    {
+      "id": "br-lambda2-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Uma função Lambda está com CPU insuficiente e lenta. Você nota que no Lambda a CPU é alocada proporcionalmente a outro parâmetro.",
+      "stem": "Como aumentar a CPU disponível pra função?",
+      "options": [
+        {"key": "A", "text": "Aumentar a memória configurada (CPU escala junto com a memória)"},
+        {"key": "B", "text": "Aumentar o timeout"},
+        {"key": "C", "text": "Adicionar uma DLQ"},
+        {"key": "D", "text": "Reduzir o número de layers"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): no Lambda, você não escolhe vCPU direto — a CPU (e rede) cresce proporcional à MEMÓRIA que você configura.",
+        "💡 Rafael (dica 2): às vezes aumentar a memória deixa a função mais rápida E mais barata (roda menos tempo)."
+      ],
+      "explanation": "No Lambda, a CPU e a largura de banda de rede são alocadas proporcionalmente à memória configurada (até 10.240 MB). Pra ter mais CPU, aumenta-se a memória — o que muitas vezes reduz o tempo de execução e até o custo total.",
+      "whyNots": {
+        "B": "Timeout é o tempo máximo permitido — não muda a CPU alocada.",
+        "C": "DLQ trata falhas — não afeta a CPU.",
+        "D": "Reduzir layers não aumenta a CPU disponível."
+      }
+    },
+    {
+      "id": "br-lambda2-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["lambda", "rds", "vpc"],
+      "situacao": "Uma função Lambda precisa acessar um banco RDS que está numa sub-rede PRIVADA da VPC, sem expor o banco à internet.",
+      "stem": "Como habilitar esse acesso?",
+      "options": [
+        {"key": "A", "text": "Configurar a função Lambda na VPC (sub-redes/security group) pra alcançar o RDS privado"},
+        {"key": "B", "text": "Tornar o RDS público na internet"},
+        {"key": "C", "text": "Usar um signed URL pro RDS"},
+        {"key": "D", "text": "Não é possível Lambda acessar VPC"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): pra alcançar recurso privado (RDS) na VPC, você configura a função Lambda DENTRO da VPC (sub-redes + security group).",
+        "💡 Rafael (dica 2): assim a função ganha interface de rede nas sub-redes e fala com o banco sem expor à internet."
+      ],
+      "explanation": "Pra acessar recursos privados como um RDS numa sub-rede privada, configura-se a função Lambda na VPC (informando sub-redes e security group). A função passa a ter ENIs nessas sub-redes e alcança o banco pela rede privada, sem expor o RDS à internet.",
+      "whyNots": {
+        "B": "Tornar o RDS público é um risco de segurança e desnecessário.",
+        "C": "Signed URL é do S3/CloudFront — não se aplica a acesso ao RDS.",
+        "D": "É possível, sim — basta configurar a função na VPC."
+      }
+    },
+    {
+      "id": "br-lambda2-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Uma função tem carga estável durante a semana e picos previsíveis no fim de semana. O time quer baixa latência na base semanal e ainda absorver os picos sem 'roubar' concorrência de outras funções.",
+      "stem": "Qual combinação faz sentido?",
+      "options": [
+        {"key": "A", "text": "Provisioned concurrency pra a base semanal + reserved concurrency pra isolar/absorver o pico"},
+        {"key": "B", "text": "Só aumentar o timeout"},
+        {"key": "C", "text": "Só Lambda Layers"},
+        {"key": "D", "text": "Desligar a função no fim de semana"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): dá pra usar as duas juntas — provisioned (sem cold start na base) + reserved (garante/isola o pool pro pico).",
+        "💡 Rafael (dica 2): provisioned cuida de latência; reserved cuida de garantir/limitar concorrência."
+      ],
+      "explanation": "As duas se combinam: provisioned concurrency mantém ambientes pré-aquecidos pra a base semanal (sem cold start, baixa latência), e reserved concurrency garante/isola um pool de concorrência pra absorver os picos de fim de semana sem competir com outras funções da conta.",
+      "whyNots": {
+        "B": "Timeout não trata latência de cold start nem concorrência.",
+        "C": "Layers tratam dependências — não latência/concorrência.",
+        "D": "Desligar no fim de semana é justamente quando há pico — o oposto do necessário."
+      }
+    },
+    {
+      "id": "br-lambda2-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lambda"],
+      "situacao": "Quatro necessidades no Lambda: (1) eliminar cold start pra uma API interativa; (2) garantir/limitar o pool de concorrência de uma função; (3) compartilhar bibliotecas entre funções; (4) capturar eventos assíncronos que falharam.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Provisioned concurrency → Reserved concurrency → Layers → DLQ"},
+        {"key": "B", "text": "Reserved concurrency → Provisioned concurrency → DLQ → Layers"},
+        {"key": "C", "text": "Layers → DLQ → Provisioned concurrency → Reserved concurrency"},
+        {"key": "D", "text": "DLQ → Layers → Reserved concurrency → Provisioned concurrency"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): cold start = provisioned; garantir/limitar concorrência = reserved; compartilhar libs = layers; capturar falha assíncrona = DLQ.",
+        "💡 Rafael (dica 2): só a opção A mantém cada recurso na sua função."
+      ],
+      "explanation": "Cada recurso resolve um problema: provisioned concurrency (elimina cold start), reserved concurrency (garante/limita o pool de concorrência), Layers (compartilham bibliotecas) e DLQ (captura eventos assíncronos que falharam). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca provisioned com reserved e DLQ com Layers.",
+        "C": "Embaralha tudo — Layers não eliminam cold start.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

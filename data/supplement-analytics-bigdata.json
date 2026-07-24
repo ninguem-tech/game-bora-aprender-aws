@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Analytics e Big Data (Athena, Redshift, EMR, Glue, Lake Formation, QuickSight). Lacuna importante de analytics, pouco presente no livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-analytics-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["athena", "s3"],
+      "situacao": "O time tem gigabytes de logs num bucket S3 e quer rodar uma consulta SQL pontual pra investigar um problema — sem montar servidor, sem carregar os dados em lugar nenhum.",
+      "stem": "Qual serviço consulta dados no S3 com SQL, serverless, pagando por dado escaneado?",
+      "options": [
+        {"key": "A", "text": "Amazon Athena"},
+        {"key": "B", "text": "Amazon Redshift provisionado"},
+        {"key": "C", "text": "Amazon EMR"},
+        {"key": "D", "text": "Amazon RDS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a pista é 'SQL pontual direto no S3, sem servidor, sem carregar'. Isso é o Athena — você aponta pro bucket e consulta.",
+        "💡 Rafael (dica 2): cobrança por TB escaneado. Quanto menos dado a query lê (ex.: formato colunar, partição), mais barato."
+      ],
+      "explanation": "Athena é serverless e consulta dados direto no S3 com SQL (ANSI), sem provisionar infra nem carregar/mover dados. Cobra por volume escaneado (~US$5/TB). Perfeito pra consultas ad-hoc/interativas, como investigar logs.",
+      "whyNots": {
+        "B": "Redshift provisionado é data warehouse com cluster — exige carregar/modelar dados e gerenciar capacidade; exagero pra uma query pontual no S3.",
+        "C": "EMR é cluster de Hadoop/Spark pra processamento distribuído — peso e gestão desnecessários aqui.",
+        "D": "RDS é banco relacional transacional (OLTP), não consulta analítica sobre arquivos no S3."
+      }
+    },
+    {
+      "id": "br-analytics-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["redshift", "athena"],
+      "situacao": "A empresa consolida dados de vendas, estoque e finanças num só lugar pra rodar relatórios corporativos pesados, com muitos JOINs em tabelas gigantes, repetidamente, por anos.",
+      "stem": "Qual serviço é o mais indicado pra esse data warehouse de BI?",
+      "options": [
+        {"key": "A", "text": "Amazon Redshift"},
+        {"key": "B", "text": "Amazon Athena pra cada relatório"},
+        {"key": "C", "text": "Amazon DynamoDB"},
+        {"key": "D", "text": "Amazon S3 sozinho"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'consolidar várias fontes', 'JOIN complexo em tabelões', 'relatório corporativo repetido' = data warehouse = Redshift.",
+        "💡 Rafael (dica 2): Athena é ótimo pra consulta pontual/ad-hoc no S3; pra BI pesado e recorrente com joins enormes, o motor do Redshift foi otimizado pra isso."
+      ],
+      "explanation": "Redshift é o data warehouse gerenciado (colunar, MPP) otimizado pra consultas complexas com muitos JOINs em tabelas muito grandes e BI corporativo sobre dados históricos consolidados de várias fontes. É o caso de uso clássico de warehouse.",
+      "whyNots": {
+        "B": "Athena brilha em consulta ad-hoc/pontual no S3; pra BI pesado e recorrente com joins enormes, o warehouse (Redshift) performa melhor.",
+        "C": "DynamoDB é NoSQL chave-valor pra acesso transacional rápido — não faz JOIN complexo de BI.",
+        "D": "S3 só armazena; não tem motor de consulta analítica por si só."
+      }
+    },
+    {
+      "id": "br-analytics-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["emr"],
+      "situacao": "Um time de dados já usa Apache Spark e Hadoop on-premises e quer migrar pra AWS um processamento distribuído pesado, com código e frameworks customizados, num cluster gerenciado.",
+      "stem": "Qual serviço roda esses frameworks distribuídos de forma gerenciada?",
+      "options": [
+        {"key": "A", "text": "Amazon EMR"},
+        {"key": "B", "text": "Amazon Athena"},
+        {"key": "C", "text": "Amazon QuickSight"},
+        {"key": "D", "text": "AWS Lambda"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Hadoop, Spark, Presto, Hive num cluster gerenciado = EMR (Elastic MapReduce). É a casa dos frameworks de big data.",
+        "💡 Rafael (dica 2): EMR dá mais controle (compute/memória/código próprio) que Athena/Glue — em troca de mais gestão."
+      ],
+      "explanation": "EMR (Elastic MapReduce) é o cluster gerenciado pra rodar frameworks distribuídos como Hadoop, Spark, Presto e Hive, com aplicações e código customizados. É a escolha pra processamento distribuído pesado e migração de workloads Hadoop/Spark.",
+      "whyNots": {
+        "B": "Athena é SQL serverless no S3 — não roda Spark/Hadoop com código customizado.",
+        "C": "QuickSight é BI/dashboards — camada de visualização, não de processamento distribuído.",
+        "D": "Lambda roda funções curtas por evento — não é cluster de big data pra Spark/Hadoop."
+      }
+    },
+    {
+      "id": "br-analytics-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["glue"],
+      "situacao": "A Júlia precisa extrair dados de várias fontes, limpar e transformar, e carregar num data lake — sem provisionar nem gerenciar servidores de ETL.",
+      "stem": "Qual serviço faz ETL serverless?",
+      "options": [
+        {"key": "A", "text": "AWS Glue"},
+        {"key": "B", "text": "Amazon Redshift"},
+        {"key": "C", "text": "Amazon QuickSight"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'cola' (glue) que junta as fontes — extrai, transforma e carrega (ETL) com Spark gerenciado, sem você cuidar de servidor.",
+        "💡 Rafael (dica 2): além do ETL, o Glue traz o Data Catalog (metadados) e os Crawlers (descobrem esquema)."
+      ],
+      "explanation": "AWS Glue é o serviço de ETL serverless (Spark gerenciado): extrai, transforma e carrega dados pra data lakes/warehouses sem provisionar servidores. Inclui o Glue Data Catalog (metadados) e os Crawlers (descoberta de esquema).",
+      "whyNots": {
+        "B": "Redshift é o destino (warehouse), não a ferramenta de ETL serverless.",
+        "C": "QuickSight é visualização/BI, não ETL.",
+        "D": "Config avalia conformidade de recursos — nada a ver com ETL de dados."
+      }
+    },
+    {
+      "id": "br-analytics-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["glue", "athena"],
+      "situacao": "Você jogou vários arquivos novos no S3 e quer que o esquema (colunas/tipos) seja descoberto automaticamente e registrado num catálogo central, pra o Athena conseguir consultar como tabelas.",
+      "stem": "Qual dupla do AWS Glue faz isso?",
+      "options": [
+        {"key": "A", "text": "Crawler (descobre o esquema) + Data Catalog (registra os metadados)"},
+        {"key": "B", "text": "Glue Job + QuickSight"},
+        {"key": "C", "text": "Redshift Spectrum + SPICE"},
+        {"key": "D", "text": "Lake Formation + KMS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): o Crawler 'rasteja' pelos dados e infere colunas/tipos; o Data Catalog é a estante onde esse esquema fica registrado como tabelas.",
+        "💡 Rafael (dica 2): Athena e Redshift Spectrum LEEM esse Data Catalog pra saber a estrutura das tabelas no S3."
+      ],
+      "explanation": "O Glue Crawler varre os dados (ex.: no S3), classifica e infere o esquema, populando automaticamente o Glue Data Catalog (repositório central de metadados). Athena, Redshift Spectrum e EMR usam esse catálogo pra consultar os dados como tabelas.",
+      "whyNots": {
+        "B": "Glue Job faz a transformação ETL; QuickSight é BI — nenhum dos dois é o descobridor+catálogo de esquema.",
+        "C": "Redshift Spectrum consulta o S3 e SPICE é o motor do QuickSight — não são o mecanismo de descoberta/catalogação.",
+        "D": "Lake Formation governa permissões e KMS criptografa — não inferem nem catalogam esquema."
+      }
+    },
+    {
+      "id": "br-analytics-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["quicksight"],
+      "situacao": "A diretoria quer painéis e gráficos interativos pra acompanhar vendas, conectando a fontes como Athena e Redshift, sem instalar nada e acessível de qualquer dispositivo.",
+      "stem": "Qual serviço de BI entrega esses dashboards?",
+      "options": [
+        {"key": "A", "text": "Amazon QuickSight"},
+        {"key": "B", "text": "Amazon Athena"},
+        {"key": "C", "text": "AWS Glue"},
+        {"key": "D", "text": "Amazon EMR"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'painéis e gráficos interativos pra negócio' = BI = QuickSight. Ele se conecta a Athena, Redshift, S3, RDS e mais.",
+        "💡 Rafael (dica 2): serverless, com motor SPICE em memória pra acelerar; é a camada de VISUALIZAÇÃO, não de transformação."
+      ],
+      "explanation": "QuickSight é o serviço de BI serverless da AWS: cria dashboards, visualizações e análise ad-hoc, acessível de qualquer dispositivo, conectando-se a Athena, Redshift, S3, RDS, arquivos e SaaS. Usa o motor SPICE (in-memory) pra acelerar. É camada de visualização, não ETL.",
+      "whyNots": {
+        "B": "Athena consulta dados com SQL — não é a ferramenta de dashboards visuais.",
+        "C": "Glue é ETL — prepara dados, não os visualiza.",
+        "D": "EMR é processamento distribuído — não é BI de painel."
+      }
+    },
+    {
+      "id": "br-analytics-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["lake-formation"],
+      "situacao": "No data lake, a área de RH só pode ver certas COLUNAS de uma tabela (sem o salário), e o time regional só pode ver as LINHAS da própria região. Querem controlar isso de forma central e fina.",
+      "stem": "Qual serviço dá permissão fina (linha/coluna) sobre o data lake?",
+      "options": [
+        {"key": "A", "text": "AWS Lake Formation"},
+        {"key": "B", "text": "Security Group"},
+        {"key": "C", "text": "Bucket policy do S3"},
+        {"key": "D", "text": "Amazon Macie"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): controle de acesso ESTILO BANCO DE DADOS no data lake — por linha, coluna e célula — é o Lake Formation, em cima do Glue Data Catalog.",
+        "💡 Rafael (dica 2): bucket policy do S3 é grosso (objeto/prefixo); não consegue 'esconder a coluna salário' de um grupo. Lake Formation consegue."
+      ],
+      "explanation": "Lake Formation governa o data lake com um modelo de permissões estilo banco de dados sobre o Glue Data Catalog, permitindo acesso fino em nível de linha, coluna e célula por usuário/role. É a camada de governança certa pra esconder a coluna salário do RH e filtrar linhas por região.",
+      "whyNots": {
+        "B": "Security group é firewall de rede — não controla acesso a colunas/linhas de dados.",
+        "C": "Bucket policy do S3 controla acesso no nível de objeto/prefixo, sem granularidade de linha/coluna dentro da tabela.",
+        "D": "Macie descobre e classifica dados sensíveis (PII) no S3 — não impõe permissão fina de consulta."
+      }
+    },
+    {
+      "id": "br-analytics-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["athena", "glue", "quicksight", "s3"],
+      "situacao": "Você quer um pipeline analítico barato e sem servidor: catalogar dados crus no S3, consultar com SQL e mostrar num dashboard — sem subir nenhum cluster.",
+      "stem": "Qual combinação serverless atende de ponta a ponta?",
+      "options": [
+        {"key": "A", "text": "Glue (catálogo) → Athena (consulta SQL) → QuickSight (dashboard)"},
+        {"key": "B", "text": "EMR (cluster) → Redshift (warehouse) → QuickSight"},
+        {"key": "C", "text": "RDS → Lambda → CloudFront"},
+        {"key": "D", "text": "DynamoDB → DAX → S3"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): a palavra-chave é 'serverless de ponta a ponta, sem cluster'. Glue cataloga, Athena consulta o S3, QuickSight mostra — nenhum servidor pra gerenciar.",
+        "💡 Rafael (dica 2): a opção com EMR e Redshift provisionado envolve cluster — vai contra o 'sem servidor'."
+      ],
+      "explanation": "Pipeline analítico serverless clássico: Glue (Crawler + Data Catalog) cataloga os dados crus no S3 → Athena consulta com SQL in-place → QuickSight exibe em dashboards. Tudo gerenciado, sem subir cluster — barato e de baixa operação.",
+      "whyNots": {
+        "B": "EMR e Redshift provisionado envolvem cluster a gerenciar — não é o caminho 'sem servidor' pedido.",
+        "C": "RDS/Lambda/CloudFront é stack de aplicação web, não pipeline analítico sobre dados no S3.",
+        "D": "DynamoDB/DAX/S3 é acesso transacional/cache — não consulta analítica com SQL nem dashboard."
+      }
+    },
+    {
+      "id": "br-analytics-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["athena", "s3"],
+      "situacao": "O custo do Athena assustou: uma query leu o bucket inteiro. Você quer reduzir o quanto cada consulta escaneia (e a conta junto).",
+      "stem": "Qual prática reduz o volume escaneado pelo Athena?",
+      "options": [
+        {"key": "A", "text": "Usar formato colunar (Parquet/ORC), compressão e particionamento dos dados"},
+        {"key": "B", "text": "Aumentar o tamanho do bucket S3"},
+        {"key": "C", "text": "Trocar o Athena por mais consultas, cada uma lendo tudo"},
+        {"key": "D", "text": "Desligar a criptografia do S3"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Athena cobra por dado ESCANEADO. Se a query lê só as colunas e partições que importam, escaneia menos e custa menos.",
+        "💡 Rafael (dica 2): formato colunar (Parquet/ORC) + compressão + partição por data/região é o combo clássico de economia no Athena."
+      ],
+      "explanation": "Como o Athena cobra por dado escaneado, converter pra formato colunar (Parquet/ORC), comprimir e particionar os dados reduz drasticamente o volume lido por consulta — menos escaneamento, menor custo e mais velocidade.",
+      "whyNots": {
+        "B": "O tamanho do bucket não muda o quanto a query escaneia; o que importa é o layout dos dados.",
+        "C": "Mais queries lendo tudo aumenta o custo, não reduz.",
+        "D": "Desligar criptografia não afeta o volume escaneado e piora a segurança — irrelevante pro custo."
+      }
+    },
+    {
+      "id": "br-analytics-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["athena", "redshift", "emr", "glue"],
+      "situacao": "Quatro necessidades: (1) SQL ad-hoc no S3 sem servidor; (2) data warehouse de BI com joins pesados; (3) Spark/Hadoop distribuído com código próprio; (4) ETL serverless com catálogo de esquema.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Athena → Redshift → EMR → Glue"},
+        {"key": "B", "text": "Redshift → Athena → Glue → EMR"},
+        {"key": "C", "text": "EMR → Glue → Athena → Redshift"},
+        {"key": "D", "text": "Glue → EMR → Redshift → Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): separa por função. SQL ad-hoc no S3 = Athena. Warehouse/joins = Redshift. Spark/Hadoop = EMR. ETL+catálogo = Glue.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua especialidade; as outras embaralham pelo menos um par."
+      ],
+      "explanation": "Cada serviço tem sua especialidade: Athena (SQL ad-hoc serverless no S3), Redshift (data warehouse de BI com joins pesados), EMR (Spark/Hadoop distribuído com código próprio), Glue (ETL serverless + Data Catalog/Crawler). A opção A respeita as quatro funções.",
+      "whyNots": {
+        "B": "Troca Athena com Redshift e Glue com EMR — fora da especialidade de cada um.",
+        "C": "Embaralha tudo: EMR não é SQL ad-hoc e Athena não é Spark distribuído.",
+        "D": "Também inverte os papéis; Glue não é SQL ad-hoc e Athena não é ETL com catálogo."
+      }
+    }
+  ]
+}

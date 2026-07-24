@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: EC2 Modelos de Preço e Otimização (On-Demand, Reserved, Savings Plans, Spot, Dedicated Hosts) e Placement Groups (cluster/spread/partition). Aprofunda custo e posicionamento além do livro.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-ec2pre-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Uma startup vai testar uma carga nova, com uso imprevisível e de curta duração, e não quer assumir compromisso de 1 ou 3 anos ainda.",
+      "stem": "Qual modelo de compra do EC2 é o mais indicado nesse início?",
+      "options": [
+        {"key": "A", "text": "On-Demand"},
+        {"key": "B", "text": "Reserved Instances de 3 anos"},
+        {"key": "C", "text": "Spot Instances"},
+        {"key": "D", "text": "Dedicated Hosts"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'imprevisível, curto, sem compromisso' = On-Demand. Paga por segundo e larga quando quiser.",
+        "💡 Rafael (dica 2): comprometer 1-3 anos (RI/Savings) só depois que você conhece o padrão de uso."
+      ],
+      "explanation": "On-Demand cobra por segundo, sem compromisso de longo prazo — ideal pra cargas imprevisíveis, curtas, ou pra fazer benchmark antes de se comprometer com RI/Savings Plans. É o ponto de partida natural.",
+      "whyNots": {
+        "B": "RI de 3 anos exige compromisso longo com config específica — arriscado antes de conhecer o padrão.",
+        "C": "Spot pode ser interrompido — ruim pra testar uma carga que você ainda precisa observar com estabilidade.",
+        "D": "Dedicated Hosts é caro e voltado a licença/compliance, não a um teste inicial barato."
+      }
+    },
+    {
+      "id": "br-ec2pre-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2", "spot"],
+      "situacao": "Um job de processamento em lote roda à noite, é stateless e tolera ser interrompido e reiniciado. Você quer o MENOR custo possível por instância.",
+      "stem": "Qual modelo de compra entrega o maior desconto pra essa carga interrompível?",
+      "options": [
+        {"key": "A", "text": "Spot Instances (até 90% de desconto)"},
+        {"key": "B", "text": "On-Demand"},
+        {"key": "C", "text": "Reserved Instances Standard"},
+        {"key": "D", "text": "Dedicated Hosts"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'stateless + tolera interrupção + menor custo' = Spot, capacidade ociosa com até 90% off.",
+        "💡 Rafael (dica 2): o preço é não poder reclamar se a AWS pedir a instância de volta (aviso de 2 min). Pra batch noturno, tranquilo."
+      ],
+      "explanation": "Spot Instances usam capacidade ociosa com até 90% de desconto vs On-Demand, podendo ser interrompidas com aviso de 2 minutos. São perfeitas pra cargas tolerantes a falha e flexíveis no tempo, como batch noturno stateless, CI/CD e big data.",
+      "whyNots": {
+        "B": "On-Demand não dá o desconto agressivo do Spot pra uma carga que aceita interrupção.",
+        "C": "RI dá bom desconto, mas exige compromisso de 1-3 anos — desnecessário pra um batch interrompível.",
+        "D": "Dedicated Hosts é o mais caro, voltado a licença/compliance — o oposto de 'menor custo'."
+      }
+    },
+    {
+      "id": "br-ec2pre-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Uma aplicação de produção roda 24/7 com carga estável e previsível há anos. A empresa quer reduzir bastante o custo e topa um compromisso de 1 a 3 anos, mantendo o mesmo tipo de instância numa região.",
+      "stem": "Qual modelo de compra dá o maior desconto pra esse uso estável e fixo?",
+      "options": [
+        {"key": "A", "text": "Reserved Instances (ou Savings Plans)"},
+        {"key": "B", "text": "On-Demand"},
+        {"key": "C", "text": "Spot Instances"},
+        {"key": "D", "text": "Pagar por transferência de dados"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'estável, 24/7, topa compromisso de 1-3 anos' = Reserved Instances (ou Savings Plans). Desconto grande em troca do compromisso.",
+        "💡 Rafael (dica 2): RI chega a ~72% off vs On-Demand. Se quiser flexibilidade de instância, Savings Plans."
+      ],
+      "explanation": "Pra carga estável 24/7 com compromisso de 1 ou 3 anos, Reserved Instances (até ~72% de desconto) ou Savings Plans são o caminho. RI fixa uma configuração específica (e pode reservar capacidade); Savings Plans dão a mesma economia com mais flexibilidade de instância.",
+      "whyNots": {
+        "B": "On-Demand é o mais caro por hora — desperdício pra carga estável de longo prazo.",
+        "C": "Spot pode ser interrompido — inadequado pra produção 24/7 que precisa estar sempre no ar.",
+        "D": "Transferência de dados é outra dimensão de custo, não um modelo de compra de instância."
+      }
+    },
+    {
+      "id": "br-ec2pre-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2", "savings-plans"],
+      "situacao": "A empresa quer economia de longo prazo, mas troca de famílias de instância com frequência (e usa também Fargate e Lambda). Ela consegue se comprometer com um GASTO por hora, mas não com um tipo de instância fixo.",
+      "stem": "Qual opção dá desconto mantendo essa flexibilidade?",
+      "options": [
+        {"key": "A", "text": "Compute Savings Plans"},
+        {"key": "B", "text": "Standard Reserved Instances"},
+        {"key": "C", "text": "Spot Instances"},
+        {"key": "D", "text": "On-Demand puro"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'comprometo com GASTO/hora, não com instância' + 'inclui Fargate/Lambda' = Compute Savings Plans, o mais flexível.",
+        "💡 Rafael (dica 2): Reserved Instance amarra a config específica; Savings Plans amarram o valor em US$/hora."
+      ],
+      "explanation": "Compute Savings Plans dão desconto (1 ou 3 anos) em troca de um compromisso de gasto em US$/hora, com flexibilidade total: qualquer região/família de instância e ainda Fargate e Lambda. É ideal pra quem muda de instância com frequência e não quer amarrar a configuração.",
+      "whyNots": {
+        "B": "Standard RI amarra a uma configuração específica — o oposto da flexibilidade pedida.",
+        "C": "Spot é interrompível e não é um plano de compromisso de longo prazo com desconto estável.",
+        "D": "On-Demand não dá o desconto de longo prazo desejado."
+      }
+    },
+    {
+      "id": "br-ec2pre-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Uma empresa precisa trazer licenças de software amarradas ao hardware físico (por socket/core) e atender uma exigência de compliance que pede servidor físico dedicado, com visibilidade do host.",
+      "stem": "Qual modelo do EC2 atende BYOL e compliance de hardware dedicado?",
+      "options": [
+        {"key": "A", "text": "Dedicated Hosts"},
+        {"key": "B", "text": "Spot Instances"},
+        {"key": "C", "text": "Reserved Instances"},
+        {"key": "D", "text": "On-Demand compartilhado"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'licença por socket/core (BYOL) + host físico dedicado + visibilidade do host' = Dedicated Hosts.",
+        "💡 Rafael (dica 2): Dedicated Instances também usam hardware dedicado, mas o Dedicated HOST dá controle/visibilidade do servidor físico pra BYOL."
+      ],
+      "explanation": "Dedicated Hosts entregam um servidor físico totalmente dedicado, com visibilidade do host (sockets/cores), permitindo trazer licenças amarradas ao hardware (BYOL) e atender compliance que exige isolamento físico. É o modelo certo pra esse requisito.",
+      "whyNots": {
+        "B": "Spot é capacidade ociosa interrompível em hardware compartilhado — não atende compliance nem BYOL por socket.",
+        "C": "RI é um modelo de preço/compromisso, não garante host físico dedicado com visibilidade pra BYOL.",
+        "D": "On-Demand compartilhado roda em hardware multi-tenant — não atende isolamento físico nem BYOL por socket."
+      }
+    },
+    {
+      "id": "br-ec2pre-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["ec2", "spot", "savings-plans"],
+      "situacao": "Quatro cargas: (1) pico imprevisível de curta duração; (2) base estável 24/7 por 3 anos; (3) workers de fila stateless que toleram interrupção; (4) app com licença por core que exige host físico.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "On-Demand → Savings Plans/RI → Spot → Dedicated Hosts"},
+        {"key": "B", "text": "Spot → On-Demand → Dedicated Hosts → RI"},
+        {"key": "C", "text": "RI → Spot → On-Demand → Savings Plans"},
+        {"key": "D", "text": "Dedicated Hosts → Spot → RI → On-Demand"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): imprevisível = On-Demand; estável longo = Savings Plans/RI; interrompível barato = Spot; licença host físico = Dedicated Hosts.",
+        "💡 Rafael (dica 2): só a opção A mantém cada carga no modelo certo."
+      ],
+      "explanation": "Cada carga tem seu modelo: pico imprevisível = On-Demand; base estável de longo prazo = Savings Plans ou Reserved Instances; workers stateless interrompíveis = Spot; licença por core em host físico = Dedicated Hosts. A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Usa Spot pra pico que precisa rodar e On-Demand pra base estável — desperdiça economia.",
+        "C": "Coloca RI pra pico imprevisível e Spot pra base estável — invertido.",
+        "D": "Embaralha tudo; nenhuma posição bate com a carga certa."
+      }
+    },
+    {
+      "id": "br-ec2pre-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Um cluster de HPC precisa de comunicação nó-a-nó com a MENOR latência e o MAIOR throughput de rede possível entre as instâncias, todas na mesma AZ.",
+      "stem": "Qual placement group entrega esse desempenho de rede?",
+      "options": [
+        {"key": "A", "text": "Cluster placement group"},
+        {"key": "B", "text": "Spread placement group"},
+        {"key": "C", "text": "Partition placement group"},
+        {"key": "D", "text": "Nenhum; placement group não afeta rede"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'menor latência + maior throughput entre instâncias' = Cluster, que empacota tudo juntinho numa AZ.",
+        "💡 Rafael (dica 2): o trade-off é risco — se o rack cair, afeta o grupo. Mas pra HPC, a performance ganha."
+      ],
+      "explanation": "Cluster placement group empacota as instâncias bem próximas dentro de uma única AZ, entregando baixa latência e alto throughput de rede entre elas — exatamente o que HPC e comunicação nó-a-nó intensa exigem.",
+      "whyNots": {
+        "B": "Spread separa as instâncias em hardware distinto pra evitar falhas correlacionadas — o oposto de empacotar pra performance.",
+        "C": "Partition isola por partições pra big data distribuído — não foca em latência mínima nó-a-nó.",
+        "D": "Errado — o placement group afeta diretamente a topologia de rede e o desempenho."
+      }
+    },
+    {
+      "id": "br-ec2pre-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Você tem um número pequeno de instâncias críticas (ex.: nós de um cluster de quorum) que NÃO podem falhar ao mesmo tempo. Quer que cada uma fique em hardware separado.",
+      "stem": "Qual placement group minimiza falhas correlacionadas?",
+      "options": [
+        {"key": "A", "text": "Spread placement group"},
+        {"key": "B", "text": "Cluster placement group"},
+        {"key": "C", "text": "Partition placement group"},
+        {"key": "D", "text": "Auto Scaling group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'poucas instâncias críticas, em hardware separado, pra não caírem juntas' = Spread.",
+        "💡 Rafael (dica 2): spread = espalhar em racks distintos; cada instância isolada do risco da outra."
+      ],
+      "explanation": "Spread placement group coloca um número pequeno de instâncias em hardware (racks) distinto, reduzindo o risco de falhas simultâneas. É a escolha pra poucas instâncias críticas que precisam ficar isoladas umas das outras.",
+      "whyNots": {
+        "B": "Cluster empacota juntas (mesmo risco de rack) pra performance — o oposto do que se quer aqui.",
+        "C": "Partition é pra grandes workloads distribuídos com isolamento por partição, não pra poucas instâncias críticas.",
+        "D": "Auto Scaling group gerencia escala/quantidade, não a separação física por hardware como o spread."
+      }
+    },
+    {
+      "id": "br-ec2pre-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Você roda um cluster grande e distribuído tipo Hadoop/Cassandra/Kafka, com dezenas de instâncias, e quer isolar o impacto de uma falha de hardware a um subconjunto (partição), sem perder o cluster inteiro.",
+      "stem": "Qual placement group é feito pra esse caso?",
+      "options": [
+        {"key": "A", "text": "Partition placement group"},
+        {"key": "B", "text": "Cluster placement group"},
+        {"key": "C", "text": "Spread placement group"},
+        {"key": "D", "text": "Single-AZ sem placement group"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): big data distribuído e replicado (Hadoop/Cassandra/Kafka) com isolamento por bloco = Partition.",
+        "💡 Rafael (dica 2): cada partição tem rack/energia/rede próprios; falha numa não derruba as outras."
+      ],
+      "explanation": "Partition placement group divide as instâncias em partições lógicas, cada uma com seu rack, energia e rede; instâncias de partições diferentes não compartilham hardware. Isola o impacto de uma falha a uma partição — ideal pra Hadoop, Cassandra e Kafka em larga escala.",
+      "whyNots": {
+        "B": "Cluster empacota tudo junto — uma falha de rack pode atingir muitas instâncias.",
+        "C": "Spread é pra um número PEQUENO de instâncias críticas, não pra dezenas de nós de big data.",
+        "D": "Sem placement group, você não tem o isolamento por partição que protege o cluster distribuído."
+      }
+    },
+    {
+      "id": "br-ec2pre-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["ec2"],
+      "situacao": "Três objetivos de posicionamento: (1) latência mínima entre nós de HPC; (2) poucas instâncias críticas que não podem cair juntas; (3) cluster Cassandra grande com isolamento de falha por bloco.",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "Cluster → Spread → Partition"},
+        {"key": "B", "text": "Spread → Cluster → Partition"},
+        {"key": "C", "text": "Partition → Spread → Cluster"},
+        {"key": "D", "text": "Cluster → Partition → Spread"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): latência mínima = Cluster; poucos críticos separados = Spread; big data distribuído isolado = Partition.",
+        "💡 Rafael (dica 2): Cluster (juntos), Spread (separados/poucos), Partition (blocos/big data). Só a opção A bate."
+      ],
+      "explanation": "Cluster entrega latência mínima nó-a-nó (HPC); Spread separa poucas instâncias críticas em hardware distinto; Partition isola falha por partição em clusters distribuídos grandes (Cassandra, Hadoop, Kafka). A opção A mapeia os três corretamente.",
+      "whyNots": {
+        "B": "Troca Cluster com Spread — latência mínima é Cluster, não Spread.",
+        "C": "Inverte Cluster e Partition.",
+        "D": "Troca Spread com Partition — poucos críticos é Spread; big data é Partition."
+      }
+    }
+  ]
+}

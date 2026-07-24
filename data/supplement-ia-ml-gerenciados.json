@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Serviços de IA/ML Gerenciados (Rekognition, Textract, Comprehend, Transcribe, Polly, Translate, Lex, SageMaker). Cobre 'qual serviço de IA usar', que aparece na SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-iaml-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rekognition"],
+      "situacao": "Um app recebe fotos enviadas por usuários e precisa detectar automaticamente conteúdo impróprio e identificar objetos/rostos nas imagens.",
+      "stem": "Qual serviço de IA é o indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon Rekognition"},
+        {"key": "B", "text": "Amazon Textract"},
+        {"key": "C", "text": "Amazon Comprehend"},
+        {"key": "D", "text": "Amazon Polly"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): análise de IMAGEM e vídeo (objetos, rostos, moderação) = Rekognition.",
+        "💡 Rafael (dica 2): 'recognition' = reconhecimento visual. Textract é pra documentos, não fotos de usuário."
+      ],
+      "explanation": "Rekognition analisa imagens e vídeos: detecção de objetos/cenas, rostos, moderação de conteúdo impróprio e mais. É o serviço certo pra processar fotos enviadas por usuários.",
+      "whyNots": {
+        "B": "Textract é OCR/extração de documentos escaneados (formulários, tabelas) — não análise de fotos genéricas.",
+        "C": "Comprehend é NLP de TEXTO — não analisa imagens.",
+        "D": "Polly converte texto em fala — nada a ver com imagem."
+      }
+    },
+    {
+      "id": "br-iaml-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["textract"],
+      "situacao": "Uma empresa quer digitalizar faturas e formulários escaneados (PDF/imagem), extraindo automaticamente o texto e os DADOS de campos e tabelas.",
+      "stem": "Qual serviço faz essa extração de documentos?",
+      "options": [
+        {"key": "A", "text": "Amazon Textract"},
+        {"key": "B", "text": "Amazon Rekognition"},
+        {"key": "C", "text": "Amazon Translate"},
+        {"key": "D", "text": "Amazon Lex"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): OCR + extrair campos de FORMULÁRIO e TABELAS de documentos = Textract (vai além do OCR simples).",
+        "💡 Rafael (dica 2): 'extract' de 'text' está no nome — documentos, não fotos."
+      ],
+      "explanation": "Textract usa OCR e ML pra extrair texto, manuscrito e, principalmente, dados estruturados de campos de formulário e tabelas em documentos escaneados/PDF. É o serviço pra digitalizar faturas, formulários e contratos.",
+      "whyNots": {
+        "B": "Rekognition analisa imagens/vídeos genéricos; pra documentos com formulários/tabelas, Textract é o especializado.",
+        "C": "Translate traduz idiomas — não extrai dados de documentos.",
+        "D": "Lex é chatbot — não faz OCR de documentos."
+      }
+    },
+    {
+      "id": "br-iaml-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["comprehend"],
+      "situacao": "Você quer analisar milhares de avaliações de clientes (texto) pra descobrir o sentimento (positivo/negativo) e extrair entidades e frases-chave.",
+      "stem": "Qual serviço de NLP faz isso?",
+      "options": [
+        {"key": "A", "text": "Amazon Comprehend"},
+        {"key": "B", "text": "Amazon Transcribe"},
+        {"key": "C", "text": "Amazon Rekognition"},
+        {"key": "D", "text": "Amazon Polly"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): sentimento, entidades, frases-chave de TEXTO = NLP = Comprehend.",
+        "💡 Rafael (dica 2): 'comprehend' = compreender o texto."
+      ],
+      "explanation": "Comprehend é o serviço de NLP: analisa sentimento, entidades, frases-chave, idioma e tópicos de texto não estruturado. É ideal pra minerar insights de avaliações de clientes em escala.",
+      "whyNots": {
+        "B": "Transcribe converte fala em texto — não analisa o sentimento do texto.",
+        "C": "Rekognition é visão computacional — não analisa texto.",
+        "D": "Polly converte texto em fala — não faz análise de sentimento."
+      }
+    },
+    {
+      "id": "br-iaml-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["transcribe"],
+      "situacao": "Um call center quer transcrever automaticamente as gravações de áudio das ligações em texto, pra análise posterior.",
+      "stem": "Qual serviço converte fala em texto?",
+      "options": [
+        {"key": "A", "text": "Amazon Transcribe"},
+        {"key": "B", "text": "Amazon Polly"},
+        {"key": "C", "text": "Amazon Comprehend"},
+        {"key": "D", "text": "Amazon Translate"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): fala → texto (speech-to-text) = Transcribe.",
+        "💡 Rafael (dica 2): cuidado pra não inverter com Polly (que é texto → fala)."
+      ],
+      "explanation": "Transcribe é o serviço de speech-to-text (ASR): converte áudio falado em texto, com suporte a arquivos e streaming. É ideal pra transcrever ligações de call center, legendar áudio e indexar conteúdo falado.",
+      "whyNots": {
+        "B": "Polly faz o caminho inverso: texto → fala.",
+        "C": "Comprehend analisa texto (NLP) — não transcreve áudio.",
+        "D": "Translate traduz idiomas — não transcreve fala."
+      }
+    },
+    {
+      "id": "br-iaml-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["polly"],
+      "situacao": "Um app de acessibilidade quer ler em voz alta, com vozes realistas, o texto dos artigos pros usuários.",
+      "stem": "Qual serviço converte texto em fala?",
+      "options": [
+        {"key": "A", "text": "Amazon Polly"},
+        {"key": "B", "text": "Amazon Transcribe"},
+        {"key": "C", "text": "Amazon Lex"},
+        {"key": "D", "text": "Amazon Textract"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): texto → fala (text-to-speech), vozes realistas = Polly.",
+        "💡 Rafael (dica 2): Polly fala; Transcribe escuta. Não troque os dois."
+      ],
+      "explanation": "Polly converte texto em fala realista (text-to-speech), com dezenas de vozes e idiomas. É ideal pra leitores de conteúdo, acessibilidade e aplicações por voz.",
+      "whyNots": {
+        "B": "Transcribe é o inverso: fala → texto.",
+        "C": "Lex é chatbot (conversa) — embora possa usar Polly pra falar, o serviço de TTS em si é o Polly.",
+        "D": "Textract extrai texto de documentos — não gera fala."
+      }
+    },
+    {
+      "id": "br-iaml-q05",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lex"],
+      "situacao": "Uma empresa quer construir um chatbot de atendimento que entende linguagem natural (voz e texto) e responde aos clientes, usando o mesmo motor da Alexa.",
+      "stem": "Qual serviço é o indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon Lex"},
+        {"key": "B", "text": "Amazon Comprehend"},
+        {"key": "C", "text": "Amazon Polly"},
+        {"key": "D", "text": "Amazon SageMaker"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): construir CHATBOT / interface de conversa (voz e texto) = Lex (motor da Alexa).",
+        "💡 Rafael (dica 2): Lex entende a intenção; pra falar a resposta, costuma usar o Polly junto."
+      ],
+      "explanation": "Lex constrói interfaces conversacionais (chatbots) por voz e texto, com reconhecimento de fala e entendimento de linguagem natural — o mesmo motor da Alexa. Combina-se com o Polly pra responder falando.",
+      "whyNots": {
+        "B": "Comprehend analisa texto (sentimento/entidades) — não constrói o fluxo de conversa do chatbot.",
+        "C": "Polly só converte texto em fala — não entende a intenção do usuário.",
+        "D": "SageMaker é pra construir modelos próprios — exagero quando o Lex já entrega o chatbot pronto."
+      }
+    },
+    {
+      "id": "br-iaml-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["sagemaker"],
+      "situacao": "Um time de dados precisa CONSTRUIR, TREINAR e IMPLANTAR um modelo de machine learning customizado, sob medida pro problema da empresa, porque os serviços prontos não atendem.",
+      "stem": "Qual serviço da AWS é o indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon SageMaker"},
+        {"key": "B", "text": "Amazon Rekognition"},
+        {"key": "C", "text": "Amazon Comprehend"},
+        {"key": "D", "text": "Amazon Lex"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): construir/treinar/implantar modelo PRÓPRIO = SageMaker (a plataforma de ML).",
+        "💡 Rafael (dica 2): os outros são serviços prontos (visão, NLP, chatbot); SageMaker é quando você precisa de modelo sob medida."
+      ],
+      "explanation": "SageMaker é a plataforma pra construir, treinar e implantar modelos de ML customizados. É a escolha quando os serviços de IA prontos (Rekognition, Comprehend, etc.) não atendem e você precisa de um modelo sob medida.",
+      "whyNots": {
+        "B": "Rekognition é visão pronta — não é pra treinar um modelo próprio genérico.",
+        "C": "Comprehend é NLP pronto — não é a plataforma de ML customizado.",
+        "D": "Lex é chatbot pronto — não treina modelos arbitrários."
+      }
+    },
+    {
+      "id": "br-iaml-q07",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["transcribe", "translate", "polly"],
+      "situacao": "Você quer pegar um áudio falado em português, transformá-lo em texto, traduzir pra inglês e gerar a narração em inglês — um pipeline de tradução de voz.",
+      "stem": "Qual sequência de serviços implementa isso?",
+      "options": [
+        {"key": "A", "text": "Transcribe (fala→texto) → Translate (PT→EN) → Polly (texto→fala)"},
+        {"key": "B", "text": "Polly → Translate → Transcribe"},
+        {"key": "C", "text": "Comprehend → Lex → Rekognition"},
+        {"key": "D", "text": "Textract → Translate → Transcribe"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): fala vira texto (Transcribe), o texto é traduzido (Translate), e o texto traduzido vira fala (Polly).",
+        "💡 Rafael (dica 2): é o combo clássico de 'quebrar a barreira do idioma' por voz."
+      ],
+      "explanation": "O pipeline de tradução de voz combina três serviços: Transcribe converte a fala em texto, Translate traduz o texto pro idioma alvo, e Polly gera a narração no novo idioma. É a sequência fala→texto→tradução→fala.",
+      "whyNots": {
+        "B": "Inverte a ordem — começar pelo Polly (texto→fala) não faz sentido pra um áudio de entrada.",
+        "C": "Comprehend/Lex/Rekognition não formam o pipeline de tradução de voz.",
+        "D": "Textract é pra documentos; o ponto de partida aqui é áudio (Transcribe)."
+      }
+    },
+    {
+      "id": "br-iaml-q08",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["textract", "comprehend"],
+      "situacao": "Você tem contratos escaneados (PDF) e quer (1) extrair o texto e os campos, e depois (2) detectar entidades e o sentimento desse texto.",
+      "stem": "Qual par de serviços atende (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Textract; (2) Comprehend"},
+        {"key": "B", "text": "(1) Comprehend; (2) Textract"},
+        {"key": "C", "text": "(1) Rekognition; (2) Polly"},
+        {"key": "D", "text": "(1) Transcribe; (2) Translate"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): extrair texto/campos do PDF = Textract; analisar entidades/sentimento do texto = Comprehend.",
+        "💡 Rafael (dica 2): Textract tira o texto do documento; Comprehend entende o texto."
+      ],
+      "explanation": "Primeiro o Textract extrai o texto e os campos do documento escaneado; depois o Comprehend faz a análise de NLP (entidades, sentimento, frases-chave) sobre esse texto. É o pipeline clássico documento → insight.",
+      "whyNots": {
+        "B": "Inverte — quem extrai do PDF é o Textract; quem analisa o texto é o Comprehend.",
+        "C": "Rekognition/Polly são visão/voz — não extraem campos de documento nem fazem NLP.",
+        "D": "Transcribe/Translate são voz/idioma — não é o caso de documentos escaneados."
+      }
+    },
+    {
+      "id": "br-iaml-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["rekognition", "textract", "comprehend", "polly"],
+      "situacao": "Quatro tarefas: (1) moderar conteúdo de imagens; (2) extrair campos de um formulário escaneado; (3) detectar sentimento de avaliações; (4) ler um texto em voz alta.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Rekognition → Textract → Comprehend → Polly"},
+        {"key": "B", "text": "Textract → Rekognition → Polly → Comprehend"},
+        {"key": "C", "text": "Comprehend → Polly → Rekognition → Textract"},
+        {"key": "D", "text": "Polly → Comprehend → Textract → Rekognition"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): imagem = Rekognition; documento/formulário = Textract; sentimento de texto = Comprehend; texto em voz = Polly.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu domínio: Rekognition (imagem/moderação), Textract (OCR/formulários), Comprehend (NLP/sentimento) e Polly (texto→fala). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Rekognition com Textract e Comprehend com Polly.",
+        "C": "Embaralha tudo — Comprehend não modera imagem.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

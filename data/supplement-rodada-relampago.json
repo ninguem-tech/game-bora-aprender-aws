@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Rodada Relâmpago — Serviço Certo. Perguntas rápidas 'qual serviço usar' cobrindo vários domínios da SAA-C03 (síntese do já verificado).",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-relampago-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["athena"],
+      "situacao": "Consultar dados no S3 com SQL, serverless, pagando por dado escaneado.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "Amazon Athena"},
+        {"key": "B", "text": "Amazon Redshift provisionado"},
+        {"key": "C", "text": "Amazon RDS"},
+        {"key": "D", "text": "Amazon EMR"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): SQL serverless direto no S3 = Athena."],
+      "explanation": "Athena roda SQL ad-hoc direto sobre dados no S3, serverless, cobrando por volume escaneado.",
+      "whyNots": {
+        "B": "Redshift provisionado é data warehouse com cluster.",
+        "C": "RDS é banco transacional, não consulta S3.",
+        "D": "EMR é cluster Hadoop/Spark."
+      }
+    },
+    {
+      "id": "br-relampago-q01",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["guardduty"],
+      "situacao": "Detecção inteligente de ameaças analisando logs (Flow Logs, CloudTrail, DNS).",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "Amazon GuardDuty"},
+        {"key": "B", "text": "Amazon Inspector"},
+        {"key": "C", "text": "Amazon Macie"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): ameaça/comportamento = GuardDuty."],
+      "explanation": "GuardDuty detecta atividade maliciosa analisando Flow Logs, CloudTrail e DNS com ML.",
+      "whyNots": {
+        "B": "Inspector é vulnerabilidade/CVE.",
+        "C": "Macie é dado sensível no S3.",
+        "D": "Config é conformidade de configuração."
+      }
+    },
+    {
+      "id": "br-relampago-q02",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["textract"],
+      "situacao": "Extrair texto, campos de formulário e tabelas de documentos escaneados (OCR).",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "Amazon Textract"},
+        {"key": "B", "text": "Amazon Rekognition"},
+        {"key": "C", "text": "Amazon Comprehend"},
+        {"key": "D", "text": "Amazon Polly"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): OCR de documento/formulário = Textract."],
+      "explanation": "Textract usa OCR + ML pra extrair texto, campos e tabelas de documentos escaneados.",
+      "whyNots": {
+        "B": "Rekognition é imagem/vídeo genérico.",
+        "C": "Comprehend é NLP de texto.",
+        "D": "Polly é texto-em-fala."
+      }
+    },
+    {
+      "id": "br-relampago-q03",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["compute-optimizer"],
+      "situacao": "Recomendações de rightsizing (superdimensionado/ocioso) pra EC2, EBS, Lambda, RDS.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "AWS Compute Optimizer"},
+        {"key": "B", "text": "AWS Budgets"},
+        {"key": "C", "text": "AWS Pricing Calculator"},
+        {"key": "D", "text": "Amazon Inspector"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): tamanho ideal/rightsizing = Compute Optimizer."],
+      "explanation": "Compute Optimizer recomenda o dimensionamento ideal e detecta recursos ociosos.",
+      "whyNots": {
+        "B": "Budgets controla orçamento/alertas.",
+        "C": "Pricing Calculator estima custo futuro.",
+        "D": "Inspector é vulnerabilidade."
+      }
+    },
+    {
+      "id": "br-relampago-q04",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["step-functions"],
+      "situacao": "Orquestrar um fluxo de vários passos com branching e retry, sem codificar a cola.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "AWS Step Functions"},
+        {"key": "B", "text": "Amazon SQS"},
+        {"key": "C", "text": "Amazon SNS"},
+        {"key": "D", "text": "AWS Lambda sozinho"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): orquestrar passos/estado com retry = Step Functions."],
+      "explanation": "Step Functions orquestra workflows como máquina de estados, com branching, retry e tratamento de erro.",
+      "whyNots": {
+        "B": "SQS é fila.",
+        "C": "SNS é pub/sub.",
+        "D": "Lambda chamando Lambda na mão é frágil."
+      }
+    },
+    {
+      "id": "br-relampago-q05",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["iam-access-analyzer"],
+      "situacao": "Descobrir se um bucket S3 ou role está compartilhado com uma conta externa sem querer.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "IAM Access Analyzer"},
+        {"key": "B", "text": "AWS Artifact"},
+        {"key": "C", "text": "Amazon Macie"},
+        {"key": "D", "text": "AWS Budgets"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): acesso externo/não intencional a recursos = IAM Access Analyzer."],
+      "explanation": "IAM Access Analyzer identifica recursos compartilhados com entidades externas, gerando findings.",
+      "whyNots": {
+        "B": "Artifact baixa relatórios da AWS.",
+        "C": "Macie acha dado sensível no S3.",
+        "D": "Budgets é custo."
+      }
+    },
+    {
+      "id": "br-relampago-q06",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 2,
+      "domainLabel": "Arquiteturas resilientes",
+      "type": "single",
+      "services": ["aws-backup"],
+      "situacao": "Centralizar e automatizar backup de EC2, EBS, RDS, DynamoDB e EFS por política, com Vault Lock (WORM).",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "AWS Backup"},
+        {"key": "B", "text": "Amazon S3 Glacier"},
+        {"key": "C", "text": "AWS DataSync"},
+        {"key": "D", "text": "AWS Config"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): backup central por política + Vault Lock = AWS Backup."],
+      "explanation": "AWS Backup centraliza e automatiza backup entre serviços, com Vault Lock (WORM) e cópia cross-Region.",
+      "whyNots": {
+        "B": "Glacier é classe de arquivamento (destino), não a orquestração.",
+        "C": "DataSync é transferência entre storages.",
+        "D": "Config é conformidade."
+      }
+    },
+    {
+      "id": "br-relampago-q07",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["fsx"],
+      "situacao": "File system de altíssimo throughput pra HPC e treino de ML.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "Amazon FSx for Lustre"},
+        {"key": "B", "text": "Amazon EFS"},
+        {"key": "C", "text": "Amazon S3 Glacier"},
+        {"key": "D", "text": "Amazon EBS sc1"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): HPC/ML de alto throughput = FSx for Lustre."],
+      "explanation": "FSx for Lustre é o file system de alto throughput pra HPC e ML; EFS é NFS Linux geral; FSx for Windows é SMB.",
+      "whyNots": {
+        "B": "EFS é NFS de propósito geral, não o de HPC.",
+        "C": "Glacier é arquivamento.",
+        "D": "sc1 é HDD frio de baixo custo."
+      }
+    },
+    {
+      "id": "br-relampago-q08",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["waf"],
+      "situacao": "Bloquear SQL injection e XSS nas requisições HTTP de um app web num CloudFront/ALB.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "AWS WAF"},
+        {"key": "B", "text": "AWS Shield Standard"},
+        {"key": "C", "text": "Security Group"},
+        {"key": "D", "text": "Amazon GuardDuty"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): SQLi/XSS em app web (camada 7) = WAF."],
+      "explanation": "WAF filtra requisições HTTP(S) e bloqueia SQLi/XSS, anexado a CloudFront/ALB/API Gateway.",
+      "whyNots": {
+        "B": "Shield é DDoS de rede (L3/L4).",
+        "C": "Security Group é L3/L4, não entende HTTP.",
+        "D": "GuardDuty detecta ameaça, não filtra HTTP."
+      }
+    },
+    {
+      "id": "br-relampago-q09",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["neptune"],
+      "situacao": "Banco de grafo pra relações de recomendação e detecção de fraude.",
+      "stem": "Qual serviço?",
+      "options": [
+        {"key": "A", "text": "Amazon Neptune"},
+        {"key": "B", "text": "Amazon DocumentDB"},
+        {"key": "C", "text": "Amazon Timestream"},
+        {"key": "D", "text": "Amazon Redshift"}
+      ],
+      "answers": ["A"],
+      "hints": ["💡 Rafael (dica): grafo/relações (fraude, recomendação) = Neptune."],
+      "explanation": "Neptune é o banco de grafo gerenciado, ideal pra dados altamente conectados (recomendação, fraude, redes sociais).",
+      "whyNots": {
+        "B": "DocumentDB é de documentos (MongoDB).",
+        "C": "Timestream é séries temporais.",
+        "D": "Redshift é data warehouse."
+      }
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Computação Opções Adicionais e Híbridas (Lightsail, App Runner, Batch, Outposts, Local Zones, Wavelength). Cobre opções de compute além de EC2/Lambda/Fargate e o edge/híbrido da SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-compx-q00",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["lightsail"],
+      "situacao": "Um pequeno negócio quer hospedar um site simples (WordPress) com configuração rápida e preço mensal FIXO e previsível, sem precisar da escala e complexidade do EC2.",
+      "stem": "Qual serviço é o mais indicado?",
+      "options": [
+        {"key": "A", "text": "Amazon Lightsail"},
+        {"key": "B", "text": "AWS Batch"},
+        {"key": "C", "text": "Amazon EKS"},
+        {"key": "D", "text": "AWS Outposts"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): site simples + setup rápido + preço mensal fixo = Lightsail (VPS pré-configurado).",
+        "💡 Rafael (dica 2): quando NÃO precisa da escala/complexidade do EC2, Lightsail é mais simples e barato."
+      ],
+      "explanation": "Amazon Lightsail oferece VPS pré-configurados (bundles) com preço mensal fixo e previsível, ideal pra sites e apps simples (WordPress, blogs) e quem prefere simplicidade — sem a complexidade/escala do EC2.",
+      "whyNots": {
+        "B": "Batch é pra jobs em lote em larga escala — não pra hospedar um site simples.",
+        "C": "EKS (Kubernetes) é o oposto de simples pra um site WordPress pequeno.",
+        "D": "Outposts é hardware da AWS no seu data center — exagero pra um site simples."
+      }
+    },
+    {
+      "id": "br-compx-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["app-runner"],
+      "situacao": "Um time tem uma imagem de contêiner de uma API web e quer publicá-la de forma totalmente gerenciada — com build, deploy, balanceamento e auto scaling automáticos — sem configurar ECS, ALB nem cluster.",
+      "stem": "Qual serviço entrega isso?",
+      "options": [
+        {"key": "A", "text": "AWS App Runner"},
+        {"key": "B", "text": "Amazon Lightsail"},
+        {"key": "C", "text": "AWS Batch"},
+        {"key": "D", "text": "Amazon EC2 puro"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): contêiner de app web/API totalmente gerenciada (build/deploy/escala/balanceamento automáticos) = App Runner.",
+        "💡 Rafael (dica 2): você só dá a imagem; ele cuida do resto — mais simples que montar ECS/Fargate + ALB na mão."
+      ],
+      "explanation": "AWS App Runner é totalmente gerenciado pra apps web e APIs em contêiner: você fornece a imagem (ou o código), e ele builda, implanta, balanceia e escala automaticamente — sem você configurar ECS, cluster ou load balancer.",
+      "whyNots": {
+        "B": "Lightsail é VPS simples — não é o serviço gerenciado pra contêiner de API com auto scaling automático nesse modelo.",
+        "C": "Batch é pra jobs em lote — não pra uma API web request-response.",
+        "D": "EC2 puro exigiria configurar tudo na mão — o oposto do 'totalmente gerenciado'."
+      }
+    },
+    {
+      "id": "br-compx-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["batch"],
+      "situacao": "Uma empresa de genômica precisa rodar centenas de milhares de jobs de processamento em lote, com a infraestrutura provisionando automaticamente o tipo/quantidade ideal de compute conforme a fila de jobs.",
+      "stem": "Qual serviço gerencia essa computação em lote em escala?",
+      "options": [
+        {"key": "A", "text": "AWS Batch"},
+        {"key": "B", "text": "AWS App Runner"},
+        {"key": "C", "text": "Amazon Lightsail"},
+        {"key": "D", "text": "Amazon API Gateway"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): 'centenas de milhares de JOBS em lote, provisiona compute ideal sozinho' = AWS Batch.",
+        "💡 Rafael (dica 2): ele dimensiona o tipo/quantidade de instância conforme a carga dos jobs."
+      ],
+      "explanation": "AWS Batch é o serviço gerenciado pra computação em lote em larga escala: provisiona dinamicamente o tipo e a quantidade ideal de compute (CPU/memória) conforme os jobs submetidos. É ideal pra genômica, simulações e ETL pesado.",
+      "whyNots": {
+        "B": "App Runner é pra apps web/API request-response — não pra jobs em lote.",
+        "C": "Lightsail é VPS simples — não orquestra jobs em lote em escala.",
+        "D": "API Gateway é gateway de APIs — não executa batch."
+      }
+    },
+    {
+      "id": "br-compx-q03",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["outposts"],
+      "situacao": "Por exigência de residência de dados e latência local, uma indústria precisa rodar serviços de compute/storage da AWS DENTRO do próprio data center, mas integrados com a nuvem AWS.",
+      "stem": "Qual serviço leva o hardware da AWS pro on-premises?",
+      "options": [
+        {"key": "A", "text": "AWS Outposts"},
+        {"key": "B", "text": "AWS Local Zones"},
+        {"key": "C", "text": "AWS Wavelength"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): hardware da AWS instalado NO SEU data center (on-premises) = Outposts.",
+        "💡 Rafael (dica 2): Local Zones e Wavelength são infra DA AWS (fora do seu DC); Outposts fica no seu DC."
+      ],
+      "explanation": "AWS Outposts são racks de hardware da AWS instalados no seu próprio data center (ou colocation), rodando compute/storage da AWS on-premises e conectados de forma transparente aos serviços na nuvem. É a escolha pra residência de dados/latência local com integração à AWS.",
+      "whyNots": {
+        "B": "Local Zones é infraestrutura da AWS perto da cidade — não fica dentro do seu data center.",
+        "C": "Wavelength fica dentro da rede 5G da operadora — não no seu data center.",
+        "D": "CloudFront é CDN — não roda compute on-premises."
+      }
+    },
+    {
+      "id": "br-compx-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["wavelength"],
+      "situacao": "Um jogo de streaming pra celulares precisa de latência de 1 dígito de milissegundo pra usuários conectados via 5G, com o processamento o mais perto possível dentro da rede da operadora.",
+      "stem": "Qual serviço atende esse caso 5G de ultrabaixa latência?",
+      "options": [
+        {"key": "A", "text": "AWS Wavelength"},
+        {"key": "B", "text": "AWS Outposts"},
+        {"key": "C", "text": "Amazon Lightsail"},
+        {"key": "D", "text": "AWS Batch"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): processamento DENTRO da rede 5G da operadora, latência de 1 dígito de ms pra usuário 5G = Wavelength.",
+        "💡 Rafael (dica 2): é acessível só pela rede 5G da operadora parceira."
+      ],
+      "explanation": "AWS Wavelength embute compute/storage da AWS dentro da rede 5G das operadoras, entregando latência de 1 dígito de ms pra usuários 5G — ideal pra game streaming, AR/VR e veículos autônomos. O acesso é via a rede 5G da operadora parceira.",
+      "whyNots": {
+        "B": "Outposts fica no data center do cliente — não dentro da rede 5G.",
+        "C": "Lightsail é VPS simples — não é edge 5G de ultrabaixa latência.",
+        "D": "Batch é jobs em lote — não atende latência interativa 5G."
+      }
+    },
+    {
+      "id": "br-compx-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["local-zones", "wavelength"],
+      "situacao": "Distinga: (1) baixa latência perto de uma grande cidade, acessível por QUALQUER rede (5G ou Wi-Fi); (2) ultrabaixa latência acessível SÓ pela rede 5G da operadora.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Local Zones; (2) Wavelength"},
+        {"key": "B", "text": "(1) Wavelength; (2) Local Zones"},
+        {"key": "C", "text": "(1) Outposts; (2) Local Zones"},
+        {"key": "D", "text": "(1) Wavelength; (2) Outposts"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): perto da cidade, multi-acesso (5G/Wi-Fi) = Local Zones; só via 5G da operadora = Wavelength.",
+        "💡 Rafael (dica 2): a pista é 'qualquer rede' (Local Zones) vs 'só 5G' (Wavelength)."
+      ],
+      "explanation": "Local Zones estendem a AWS pra perto de grandes cidades com acesso multi-rede (5G ou Wi-Fi, qualquer operadora). Wavelength fica dentro da rede 5G da operadora e é acessível apenas via essa rede 5G. A diferença está no padrão de acesso.",
+      "whyNots": {
+        "B": "Inverte — multi-acesso é Local Zones; só 5G é Wavelength.",
+        "C": "Outposts fica no data center do cliente — não é 'perto da cidade, multi-acesso'.",
+        "D": "Troca os papéis e inclui Outposts indevidamente."
+      }
+    },
+    {
+      "id": "br-compx-q06",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["outposts", "local-zones"],
+      "situacao": "Distinga: (1) infraestrutura instalada no SEU próprio data center (on-premises); (2) infraestrutura da AWS, perto de uma grande cidade, operada pela própria AWS.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Outposts; (2) Local Zones"},
+        {"key": "B", "text": "(1) Local Zones; (2) Outposts"},
+        {"key": "C", "text": "(1) Wavelength; (2) Outposts"},
+        {"key": "D", "text": "(1) Outposts; (2) Wavelength"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): no SEU data center = Outposts; infra da AWS perto da cidade = Local Zones.",
+        "💡 Rafael (dica 2): Outposts você instala; Local Zones a AWS opera."
+      ],
+      "explanation": "Outposts é o hardware da AWS instalado no SEU data center (on-premises), gerenciado pela AWS. Local Zones é infraestrutura da AWS perto de grandes centros urbanos, operada pela própria AWS. A diferença é o LOCAL e quem hospeda.",
+      "whyNots": {
+        "B": "Inverte — no seu DC é Outposts; perto da cidade (AWS) é Local Zones.",
+        "C": "Wavelength é dentro da rede 5G — não é 'no seu data center'.",
+        "D": "Wavelength não é 'perto da cidade, multi-acesso' — isso é Local Zones."
+      }
+    },
+    {
+      "id": "br-compx-q07",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 4,
+      "domainLabel": "Otimização de custos",
+      "type": "single",
+      "services": ["lightsail", "ec2"],
+      "situacao": "Um desenvolvedor pondera entre um VPS simples de preço fixo e o EC2 com todo o ecossistema. O projeto é um app pequeno que pode, no futuro, precisar de escala e integração profunda com serviços AWS.",
+      "stem": "Qual afirmação está correta?",
+      "options": [
+        {"key": "A", "text": "Lightsail é ótimo pra começar simples/barato; se precisar de escala e integração profunda, EC2 (e demais serviços) é o caminho"},
+        {"key": "B", "text": "Lightsail escala melhor que o EC2 pra qualquer carga"},
+        {"key": "C", "text": "EC2 só serve pra sites estáticos"},
+        {"key": "D", "text": "Lightsail e EC2 são exatamente o mesmo serviço"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): Lightsail = simplicidade/preço fixo pra começar; EC2 = flexibilidade/escala/ecossistema completo.",
+        "💡 Rafael (dica 2): dá pra começar no Lightsail e migrar pra EC2 quando o projeto crescer."
+      ],
+      "explanation": "Lightsail é ideal pra começar simples e barato (preço fixo); quando o projeto precisa de escala, instâncias variadas e integração profunda com o ecossistema AWS, o EC2 (e os demais serviços) é a escolha. Pode-se começar no Lightsail e migrar depois.",
+      "whyNots": {
+        "B": "Lightsail é justamente o mais simples/limitado; pra escala alta, EC2 é melhor.",
+        "C": "EC2 roda qualquer workload, não só sites estáticos.",
+        "D": "Não são o mesmo — Lightsail é simplificado; EC2 é completo/flexível."
+      }
+    },
+    {
+      "id": "br-compx-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["app-runner", "fargate"],
+      "situacao": "Um time quer publicar uma API em contêiner com o MÍNIMO de configuração de infra possível. Outro time precisa de controle fino sobre tarefas, rede e integração de contêineres num orquestrador.",
+      "stem": "Qual associação faz mais sentido?",
+      "options": [
+        {"key": "A", "text": "Mínimo de config = App Runner; controle fino de contêineres = ECS/Fargate"},
+        {"key": "B", "text": "Mínimo de config = ECS/Fargate; controle fino = App Runner"},
+        {"key": "C", "text": "Ambos só rodam em Outposts"},
+        {"key": "D", "text": "App Runner é pra jobs em lote; os dois são idênticos"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): App Runner abstrai quase tudo (mínima config); ECS/Fargate dá mais controle sobre tasks/rede.",
+        "💡 Rafael (dica 2): App Runner = simplicidade pra web app; ECS/Fargate = orquestração com mais controle."
+      ],
+      "explanation": "App Runner é o caminho de mínima configuração pra publicar uma app web/API em contêiner (build/deploy/escala automáticos). ECS/Fargate dá mais controle sobre tarefas, rede e orquestração de contêineres, ao custo de mais configuração.",
+      "whyNots": {
+        "B": "Inverte — quem abstrai a config é o App Runner; quem dá controle é o ECS/Fargate.",
+        "C": "Nenhum dos dois exige Outposts.",
+        "D": "App Runner é pra web app/API (não jobs em lote, isso é Batch), e os dois NÃO são idênticos — diferem no grau de controle vs simplicidade."
+      }
+    },
+    {
+      "id": "br-compx-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["lightsail", "app-runner", "batch", "outposts"],
+      "situacao": "Quatro necessidades: (1) site simples com preço fixo; (2) API em contêiner totalmente gerenciada; (3) centenas de milhares de jobs em lote; (4) compute da AWS dentro do próprio data center.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "Lightsail → App Runner → Batch → Outposts"},
+        {"key": "B", "text": "App Runner → Lightsail → Outposts → Batch"},
+        {"key": "C", "text": "Batch → Outposts → Lightsail → App Runner"},
+        {"key": "D", "text": "Outposts → Batch → App Runner → Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): site simples = Lightsail; API contêiner gerenciada = App Runner; jobs em lote = Batch; AWS no seu DC = Outposts.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: Lightsail (site simples, preço fixo), App Runner (API em contêiner totalmente gerenciada), Batch (jobs em lote em escala) e Outposts (compute da AWS on-premises). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca Lightsail com App Runner e Batch com Outposts.",
+        "C": "Embaralha tudo — Batch não é site simples.",
+        "D": "Inverte completamente; nenhuma posição bate com a função certa."
+      }
+    }
+  ]
+}

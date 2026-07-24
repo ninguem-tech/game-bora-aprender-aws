@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemento PT-BR: Busca, Análise de Logs e Integração SaaS (Amazon OpenSearch Service; Amazon AppFlow; posicionamento vs Athena/CloudWatch/Glue). Cobre busca/log analytics e integração SaaS da SAA-C03.",
+  "lang": "pt-BR",
+  "book": null,
+  "bookVersion": null,
+  "questions": [
+    {
+      "id": "br-busca-q00",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch"],
+      "situacao": "Uma empresa quer centralizar logs de várias aplicações e fazer análise e troubleshooting em tempo real, com indexação e dashboards interativos (estilo Kibana).",
+      "stem": "Qual serviço é o indicado pra análise de logs com busca e dashboards?",
+      "options": [
+        {"key": "A", "text": "Amazon OpenSearch Service"},
+        {"key": "B", "text": "Amazon RDS"},
+        {"key": "C", "text": "Amazon S3 Glacier"},
+        {"key": "D", "text": "AWS Budgets"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): análise de logs em tempo real + indexação + dashboards (Kibana) = OpenSearch Service.",
+        "💡 Rafael (dica 2): era 'Amazon Elasticsearch Service'; renomeado pra OpenSearch."
+      ],
+      "explanation": "Amazon OpenSearch Service é o motor gerenciado de busca e análise, muito usado pra log analytics em tempo real: indexa logs de várias fontes e oferece os OpenSearch Dashboards (ex-Kibana) pra monitorar, visualizar e fazer troubleshooting.",
+      "whyNots": {
+        "B": "RDS é banco relacional transacional — não é motor de busca/análise de logs com dashboards.",
+        "C": "Glacier é arquivamento barato — não indexa nem analisa logs em tempo real.",
+        "D": "Budgets é custo — nada a ver com análise de logs."
+      }
+    },
+    {
+      "id": "br-busca-q01",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch"],
+      "situacao": "Um e-commerce precisa de uma busca FULL-TEXT rápida e relevante no catálogo de produtos (com correspondência por palavras, relevância, filtros).",
+      "stem": "Qual serviço fornece essa busca textual?",
+      "options": [
+        {"key": "A", "text": "Amazon OpenSearch Service"},
+        {"key": "B", "text": "Amazon DynamoDB"},
+        {"key": "C", "text": "Amazon Athena"},
+        {"key": "D", "text": "Amazon CloudFront"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): busca FULL-TEXT com relevância (catálogo, documentos) = OpenSearch.",
+        "💡 Rafael (dica 2): DynamoDB é chave-valor rápido, mas NÃO faz busca textual com relevância."
+      ],
+      "explanation": "OpenSearch Service é otimizado pra busca full-text: indexa o catálogo e responde consultas por palavras com relevância, sugestões e filtros — o caso clássico de busca de e-commerce e de conteúdo/documentos.",
+      "whyNots": {
+        "B": "DynamoDB é NoSQL chave-valor de baixa latência — não faz busca textual por relevância.",
+        "C": "Athena é SQL ad-hoc sobre S3 (batch) — não é motor de busca full-text interativo.",
+        "D": "CloudFront é CDN — não indexa nem busca catálogo."
+      }
+    },
+    {
+      "id": "br-busca-q02",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["data-firehose", "opensearch"],
+      "situacao": "Você quer ingerir um fluxo de logs em near-real-time direto pra um cluster OpenSearch, de forma gerenciada e sem escrever código de pipeline.",
+      "stem": "Qual serviço entrega o streaming pro OpenSearch?",
+      "options": [
+        {"key": "A", "text": "Amazon Data Firehose (entrega no OpenSearch)"},
+        {"key": "B", "text": "Amazon SQS"},
+        {"key": "C", "text": "AWS Budgets"},
+        {"key": "D", "text": "Amazon Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): entregar streaming gerenciado, sem código, num destino (S3, Redshift, OpenSearch) = Data Firehose.",
+        "💡 Rafael (dica 2): o OpenSearch é um dos destinos nativos do Firehose."
+      ],
+      "explanation": "Amazon Data Firehose entrega streaming de forma gerenciada e sem código pra destinos como S3, Redshift e OpenSearch. É o jeito comum de ingerir logs near-real-time num cluster OpenSearch.",
+      "whyNots": {
+        "B": "SQS é fila de mensagens entre sistemas — não é o pipeline de entrega pro OpenSearch.",
+        "C": "Budgets é custo — não ingere dados.",
+        "D": "Lightsail é VPS — não é pipeline de ingestão."
+      }
+    },
+    {
+      "id": "br-busca-q03",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch", "athena", "cloudwatch"],
+      "situacao": "Três formas de lidar com logs: (1) indexar e buscar/visualizar logs em tempo real com dashboards; (2) consultar interativamente logs do CloudWatch pontualmente; (3) rodar SQL ad-hoc sobre logs já no S3 (data lake).",
+      "stem": "Qual mapeamento 1→2→3 está correto?",
+      "options": [
+        {"key": "A", "text": "OpenSearch → CloudWatch Logs Insights → Athena"},
+        {"key": "B", "text": "Athena → OpenSearch → CloudWatch Logs Insights"},
+        {"key": "C", "text": "CloudWatch Logs Insights → Athena → OpenSearch"},
+        {"key": "D", "text": "OpenSearch → Athena → CloudWatch Logs Insights"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): indexar/buscar/dashboards = OpenSearch; investigar logs do CloudWatch = Logs Insights; SQL no S3 = Athena.",
+        "💡 Rafael (dica 2): só a opção A mantém cada ferramenta na sua função."
+      ],
+      "explanation": "OpenSearch indexa e visualiza logs em tempo real com dashboards; CloudWatch Logs Insights consulta interativamente os logs do CloudWatch; Athena roda SQL ad-hoc sobre logs no S3 (data lake). A opção A respeita os três.",
+      "whyNots": {
+        "B": "Começa com Athena pra dashboards em tempo real — errado; isso é OpenSearch.",
+        "C": "Coloca Logs Insights pra dashboards de busca textual — não é o foco dele.",
+        "D": "Troca Athena com Logs Insights nas duas últimas posições."
+      }
+    },
+    {
+      "id": "br-busca-q04",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["appflow"],
+      "situacao": "Uma empresa quer transferir dados do Salesforce pro S3 (e Redshift) de forma segura, sem escrever código, em poucos cliques, com agendamento.",
+      "stem": "Qual serviço faz essa integração SaaS↔AWS sem código?",
+      "options": [
+        {"key": "A", "text": "Amazon AppFlow"},
+        {"key": "B", "text": "AWS Glue (escrevendo scripts)"},
+        {"key": "C", "text": "Amazon SQS"},
+        {"key": "D", "text": "Amazon EC2 com um script próprio"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): mover dados de um SaaS (Salesforce) pra AWS, no-code, em cliques = Amazon AppFlow.",
+        "💡 Rafael (dica 2): ele tem conectores nativos pra Salesforce, SAP, Google Analytics, ServiceNow, etc."
+      ],
+      "explanation": "Amazon AppFlow é o serviço gerenciado no-code pra transferir dados com segurança entre apps SaaS (Salesforce, SAP, ServiceNow...) e serviços AWS (S3, Redshift), com agendamento, transformação e criptografia em trânsito — tudo em poucos cliques.",
+      "whyNots": {
+        "B": "Glue é ETL serverless geral (com scripts) — o pedido é integração SaaS no-code, que é o AppFlow.",
+        "C": "SQS é fila de mensagens — não é conector SaaS.",
+        "D": "Script em EC2 é justamente o código/manutenção que o AppFlow evita."
+      }
+    },
+    {
+      "id": "br-busca-q05",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["appflow", "glue"],
+      "situacao": "Distinga: (1) puxar dados de um SaaS (Salesforce) pra AWS sem código, com conector nativo; (2) ETL serverless geral (Spark) com Data Catalog pra transformar dados de várias fontes.",
+      "stem": "Qual par corresponde a (1) e (2)?",
+      "options": [
+        {"key": "A", "text": "(1) Amazon AppFlow; (2) AWS Glue"},
+        {"key": "B", "text": "(1) AWS Glue; (2) Amazon AppFlow"},
+        {"key": "C", "text": "(1) Amazon Athena; (2) Amazon AppFlow"},
+        {"key": "D", "text": "(1) AWS Glue; (2) Amazon Athena"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): conector SaaS no-code = AppFlow; ETL serverless geral + Data Catalog = Glue.",
+        "💡 Rafael (dica 2): AppFlow é especializado em SaaS; Glue é o ETL de propósito geral."
+      ],
+      "explanation": "AppFlow é especializado em integração SaaS no-code (Salesforce → AWS). Glue é o ETL serverless geral (Apache Spark) com Data Catalog, pra transformar dados de várias fontes. A opção A faz a associação correta.",
+      "whyNots": {
+        "B": "Inverte — conector SaaS no-code é AppFlow; ETL geral é Glue.",
+        "C": "Athena é consulta SQL — não é o conector SaaS nem o ETL geral.",
+        "D": "Coloca Athena como ETL geral — o ETL é o Glue."
+      }
+    },
+    {
+      "id": "br-busca-q06",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch", "dynamodb"],
+      "situacao": "Um app usa DynamoDB pra os dados, mas precisa de busca textual avançada (por palavras, relevância) que o DynamoDB não oferece.",
+      "stem": "Qual serviço complementa o DynamoDB pra busca full-text?",
+      "options": [
+        {"key": "A", "text": "Amazon OpenSearch Service (indexando os dados pra busca)"},
+        {"key": "B", "text": "Amazon RDS"},
+        {"key": "C", "text": "Amazon CloudFront"},
+        {"key": "D", "text": "Amazon SQS"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): DynamoDB é rápido por chave, mas NÃO faz busca textual — pra isso, indexe no OpenSearch.",
+        "💡 Rafael (dica 2): padrão comum: dado no DynamoDB + índice de busca no OpenSearch."
+      ],
+      "explanation": "DynamoDB é excelente em acesso por chave, mas não faz busca full-text por relevância. O padrão é indexar os dados no OpenSearch Service (ex.: via streams) pra oferecer a busca textual avançada que o app precisa.",
+      "whyNots": {
+        "B": "RDS é relacional — não é motor de busca full-text otimizado.",
+        "C": "CloudFront é CDN — não indexa nem busca.",
+        "D": "SQS é fila — não faz busca."
+      }
+    },
+    {
+      "id": "br-busca-q07",
+      "difficulty": "intro",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch"],
+      "situacao": "Os engenheiros de DevOps querem painéis interativos (gráficos, filtros) pra monitorar e explorar os logs indexados no OpenSearch.",
+      "stem": "Qual recurso oferece essa visualização?",
+      "options": [
+        {"key": "A", "text": "OpenSearch Dashboards (ex-Kibana)"},
+        {"key": "B", "text": "Amazon Polly"},
+        {"key": "C", "text": "AWS CloudTrail"},
+        {"key": "D", "text": "Amazon Lightsail"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): painéis/visualizações em cima do OpenSearch = OpenSearch Dashboards (o antigo Kibana).",
+        "💡 Rafael (dica 2): é onde DevOps cria gráficos e explora os logs indexados."
+      ],
+      "explanation": "OpenSearch Dashboards (ex-Kibana) é a camada de visualização do OpenSearch Service: gráficos, filtros e dashboards interativos pra monitorar e explorar os dados/logs indexados.",
+      "whyNots": {
+        "B": "Polly é texto-em-fala — não é visualização de logs.",
+        "C": "CloudTrail audita API — não é dashboard de logs do OpenSearch.",
+        "D": "Lightsail é VPS — não é a camada de dashboards."
+      }
+    },
+    {
+      "id": "br-busca-q08",
+      "difficulty": "exam",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 1,
+      "domainLabel": "Arquiteturas seguras",
+      "type": "single",
+      "services": ["appflow"],
+      "situacao": "Ao mover dados de um SaaS pra AWS, a empresa exige que o tráfego NÃO passe pela internet pública e que os dados sejam criptografados em trânsito.",
+      "stem": "Qual capacidade do Amazon AppFlow atende?",
+      "options": [
+        {"key": "A", "text": "Integração via AWS PrivateLink + criptografia em trânsito"},
+        {"key": "B", "text": "Expor o fluxo num bucket S3 público"},
+        {"key": "C", "text": "Desligar a criptografia pra ir mais rápido"},
+        {"key": "D", "text": "Usar a conta root pra o fluxo"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): tráfego fora da internet pública = PrivateLink; AppFlow criptografa em trânsito por padrão.",
+        "💡 Rafael (dica 2): pra SaaS integrados com PrivateLink, o AppFlow evita a internet pública."
+      ],
+      "explanation": "O AppFlow criptografa os dados em trânsito e, pra apps SaaS integrados com AWS PrivateLink, permite que o tráfego não passe pela internet pública — reduzindo a exposição. Atende o requisito de segurança do enunciado.",
+      "whyNots": {
+        "B": "Bucket público é o oposto de privado/seguro.",
+        "C": "Desligar criptografia viola o requisito de segurança.",
+        "D": "Usar a root é proibido e perigoso."
+      }
+    },
+    {
+      "id": "br-busca-q09",
+      "difficulty": "challenge",
+      "source": "supplement",
+      "sourceChapter": null,
+      "book": null,
+      "bookVersion": null,
+      "domain": 3,
+      "domainLabel": "Arquiteturas de alto desempenho",
+      "type": "single",
+      "services": ["opensearch", "appflow", "athena", "data-firehose"],
+      "situacao": "Quatro necessidades: (1) busca full-text e dashboards de logs; (2) mover dados do Salesforce pra AWS sem código; (3) SQL ad-hoc sobre dados no S3; (4) entregar streaming gerenciado num destino, sem código.",
+      "stem": "Qual mapeamento 1→2→3→4 está correto?",
+      "options": [
+        {"key": "A", "text": "OpenSearch → AppFlow → Athena → Data Firehose"},
+        {"key": "B", "text": "AppFlow → OpenSearch → Data Firehose → Athena"},
+        {"key": "C", "text": "Athena → Data Firehose → OpenSearch → AppFlow"},
+        {"key": "D", "text": "OpenSearch → Athena → AppFlow → Data Firehose"}
+      ],
+      "answers": ["A"],
+      "hints": [
+        "💡 Rafael (dica): busca/logs = OpenSearch; SaaS no-code = AppFlow; SQL no S3 = Athena; entrega streaming = Data Firehose.",
+        "💡 Rafael (dica 2): só a opção A mantém cada serviço na sua função."
+      ],
+      "explanation": "Cada serviço tem seu papel: OpenSearch (busca full-text e dashboards de logs), AppFlow (integração SaaS no-code), Athena (SQL ad-hoc no S3) e Data Firehose (entrega de streaming gerenciada). A opção A respeita os quatro.",
+      "whyNots": {
+        "B": "Troca OpenSearch com AppFlow e Athena com Data Firehose.",
+        "C": "Embaralha tudo — Athena não é busca full-text de logs.",
+        "D": "Troca Athena com AppFlow de posição."
+      }
+    }
+  ]
+}

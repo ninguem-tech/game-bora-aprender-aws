@@ -1,0 +1,41 @@
+:root {
+  --creme: #f6efe3;
+  --cafe: #3e2a20;
+  --cafe2: #5a3d2e;
+  --leite: #fffdf8;
+  --linha: #e3d6c2;
+  --dim: #8a7a68;
+  --verde: #2e7d4f;
+  --verde-bg: #e4f3ea;
+  --vermelho: #b5462f;
+  --vermelho-bg: #f7e6e0;
+  --dourado: #c98a3c;
+  --azul: #2b5d6b;
+  --azul-bg: #e6eff2;
+  --shadow: rgba(62,42,32,0.08);
+  --focus-ring: #c98a3c;
+  --font-scale: 1rem;
+}
+
+body.dark {
+  --creme: #161412;
+  --cafe: #f4eae0;
+  --cafe2: #d6c4b2;
+  --leite: #221c17;
+  --linha: #3b3027;
+  --dim: #a69485;
+  --verde: #4ade80;
+  --verde-bg: #143320;
+  --vermelho: #f87171;
+  --vermelho-bg: #3d1714;
+  --dourado: #fbbf24;
+  --azul: #38bdf8;
+  --azul-bg: #112834;
+  --shadow: rgba(0,0,0,0.3);
+  --focus-ring: #fbbf24;
+}
+
+html[data-text-scale="0.85"] { font-size: 85%; }
+html[data-text-scale="1"] { font-size: 100%; }
+html[data-text-scale="1.15"] { font-size: 115%; }
+html[data-text-scale="1.3"] { font-size: 130%; }

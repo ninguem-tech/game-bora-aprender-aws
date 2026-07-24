@@ -1,0 +1,6 @@
+@keyframes petBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes petHappy { 0% { transform: scale(1) rotate(-5deg); } 100% { transform: scale(1.2) rotate(5deg); } }
+@keyframes petSad { 0% { transform: translateX(-4deg); } 100% { transform: translateX(4deg); } }
+@keyframes pop { 0% { transform: scale(.97); opacity: .8; } 100% { transform: scale(1); opacity: 1; } }
+
+.pop { animation: pop .3s ease-out; }

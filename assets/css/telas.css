@@ -1,0 +1,62 @@
+/* Mode Switcher Tabs */
+.modeTabs { display: flex; gap: 6px; margin: 14px 0 16px; overflow-x: auto; padding-bottom: 4px; }
+.tabBtn {
+  font: inherit; font-size: .85rem; font-weight: 700; color: var(--dim); background: var(--creme);
+  border: 1px solid var(--linha); border-radius: 99px; padding: 7px 14px; cursor: pointer; white-space: nowrap; transition: all .15s;
+}
+.tabBtn:hover { border-color: var(--dourado); color: var(--cafe); }
+.tabBtn.active { background: var(--cafe); color: #fff; border-color: var(--cafe); }
+body.dark .tabBtn.active { background: var(--dourado); color: #161412; border-color: var(--dourado); }
+
+/* Phase List Buttons */
+.faseGrid { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 2px; }
+.faseBtn {
+  display: flex; align-items: center; justify-content: space-between; text-align: left; font: inherit; font-size: 1.02rem;
+  font-weight: 700; color: var(--cafe); background: var(--creme); border: 2px solid var(--linha);
+  border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: border-color .15s, transform .1s;
+}
+.faseBtn:hover { border-color: var(--dourado); transform: translateY(-1px); }
+.faseBtn small { display: block; font-weight: 600; color: var(--dim); font-size: .78rem; margin-top: 2px; }
+.faseBadge { font-size: .75rem; font-weight: 800; padding: 4px 8px; border-radius: 99px; white-space: nowrap; }
+.faseBadge.done { background: var(--verde-bg); color: var(--verde); }
+.faseBadge.star { background: #fef3c7; color: #92400e; }
+
+/* Stats Summary Dashboard */
+.dashGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0 16px; }
+.dashItem { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 10px 8px; text-align: center; }
+.dashItem b { display: block; font-size: 1.3rem; color: var(--cafe2); }
+.dashItem span { font-size: .72rem; color: var(--dim); font-weight: 600; }
+
+/* Leitner Overview Box */
+.ltBox { background: var(--azul-bg); border: 1px solid var(--linha); border-radius: 14px; padding: 14px; margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+.ltBox .n { font-size: 1.7rem; font-weight: 800; color: var(--azul); min-width: 34px; text-align: center; }
+.ltBox .t { flex: 1; font-size: .9rem; color: var(--cafe2); }
+
+/* Pet Avatar Box */
+.petDisplay {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--creme); border: 2px dashed var(--dourado); border-radius: 16px; padding: 16px; margin: 12px 0; text-align: center;
+}
+.petIcon { font-size: 3.5rem; transition: transform .3s ease; display: inline-block; }
+.petBounce { animation: petBounce 1.2s infinite ease-in-out; }
+.petHappy { animation: petHappy 0.6s infinite alternate; }
+.petSad { animation: petSad 0.4s infinite alternate; }
+
+.petGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 14px 0; }
+.petCard {
+  font: inherit; background: var(--creme); border: 2px solid var(--linha); border-radius: 12px;
+  padding: 10px 4px; cursor: pointer; text-align: center; transition: all .15s;
+}
+.petCard:hover { border-color: var(--dourado); }
+.petCard.selected { border-color: var(--verde); background: var(--verde-bg); }
+.petCard .emoji { font-size: 1.8rem; display: block; }
+.petCard .pname { font-size: .75rem; font-weight: 700; color: var(--cafe); display: block; margin-top: 2px; }
+
+/* Stats Row */
+.stat { display: flex; gap: 10px; margin: 14px 0; }
+.stat > div { flex: 1; background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 12px; text-align: center; }
+.stat b { display: block; font-size: 1.5rem; color: var(--cafe2); }
+.stat span { font-size: .74rem; color: var(--dim); }
+
+/* Review List */
+ul.rev { margin: 8px 0 0; padding-left: 18px; } ul.rev li { margin: 4px 0; }

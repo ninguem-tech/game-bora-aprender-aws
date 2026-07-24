@@ -4,3 +4,6 @@ docs/pt-book-coverage-*.md
 
 # macOS
 .DS_Store
+
+# Python
+__pycache__/

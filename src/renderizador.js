@@ -11,7 +11,7 @@
  *   window.AWS_BANK, window.App
  */
 
-const BANK = window.AWS_BANK || { fases: [] };
+const BANK = (typeof window !== 'undefined' && window.AWS_BANK) || { fases: [] };
 const DIFF = { intro: ["base", "badge base"], exam: ["prova", "badge prova"], challenge: ["desafio", "badge desafio"] };
 
 const PETS = [
@@ -25,10 +25,10 @@ const PETS = [
 const QINDEX = {};
 BANK.fases.forEach(f => f.questions.forEach(q => QINDEX[q.id] = { q, faseId: f.id }));
 
-const app = document.getElementById('app');
-const elXp = document.getElementById('xp');
-const elBar = document.getElementById('bar');
-const elHome = document.getElementById('home');
+const app = typeof document !== 'undefined' ? document.getElementById('app') : null;
+const elXp = typeof document !== 'undefined' ? document.getElementById('xp') : null;
+const elBar = typeof document !== 'undefined' ? document.getElementById('bar') : null;
+const elHome = typeof document !== 'undefined' ? document.getElementById('home') : null;
 
 /**
  * Exibe ou oculta o botão "Voltar ao início".

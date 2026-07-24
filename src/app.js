@@ -32,7 +32,9 @@
     petEstado: JogoCore.criarEstadoPet(R.PETS[0], 20, 3),
     survivalEstado: JogoCore.criarEstadoSobrevivencia(3),
     searchFilter: "",
-    categoryFilter: "todas"
+    categoryFilter: "todas",
+    iniciado: false,
+    focoOrigem: null
   };
 
   // ---------- EVENT DELEGATION (data-action) ----------
@@ -76,9 +78,10 @@
   // ---------- INICIALIZAÇÃO ----------
   ACESSIBILIDADE.applyTheme(store);
   ACESSIBILIDADE.applyFontScale(store);
-  if (store.muted) {
-    document.getElementById('btnAudio').textContent = '🔇';
-  }
+  AUDIO.aplicarEstadoAudio(store);
 
   R.intro();
+  // A partir do primeiro render, toda mudança de tela gerencia o foco e
+  // os anúncios (no carregamento inicial o foco permanece no documento).
+  App.iniciado = true;
 })();

@@ -71,18 +71,33 @@ function playSound(tipo, store) {
 }
 
 /**
- * Alterna o estado de mudo do áudio, atualizando o ícone do botão e salvando a preferência.
+ * Aplica o estado de áudio atual ao botão: ícone e aria-pressed.
+ * @param {Object} store - Estado persistente.
+ */
+function aplicarEstadoAudio(store) {
+  const btn = document.getElementById('btnAudio');
+  if (!btn) return;
+  btn.textContent = store.muted ? '🔇' : '🔊';
+  btn.setAttribute('aria-pressed', String(store.muted));
+}
+
+/**
+ * Alterna o estado de mudo do áudio, atualizando o estado acessível do
+ * botão, salvando a preferência e anunciando a mudança.
  * @param {Object} store - Estado persistente.
  * @param {Function} salvar - Função de salvamento (PERSISTENCIA.salvar).
  */
 function toggleAudio(store, salvar) {
   store.muted = !store.muted;
   salvar(store);
-  document.getElementById('btnAudio').textContent = store.muted ? '🔇' : '🔊';
+  aplicarEstadoAudio(store);
+  if (typeof ACESSIBILIDADE !== 'undefined') {
+    ACESSIBILIDADE.announce(store.muted ? 'Som desligado.' : 'Som ligado.');
+  }
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { playSound, toggleAudio };
+  module.exports = { playSound, toggleAudio, aplicarEstadoAudio };
 } else if (typeof window !== 'undefined') {
-  window.AUDIO = { playSound, toggleAudio };
+  window.AUDIO = { playSound, toggleAudio, aplicarEstadoAudio };
 }

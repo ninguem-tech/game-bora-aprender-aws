@@ -4,16 +4,20 @@
   --cafe2: #5a3d2e;
   --leite: #fffdf8;
   --linha: #e3d6c2;
-  --dim: #8a7a68;
-  --verde: #2e7d4f;
+  /* --dim, --verde e --vermelho foram escurecidos para atingir contraste mínimo de 4.5:1 (WCAG 1.4.3) */
+  --dim: #655645;
+  --verde: #256b43;
   --verde-bg: #e4f3ea;
-  --vermelho: #b5462f;
+  --vermelho: #a03d28;
   --vermelho-bg: #f7e6e0;
   --dourado: #c98a3c;
   --azul: #2b5d6b;
   --azul-bg: #e6eff2;
   --shadow: rgba(62,42,32,0.08);
-  --focus-ring: #c98a3c;
+  /* Anel de foco com contraste >= 3:1 sobre --creme e --leite (WCAG 2.4.11 / 1.4.11) */
+  --focus-ring: #8a5a1e;
+  /* Borda de controles com contraste >= 3:1 sobre o fundo (WCAG 1.4.11) */
+  --borda-ctrl: #96826a;
   --font-scale: 1rem;
 }
 
@@ -33,6 +37,7 @@ body.dark {
   --azul-bg: #112834;
   --shadow: rgba(0,0,0,0.3);
   --focus-ring: #fbbf24;
+  --borda-ctrl: #8a7a68;
 }
 
 html[data-text-scale="0.85"] { font-size: 85%; }

@@ -79,19 +79,19 @@ function intro() {
   app.innerHTML = `
     <span class="who rafael">Rafael · mentor</span>
     <h1>Bora começar do zero?</h1>
-    <p class="lead">Você é a <b>Júlia</b>. Aqui aprendemos a AWS resolvendo problemas reais, sem empáfia e com muito acolhimento. ☕</p>
+    <p class="lead">Você é a <b>Júlia</b>. Aqui aprendemos a AWS resolvendo problemas reais, sem empáfia e com muito acolhimento. <span aria-hidden="true">☕</span></p>
 
     <div class="dashGrid">
       <div class="dashItem"><b>${totalResponded}</b><span>questões salvas</span></div>
       <div class="dashItem"><b>${accuracy}%</b><span>taxa de acerto</span></div>
-      <div class="dashItem"><b>${due}</b><span>no Leitner 📒</span></div>
+      <div class="dashItem"><b>${due}</b><span>no Leitner <span aria-hidden="true">📒</span></span></div>
     </div>
 
-    <div class="modeTabs">
-      <button class="tabBtn ${App.modoJogo==='fases'?'active':''}" data-action="set-modo" data-modo="fases">📚 Fases (${BANK.fases.length})</button>
-      <button class="tabBtn ${App.modoJogo==='pet'?'active':''}" data-action="set-modo" data-modo="pet">🐱 Salvar o Pet</button>
-      <button class="tabBtn ${App.modoJogo==='survival'?'active':''}" data-action="set-modo" data-modo="survival">⚡ Sobrevivência</button>
-      <button class="tabBtn ${App.modoJogo==='leitner'?'active':''}" data-action="set-modo" data-modo="leitner">📒 Leitner (${due})</button>
+    <div class="modeTabs" role="group" aria-label="Modos de jogo">
+      <button class="tabBtn ${App.modoJogo==='fases'?'active':''}" ${App.modoJogo==='fases'?'aria-current="true"':''} data-action="set-modo" data-modo="fases"><span aria-hidden="true">📚</span> Fases (${BANK.fases.length})</button>
+      <button class="tabBtn ${App.modoJogo==='pet'?'active':''}" ${App.modoJogo==='pet'?'aria-current="true"':''} data-action="set-modo" data-modo="pet"><span aria-hidden="true">🐱</span> Salvar o Pet</button>
+      <button class="tabBtn ${App.modoJogo==='survival'?'active':''}" ${App.modoJogo==='survival'?'aria-current="true"':''} data-action="set-modo" data-modo="survival"><span aria-hidden="true">⚡</span> Sobrevivência</button>
+      <button class="tabBtn ${App.modoJogo==='leitner'?'active':''}" ${App.modoJogo==='leitner'?'aria-current="true"':''} data-action="set-modo" data-modo="leitner"><span aria-hidden="true">📒</span> Leitner (${due})</button>
     </div>
 
     <div id="modoContent"></div>
@@ -100,15 +100,26 @@ function intro() {
 
   renderModoContent();
   setProgress(0, 1);
+
+  if (App.iniciado) {
+    const origem = App.focoOrigem; App.focoOrigem = null;
+    const alvoOrigem = origem ? document.querySelector(origem) : null;
+    if (alvoOrigem && !alvoOrigem.disabled) ACESSIBILIDADE.focarElemento(alvoOrigem);
+    else ACESSIBILIDADE.focarTitulo(app);
+  }
 }
 
 /**
  * Define o modo de jogo ativo e re-renderiza a tela inicial.
+ * Mantém o foco na aba ativada (padrão WAI-ARIA APG para abas).
  * @param {string} m - Identificador do modo ('fases', 'pet', 'survival', 'leitner').
  */
 function setModo(m) {
   App.modoJogo = m;
+  App.focoOrigem = null;
   intro();
+  const abaAtiva = document.querySelector('.tabBtn.active');
+  if (abaAtiva) ACESSIBILIDADE.focarElemento(abaAtiva);
 }
 
 /**
@@ -146,11 +157,12 @@ function renderFasesList(container) {
   ];
 
   let html = `
+    <h2 class="sr-only">Lista de fases</h2>
     <div class="searchWrap">
-      <input type="search" class="searchInput" id="faseSearch" placeholder="🔍 Buscar por assunto ou serviço (ex: EC2, S3, IAM, VPC)..." value="${App.searchFilter}" data-action-input="search" />
+      <input type="search" class="searchInput" id="faseSearch" aria-label="Buscar fase por assunto ou serviço" placeholder="🔍 Buscar por assunto ou serviço (ex: EC2, S3, IAM, VPC)..." data-action-input="search" />
     </div>
-    <div class="filterChips">
-      ${categories.map(c => `<button class="chip ${App.categoryFilter===c.id?'active':''}" data-action="set-category" data-category="${c.id}">${c.label}</button>`).join('')}
+    <div class="filterChips" role="group" aria-label="Filtrar por categoria">
+      ${categories.map(c => `<button class="chip ${App.categoryFilter===c.id?'active':''}" aria-pressed="${App.categoryFilter===c.id}" data-action="set-category" data-category="${c.id}">${c.label}</button>`).join('')}
     </div>
     <div class="faseGrid" id="faseGrid"></div>`;
 
@@ -158,6 +170,9 @@ function renderFasesList(container) {
 
   var searchInput = document.getElementById('faseSearch');
   if (searchInput) {
+    // Valor atribuído via propriedade (não via atributo no template) para
+    // impedir injeção de HTML pelo termo digitado pelo usuário.
+    searchInput.value = App.searchFilter;
     searchInput.addEventListener('input', function () {
       onSearchInput(this.value);
     });
@@ -177,11 +192,14 @@ function onSearchInput(val) {
 
 /**
  * Define o filtro de categoria e re-renderiza a lista de fases.
+ * Restaura o foco ao chip ativado após a re-renderização.
  * @param {string} cat - Identificador da categoria.
  */
 function setCategoryFilter(cat) {
   App.categoryFilter = cat;
   renderFasesList(document.getElementById('modoContent'));
+  const chipAtivo = document.querySelector('.chip.active');
+  if (chipAtivo) ACESSIBILIDADE.focarElemento(chipAtivo);
 }
 
 /**
@@ -199,7 +217,13 @@ function updateFaseGrid() {
   });
 
   if (!filtered.length) {
-    grid.innerHTML = `<div class="dica">Nenhuma fase encontrada para "${App.searchFilter}". Tente outro termo de busca.</div>`;
+    // Mensagem construída com textContent: o termo de busca é entrada do
+    // usuário e jamais pode ser interpolado em innerHTML (prevenção de XSS).
+    grid.innerHTML = '';
+    const aviso = document.createElement('div');
+    aviso.className = 'dica';
+    aviso.textContent = 'Nenhuma fase encontrada para "' + App.searchFilter + '". Tente outro termo de busca.';
+    grid.appendChild(aviso);
     return;
   }
 
@@ -229,12 +253,13 @@ function updateFaseGrid() {
  */
 function renderPetSelector(container) {
   container.innerHTML = `
-    <div class="situacao">📌 <b>Missão Salvar o Pet</b>: Escolha seu companheiro de estudo. Acerte <b>20 questões</b> do banco para resgatá-lo! Errar 3 vezes faz o pet fugir.</div>
+    <h2 class="sr-only">Escolha do pet</h2>
+    <div class="situacao"><span aria-hidden="true">📌</span> <b>Missão Salvar o Pet</b>: Escolha seu companheiro de estudo. Acerte <b>20 questões</b> do banco para resgatá-lo! Errar 3 vezes faz o pet fugir.</div>
     <p class="conceito">Escolha o seu companheiro:</p>
-    <div class="petGrid">
+    <div class="petGrid" role="group" aria-label="Escolha do pet">
       ${PETS.map(p => `
-        <button class="petCard ${App.petSelecionado.id===p.id?'selected':''}" data-action="select-pet" data-pet="${p.id}">
-          <span class="emoji">${p.emoji}</span>
+        <button class="petCard ${App.petSelecionado.id===p.id?'selected':''}" aria-pressed="${App.petSelecionado.id===p.id}" data-action="select-pet" data-pet="${p.id}">
+          <span class="emoji" aria-hidden="true">${p.emoji}</span>
           <span class="pname">${p.name}</span>
         </button>
       `).join('')}
@@ -244,11 +269,14 @@ function renderPetSelector(container) {
 
 /**
  * Seleciona um pet pelo ID e re-renderiza o seletor.
+ * Restaura o foco ao card selecionado após a re-renderização.
  * @param {string} id - Identificador do pet.
  */
 function selectPet(id) {
   App.petSelecionado = PETS.find(p => p.id === id) || PETS[0];
   renderPetSelector(document.getElementById('modoContent'));
+  const cardSelecionado = document.querySelector('.petCard.selected');
+  if (cardSelecionado) ACESSIBILIDADE.focarElemento(cardSelecionado);
 }
 
 /**
@@ -256,6 +284,7 @@ function selectPet(id) {
  */
 function startPetMode() {
   App.modoJogo = 'pet';
+  App.focoOrigem = '[data-action="start-pet"]';
   App.petEstado = JogoCore.criarEstadoPet(App.petSelecionado, 20, 3);
   let allQs = [];
   BANK.fases.forEach(f => allQs = allQs.concat(f.questions));
@@ -266,6 +295,7 @@ function startPetMode() {
 
 /**
  * Renderiza a tela de pergunta no modo Salvar o Pet.
+ * Move o foco para a pergunta e anuncia a posição da questão.
  */
 function mostraPetPergunta() {
   App.respondida = false; App.hintsShown = 0; showHome(true);
@@ -279,20 +309,22 @@ function mostraPetPergunta() {
     <span class="who pet">${App.petSelecionado.emoji} Salvar o ${App.petSelecionado.name} (${App.petSelecionado.word})</span>
 
     <div class="petDisplay">
-      <span class="petIcon ${petIconClass}" id="petAvatar">${App.petSelecionado.emoji}</span>
+      <span class="petIcon ${petIconClass}" id="petAvatar" aria-hidden="true">${App.petSelecionado.emoji}</span>
       <div style="margin-top:6px; font-weight:700; font-size:.9rem; color:var(--cafe2)" id="petStatusText">
         "${App.petSelecionado.word} está torcendo por você! Faltam ${App.petEstado.metaAcertos - App.petEstado.acertos} acertos."
       </div>
     </div>
 
-    ${d.situacao ? `<div class="situacao">📌 ${d.situacao}</div>` : ""}
-    <div class="perg">${d.stem}</div>
+    ${d.situacao ? `<div class="situacao"><span aria-hidden="true">📌</span> ${d.situacao}</div>` : ""}
+    <h1 class="perg">${d.stem}</h1>
     <div id="dicaArea"></div>
-    <div class="opts" id="opts"></div>
+    <div class="opts" id="opts" role="group" aria-label="Alternativas de resposta"></div>
     <div id="fb"></div>`;
 
   renderOptionsAndHints(d);
   setProgress(App.petEstado.acertos, App.petEstado.metaAcertos);
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Questão ' + (App.i + 1) + ' de ' + App.q.length + '.');
 }
 
 // ---------- MODO: SOBREVIVÊNCIA ----------
@@ -303,8 +335,9 @@ function mostraPetPergunta() {
  */
 function renderSurvivalIntro(container) {
   container.innerHTML = `
-    <div class="situacao">📌 <b>Modo Sobrevivência</b>: O teste definitivo! Responda o máximo de questões que conseguir. Você tem <b>3 vidas (❤️❤️❤️)</b>. A rodada termina quando perder todas as vidas.</div>
-    <button class="cta" data-action="start-survival">Iniciar Sobrevivência ⚡ →</button>`;
+    <h2 class="sr-only">Modo sobrevivência</h2>
+    <div class="situacao"><span aria-hidden="true">📌</span> <b>Modo Sobrevivência</b>: O teste definitivo! Responda o máximo de questões que conseguir. Você tem <b>3 vidas (<span aria-hidden="true">❤️❤️❤️</span><span class="sr-only">três vidas</span>)</b>. A rodada termina quando perder todas as vidas.</div>
+    <button class="cta" data-action="start-survival">Iniciar Sobrevivência <span aria-hidden="true">⚡</span> →</button>`;
 }
 
 /**
@@ -312,6 +345,7 @@ function renderSurvivalIntro(container) {
  */
 function startSurvivalMode() {
   App.modoJogo = 'survival';
+  App.focoOrigem = '[data-action="start-survival"]';
   App.survivalEstado = JogoCore.criarEstadoSobrevivencia(3);
   let allQs = [];
   BANK.fases.forEach(f => allQs = allQs.concat(f.questions));
@@ -322,24 +356,28 @@ function startSurvivalMode() {
 
 /**
  * Renderiza a tela de pergunta no modo Sobrevivência.
+ * Move o foco para a pergunta e anuncia a posição da questão.
  */
 function mostraSurvivalPergunta() {
   App.respondida = false; App.hintsShown = 0; showHome(true);
   const d = App.q[App.i];
   app.className = "card pop";
-  const vidas = "❤️".repeat(App.survivalEstado.maxErros - App.survivalEstado.erros) + "🖤".repeat(App.survivalEstado.erros);
+  const vidasRestantes = App.survivalEstado.maxErros - App.survivalEstado.erros;
+  const vidas = "❤️".repeat(vidasRestantes) + "🖤".repeat(App.survivalEstado.erros);
 
   app.innerHTML = `
-    <span class="badge desafio">${vidas}</span>
-    <span class="who">⚡ Sobrevivência · Questão ${App.i + 1}</span>
-    ${d.situacao ? `<div class="situacao">📌 ${d.situacao}</div>` : ""}
-    <div class="perg">${d.stem}</div>
+    <span class="badge desafio"><span aria-hidden="true">${vidas}</span><span class="sr-only">${vidasRestantes} de ${App.survivalEstado.maxErros} vidas restantes</span></span>
+    <span class="who"><span aria-hidden="true">⚡</span> Sobrevivência · Questão ${App.i + 1}</span>
+    ${d.situacao ? `<div class="situacao"><span aria-hidden="true">📌</span> ${d.situacao}</div>` : ""}
+    <h1 class="perg">${d.stem}</h1>
     <div id="dicaArea"></div>
-    <div class="opts" id="opts"></div>
+    <div class="opts" id="opts" role="group" aria-label="Alternativas de resposta"></div>
     <div id="fb"></div>`;
 
   renderOptionsAndHints(d);
   setProgress(App.survivalEstado.acertosConsecutivos, App.survivalEstado.acertosConsecutivos + 5);
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Questão ' + (App.i + 1) + '. Vidas restantes: ' + vidasRestantes + '.');
 }
 
 // ---------- MODO: VISÃO GERAL LEITNER ----------
@@ -353,6 +391,7 @@ function renderLeitnerOverview(container) {
   const boxes = [1,2,3,4,5].map(b => Object.values(App.store.deck).filter(c => c.box === b).length);
 
   container.innerHTML = `
+    <h2 class="sr-only">Baralho Leitner</h2>
     <div class="ltBox">
       <div class="n">${due}</div>
       <div class="t">${due ? "cartão(ões) pronto(s) para revisar hoje 📒. A repetição espaçada ajuda na fixação de longo prazo." : "Nenhum cartão pendente agora. Erre questões nos treinos para adicioná-las ao Leitner."}</div>
@@ -379,7 +418,7 @@ function renderOptionsAndHints(d) {
   const dicaArea = document.getElementById('dicaArea');
   if (d.hints && d.hints.length) {
     const b = document.createElement('button');
-    b.className = "dicaBtn"; b.id = "dicaBtn"; b.textContent = "💡 Ver dica do Rafael [Tecla D]";
+    b.className = "dicaBtn"; b.id = "dicaBtn"; b.textContent = "💡 Ver dica do Rafael [Tecla H]";
     b.onclick = function () { revelarDica(); }; dicaArea.appendChild(b);
   }
   const opts = document.getElementById('opts');
@@ -400,12 +439,14 @@ function renderOptionsAndHints(d) {
  */
 function startFase(idx) {
   App.modoJogo = 'fases';
+  App.focoOrigem = '[data-action="start-fase"][data-idx="' + idx + '"]';
   App.fase = BANK.fases[idx]; App.q = App.fase.questions.slice();
   App.i = 0; App.xp = 0; App.streak = 0; App.acertos = 0; App.revisar = []; App.respondida = false; mostra();
 }
 
 /**
  * Renderiza a tela de pergunta da fase padrão.
+ * Move o foco para a pergunta e anuncia a posição da questão.
  */
 function mostra() {
   App.respondida = false; App.hintsShown = 0; showHome(true);
@@ -414,14 +455,16 @@ function mostra() {
   app.innerHTML = `
     ${dcls ? `<span class="${dcls}">${dlabel}</span>` : ""}
     <span class="who camila">Camila · situação real</span>
-    ${d.situacao ? `<div class="situacao">📌 ${d.situacao}</div>` : ""}
-    <div class="perg">${d.stem}</div>
+    ${d.situacao ? `<div class="situacao"><span aria-hidden="true">📌</span> ${d.situacao}</div>` : ""}
+    <h1 class="perg">${d.stem}</h1>
     <div id="dicaArea"></div>
-    <div class="opts" id="opts"></div>
+    <div class="opts" id="opts" role="group" aria-label="Alternativas de resposta"></div>
     <div id="fb"></div>`;
 
   renderOptionsAndHints(d);
   setProgress(App.i, App.q.length);
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Questão ' + (App.i + 1) + ' de ' + App.q.length + '.');
 }
 
 /**
@@ -433,7 +476,7 @@ function revelarDica() {
   const div = document.createElement('div'); div.className = "dica"; div.innerHTML = d.hints[App.hintsShown];
   area.insertBefore(div, btn); App.hintsShown++;
   if (App.hintsShown >= d.hints.length) { btn.disabled = true; btn.textContent = "✓ Sem mais dicas"; }
-  else { btn.textContent = `💡 Ver outra dica (${App.hintsShown + 1}/${d.hints.length}) [D]`; }
+  else { btn.textContent = `💡 Ver outra dica (${App.hintsShown + 1}/${d.hints.length}) [H]`; }
   ACESSIBILIDADE.announce("Dica revelada: " + d.hints[App.hintsShown - 1]);
 }
 
@@ -459,19 +502,20 @@ function responde(key, btn) {
   const usouDica = App.hintsShown > 0;
   const db = document.getElementById('dicaBtn'); if (db) db.disabled = true;
 
+  let msg;
   if (certo) {
     AUDIO.playSound('ok', App.store);
     App.acertos++; App.streak++;
     if (App.streak > (App.store.stats.maxStreak || 0)) App.store.stats.maxStreak = App.streak;
     const g = JogoCore.calcularGanhoXP(true, App.streak, usouDica);
     App.xp += g; App.store.xpTotal = (App.store.xpTotal || 0) + g; PERSISTENCIA.salvar(App.store);
-    ACESSIBILIDADE.announce("Resposta correta!");
+    msg = "Resposta correta! +" + g + " XP.";
   } else {
     AUDIO.playSound('no', App.store);
     App.streak = 0; App.revisar.push(topicoQuestao(d));
     App.store.deck = JogoCore.adicionarAoLeitner(App.store.deck, d, QINDEX);
     PERSISTENCIA.salvar(App.store);
-    ACESSIBILIDADE.announce("Resposta incorreta.");
+    msg = "Resposta incorreta. Questão adicionada ao Leitner.";
   }
 
   if (App.modoJogo === 'pet') {
@@ -480,14 +524,24 @@ function responde(key, btn) {
     const stText = document.getElementById('petStatusText');
     if (certo) {
       if (avatar) avatar.className = "petIcon petHappy";
-      if (stText) stText.innerHTML = `<b>${App.petSelecionado.word} adorou!</b> 🎉 Resposta certíssima!`;
+      if (stText) stText.innerHTML = `<b>${App.petSelecionado.word} adorou!</b> <span aria-hidden="true">🎉</span> Resposta certíssima!`;
     } else {
       if (avatar) avatar.className = "petIcon petSad";
       if (stText) stText.innerHTML = `<b>Ops!</b> ${App.petSelecionado.word} ficou apreensivo. Erros: ${App.petEstado.erros}/${App.petEstado.maxErros}`;
     }
+    if (App.petEstado.status === 'em_andamento') {
+      msg += " Faltam " + (App.petEstado.metaAcertos - App.petEstado.acertos) + " acertos para salvar o pet.";
+    } else {
+      msg += App.petEstado.status === 'salvo' ? " Você salvou o pet!" : " O pet fugiu.";
+    }
   } else if (App.modoJogo === 'survival') {
     App.survivalEstado = JogoCore.processarRespostaSobrevivencia(App.survivalEstado, certo);
+    if (!certo) {
+      const vidasRestantes = App.survivalEstado.maxErros - App.survivalEstado.erros;
+      msg += " Vidas restantes: " + vidasRestantes + ".";
+    }
   }
+  ACESSIBILIDADE.announce(msg);
 
   const fb = document.getElementById('fb');
   fb.className = "fb " + (certo ? "ok" : "no");
@@ -516,6 +570,10 @@ function responde(key, btn) {
     }
   };
   fb.appendChild(cta);
+
+  // As opções acabaram de ser desabilitadas; sem mover o foco, ele ficaria
+  // perdido em um controle inativo (WCAG 2.4.3).
+  ACESSIBILIDADE.focarElemento(cta);
 
   if (App.modoJogo === 'fases') setProgress(App.i + 1, App.q.length);
 }
@@ -551,6 +609,8 @@ function resumo() {
     ${due ? `<button class="cta lt" data-action="revisar0">📒 Revisar agora (${due})</button>` : ""}
     <button class="cta ghost" data-action="intro">Voltar ao início [Esc]</button>`;
   setProgress(total, total);
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Fase concluída: ' + App.acertos + ' de ' + total + ' acertos, ' + App.xp + ' XP.');
 }
 
 /**
@@ -563,12 +623,14 @@ function resumoPet() {
 
   app.innerHTML = `
     <span class="who pet">${App.petSelecionado.emoji} Missão Salvar o Pet</span>
-    <h1>${win ? `Você salvou ${App.petSelecionado.word}! 🎉` : `${App.petSelecionado.word} precisou fugir... 😿`}</h1>
+    <h1>${win ? `Você salvou ${App.petSelecionado.word}! <span aria-hidden="true">🎉</span>` : `${App.petSelecionado.word} precisou fugir... <span aria-hidden="true">😿</span>`}</h1>
     <div class="petDisplay">
-      <span class="petIcon ${win?'petHappy':'petSad'}">${App.petSelecionado.emoji}</span>
+      <span class="petIcon ${win?'petHappy':'petSad'}" aria-hidden="true">${App.petSelecionado.emoji}</span>
       <p class="lead" style="margin-top:10px">${win ? `Com ${App.petEstado.acertos} acertos, você provou que domina a AWS e garantiu a alegria do seu companheiro!` : `Você atingiu ${App.petEstado.maxErros} erros. Mas não desanime, revise as questões no Leitner e tente novamente!`}</p>
     </div>
     <button class="cta" data-action="intro">Voltar ao início [Esc]</button>`;
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce(win ? 'Missão concluída! Você salvou ' + App.petSelecionado.word + '.' : 'Fim da missão. ' + App.petSelecionado.word + ' precisou fugir.');
 }
 
 /**
@@ -578,7 +640,7 @@ function resumoSurvival() {
   AUDIO.playSound('no', App.store);
   app.className = "card pop";
   app.innerHTML = `
-    <span class="who">⚡ Fim da Sobrevivência</span>
+    <span class="who"><span aria-hidden="true">⚡</span> Fim da Sobrevivência</span>
     <h1>Rodada Finalizada!</h1>
     <div class="stat">
       <div><b>${App.survivalEstado.acertosConsecutivos}</b><span>acertos consecutivos</span></div>
@@ -586,6 +648,8 @@ function resumoSurvival() {
     </div>
     <p class="lead">Você perdeu suas 3 vidas. Cada erro é uma excelente oportunidade para aprender e fixar!</p>
     <button class="cta" data-action="intro">Voltar ao início [Esc]</button>`;
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Rodada finalizada: ' + App.survivalEstado.acertosConsecutivos + ' acertos consecutivos.');
 }
 
 // ---------- REVISÃO LEITNER ----------
@@ -598,28 +662,34 @@ function revisar0() {
   if (!cards.length) { intro(); return; }
   cards.sort((a, b) => (a.box - b.box) || (a.due - b.due));
   App.modoRevisao = { cards, idx: 0, acertosRev: 0, revelado: false };
+  App.focoOrigem = '[data-action="revisar0"]';
   mostraCartao();
 }
 
 /**
  * Renderiza a tela de um cartão de revisão Leitner.
+ * Move o foco para o título e anuncia a posição do cartão.
  */
 function mostraCartao() {
   const m = App.modoRevisao; const c = m.cards[m.idx]; m.revelado = false; showHome(true);
   app.className = "card pop";
   app.innerHTML = `
+    <h1 class="sr-only">Revisão Leitner</h1>
     <span class="badge box">caixa ${c.box}/5</span>
-    <span class="who leitner">📒 Revisão (Leitner)</span>
-    ${c.situacao ? `<div class="situacao">📌 ${c.situacao}</div>` : ""}
+    <span class="who leitner"><span aria-hidden="true">📒</span> Revisão (Leitner)</span>
+    ${c.situacao ? `<div class="situacao"><span aria-hidden="true">📌</span> ${c.situacao}</div>` : ""}
     <div class="perg">${c.stem}</div>
     <div id="resparea"></div>
     <button class="cta lt" id="mostrarBtn" data-action="revela-resp">Mostrar resposta [Espaço / Enter]</button>
     <p class="conceito">Cartão ${m.idx + 1} de ${m.cards.length} · revise sozinho e seja honesto</p>`;
   setProgress(m.idx, m.cards.length);
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Cartão ' + (m.idx + 1) + ' de ' + m.cards.length + ', caixa ' + c.box + ' de 5.');
 }
 
 /**
  * Revela a resposta do cartão Leitner atual e exibe botões de autoavaliação.
+ * Move o foco para a autoavaliação e anuncia a revelação.
  */
 function revelaResp() {
   const m = App.modoRevisao; const c = m.cards[m.idx]; m.revelado = true;
@@ -630,10 +700,14 @@ function revelaResp() {
        <button class="cta" style="background:var(--vermelho)" data-action="avalia" data-acertou="false">Ainda erro [Tecla 1]</button>
        <button class="cta" style="background:var(--verde)" data-action="avalia" data-acertou="true">Acertei 👍 [Tecla 2]</button>
      </div>`;
+  const primeiraAvaliacao = document.querySelector('.row2 .cta');
+  if (primeiraAvaliacao) ACESSIBILIDADE.focarElemento(primeiraAvaliacao);
+  ACESSIBILIDADE.announce('Resposta revelada. Avalie: tecla 1 para erro, tecla 2 para acerto.');
 }
 
 /**
  * Avalia o cartão Leitner atual como acerto ou erro e avança para o próximo.
+ * Anuncia o reagendamento do cartão no baralho.
  * @param {boolean} acertou - Se o usuário acertou a questão.
  */
 function avalia(acertou) {
@@ -643,7 +717,14 @@ function avalia(acertou) {
 
   const atualizado = JogoCore.calcularAgendamentoLeitner(c, acertou);
   Object.assign(c, atualizado);
-  if (c.box >= 5) { delete App.store.deck[c.id]; }
+  if (c.box >= 5) {
+    delete App.store.deck[c.id];
+    ACESSIBILIDADE.announce('Cartão dominado! Removido do baralho.');
+  } else if (acertou) {
+    ACESSIBILIDADE.announce('Cartão avançou para a caixa ' + c.box + '.');
+  } else {
+    ACESSIBILIDADE.announce('Cartão voltou para a caixa ' + c.box + '.');
+  }
   PERSISTENCIA.salvar(App.store);
 
   m.idx++;
@@ -659,8 +740,8 @@ function resumoRevisao() {
   const m = App.modoRevisao; const total = m.cards.length; const due = devidos().length;
   app.className = "card pop";
   app.innerHTML = `
-    <span class="who leitner">📒 Revisão (Leitner)</span>
-    <h1>Revisão feita! ✅</h1>
+    <span class="who leitner"><span aria-hidden="true">📒</span> Revisão (Leitner)</span>
+    <h1>Revisão feita! <span aria-hidden="true">✅</span></h1>
     <p class="lead">${m.acertosRev === total ? "Você dominou os cartões de hoje. Repetição espaçada funcionando." : "Os que você ainda errou voltam logo; os que acertou voltam mais para a frente. É assim que fixa."}</p>
     <div class="stat">
       <div><b>${m.acertosRev}/${total}</b><span>acertos na revisão</span></div>
@@ -669,6 +750,8 @@ function resumoRevisao() {
     ${due ? `<button class="cta lt" data-action="revisar0">Continuar revisando (${due})</button>` : `<div class="dica">Tudo revisado por agora. Os cartões voltam no tempo certo. ☕</div>`}
     <button class="cta ghost" data-action="intro">Voltar ao início [Esc]</button>`;
   setProgress(total, total); App.modoRevisao = null;
+  ACESSIBILIDADE.focarTitulo(app);
+  ACESSIBILIDADE.announce('Revisão concluída: ' + m.acertosRev + ' de ' + total + ' acertos.');
 }
 
 // ---------- SOBRE O AUTOR ----------
@@ -678,6 +761,7 @@ function resumoRevisao() {
  */
 function sobre() {
   app.className = "card pop"; showHome(true);
+  App.focoOrigem = '[data-action="sobre"]';
   app.innerHTML = `
     <span class="who">人間 / 人间 · nin-guem</span>
     <h1>Sobre o nin-guem</h1>
@@ -692,6 +776,7 @@ function sobre() {
     </div>
     <button class="cta" data-action="intro">Bora estudar → [Esc]</button>`;
   setProgress(0, 1);
+  ACESSIBILIDADE.focarTitulo(app);
 }
 
 // ---------- EXPORTAÇÃO UMD ----------

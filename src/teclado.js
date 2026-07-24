@@ -2,11 +2,44 @@
  * Módulo de atalhos de teclado do jogo.
  *
  * Registra o handler global de keydown que mapeia teclas numéricas (1-4),
- * letras (a-d), Escape, D/H (dica) e Enter/Espaço para as ações da interface.
+ * letras (a-d), Escape, H (dica) e Enter/Espaço para as ações da interface.
+ *
+ * Garantias de acessibilidade (WCAG 2.1.1, 2.1.2):
+ *  - Atalhos nunca disparam durante digitação em input, textarea, select
+ *    ou elementos com contentEditable;
+ *  - Atalhos nunca disparam com teclas modificadoras (Ctrl/Meta/Alt);
+ *  - Cada tecla dispara uma única ação (a tecla D responde a opção D;
+ *    a dica usa somente a tecla H);
+ *  - Enter/Espaço sobre um controle focado seguem o comportamento nativo
+ *    do HTML, sem dupla ativação pelo handler global.
  *
  * Usa injeção de dependências: todas as ações e consultas de estado são
  * recebidas como parâmetros, sem acesso direto a globais.
  */
+
+/**
+ * Verifica se o elemento é um campo de digitação/edição.
+ * @param {HTMLElement} elemento - Elemento a verificar.
+ * @returns {boolean} True se o elemento aceita digitação do usuário.
+ */
+function estaEmCampoEditavel(elemento) {
+  if (!elemento || !elemento.tagName) return false;
+  const tag = String(elemento.tagName).toUpperCase();
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  return elemento.isContentEditable === true;
+}
+
+/**
+ * Verifica se o alvo do evento é um controle ativável nativamente
+ * (botão ou link), cujo Enter/Espaço não deve ser interceptado.
+ * @param {EventTarget} alvo - Alvo do evento de teclado.
+ * @returns {boolean} True se o alvo já trata Enter/Espaço nativamente.
+ */
+function ehControleNativo(alvo) {
+  if (!alvo || !alvo.tagName) return false;
+  const tag = String(alvo.tagName).toUpperCase();
+  return tag === 'BUTTON' || tag === 'A';
+}
 
 /**
  * Instala o listener de atalhos de teclado.
@@ -23,9 +56,8 @@
  */
 function instalarAtalhosTeclado(deps) {
   window.addEventListener('keydown', function (e) {
-    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
-      return;
-    }
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (estaEmCampoEditavel(e.target) || estaEmCampoEditavel(document.activeElement)) return;
 
     var key = e.key.toLowerCase();
 
@@ -57,7 +89,7 @@ function instalarAtalhosTeclado(deps) {
       }
     }
 
-    if (key === 'd' || key === 'h') {
+    if (key === 'h') {
       var dicaBtn = deps.getDicaBtn();
       if (dicaBtn && !dicaBtn.disabled) {
         dicaBtn.click();
@@ -65,11 +97,15 @@ function instalarAtalhosTeclado(deps) {
     }
 
     if (e.key === 'Enter' || e.key === ' ') {
+      if (ehControleNativo(e.target)) return;
       var revisaoEnter = deps.getModoRevisao();
       if (revisaoEnter) {
         if (!revisaoEnter.revelado) {
           var mbtn = deps.getMostrarBtn();
-          if (mbtn) mbtn.click();
+          if (mbtn) {
+            e.preventDefault();
+            mbtn.click();
+          }
         }
         return;
       }
@@ -83,7 +119,7 @@ function instalarAtalhosTeclado(deps) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { instalarAtalhosTeclado };
+  module.exports = { instalarAtalhosTeclado, estaEmCampoEditavel, ehControleNativo };
 } else if (typeof window !== 'undefined') {
-  window.TECLADO = { instalarAtalhosTeclado };
+  window.TECLADO = { instalarAtalhosTeclado, estaEmCampoEditavel, ehControleNativo };
 }

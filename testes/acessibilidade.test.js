@@ -92,7 +92,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
     assert.ok(dom.body.classList.contains('dark'));
     assert.equal(dom._elementos.btnTheme.textContent, '🌙');
     assert.equal(dom._elementos.btnTheme.getAttribute('aria-pressed'), 'true');
-    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-youtube-icon-dark.png');
+    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-favicon-32-dark.png');
 
     ACESSIBILIDADE.toggleTheme(store, salvar);
 
@@ -100,7 +100,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
     assert.equal(dom.body.classList.contains('dark'), false);
     assert.equal(dom._elementos.btnTheme.textContent, '☀️');
     assert.equal(dom._elementos.btnTheme.getAttribute('aria-pressed'), 'false');
-    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-youtube-icon-light.png');
+    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-favicon-32-light.png');
   });
 
   it('deve limitar a escala de fonte aos valores mínimo e máximo', () => {

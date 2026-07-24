@@ -21,7 +21,7 @@ function applyTheme(store) {
   }
   const fav = document.getElementById('favicon');
   if (fav) {
-    fav.href = escuro ? 'assets/nin-guem-youtube-icon-dark.png' : 'assets/nin-guem-youtube-icon-light.png';
+    fav.href = escuro ? 'assets/nin-guem-favicon-32-dark.png' : 'assets/nin-guem-favicon-32-light.png';
   }
 }
 

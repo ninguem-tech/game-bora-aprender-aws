@@ -4,8 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>E aí, Bora Aprender AWS? — Jogo de Estudos SAA-C03</title>
-<link rel="icon" type="image/png" id="favicon" href="assets/nin-guem-youtube-icon-light.png">
-<link rel="apple-touch-icon" href="assets/nin-guem-youtube-icon-light.png">
+<!--
+  Ícones da aba e apple-touch: derivados leves (PNG de verdade) da assinatura em assets/.
+  Obs.: os originais nin-guem-youtube-icon-*.png são, na verdade, JPEG com extensão .png;
+  por isso o -s format png abaixo (transcodifica JPEG -> PNG). Gerados uma única vez, sem
+  pipeline de build, com:
+    sips -s format png -z 32 32   assets/nin-guem-youtube-icon-light.png --out assets/nin-guem-favicon-32-light.png
+    sips -s format png -z 32 32   assets/nin-guem-youtube-icon-dark.png  --out assets/nin-guem-favicon-32-dark.png
+    sips -s format png -z 180 180 assets/nin-guem-youtube-icon-light.png --out assets/nin-guem-apple-touch-180.png
+-->
+<link rel="icon" type="image/png" id="favicon" sizes="32x32" href="assets/nin-guem-favicon-32-light.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/nin-guem-apple-touch-180.png">
 <link rel="stylesheet" href="assets/css/variaveis.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/componentes.css">

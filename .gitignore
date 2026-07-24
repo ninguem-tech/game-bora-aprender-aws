@@ -1,6 +1,10 @@
 # Internal planning notes — MUST NOT be published (firewall: they reference
-# AI(2)M(2)IA / the "Nimbus" bank). Keep them locally, out of the public repo.
+# nin-guem / AI(2)M(2)IA / the "Nimbus" bank). Keep them locally, out of the
+# public repo.
 docs/pt-book-coverage-*.md
+
+# Configuração local de ferramentas de IA (permissões da máquina; não publicar)
+.qwen/
 
 # macOS
 .DS_Store

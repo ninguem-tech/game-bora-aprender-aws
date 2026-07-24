@@ -1,0 +1,366 @@
+{
+  "1024x768": {
+    "larguraCSS": 1024,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 1,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "1280x720": {
+    "larguraCSS": 1280,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 1,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "1440x900": {
+    "larguraCSS": 1440,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 1,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "320x568-escala-max": {
+    "larguraCSS": 320,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 3,
+    "petGridColunas": 3,
+    "statLeitnerColunas": 2,
+    "contrasteMin": 6.3,
+    "tema": "escuro",
+    "escalaMax": "1.3",
+    "overflowEscalaMax": 0,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "320x568-escuro": {
+    "larguraCSS": 320,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 3,
+    "petGridColunas": 3,
+    "statLeitnerColunas": 2,
+    "contrasteMin": 6.3,
+    "tema": "escuro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "320x568-reduced": {
+    "larguraCSS": 320,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 4,
+    "petGridColunas": 3,
+    "statLeitnerColunas": 2,
+    "contrasteMin": 6.3,
+    "tema": "escuro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": true,
+    "duracaoAnimacaoPop": "0s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "320x568": {
+    "larguraCSS": 320,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 3,
+    "petGridColunas": 3,
+    "statLeitnerColunas": 2,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "360x800": {
+    "larguraCSS": 360,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 3,
+    "statLeitnerColunas": 2,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "390x844": {
+    "larguraCSS": 390,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 4,
+    "statLeitnerColunas": 3,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "412x915": {
+    "larguraCSS": 412,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 4,
+    "statLeitnerColunas": 3,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "568x320": {
+    "larguraCSS": 568,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 6,
+    "statLeitnerColunas": 4,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "640-zoom200": {
+    "larguraCSS": 640,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.3,
+    "tema": "escuro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "720-zoom200": {
+    "larguraCSS": 720,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 2,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.3,
+    "tema": "escuro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  },
+  "768x1024": {
+    "larguraCSS": 768,
+    "overflowHorizontalPx": 0,
+    "elementosForaDoCard": 0,
+    "alvosTotal": 64,
+    "alvosAbaixo24": [],
+    "linhasDasAbas": 1,
+    "petGridColunas": 7,
+    "statLeitnerColunas": 5,
+    "contrasteMin": 6.19,
+    "tema": "claro",
+    "escalaMax": null,
+    "overflowEscalaMax": null,
+    "reducedMotionAtivo": false,
+    "duracaoAnimacaoPop": "0.3s",
+    "focoAposFeedback": "cta",
+    "auditoria": {
+      "controlesSemNomeAcessivel": 0,
+      "titulosVazios": 0,
+      "idsDuplicados": [],
+      "progressbar": {
+        "valuenow": "0",
+        "label": "Progresso do jogo"
+      }
+    }
+  }
+}

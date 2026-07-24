@@ -4,12 +4,13 @@ header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 .logo { font-weight: 800; font-size: 1.02rem; letter-spacing: .2px; color: var(--cafe); }
 .logo small { font-weight: 600; color: var(--dim); display: block; font-size: .66rem; letter-spacing: .3px; }
 
-.ctrlGroup { display: flex; align-items: center; gap: 6px; }
+.ctrlGroup { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+/* Alvos de toque confortáveis (~44px) em qualquer viewport (WCAG 2.5.8). */
 .iconBtn {
   font: inherit; font-size: .85rem; font-weight: 700; color: var(--cafe2);
   background: var(--leite); border: 1px solid var(--borda-ctrl); border-radius: 99px;
-  padding: 5px 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
-  transition: all .15s; min-height: 36px; min-width: 36px;
+  padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  transition: all .15s; min-height: 44px; min-width: 44px;
 }
 .iconBtn:hover { border-color: var(--dourado); background: var(--creme); }
 
@@ -21,7 +22,7 @@ header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 .homeBtn {
   font: inherit; font-weight: 700; font-size: .82rem; color: var(--cafe2); background: var(--leite);
   border: 1px solid var(--borda-ctrl); border-radius: 99px; padding: 6px 14px; cursor: pointer; white-space: nowrap;
-  transition: all .15s; min-height: 36px;
+  transition: all .15s; min-height: 44px;
 }
 .homeBtn:hover { border-color: var(--dourado); }
 .homeBtn[hidden] { display: none; }
@@ -29,7 +30,9 @@ header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 /* Card Container */
 .card {
   background: var(--leite); border: 1px solid var(--linha); border-radius: 20px;
-  padding: 22px; box-shadow: 0 8px 24px var(--shadow); transition: transform .25s, opacity .25s;
+  padding: clamp(16px, 4vw, 22px); box-shadow: 0 8px 24px var(--shadow); transition: transform .25s, opacity .25s;
+  /* Palavras longas e URLs quebram linha em vez de vazar do card (reflow 1.4.10). */
+  overflow-wrap: break-word; min-width: 0;
 }
 
 h1 { font-size: 1.5rem; margin: .1em 0 .3em; color: var(--cafe); line-height: 1.25; }
@@ -64,7 +67,7 @@ body.dark .badge.prova { background: #3d2b17; color: #fcd34d; }
 .dicaBtn {
   display: inline-flex; align-items: center; gap: 6px; font: inherit; font-weight: 700; font-size: .9rem;
   color: var(--verde); background: var(--verde-bg); border: 1px solid var(--verde); border-radius: 99px;
-  padding: 8px 16px; cursor: pointer; margin: 6px 0 14px; transition: opacity .15s; min-height: 36px;
+  padding: 8px 16px; cursor: pointer; margin: 6px 0 14px; transition: opacity .15s; min-height: 44px;
 }
 .dicaBtn:disabled { opacity: .55; cursor: default; }
 
@@ -113,12 +116,14 @@ body.dark .cta:hover:not(:disabled) { background: #4a3a30; }
 .cta.ghost:hover { border-color: var(--dourado); background: var(--creme); }
 .cta.lt { background: var(--azul); } .cta.lt:hover { background: #1e4550; }
 .cta:disabled { opacity: .5; cursor: default; transform: none; }
-.row2 { display: flex; gap: 10px; } .row2 .cta { flex: 1; }
+/* Botões lado a lado viram coluna quando não há espaço (celulares). */
+.row2 { display: flex; gap: 10px; flex-wrap: wrap; } .row2 .cta { flex: 1 1 220px; }
 
 /* Search & Filter */
 .searchWrap { margin-bottom: 14px; }
+/* font-size >= 16px impede o zoom automático do iOS ao focar o campo. */
 .searchInput {
-  width: 100%; font: inherit; font-size: .95rem; padding: 12px 16px; border: 2px solid var(--borda-ctrl);
+  width: 100%; font: inherit; font-size: 1rem; padding: 12px 16px; border: 2px solid var(--borda-ctrl);
   border-radius: 12px; background: var(--creme); color: var(--cafe); transition: border-color .15s;
   min-height: 48px;
 }
@@ -128,8 +133,8 @@ body.dark .cta:hover:not(:disabled) { background: #4a3a30; }
 .filterChips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .chip {
   font: inherit; font-size: .76rem; font-weight: 700; color: var(--dim); background: var(--creme);
-  border: 1px solid var(--borda-ctrl); border-radius: 99px; padding: 4px 10px; cursor: pointer; transition: all .15s;
-  min-height: 28px;
+  border: 1px solid var(--borda-ctrl); border-radius: 99px; padding: 6px 12px; cursor: pointer; transition: all .15s;
+  min-height: 32px;
 }
 .chip:hover { border-color: var(--dourado); }
 .chip.active { background: var(--dourado); color: var(--cafe); border-color: var(--dourado); }

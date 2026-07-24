@@ -1,9 +1,10 @@
-/* Mode Switcher Tabs */
-.modeTabs { display: flex; gap: 6px; margin: 14px 0 16px; overflow-x: auto; padding-bottom: 4px; }
+/* Mode Switcher Tabs — quebra de linha em telas estreitas, sem rolagem
+   horizontal escondida (todos os modos permanecem visíveis). */
+.modeTabs { display: flex; gap: 6px; margin: 14px 0 16px; flex-wrap: wrap; }
 .tabBtn {
   font: inherit; font-size: .85rem; font-weight: 700; color: var(--dim); background: var(--creme);
   border: 1px solid var(--borda-ctrl); border-radius: 99px; padding: 7px 14px; cursor: pointer; white-space: nowrap; transition: all .15s;
-  min-height: 36px;
+  min-height: 44px;
 }
 .tabBtn:hover { border-color: var(--dourado); color: var(--cafe); }
 .tabBtn.active { background: var(--cafe); color: #fff; border-color: var(--cafe); }
@@ -11,6 +12,11 @@ body.dark .tabBtn.active { background: var(--dourado); color: #161412; border-co
 
 /* Phase List Buttons */
 .faseGrid { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 2px; }
+/* Em telas pequenas a lista rola com a página: sem região de rolagem
+   aninhada, que compete com o gesto de rolagem principal no toque. */
+@media (max-width: 640px) {
+  .faseGrid { max-height: none; overflow-y: visible; }
+}
 .faseBtn {
   display: flex; align-items: center; justify-content: space-between; text-align: left; font: inherit; font-size: 1.02rem;
   font-weight: 700; color: var(--cafe); background: var(--creme); border: 2px solid var(--borda-ctrl);
@@ -24,8 +30,9 @@ body.dark .tabBtn.active { background: var(--dourado); color: #161412; border-co
 .faseBadge.star { background: #fef3c7; color: #92400e; }
 body.dark .faseBadge.star { background: #451a03; color: #fde68a; }
 
-/* Stats Summary Dashboard */
-.dashGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0 16px; }
+/* Stats Summary Dashboard — colunas definidas pelo espaço disponível,
+   não por dispositivo (3 colunas em telas largas, 2 em celulares). */
+.dashGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 8px; margin: 12px 0 16px; }
 .dashItem { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 10px 8px; text-align: center; }
 .dashItem b { display: block; font-size: 1.3rem; color: var(--cafe2); }
 .dashItem span { font-size: .72rem; color: var(--dim); font-weight: 600; }
@@ -45,7 +52,9 @@ body.dark .faseBadge.star { background: #451a03; color: #fde68a; }
 .petHappy { animation: petHappy 0.6s infinite alternate; }
 .petSad { animation: petSad 0.4s infinite alternate; }
 
-.petGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 14px 0; }
+/* 5 colunas em telas largas; reduz automaticamente em celulares
+   mantendo rótulos e emojis legíveis. */
+.petGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; margin: 14px 0; }
 .petCard {
   font: inherit; background: var(--creme); border: 2px solid var(--borda-ctrl); border-radius: 12px;
   padding: 10px 4px; cursor: pointer; text-align: center; transition: all .15s; min-height: 76px;
@@ -55,9 +64,10 @@ body.dark .faseBadge.star { background: #451a03; color: #fde68a; }
 .petCard .emoji { font-size: 1.8rem; display: block; }
 .petCard .pname { font-size: .75rem; font-weight: 700; color: var(--cafe); display: block; margin-top: 2px; }
 
-/* Stats Row */
-.stat { display: flex; gap: 10px; margin: 14px 0; }
-.stat > div { flex: 1; background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 12px; text-align: center; }
+/* Stats Row — grade adaptativa: até 5 colunas em telas largas, 2 em
+   celulares (os 5 blocos do Leitner não espremem valores nem rótulos). */
+.stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 10px; margin: 14px 0; }
+.stat > div { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 12px; text-align: center; min-width: 0; }
 .stat b { display: block; font-size: 1.5rem; color: var(--cafe2); }
 .stat span { font-size: .74rem; color: var(--dim); }
 

@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach } = require('node:test');
+const { describe, it, before, after, beforeEach, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
 const ACESSIBILIDADE = require('../src/acessibilidade.js');
 const AUDIO = require('../src/audio.js');
@@ -371,5 +371,112 @@ describe('Acessibilidade — preferência por movimento reduzido', () => {
   it('deve retornar false quando matchMedia não está disponível', () => {
     delete global.window;
     assert.equal(ACESSIBILIDADE.prefereMovimentoReduzido(), false);
+  });
+});
+
+describe('Acessibilidade — integração com o renderizador (anúncios e foco)', () => {
+
+  let RENDERIZADOR;
+  let dom;
+  let titulo;
+
+  before(() => {
+    titulo = criarElementoFalso('h1');
+
+    const appFake = criarElementoFalso('main');
+    appFake.className = '';
+    appFake.innerHTML = '';
+    appFake.querySelector = (sel) => (sel === 'h1' ? titulo : null);
+
+    const barFake = criarElementoFalso('i');
+    barFake.style = {};
+    barFake.parentElement = criarElementoFalso('div');
+
+    dom = {
+      activeElement: null,
+      body: criarElementoFalso('body'),
+      documentElement: criarElementoFalso('html'),
+      _elementos: {
+        app: appFake,
+        xp: criarElementoFalso('div'),
+        bar: barFake,
+        home: criarElementoFalso('button'),
+        ariaAnnounce: criarElementoFalso('div')
+      },
+      getElementById(id) { return this._elementos[id] || null; },
+      querySelector() { return null; }
+    };
+
+    global.document = dom;
+    global.window = { AWS_BANK: { fases: [] } };
+    global.JogoCore = require('../src/jogo.js');
+    global.PERSISTENCIA = require('../src/persistencia.js');
+    global.AUDIO = AUDIO;
+    global.ACESSIBILIDADE = ACESSIBILIDADE;
+    global.App = {
+      store: { deck: {}, xpTotal: 0, theme: 'light', muted: true, fontScale: 1.0, phaseStats: {}, stats: {} },
+      modoJogo: 'fases',
+      modoRevisao: null,
+      iniciado: true,
+      focoOrigem: null,
+      searchFilter: '',
+      categoryFilter: 'todas',
+      petSelecionado: { id: 'cat', name: 'Gatinho', emoji: '🐱', word: 'Mimi' }
+    };
+
+    RENDERIZADOR = require('../src/renderizador.js');
+  });
+
+  after(() => {
+    delete global.document;
+    delete global.window;
+    delete global.JogoCore;
+    delete global.PERSISTENCIA;
+    delete global.AUDIO;
+    delete global.ACESSIBILIDADE;
+    delete global.App;
+  });
+
+  it('deve anunciar a tela inicial e mover o foco para o título após a renderização', () => {
+    titulo.focado = false;
+
+    RENDERIZADOR.intro();
+
+    assert.equal(dom._elementos.ariaAnnounce.textContent, 'Tela inicial.');
+    assert.ok(titulo.focado);
+    assert.equal(dom._elementos.app.className, 'card pop');
+  });
+
+  it('não deve anunciar nem mover o foco no carregamento inicial (App.iniciado = false)', () => {
+    dom._elementos.ariaAnnounce.textContent = '';
+    titulo.focado = false;
+    global.App.iniciado = false;
+
+    RENDERIZADOR.intro();
+
+    assert.equal(dom._elementos.ariaAnnounce.textContent, '');
+    assert.equal(titulo.focado, false);
+    global.App.iniciado = true;
+  });
+
+  it('a troca de aba via setModo não deve reanunciar a tela inicial', () => {
+    dom._elementos.ariaAnnounce.textContent = '';
+
+    RENDERIZADOR.setModo('leitner');
+
+    assert.equal(global.App.modoJogo, 'leitner');
+    assert.equal(dom._elementos.ariaAnnounce.textContent, '');
+    global.App.modoJogo = 'fases';
+  });
+
+  it('deve anunciar a tela "Sobre o autor" e focar o título ao renderizá-la', () => {
+    dom._elementos.ariaAnnounce.textContent = '';
+    titulo.focado = false;
+
+    RENDERIZADOR.sobre();
+
+    assert.equal(dom._elementos.ariaAnnounce.textContent, 'Sobre o autor.');
+    assert.ok(titulo.focado);
+    assert.equal(dom._elementos.home.hidden, false);
   });
 });

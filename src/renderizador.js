@@ -69,8 +69,10 @@ function topicoQuestao(d) {
 
 /**
  * Renderiza a tela inicial do jogo com dashboard, abas de modo e estatísticas.
+ * @param {boolean} [silencioso] - Quando true, não anuncia a tela ao leitor
+ *   de tela (usado por setModo, onde a troca de aba já dá o contexto).
  */
-function intro() {
+function intro(silencioso) {
   app.className = "card pop"; App.modoRevisao = null; showHome(false);
   const due = devidos().length;
   const totalResponded = App.store.stats.totalAnswered || 0;
@@ -106,6 +108,7 @@ function intro() {
     const alvoOrigem = origem ? document.querySelector(origem) : null;
     if (alvoOrigem && !alvoOrigem.disabled) ACESSIBILIDADE.focarElemento(alvoOrigem);
     else ACESSIBILIDADE.focarTitulo(app);
+    if (!silencioso) ACESSIBILIDADE.announce('Tela inicial.');
   }
 }
 
@@ -117,7 +120,7 @@ function intro() {
 function setModo(m) {
   App.modoJogo = m;
   App.focoOrigem = null;
-  intro();
+  intro(true);
   const abaAtiva = document.querySelector('.tabBtn.active');
   if (abaAtiva) ACESSIBILIDADE.focarElemento(abaAtiva);
 }
@@ -777,6 +780,7 @@ function sobre() {
     <button class="cta" data-action="intro">Bora estudar → [Esc]</button>`;
   setProgress(0, 1);
   ACESSIBILIDADE.focarTitulo(app);
+  if (App.iniciado) ACESSIBILIDADE.announce('Sobre o autor.');
 }
 
 // ---------- EXPORTAÇÃO UMD ----------

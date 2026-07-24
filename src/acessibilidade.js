@@ -19,6 +19,10 @@ function applyTheme(store) {
     btn.textContent = escuro ? '🌙' : '☀️';
     btn.setAttribute('aria-pressed', String(escuro));
   }
+  const fav = document.getElementById('favicon');
+  if (fav) {
+    fav.href = escuro ? 'assets/nin-guem-youtube-icon-dark.png' : 'assets/nin-guem-youtube-icon-light.png';
+  }
 }
 
 /**

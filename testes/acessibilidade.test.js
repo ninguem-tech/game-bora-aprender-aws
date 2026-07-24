@@ -71,7 +71,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
   let dom;
 
   beforeEach(() => {
-    dom = criarDomFalso(['btnTheme', 'btnAudio', 'ariaAnnounce']);
+    dom = criarDomFalso(['btnTheme', 'btnAudio', 'ariaAnnounce', 'favicon']);
     global.document = dom;
   });
 
@@ -80,7 +80,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
     delete global.window;
   });
 
-  it('deve alternar e aplicar o tema com estado acessível (aria-pressed)', () => {
+  it('deve alternar e aplicar o tema com estado acessível (aria-pressed) e favicon', () => {
     const store = { theme: 'light' };
     let salvos = 0;
     const salvar = () => { salvos++; };
@@ -92,6 +92,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
     assert.ok(dom.body.classList.contains('dark'));
     assert.equal(dom._elementos.btnTheme.textContent, '🌙');
     assert.equal(dom._elementos.btnTheme.getAttribute('aria-pressed'), 'true');
+    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-youtube-icon-dark.png');
 
     ACESSIBILIDADE.toggleTheme(store, salvar);
 
@@ -99,6 +100,7 @@ describe('Acessibilidade — tema, fonte e áudio', () => {
     assert.equal(dom.body.classList.contains('dark'), false);
     assert.equal(dom._elementos.btnTheme.textContent, '☀️');
     assert.equal(dom._elementos.btnTheme.getAttribute('aria-pressed'), 'false');
+    assert.equal(dom._elementos.favicon.href, 'assets/nin-guem-youtube-icon-light.png');
   });
 
   it('deve limitar a escala de fonte aos valores mínimo e máximo', () => {

@@ -18,7 +18,8 @@ const ESTADO_PADRAO = {
   stats: { totalAnswered: 0, totalCorrect: 0, maxStreak: 0 },
   lastActiveDate: null,
   streakDays: 0,
-  studyLogs: {}
+  studyLogs: {},
+  examHistory: []
 };
 
 function numeroOuPadrao(valor, padrao) {
@@ -101,6 +102,21 @@ function normalizarPhaseStats(phaseStats) {
     }
   }
   return normalizado;
+}
+
+function normalizarExamHistory(examHistory) {
+  const limpo = Array.isArray(examHistory) ? examHistory : [];
+  return limpo
+    .filter((exame) => exame && typeof exame === "object" && !Array.isArray(exame))
+    .map((exame) => ({
+      date: stringOuPadrao(exame.date, null),
+      acertos: normalizarInteiroPositivo(exame.acertos, 0),
+      total: normalizarInteiroPositivo(exame.total, 65),
+      score: normalizarInteiroPositivo(exame.score, 0),
+      tempoMinutos: normalizarInteiroPositivo(exame.tempoMinutos, 0)
+    }))
+    .filter((exame) => exame.date && /^\d{4}-\d{2}-\d{2}$/.test(exame.date))
+    .slice(0, 100);
 }
 
 function normalizarStudyLogs(studyLogs) {
@@ -215,7 +231,8 @@ function carregar() {
       stats: normalizarStats(parsed.stats),
       lastActiveDate: ultimo,
       streakDays: normalizarInteiroPositivo(parsed.streakDays, 0),
-      studyLogs: normalizarStudyLogs(parsed.studyLogs)
+      studyLogs: normalizarStudyLogs(parsed.studyLogs),
+      examHistory: normalizarExamHistory(parsed.examHistory)
     };
     if (ultimo !== hoje) {
       return atualizarStreak(base);
@@ -270,6 +287,7 @@ function importarProgressoJSON(jsonString) {
     if (parsed.phaseStats) importado.phaseStats = normalizarPhaseStats(parsed.phaseStats);
     if (parsed.stats) importado.stats = normalizarStats(parsed.stats);
     if (parsed.studyLogs) importado.studyLogs = normalizarStudyLogs(parsed.studyLogs);
+    if (parsed.examHistory) importado.examHistory = normalizarExamHistory(parsed.examHistory);
     if (typeof parsed.streakDays === "number")
       importado.streakDays = normalizarInteiroPositivo(parsed.streakDays, 0);
     if (typeof parsed.lastActiveDate === "string") importado.lastActiveDate = parsed.lastActiveDate;
@@ -278,6 +296,26 @@ function importarProgressoJSON(jsonString) {
   } catch {
     return null;
   }
+}
+
+/**
+ * Adiciona o resultado de um simulado ao histórico.
+ * @param {Object} store Estado persistente.
+ * @param {Object} resultado Resultado do simulado: { acertos, total, score, tempoMinutos }.
+ * @returns {Object} Store atualizado.
+ */
+function registrarExame(store, resultado) {
+  const registro = {
+    date: dataHojeIso(),
+    acertos: normalizarInteiroPositivo(resultado.acertos, 0),
+    total: normalizarInteiroPositivo(resultado.total, 65),
+    score: normalizarInteiroPositivo(resultado.score, 0),
+    tempoMinutos: normalizarInteiroPositivo(resultado.tempoMinutos, 0)
+  };
+  store.examHistory = store.examHistory || [];
+  store.examHistory.unshift(registro);
+  store.examHistory = normalizarExamHistory(store.examHistory);
+  return atualizarStreak(store);
 }
 
 if (typeof module !== "undefined" && module.exports) {
@@ -289,8 +327,10 @@ if (typeof module !== "undefined" && module.exports) {
     exportarProgressoJSON,
     importarProgressoJSON,
     registrarEstudo,
+    registrarExame,
     atualizarStreak,
-    normalizarStudyLogs
+    normalizarStudyLogs,
+    normalizarExamHistory
   };
 } else if (typeof window !== "undefined") {
   window.PERSISTENCIA = {
@@ -301,6 +341,7 @@ if (typeof module !== "undefined" && module.exports) {
     exportarProgressoJSON,
     importarProgressoJSON,
     registrarEstudo,
+    registrarExame,
     atualizarStreak
   };
 }

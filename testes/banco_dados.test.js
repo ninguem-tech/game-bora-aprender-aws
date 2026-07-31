@@ -5,6 +5,8 @@ const {
   validarBancoDados,
   obterCategoriaFase,
   obterEstatisticasServicos,
+  calcularReadiness,
+  classificarReadiness,
   filtrarFases,
   embaralharArray
 } = require("../src/jogo.js");
@@ -226,6 +228,30 @@ describe("Validação do Banco de Dados e Utilitários", () => {
     it("deve retornar lista vazia para entradas inválidas", () => {
       assert.deepStrictEqual(obterEstatisticasServicos(null), []);
       assert.deepStrictEqual(obterEstatisticasServicos([]), []);
+    });
+  });
+
+  describe("Prontidão para o exame (Readiness)", () => {
+    it("deve retornar 0 para estado inválido ou vazio", () => {
+      assert.equal(calcularReadiness(null, 10), 0);
+      assert.equal(calcularReadiness({}, 10), 0);
+    });
+
+    it("deve ponderar acurácia, fases e score de simulado", () => {
+      const store = {
+        stats: { totalAnswered: 100, totalCorrect: 80 },
+        phaseStats: { f1: { completed: true }, f2: { completed: true } },
+        examHistory: [{ date: "2024-01-01", score: 800, acertos: 52, total: 65, tempoMinutos: 90 }]
+      };
+      // accuracy=80*0.35=28; fases=20/10=20%*0.25=5; simulado=800/1000*40=32 -> total=65
+      const readiness = calcularReadiness(store, 10);
+      assert.equal(readiness, 65);
+    });
+
+    it("deve classificar o nível de prontidão com labels e cores", () => {
+      assert.equal(classificarReadiness(85).label, "Pronto para o exame!");
+      assert.equal(classificarReadiness(65).label, "Em progresso sólido");
+      assert.equal(classificarReadiness(30).label, "Começando a jornada");
     });
   });
 

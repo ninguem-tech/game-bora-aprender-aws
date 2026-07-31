@@ -1,6 +1,12 @@
 const { describe, it, beforeEach } = require("node:test");
 const assert = require("node:assert/strict");
-const { carregar, salvar, LS_KEY, ESTADO_PADRAO } = require("../src/persistencia.js");
+const {
+  carregar,
+  salvar,
+  registrarExame,
+  LS_KEY,
+  ESTADO_PADRAO
+} = require("../src/persistencia.js");
 
 function criarLocalStorageFalso() {
   const dados = {};
@@ -252,6 +258,27 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(ESTADO_PADRAO.theme, "light");
     assert.equal(ESTADO_PADRAO.muted, false);
     assert.equal(ESTADO_PADRAO.fontScale, 1.0);
+  });
+
+  it("deve registrar e normalizar o histórico de simulados", () => {
+    const store = carregar();
+    registrarExame(store, { acertos: 52, total: 65, score: 800, tempoMinutos: 90 });
+
+    assert.equal(store.examHistory.length, 1);
+    assert.equal(store.examHistory[0].score, 800);
+    assert.equal(store.examHistory[0].acertos, 52);
+    assert.equal(store.examHistory[0].total, 65);
+    assert.equal(store.examHistory[0].tempoMinutos, 90);
+    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(store.examHistory[0].date));
+  });
+
+  it("deve limitar o histórico de simulados a 100 entradas", () => {
+    const store = carregar();
+    for (let i = 0; i < 110; i++) {
+      registrarExame(store, { acertos: i % 65, total: 65, score: 100 + i, tempoMinutos: 60 });
+    }
+    assert.equal(store.examHistory.length, 100);
+    assert.equal(store.examHistory[0].score, 209);
   });
 
   it("não deve lançar erro ao salvar se localStorage estiver indisponível", () => {

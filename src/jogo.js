@@ -203,6 +203,54 @@ function obterEstatisticasServicos(fases) {
 }
 
 /**
+ * Calcula o nível de prontidão do jogador para o exame SAA-C03.
+ *
+ * Fórmula ponderada:
+ * - 35% taxa de acerto geral
+ * - 25% progresso nas fases (concluídas / total)
+ * - 40% melhor score normalizado em simulados (score / 1000)
+ *
+ * @param {Object} store Estado persistente do jogador.
+ * @param {number} totalFases Quantidade total de fases no banco.
+ * @returns {number} Prontidão de 0 a 100.
+ */
+function calcularReadiness(store, totalFases) {
+  if (!store || typeof store !== "object") return 0;
+
+  const stats = store.stats || { totalAnswered: 0, totalCorrect: 0 };
+  const accuracy =
+    stats.totalAnswered > 0
+      ? Math.min(100, Math.round((stats.totalCorrect / stats.totalAnswered) * 100))
+      : 0;
+
+  const phaseStats = store.phaseStats || {};
+  const completadas = Object.values(phaseStats).filter((p) => p && p.completed).length;
+  const progressoFases = totalFases > 0 ? Math.round((completadas / totalFases) * 100) : 0;
+
+  const examHistory = Array.isArray(store.examHistory) ? store.examHistory : [];
+  const melhorScore =
+    examHistory.length > 0
+      ? Math.max(...examHistory.map((exame) => (exame && exame.score ? exame.score : 0)))
+      : 0;
+  const simuladoScore = Math.min(1000, Math.max(0, melhorScore));
+
+  return Math.round(accuracy * 0.35 + progressoFases * 0.25 + (simuladoScore / 1000) * 40);
+}
+
+/**
+ * Retorna o nível descritivo e a cor semântica para uma prontidão.
+ *
+ * @param {number} readiness Valor de 0 a 100.
+ * @returns {{label: string, cor: string}} Label e cor do medidor.
+ */
+function classificarReadiness(readiness) {
+  if (readiness >= 80) return { label: "Pronto para o exame!", cor: "var(--verde)" };
+  if (readiness >= 60) return { label: "Em progresso sólido", cor: "var(--dourado)" };
+  if (readiness >= 40) return { label: "Na metade do caminho", cor: "var(--dourado)" };
+  return { label: "Começando a jornada", cor: "var(--vermelho)" };
+}
+
+/**
  * Filtra a lista de fases por palavra-chave e categoria temática.
  *
  * @param {Array<Object>} fases Lista completa de fases.
@@ -577,6 +625,8 @@ if (typeof module !== "undefined" && module.exports) {
     calcularGanhoXP,
     obterCategoriaFase,
     obterEstatisticasServicos,
+    calcularReadiness,
+    classificarReadiness,
     filtrarFases,
     embaralharArray,
     validarQuestao,
@@ -601,6 +651,8 @@ if (typeof module !== "undefined" && module.exports) {
     calcularGanhoXP,
     obterCategoriaFase,
     obterEstatisticasServicos,
+    calcularReadiness,
+    classificarReadiness,
     filtrarFases,
     embaralharArray,
     validarQuestao,

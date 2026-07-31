@@ -114,11 +114,21 @@ function intro(silencioso) {
   const hoje = new Date().toISOString().split("T")[0];
   const logHoje = App.store.studyLogs && App.store.studyLogs[hoje];
   const hojeQuestoes = logHoje ? logHoje.questionsAnswered || 0 : 0;
+  const readiness = JogoCore.calcularReadiness(App.store, BANK.fases.length);
+  const rLabel = JogoCore.classificarReadiness(readiness);
 
   app.innerHTML = `
     <span class="who rafael">Rafael · mentor</span>
     <h1>Bora começar do zero?</h1>
     <p class="lead">Você é a <b>Júlia</b>. Aqui aprendemos a AWS resolvendo problemas reais, sem empáfia e com muito acolhimento. <span aria-hidden="true">☕</span></p>
+
+    <div class="readiness" role="img" aria-label="Prontidão para o exame: ${readiness}% — ${rLabel.label}">
+      <div class="readinessLabel">Prontidão para o exame</div>
+      <div class="readinessTrack" aria-hidden="true">
+        <div class="readinessFill" style="width:${readiness}%;background:${rLabel.cor}"></div>
+      </div>
+      <div class="readinessValue" aria-hidden="true"><b>${readiness}%</b> — ${rLabel.label}</div>
+    </div>
 
     <div class="dashGrid">
       <div class="dashItem"><b>${totalResponded}</b><span>questões salvas</span></div>
@@ -576,6 +586,19 @@ function resumoSimulado() {
   if (aprovado) AUDIO.playSound("fanfare", App.store);
   else AUDIO.playSound("no", App.store);
 
+  const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
+  const ultimosExames = examHistory.slice(0, 5).map(
+    (ex) => `
+      <li class="examItem">
+        <span class="examDate">${escaparHtml(ex.date)}</span>
+        <span class="examScore">${ex.score}</span>
+        <span class="examMeta">${ex.acertos}/${ex.total} · ${ex.tempoMinutos} min</span>
+      </li>`
+  );
+  const historicoHtml = ultimosExames.length
+    ? `<h2 class="sr-only">Histórico de simulados</h2><ul class="examList">${ultimosExames.join("")}</ul>`
+    : "";
+
   app.className = "card pop";
   app.innerHTML = `
     <span class="who"><span aria-hidden="true">📝</span> Fim do Simulado</span>
@@ -586,13 +609,21 @@ function resumoSimulado() {
       <div><b>${percent}%</b><span>de aproveitamento</span></div>
     </div>
     <p class="lead">${aprovado ? "Você passou do corte da AWS. Bora manter o ritmo!" : "Cada simulado é um mapa do que ainda precisa de atenção. Revisa os erros e tenta de novo."}</p>
+    ${historicoHtml}
     <button class="cta" data-action="intro">Voltar ao início [Esc]</button>`;
   setProgress(e.total, e.total);
+  const tempoUsadoMinutos = Math.ceil(
+    (e.tempoMinutos * 60 - JogoCore.calcularTempoRestanteSimulado(e.tempoFimMs)) / 60
+  );
+  PERSISTENCIA.registrarExame(App.store, {
+    acertos: e.acertos,
+    total: e.total,
+    score: score,
+    tempoMinutos: tempoUsadoMinutos
+  });
   PERSISTENCIA.registrarEstudo(App.store, {
     questionsAnswered: e.indice,
-    studyTimeMinutes: Math.ceil(
-      (e.tempoMinutos * 60 - JogoCore.calcularTempoRestanteSimulado(e.tempoFimMs)) / 60
-    )
+    studyTimeMinutes: tempoUsadoMinutos
   });
   PERSISTENCIA.salvar(App.store);
   ACESSIBILIDADE.focarTitulo(app);

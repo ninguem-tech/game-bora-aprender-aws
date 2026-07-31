@@ -79,10 +79,55 @@
   });
 
   // ---------- PWA: BACKUP E RESTAURAÇÃO ----------
+  var backupFocoAnterior = null;
+
+  function fecharBackup() {
+    var d = document.getElementById("backupDialog");
+    if (!d) return;
+    d.hidden = true;
+    ACESSIBILIDADE.announce("Diálogo de backup fechado.");
+    if (backupFocoAnterior) {
+      ACESSIBILIDADE.focarElemento(backupFocoAnterior);
+      backupFocoAnterior = null;
+    }
+  }
+
+  function gerenciarTecladoBackup(e) {
+    var d = document.getElementById("backupDialog");
+    if (!d || d.hidden) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      fecharBackup();
+      return;
+    }
+
+    if (e.key === "Tab") {
+      var focusables = Array.from(d.querySelectorAll("textarea, button, [href], input")).filter(
+        function (el) {
+          return !el.disabled && !el.hidden;
+        }
+      );
+      if (focusables.length === 0) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      var active = document.activeElement;
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        ACESSIBILIDADE.focarElemento(last);
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        ACESSIBILIDADE.focarElemento(first);
+      }
+    }
+  }
+
   function criarBackupDialog() {
     var overlay = document.createElement("div");
     overlay.className = "backupDialog";
     overlay.id = "backupDialog";
+    overlay.setAttribute("role", "presentation");
     overlay.innerHTML =
       "" +
       '<div class="card" role="dialog" aria-modal="true" aria-labelledby="backupTitulo">' +
@@ -96,6 +141,11 @@
       '  <textarea id="backupArea" aria-label="Área de backup JSON"></textarea>' +
       '  <button class="cta ghost" style="margin-top:12px" data-action="fechar-backup">Fechar</button>' +
       "</div>";
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) fecharBackup();
+    });
+
     document.body.appendChild(overlay);
     return overlay;
   }
@@ -158,15 +208,16 @@
         break;
       case "backup": {
         var dialog = document.getElementById("backupDialog") || criarBackupDialog();
+        backupFocoAnterior = document.activeElement;
         dialog.hidden = false;
         var ta = dialog.querySelector("textarea");
         if (ta) ta.value = "";
+        ACESSIBILIDADE.announce("Diálogo de backup aberto.");
         ACESSIBILIDADE.focarTitulo(dialog.querySelector(".card"));
         break;
       }
       case "fechar-backup": {
-        var d = document.getElementById("backupDialog");
-        if (d) d.hidden = true;
+        fecharBackup();
         break;
       }
       case "exportar-backup":
@@ -215,6 +266,19 @@
     },
     getCtaBtn: function () {
       return document.querySelector("#fb .cta, #app .cta");
+    }
+  });
+
+  // ---------- TRAP FOCUS E ESCAPE DO BACKUP ----------
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      var d = document.getElementById("backupDialog");
+      if (d && !d.hidden) {
+        e.preventDefault();
+        fecharBackup();
+      }
+    } else if (e.key === "Tab") {
+      gerenciarTecladoBackup(e);
     }
   });
 

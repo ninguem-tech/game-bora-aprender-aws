@@ -53,6 +53,60 @@ class TestBuildBankUnit(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_bank.load_supplement_questions(file_path)
 
+    def test_load_supplement_questions_rejeita_servico_descontinuado(self):
+        file_path = os.path.join(self.test_dir.name, "qldb.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [{"id": "q-01", "services": ["qldb"]}]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("descontinuado", str(ctx.exception).lower())
+
+    def test_load_supplement_questions_rejeita_mention_textual_qlodb(self):
+        file_path = os.path.join(self.test_dir.name, "qldb-texto.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [{"id": "q-02", "stem": "QLDB é legal?"}]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("descontinuado", str(ctx.exception).lower())
+
+    def test_load_supplement_questions_rejeita_elemento_invalido(self):
+        file_path = os.path.join(self.test_dir.name, "malformado.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [7]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("objeto", str(ctx.exception).lower())
+
+    def test_load_supplement_questions_rejeita_services_nao_string(self):
+        file_path = os.path.join(self.test_dir.name, "services-errado.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [{"id": "q-03", "services": [42]}]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("services", str(ctx.exception).lower())
+
+    def test_load_supplement_questions_rejeita_mention_em_hints(self):
+        file_path = os.path.join(self.test_dir.name, "qldb-hints.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [{"id": "q-04", "hints": ["Use o QLDB"]}]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("descontinuado", str(ctx.exception).lower())
+
+    def test_load_supplement_questions_rejeita_mention_em_whynots(self):
+        file_path = os.path.join(self.test_dir.name, "qldb-whynots.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump({"questions": [{"id": "q-05", "whyNots": {"A": "QLDB seria melhor"}}]}, f)
+
+        with self.assertRaises(ValueError) as ctx:
+            build_bank.load_supplement_questions(file_path)
+        self.assertIn("descontinuado", str(ctx.exception).lower())
+
     def test_build_bank_data_estrutura(self):
         file_path = os.path.join(self.test_dir.name, "supp-1.json")
         with open(file_path, "w", encoding="utf-8") as f:

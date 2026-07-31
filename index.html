@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00558c">
+<meta name="description" content="Jogo de estudos gratuito e amigável para a certificação AWS SAA-C03, com fases, modos Pet e Sobrevivência, e revisão Leitner.">
 <title>E aí, Bora Aprender AWS? — Jogo de Estudos SAA-C03</title>
 <!--
   Ícones da aba e apple-touch: derivados leves (PNG de verdade) da assinatura em assets/.
@@ -12,9 +14,11 @@
     sips -s format png -z 32 32   assets/nin-guem-youtube-icon-light.png --out assets/nin-guem-favicon-32-light.png
     sips -s format png -z 32 32   assets/nin-guem-youtube-icon-dark.png  --out assets/nin-guem-favicon-32-dark.png
     sips -s format png -z 180 180 assets/nin-guem-youtube-icon-light.png --out assets/nin-guem-apple-touch-180.png
+  Ícones 192x192 e 512x512 para o PWA foram gerados a partir do apple-touch-180.png.
 -->
 <link rel="icon" type="image/png" id="favicon" sizes="32x32" href="assets/nin-guem-favicon-32-light.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/nin-guem-apple-touch-180.png">
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/variaveis.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/componentes.css">
@@ -33,9 +37,12 @@
       <button class="homeBtn" id="home" data-action="intro" title="Voltar ao início [Esc]" aria-label="Voltar ao início" hidden>← início</button>
       <div class="logo">
         E aí, Bora Aprender AWS?
-        <small>protótipo · por 人間/人间 (nin-guem) · livre (AGPL + CC-BY-SA)</small>
+        <small>protótipo · por 人間/人间 (nin-guem) · livre (AGPL + CC BY-NC-SA 4.0)</small>
       </div>
       <div class="ctrlGroup">
+        <span id="netBadge" class="netBadge" aria-live="polite" aria-atomic="true"></span>
+        <button class="iconBtn" id="btnInstall" data-action="install-pwa" title="Instalar app" aria-label="Instalar app" hidden>⬇</button>
+        <button class="iconBtn" id="btnBackup" data-action="backup" title="Backup / restaurar dados" aria-label="Backup e restauração">💾</button>
         <button class="iconBtn" id="btnFontMinus" data-action="font-minus" title="Diminuir fonte" aria-label="Diminuir texto">A-</button>
         <button class="iconBtn" id="btnFontPlus" data-action="font-plus" title="Aumentar fonte" aria-label="Aumentar texto">A+</button>
         <button class="iconBtn" id="btnTheme" data-action="theme" title="Alternar tema claro/escuro" aria-label="Alternar tema" aria-pressed="false">☀️</button>
@@ -60,6 +67,14 @@
 <script src="src/acessibilidade.js"></script>
 <script src="src/renderizador.js"></script>
 <script src="src/teclado.js"></script>
+<script>
+  // Registro do Service Worker para PWA/offline
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then((reg) => { console.log('SW registrado:', reg.scope); })
+      .catch((err) => { console.warn('SW falhou:', err); });
+  }
+</script>
 <script src="src/app.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@ function getAudioCtx() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (AudioContext) audioCtx = new AudioContext();
   }
-  if (audioCtx && audioCtx.state === 'suspended') {
+  if (audioCtx && audioCtx.state === "suspended") {
     audioCtx.resume();
   }
   return audioCtx;
@@ -39,8 +39,8 @@ function playSound(tipo, store) {
     osc.connect(gain);
     gain.connect(ctx.destination);
 
-    if (tipo === 'ok') {
-      osc.type = 'sine';
+    if (tipo === "ok") {
+      osc.type = "sine";
       osc.frequency.setValueAtTime(523.25, now);
       osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.08);
       osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.16);
@@ -48,26 +48,28 @@ function playSound(tipo, store) {
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
       osc.start(now);
       osc.stop(now + 0.3);
-    } else if (tipo === 'no') {
-      osc.type = 'triangle';
+    } else if (tipo === "no") {
+      osc.type = "triangle";
       osc.frequency.setValueAtTime(220, now);
       osc.frequency.linearRampToValueAtTime(164.81, now + 0.18);
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
       osc.start(now);
       osc.stop(now + 0.28);
-    } else if (tipo === 'fanfare') {
-      osc.type = 'sine';
+    } else if (tipo === "fanfare") {
+      osc.type = "sine";
       osc.frequency.setValueAtTime(523.25, now);
       osc.frequency.setValueAtTime(659.25, now + 0.1);
       osc.frequency.setValueAtTime(783.99, now + 0.2);
-      osc.frequency.setValueAtTime(1046.50, now + 0.3);
+      osc.frequency.setValueAtTime(1046.5, now + 0.3);
       gain.gain.setValueAtTime(0.18, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
       osc.start(now);
       osc.stop(now + 0.55);
     }
-  } catch (e) {}
+  } catch {
+    /* Web Audio API indisponível */
+  }
 }
 
 /**
@@ -75,10 +77,10 @@ function playSound(tipo, store) {
  * @param {Object} store - Estado persistente.
  */
 function aplicarEstadoAudio(store) {
-  const btn = document.getElementById('btnAudio');
+  const btn = document.getElementById("btnAudio");
   if (!btn) return;
-  btn.textContent = store.muted ? '🔇' : '🔊';
-  btn.setAttribute('aria-pressed', String(store.muted));
+  btn.textContent = store.muted ? "🔇" : "🔊";
+  btn.setAttribute("aria-pressed", String(store.muted));
 }
 
 /**
@@ -91,13 +93,13 @@ function toggleAudio(store, salvar) {
   store.muted = !store.muted;
   salvar(store);
   aplicarEstadoAudio(store);
-  if (typeof ACESSIBILIDADE !== 'undefined') {
-    ACESSIBILIDADE.announce(store.muted ? 'Som desligado.' : 'Som ligado.');
+  if (typeof ACESSIBILIDADE !== "undefined") {
+    ACESSIBILIDADE.announce(store.muted ? "Som desligado." : "Som ligado.");
   }
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { playSound, toggleAudio, aplicarEstadoAudio };
-} else if (typeof window !== 'undefined') {
+} else if (typeof window !== "undefined") {
   window.AUDIO = { playSound, toggleAudio, aplicarEstadoAudio };
 }

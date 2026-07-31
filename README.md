@@ -9,10 +9,9 @@ Rafael (mentor) e Camila (ponte entre negócios ↔ tech) orientam você. Cada d
 uma metáfora do dia a dia ("café com leite") → uma pergunta → explicação de por que está certo. Respostas incorretas vão para
 uma lista de revisão de Leitner. Encorajador por design (XP + sequência/streak, sem vidas punitivas).
 
-**Status:** protótipo de design e experiência. Este é o `index.html` — um único arquivo HTML sem dependências, mobile-first
-(funciona offline, abre em qualquer navegador). Ele contém a **Fase 1 — Fundamentos da Nuvem**
-(5 desafios extraídos do livro). Assim que o formato for aprovado, o design será portado para o aplicativo **Godot** definitivo
-(focado em Android, offline) que utilizará o banco completo de 572 questões.
+**Status:** protótipo jogável no navegador. O projeto conta com **47 fases** e **524 desafios autorais em português**
+cobrindo os domínios da certificação AWS SAA-C03. Toda a lógica roda no cliente, sem dependências externas:
+basta abrir `index.html` em qualquer navegador moderno (mobile-first e offline-friendly).
 
 **Como executar:** abra `index.html` em um navegador (desktop ou celular).
 

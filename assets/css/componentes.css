@@ -142,3 +142,40 @@ body.dark .chip.active { color: #161412; }
 
 /* Footer */
 .foot { text-align: center; color: var(--dim); font-size: .72rem; margin-top: 16px; font-weight: 600; }
+
+/* Service guide */
+.servList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.servItem { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 10px 12px; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; }
+.servName { font-weight: 700; color: var(--cafe2); text-transform: capitalize; grid-column: 1; }
+.servCount { font-weight: 800; color: var(--dourado); grid-column: 2; grid-row: 1 / 3; align-self: center; }
+.servFases { font-size: .72rem; color: var(--dim); grid-column: 1; }
+
+/* Network status badge (online/offline) */
+.netBadge {
+  font: inherit; font-size: .7rem; font-weight: 700; padding: 4px 8px; border-radius: 99px;
+  background: var(--verde-bg); color: var(--verde); border: 1px solid var(--verde); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 4px; min-height: 28px;
+}
+.netBadge.offline { background: var(--vermelho-bg); color: var(--vermelho); border-color: var(--vermelho); }
+
+/* Install PWA toast */
+.pwaToast {
+  position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 100;
+  background: var(--leite); border: 1px solid var(--dourado); border-radius: 16px;
+  padding: 14px 16px; box-shadow: 0 8px 24px var(--shadow); display: flex; gap: 12px;
+  align-items: center; justify-content: space-between; flex-wrap: wrap; max-width: 480px; margin: 0 auto;
+}
+.pwaToast p { margin: 0; font-size: .9rem; color: var(--cafe); }
+.pwaToast .actions { display: flex; gap: 8px; }
+
+/* Backup dialog */
+.backupDialog {
+  position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.45); padding: 16px;
+}
+.backupDialog .card { width: 100%; max-width: 520px; }
+.backupDialog textarea {
+  width: 100%; min-height: 120px; font: inherit; font-size: .85rem; padding: 12px;
+  border: 2px solid var(--borda-ctrl); border-radius: 12px; background: var(--creme); color: var(--cafe);
+}
+

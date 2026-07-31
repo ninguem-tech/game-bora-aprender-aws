@@ -12,16 +12,18 @@
  * @param {Object} store - Estado persistente.
  */
 function applyTheme(store) {
-  const escuro = store.theme === 'dark';
-  document.body.classList.toggle('dark', escuro);
-  const btn = document.getElementById('btnTheme');
+  const escuro = store.theme === "dark";
+  document.body.classList.toggle("dark", escuro);
+  const btn = document.getElementById("btnTheme");
   if (btn) {
-    btn.textContent = escuro ? '🌙' : '☀️';
-    btn.setAttribute('aria-pressed', String(escuro));
+    btn.textContent = escuro ? "🌙" : "☀️";
+    btn.setAttribute("aria-pressed", String(escuro));
   }
-  const fav = document.getElementById('favicon');
+  const fav = document.getElementById("favicon");
   if (fav) {
-    fav.href = escuro ? 'assets/nin-guem-favicon-32-dark.png' : 'assets/nin-guem-favicon-32-light.png';
+    fav.href = escuro
+      ? "assets/nin-guem-favicon-32-dark.png"
+      : "assets/nin-guem-favicon-32-light.png";
   }
 }
 
@@ -31,10 +33,10 @@ function applyTheme(store) {
  * @param {Function} salvar - Função de salvamento (PERSISTENCIA.salvar).
  */
 function toggleTheme(store, salvar) {
-  store.theme = store.theme === 'dark' ? 'light' : 'dark';
+  store.theme = store.theme === "dark" ? "light" : "dark";
   salvar(store);
   applyTheme(store);
-  announce(store.theme === 'dark' ? 'Tema escuro ativado.' : 'Tema claro ativado.');
+  announce(store.theme === "dark" ? "Tema escuro ativado." : "Tema claro ativado.");
 }
 
 /**
@@ -42,7 +44,7 @@ function toggleTheme(store, salvar) {
  * @param {Object} store - Estado persistente.
  */
 function applyFontScale(store) {
-  document.documentElement.setAttribute('data-text-scale', store.fontScale);
+  document.documentElement.setAttribute("data-text-scale", store.fontScale);
 }
 
 /**
@@ -59,7 +61,7 @@ function changeFontScale(store, delta, salvar) {
   store.fontScale = scales[idx];
   salvar(store);
   applyFontScale(store);
-  announce('Escala do texto: ' + Math.round(store.fontScale * 100) + '%.');
+  announce("Escala do texto: " + Math.round(store.fontScale * 100) + "%.");
 }
 
 /**
@@ -69,9 +71,9 @@ function changeFontScale(store, delta, salvar) {
  * @param {string} msg - Mensagem a ser anunciada.
  */
 function announce(msg) {
-  const el = document.getElementById('ariaAnnounce');
+  const el = document.getElementById("ariaAnnounce");
   if (!el) return;
-  el.textContent = '';
+  el.textContent = "";
   el.textContent = msg;
 }
 
@@ -83,12 +85,16 @@ function announce(msg) {
  * @returns {HTMLElement|null} O elemento focado, ou null se inválido.
  */
 function focarElemento(elemento) {
-  if (!elemento || typeof elemento.focus !== 'function') return null;
-  const tag = String(elemento.tagName || '').toUpperCase();
-  const nativo = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'].indexOf(tag) !== -1;
-  if (!nativo && typeof elemento.hasAttribute === 'function' &&
-      typeof elemento.setAttribute === 'function' && !elemento.hasAttribute('tabindex')) {
-    elemento.setAttribute('tabindex', '-1');
+  if (!elemento || typeof elemento.focus !== "function") return null;
+  const tag = String(elemento.tagName || "").toUpperCase();
+  const nativo = ["BUTTON", "A", "INPUT", "SELECT", "TEXTAREA"].indexOf(tag) !== -1;
+  if (
+    !nativo &&
+    typeof elemento.hasAttribute === "function" &&
+    typeof elemento.setAttribute === "function" &&
+    !elemento.hasAttribute("tabindex")
+  ) {
+    elemento.setAttribute("tabindex", "-1");
   }
   elemento.focus();
   return elemento;
@@ -102,8 +108,8 @@ function focarElemento(elemento) {
  * @returns {HTMLElement|null} O elemento focado, ou null se inválido.
  */
 function focarTitulo(container) {
-  if (!container || typeof container.querySelector !== 'function') return null;
-  const titulo = container.querySelector('h1') || container.querySelector('h2');
+  if (!container || typeof container.querySelector !== "function") return null;
+  const titulo = container.querySelector("h1") || container.querySelector("h2");
   return focarElemento(titulo || container);
 }
 
@@ -113,20 +119,32 @@ function focarTitulo(container) {
  * @returns {boolean} True se o usuário prefere movimento reduzido.
  */
 function prefereMovimentoReduzido(matchMediaFn) {
-  const mm = matchMediaFn || (typeof window !== 'undefined' ? window.matchMedia : null);
-  if (typeof mm !== 'function') return false;
-  const consulta = mm('(prefers-reduced-motion: reduce)');
+  const mm = matchMediaFn || (typeof window !== "undefined" ? window.matchMedia : null);
+  if (typeof mm !== "function") return false;
+  const consulta = mm("(prefers-reduced-motion: reduce)");
   return !!(consulta && consulta.matches);
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    applyTheme, toggleTheme, applyFontScale, changeFontScale, announce,
-    focarElemento, focarTitulo, prefereMovimentoReduzido
+    applyTheme,
+    toggleTheme,
+    applyFontScale,
+    changeFontScale,
+    announce,
+    focarElemento,
+    focarTitulo,
+    prefereMovimentoReduzido
   };
-} else if (typeof window !== 'undefined') {
+} else if (typeof window !== "undefined") {
   window.ACESSIBILIDADE = {
-    applyTheme, toggleTheme, applyFontScale, changeFontScale, announce,
-    focarElemento, focarTitulo, prefereMovimentoReduzido
+    applyTheme,
+    toggleTheme,
+    applyFontScale,
+    changeFontScale,
+    announce,
+    focarElemento,
+    focarTitulo,
+    prefereMovimentoReduzido
   };
 }

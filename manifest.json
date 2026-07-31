@@ -1,0 +1,28 @@
+{
+  "short_name": "Bora Aprender AWS",
+  "name": "E aí, Bora Aprender AWS? — Jogo SAA-C03",
+  "description": "Jogo de estudos gratuito e amigável para a certificação AWS SAA-C03, com fases, modos Pet e Sobrevivência, e revisão Leitner.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00558c",
+  "orientation": "portrait",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "assets/nin-guem-favicon-32-light.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "assets/nin-guem-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/nin-guem-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

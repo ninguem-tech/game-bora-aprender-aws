@@ -262,30 +262,6 @@
         "C": "DynamoDB é chave-valor operacional, não análise OLAP.",
         "D": "ElastiCache é cache in-memory, não ferramenta analítica."
       }
-    },
-    {
-      "id": "br-bd-c13-q03", "difficulty": "challenge", "source": "supplement", "sourceChapter": "13",
-      "book": "e-ai-bora-aprender-aws", "bookVersion": null, "domain": 1, "domainLabel": "Segurança",
-      "type": "single", "services": ["qldb", "s3"],
-      "situacao": "Uma corretora precisa guardar o histórico de TODAS as transações de forma que qualquer auditoria possa PROVAR matematicamente que nenhum registro foi alterado.",
-      "stem": "Qual serviço foi feito para esse registro imutável e verificável de transações?",
-      "options": [
-        { "key": "A", "text": "Amazon QLDB (ledger imutável, com hashes criptográficos encadeados)" },
-        { "key": "B", "text": "S3 com Object Lock no modo Compliance" },
-        { "key": "C", "text": "Amazon Timestream" },
-        { "key": "D", "text": "Amazon DynamoDB com Streams" }
-      ],
-      "answers": ["A"],
-      "hints": [
-        "💡 Rafael (dica 1): não é só 'não pode apagar' — é 'provar que a sequência de transações não foi adulterada'. Isso pede um registro encadeado e verificável.",
-        "💡 Rafael (dica 2): o banco-ledger da AWS encadeia cada transação com um hash da anterior; mudar um registro antigo invalida todos os seguintes. É o QLDB. (S3 Object Lock protege OBJETOS, não a cadeia transacional.)"
-      ],
-      "explanation": "QLDB é um banco-ledger: cada transação recebe um hash criptográfico encadeado ao anterior, tornando matematicamente verificável que nenhum registro histórico foi alterado. É feito pra histórico transacional auditável. S3 Object Lock garante imutabilidade de OBJETOS armazenados, mas não a cadeia verificável de transações.",
-      "whyNots": {
-        "B": "Object Lock impede alterar/deletar objetos no S3, mas não dá a verificação criptográfica encadeada de um histórico transacional.",
-        "C": "Timestream é pra séries temporais (IoT, métricas), não pra ledger imutável.",
-        "D": "DynamoDB Streams captura mudanças, mas não cria um registro imutável e verificável contra adulteração."
-      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 /**
  * Módulo principal de lógica e regras de negócio do jogo "E aí, Bora Aprender AWS?".
- * 
+ *
  * Este arquivo contém as funções puras de agendamento Leitner, cálculo de XP,
  * filtragem de fases, gerenciamento dos modos de jogo (Pet e Sobrevivência) e
  * validação do banco de questões.
@@ -19,7 +19,7 @@ function obterDataAtualMs() {
 
 /**
  * Recalcula o agendamento de um cartão de revisão Leitner.
- * 
+ *
  * @param {Object} cartao Cartão contendo a caixa atual e dados de agendamento.
  * @param {boolean} acertou Se o usuário respondeu corretamente ao cartão.
  * @param {number} [dataAtualMs] Timestamp opcional para testes.
@@ -27,7 +27,7 @@ function obterDataAtualMs() {
  */
 function calcularAgendamentoLeitner(cartao, acertou, dataAtualMs = Date.now()) {
   const cartaoAtualizado = { ...cartao };
-  
+
   if (acertou) {
     cartaoAtualizado.box = Math.min(5, (cartaoAtualizado.box || 1) + 1);
   } else {
@@ -36,12 +36,12 @@ function calcularAgendamentoLeitner(cartao, acertou, dataAtualMs = Date.now()) {
   }
 
   const diasAdicionais = INTERVALOS_LEITNER_DIAS[cartaoAtualizado.box - 1];
-  
+
   // Se for caixa 1 (diasAdicionais = 0), reagenda para daqui a 8 segundos
   if (diasAdicionais === 0) {
     cartaoAtualizado.due = dataAtualMs + 8000;
   } else {
-    cartaoAtualizado.due = dataAtualMs + (diasAdicionais * MILISSEGUNDOS_POR_DIA);
+    cartaoAtualizado.due = dataAtualMs + diasAdicionais * MILISSEGUNDOS_POR_DIA;
   }
 
   return cartaoAtualizado;
@@ -49,7 +49,7 @@ function calcularAgendamentoLeitner(cartao, acertou, dataAtualMs = Date.now()) {
 
 /**
  * Adiciona ou atualiza uma questão no baralho Leitner.
- * 
+ *
  * @param {Object} baralho Objeto contendo os cartões mapeados por ID.
  * @param {Object} questao Objeto da questão errada.
  * @param {Object} [indiceQuestoes] Mapeamento opcional de ID da questão para ID da fase.
@@ -64,7 +64,7 @@ function adicionarAoLeitner(baralho, questao, indiceQuestoes = {}, dataAtualMs =
   let respostaCorretaTexto = "";
   if (questao.options && questao.answers && questao.answers.length > 0) {
     const chaveCorreta = questao.answers[0];
-    const opcaoEncontrada = questao.options.find(opt => opt.key === chaveCorreta);
+    const opcaoEncontrada = questao.options.find((opt) => opt.key === chaveCorreta);
     if (opcaoEncontrada) {
       respostaCorretaTexto = opcaoEncontrada.text;
     }
@@ -87,19 +87,19 @@ function adicionarAoLeitner(baralho, questao, indiceQuestoes = {}, dataAtualMs =
 
 /**
  * Filtra os cartões do baralho Leitner que estão devidos para revisão.
- * 
+ *
  * @param {Object} baralho Objeto contendo os cartões.
  * @param {number} [dataAtualMs] Timestamp de comparação.
  * @returns {Array<Object>} Lista de cartões pendentes de revisão.
  */
 function obterCartoesDevidos(baralho, dataAtualMs = Date.now()) {
   if (!baralho) return [];
-  return Object.values(baralho).filter(cartao => cartao && cartao.due <= dataAtualMs);
+  return Object.values(baralho).filter((cartao) => cartao && cartao.due <= dataAtualMs);
 }
 
 /**
  * Calcula a quantidade de pontos XP obtidos por uma resposta.
- * 
+ *
  * @param {boolean} acertou Se o usuário acertou a questão.
  * @param {number} sequenciaAtual Número de acertos consecutivos atuais (streak).
  * @param {boolean} usouDica Se o usuário revelou ao menos uma dica.
@@ -107,8 +107,8 @@ function obterCartoesDevidos(baralho, dataAtualMs = Date.now()) {
  */
 function calcularGanhoXP(acertou, sequenciaAtual = 0, usouDica = false) {
   if (!acertou) return 0;
-  
-  let xpBase = 10;
+
+  const xpBase = 10;
   const bonusSequencia = sequenciaAtual >= 3 ? 5 : 0;
   const bonusSemDica = usouDica ? 0 : 2;
 
@@ -117,7 +117,7 @@ function calcularGanhoXP(acertou, sequenciaAtual = 0, usouDica = false) {
 
 /**
  * Determina a categoria temática de uma fase com base no título.
- * 
+ *
  * @param {string} tituloFase Título da fase.
  * @returns {string} Identificador da categoria.
  */
@@ -125,28 +125,86 @@ function obterCategoriaFase(tituloFase) {
   if (!tituloFase) return "avancado";
   const tituloMinusculo = tituloFase.toLowerCase();
 
-  if (tituloMinusculo.includes("fundamentos") || tituloMinusculo.includes("well-architected") || tituloMinusculo.includes("global")) {
-    return "fundamentos";
+  if (
+    tituloMinusculo.includes("simulado") ||
+    tituloMinusculo.includes("rodada relâmpago") ||
+    tituloMinusculo.includes("cenários")
+  ) {
+    return "simulados";
   }
-  if (tituloMinusculo.includes("computação") || tituloMinusculo.includes("ec2") || tituloMinusculo.includes("vpc") || tituloMinusculo.includes("rede") || tituloMinusculo.includes("conteineres")) {
-    return "computacao";
-  }
-  if (tituloMinusculo.includes("segurança") || tituloMinusculo.includes("iam") || tituloMinusculo.includes("kms") || tituloMinusculo.includes("waf") || tituloMinusculo.includes("compliance")) {
+  if (
+    tituloMinusculo.includes("segurança") ||
+    tituloMinusculo.includes("iam") ||
+    tituloMinusculo.includes("kms") ||
+    tituloMinusculo.includes("waf") ||
+    tituloMinusculo.includes("compliance")
+  ) {
     return "seguranca";
   }
-  if (tituloMinusculo.includes("armazenamento") || tituloMinusculo.includes("bancos") || tituloMinusculo.includes("s3") || tituloMinusculo.includes("ebs") || tituloMinusculo.includes("efs")) {
-    return "dados";
+  if (
+    tituloMinusculo.includes("computação") ||
+    tituloMinusculo.includes("ec2") ||
+    tituloMinusculo.includes("vpc") ||
+    tituloMinusculo.includes("rede") ||
+    tituloMinusculo.includes("conteineres") ||
+    tituloMinusculo.includes("contêineres")
+  ) {
+    return "computacao";
   }
-  if (tituloMinusculo.includes("simulado") || tituloMinusculo.includes("rodada relâmpago") || tituloMinusculo.includes("cenários")) {
-    return "simulados";
+  if (
+    tituloMinusculo.includes("fundamentos") ||
+    tituloMinusculo.includes("well-architected") ||
+    tituloMinusculo.includes("global")
+  ) {
+    return "fundamentos";
+  }
+  if (
+    tituloMinusculo.includes("armazenamento") ||
+    tituloMinusculo.includes("bancos") ||
+    tituloMinusculo.includes("s3") ||
+    tituloMinusculo.includes("ebs") ||
+    tituloMinusculo.includes("efs")
+  ) {
+    return "dados";
   }
 
   return "avancado";
 }
 
 /**
+ * Extrai estatísticas de serviços AWS mencionados no banco de questões.
+ *
+ * @param {Array<Object>} fases Lista completa de fases.
+ * @returns {Array<{nome: string, total: number, fases: string[]}>} Serviços ordenados por total.
+ */
+function obterEstatisticasServicos(fases) {
+  if (!Array.isArray(fases)) return [];
+
+  const mapa = {};
+  fases.forEach((fase) => {
+    if (!fase || !Array.isArray(fase.questions)) return;
+    fase.questions.forEach((q) => {
+      if (!q || !Array.isArray(q.services)) return;
+      q.services.forEach((servico) => {
+        if (typeof servico !== "string" || !servico) return;
+        const nome = servico.trim().toLowerCase();
+        if (!mapa[nome]) {
+          mapa[nome] = { nome, total: 0, fases: new Set() };
+        }
+        mapa[nome].total += 1;
+        mapa[nome].fases.add(fase.titulo || fase.id);
+      });
+    });
+  });
+
+  return Object.values(mapa)
+    .map((s) => ({ nome: s.nome, total: s.total, fases: Array.from(s.fases).slice(0, 3) }))
+    .sort((a, b) => b.total - a.total || a.nome.localeCompare(b.nome));
+}
+
+/**
  * Filtra a lista de fases por palavra-chave e categoria temática.
- * 
+ *
  * @param {Array<Object>} fases Lista completa de fases.
  * @param {string} termoBusca Termo de busca fornecido pelo usuário.
  * @param {string} categoriaFiltro Categoria selecionada ('todas' ou ID específico).
@@ -157,21 +215,29 @@ function filtrarFases(fases, termoBusca = "", categoriaFiltro = "todas") {
 
   const buscaNormalizada = termoBusca.trim().toLowerCase();
 
-  return fases.filter(fase => {
+  return fases.filter((fase) => {
     if (!fase) return false;
 
     const categoriaCalculada = obterCategoriaFase(fase.titulo);
-    const atendeCategoria = (categoriaFiltro === "todas" || categoriaFiltro === categoriaCalculada);
+    const atendeCategoria = categoriaFiltro === "todas" || categoriaFiltro === categoriaCalculada;
 
     if (!atendeCategoria) return false;
     if (!buscaNormalizada) return true;
 
-    const tituloMatch = fase.titulo && fase.titulo.toLowerCase().includes(buscaNormalizada);
-    const questaoMatch = Array.isArray(fase.questions) && fase.questions.some(q => {
-      const stemMatch = q.stem && q.stem.toLowerCase().includes(buscaNormalizada);
-      const servicoMatch = Array.isArray(q.services) && q.services.some(s => s.toLowerCase().includes(buscaNormalizada));
-      return stemMatch || servicoMatch;
-    });
+    const tituloMatch =
+      typeof fase.titulo === "string" && fase.titulo.toLowerCase().includes(buscaNormalizada);
+    const questaoMatch =
+      Array.isArray(fase.questions) &&
+      fase.questions.some((q) => {
+        const stemMatch =
+          typeof q.stem === "string" && q.stem.toLowerCase().includes(buscaNormalizada);
+        const servicoMatch =
+          Array.isArray(q.services) &&
+          q.services.some(
+            (s) => typeof s === "string" && s.toLowerCase().includes(buscaNormalizada)
+          );
+        return stemMatch || servicoMatch;
+      });
 
     return tituloMatch || questaoMatch;
   });
@@ -179,7 +245,7 @@ function filtrarFases(fases, termoBusca = "", categoriaFiltro = "todas") {
 
 /**
  * Cria uma cópia embaralhada de uma lista de elementos (algoritmo Fisher-Yates).
- * 
+ *
  * @param {Array} arrayOriginal Array a ser embaralhado.
  * @returns {Array} Novo array com os elementos em ordem aleatória.
  */
@@ -195,7 +261,7 @@ function embaralharArray(arrayOriginal) {
 
 /**
  * Valida o formato e integridade de uma questão individual.
- * 
+ *
  * @param {Object} questao Objeto da questão.
  * @returns {Object} Resultado com { valida: boolean, erros: Array<string> }.
  */
@@ -205,13 +271,64 @@ function validarQuestao(questao) {
   if (!questao || typeof questao !== "object") {
     return { valida: false, erros: ["Questão nula ou inválida"] };
   }
-  if (!questao.id) erros.push("Falta o campo 'id'");
-  if (!questao.stem) erros.push("Falta o enunciado ('stem')");
+  if (!questao.id || typeof questao.id !== "string")
+    erros.push("Falta o campo 'id' ou não é uma string");
+  if (!questao.stem || typeof questao.stem !== "string")
+    erros.push("Falta o enunciado ('stem') ou não é uma string");
+  if (questao.type && typeof questao.type !== "string") erros.push("'type' deve ser uma string");
+
   if (!Array.isArray(questao.options) || questao.options.length < 2) {
     erros.push("Deve ter pelo menos 2 opções");
   }
+
+  const chavesOpcoes = new Set();
+  if (Array.isArray(questao.options)) {
+    questao.options.forEach((opt, idx) => {
+      if (!opt || typeof opt !== "object") {
+        erros.push(`Opção ${idx} inválida`);
+        return;
+      }
+      if (!opt.key || typeof opt.key !== "string")
+        erros.push(`Opção ${idx} sem 'key' ou não é uma string`);
+      if (!opt.text || typeof opt.text !== "string")
+        erros.push(`Opção ${idx} sem 'text' ou não é uma string`);
+      if (opt.key && chavesOpcoes.has(opt.key)) erros.push(`Key '${opt.key}' duplicada nas opções`);
+      if (opt.key) chavesOpcoes.add(opt.key);
+    });
+  }
+
   if (!Array.isArray(questao.answers) || questao.answers.length === 0) {
     erros.push("Deve ter pelo menos 1 resposta correta ('answers')");
+  } else {
+    questao.answers.forEach((resp) => {
+      if (typeof resp !== "string") erros.push("Cada resposta em 'answers' deve ser uma string");
+      else if (!chavesOpcoes.has(resp))
+        erros.push(`Resposta '${resp}' não corresponde a uma opção existente`);
+    });
+  }
+
+  if (questao.hints && !Array.isArray(questao.hints)) {
+    erros.push("'hints' deve ser uma lista de strings");
+  } else if (Array.isArray(questao.hints)) {
+    questao.hints.forEach((hint, idx) => {
+      if (typeof hint !== "string") erros.push(`hint[${idx}] deve ser uma string`);
+    });
+  }
+
+  if (questao.whyNots && (typeof questao.whyNots !== "object" || Array.isArray(questao.whyNots))) {
+    erros.push("'whyNots' deve ser um objeto");
+  } else if (questao.whyNots && typeof questao.whyNots === "object") {
+    Object.entries(questao.whyNots).forEach(([chave, valor]) => {
+      if (typeof valor !== "string") erros.push(`whyNots['${chave}'] deve ser uma string`);
+    });
+  }
+
+  if (questao.services && !Array.isArray(questao.services)) {
+    erros.push("'services' deve ser uma lista de strings");
+  } else if (Array.isArray(questao.services)) {
+    questao.services.forEach((s, idx) => {
+      if (typeof s !== "string") erros.push(`services[${idx}] deve ser uma string`);
+    });
   }
 
   return {
@@ -222,7 +339,7 @@ function validarQuestao(questao) {
 
 /**
  * Valida o banco completo de questões.
- * 
+ *
  * @param {Object} banco Objeto AWS_BANK contendo a lista de fases.
  * @returns {Object} Relatório de validação com total de fases, total de questões e erros.
  */
@@ -234,34 +351,64 @@ function validarBancoDados(banco) {
     erros: []
   };
 
-  if (!banco || !Array.isArray(banco.fases)) {
+  if (!banco || typeof banco !== "object" || !Array.isArray(banco.fases)) {
     relatorio.valido = false;
     relatorio.erros.push("Banco de dados sem propriedade 'fases' válida.");
     return relatorio;
   }
+  if (banco.cert !== "SAA-C03") {
+    relatorio.valido = false;
+    relatorio.erros.push(
+      "Banco com código de certificação inválido ou ausente. Esperado 'SAA-C03'."
+    );
+  }
 
   relatorio.totalFases = banco.fases.length;
+  const idsFases = new Set();
+  const idsQuestoes = new Set();
 
   banco.fases.forEach((fase, indiceFase) => {
-    if (!fase.id || !fase.titulo) {
+    if (!fase || typeof fase !== "object") {
       relatorio.valido = false;
-      relatorio.erros.push(`Fase no índice ${indiceFase} sem ID ou título.`);
+      relatorio.erros.push(`Fase no índice ${indiceFase} não é um objeto válido.`);
+      return;
+    }
+    if (!fase.id || typeof fase.id !== "string") {
+      relatorio.valido = false;
+      relatorio.erros.push(`Fase no índice ${indiceFase} sem ID válido.`);
+    } else if (idsFases.has(fase.id)) {
+      relatorio.valido = false;
+      relatorio.erros.push(`ID de fase duplicado: '${fase.id}'.`);
+    } else {
+      idsFases.add(fase.id);
+    }
+    if (!fase.titulo || typeof fase.titulo !== "string") {
+      relatorio.valido = false;
+      relatorio.erros.push(`Fase '${fase.id || indiceFase}' sem título válido.`);
     }
 
-    if (!Array.isArray(fase.questions)) {
+    if (!Array.isArray(fase.questions) || fase.questions.length === 0) {
       relatorio.valido = false;
-      relatorio.erros.push(`Fase '${fase.id || indiceFase}' sem lista de questões.`);
+      relatorio.erros.push(`Fase '${fase.id || indiceFase}' deve conter pelo menos uma questão.`);
       return;
     }
 
     relatorio.totalQuestoes += fase.questions.length;
 
-    fase.questions.forEach(q => {
+    fase.questions.forEach((q) => {
       const checagem = validarQuestao(q);
+      const qId =
+        q && typeof q === "object" && !Array.isArray(q) && typeof q.id === "string" ? q.id : null;
       if (!checagem.valida) {
         relatorio.valido = false;
-        relatorio.erros.push(`Questão '${q.id || 'sem_id'}': ${checagem.erros.join(", ")}`);
+        relatorio.erros.push(`Questão '${qId || "sem_id"}': ${checagem.erros.join(", ")}`);
+        return;
       }
+      if (qId && idsQuestoes.has(qId)) {
+        relatorio.valido = false;
+        relatorio.erros.push(`Questão com ID duplicado: '${qId}'.`);
+      }
+      if (qId) idsQuestoes.add(qId);
     });
   });
 
@@ -270,7 +417,7 @@ function validarBancoDados(banco) {
 
 /**
  * Inicializa o estado do jogo para o modo "Salvar o Pet".
- * 
+ *
  * @param {Object} pet Objeto do pet selecionado.
  * @param {number} [metaAcertos=20] Meta de acertos para resgatar.
  * @param {number} [maxErros=3] Máximo de erros permitido.
@@ -278,18 +425,18 @@ function validarBancoDados(banco) {
  */
 function criarEstadoPet(pet, metaAcertos = 20, maxErros = 3) {
   return {
-    pet: pet || { id: 'cat', name: 'Gatinho', emoji: '🐱', word: 'Mimi' },
+    pet: pet || { id: "cat", name: "Gatinho", emoji: "🐱", word: "Mimi" },
     acertos: 0,
     erros: 0,
     maxErros,
     metaAcertos,
-    status: 'em_andamento' // 'em_andamento', 'salvo', 'derrota'
+    status: "em_andamento" // 'em_andamento', 'salvo', 'derrota'
   };
 }
 
 /**
  * Processa o resultado de uma resposta no modo "Salvar o Pet".
- * 
+ *
  * @param {Object} estadoPet Estado atual do modo Pet.
  * @param {boolean} acertou Se o jogador acertou a questão.
  * @returns {Object} Novo estado do modo Pet.
@@ -300,12 +447,12 @@ function processarRespostaPet(estadoPet, acertou) {
   if (acertou) {
     novoEstado.acertos += 1;
     if (novoEstado.acertos >= novoEstado.metaAcertos) {
-      novoEstado.status = 'salvo';
+      novoEstado.status = "salvo";
     }
   } else {
     novoEstado.erros += 1;
     if (novoEstado.erros >= novoEstado.maxErros) {
-      novoEstado.status = 'derrota';
+      novoEstado.status = "derrota";
     }
   }
 
@@ -314,7 +461,7 @@ function processarRespostaPet(estadoPet, acertou) {
 
 /**
  * Inicializa o estado do jogo para o modo "Sobrevivência".
- * 
+ *
  * @param {number} [totalVidas=3] Quantidade total de vidas.
  * @returns {Object} Estado inicial do modo Sobrevivência.
  */
@@ -323,13 +470,13 @@ function criarEstadoSobrevivencia(totalVidas = 3) {
     acertosConsecutivos: 0,
     erros: 0,
     maxErros: totalVidas,
-    status: 'em_andamento' // 'em_andamento', 'derrota'
+    status: "em_andamento" // 'em_andamento', 'derrota'
   };
 }
 
 /**
  * Processa a resposta do jogador no modo Sobrevivência.
- * 
+ *
  * @param {Object} estadoSobrevivencia Estado atual do modo Sobrevivência.
  * @param {boolean} acertou Se a resposta foi correta.
  * @returns {Object} Novo estado do modo Sobrevivência.
@@ -340,17 +487,86 @@ function processarRespostaSobrevivencia(estadoSobrevivencia, acertou) {
   if (acertou) {
     novoEstado.acertosConsecutivos += 1;
   } else {
+    novoEstado.acertosConsecutivos = 0;
     novoEstado.erros += 1;
     if (novoEstado.erros >= novoEstado.maxErros) {
-      novoEstado.status = 'derrota';
+      novoEstado.status = "derrota";
     }
   }
 
   return novoEstado;
 }
 
+/**
+ * Inicializa o estado do jogo para o modo "Simulado".
+ *
+ * @param {number} [totalQuestoes=65] Quantidade total de questões do simulado.
+ * @param {number} [tempoMinutos=130] Tempo total em minutos.
+ * @returns {Object} Estado inicial do modo Simulado.
+ */
+function criarEstadoSimulado(totalQuestoes = 65, tempoMinutos = 130) {
+  return {
+    indice: 0,
+    acertos: 0,
+    erros: 0,
+    total: totalQuestoes,
+    tempoMinutos: tempoMinutos,
+    tempoFimMs: Date.now() + tempoMinutos * 60 * 1000,
+    status: "em_andamento" // 'em_andamento', 'finalizado', 'timeout'
+  };
+}
+
+/**
+ * Processa a resposta do jogador no modo Simulado.
+ *
+ * @param {Object} estadoSimulado Estado atual do modo Simulado.
+ * @param {boolean} acertou Se a resposta foi correta.
+ * @returns {Object} Novo estado do modo Simulado.
+ */
+function processarRespostaSimulado(estadoSimulado, acertou) {
+  const novoEstado = { ...estadoSimulado };
+
+  if (acertou) {
+    novoEstado.acertos += 1;
+  } else {
+    novoEstado.erros += 1;
+  }
+
+  novoEstado.indice += 1;
+  if (novoEstado.indice >= novoEstado.total) {
+    novoEstado.status = "finalizado";
+  }
+
+  return novoEstado;
+}
+
+/**
+ * Calcula o score em escala AWS (100 - 1000) a partir da porcentagem de acertos.
+ *
+ * @param {number} acertos Quantidade de respostas corretas.
+ * @param {number} total Quantidade total de questões.
+ * @returns {number} Score na escala 100 a 1000.
+ */
+function calcularScoreAWS(acertos, total) {
+  if (total <= 0) return 100;
+  const percentual = acertos / total;
+  return Math.round(100 + percentual * 900);
+}
+
+/**
+ * Retorna o tempo restante, em segundos, do modo Simulado.
+ *
+ * @param {number} tempoFimMs Timestamp de término.
+ * @param {number} [agoraMs] Timestamp atual (padrão Date.now()).
+ * @returns {number} Segundos restantes (mínimo 0).
+ */
+function calcularTempoRestanteSimulado(tempoFimMs, agoraMs = Date.now()) {
+  const restanteMs = Math.max(0, tempoFimMs - agoraMs);
+  return Math.ceil(restanteMs / 1000);
+}
+
 // Exportação compatível com Node.js (CommonJS) e Navegador (Global/UMD)
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     MILISSEGUNDOS_POR_DIA,
     INTERVALOS_LEITNER_DIAS,
@@ -360,6 +576,7 @@ if (typeof module !== 'undefined' && module.exports) {
     obterCartoesDevidos,
     calcularGanhoXP,
     obterCategoriaFase,
+    obterEstatisticasServicos,
     filtrarFases,
     embaralharArray,
     validarQuestao,
@@ -367,9 +584,13 @@ if (typeof module !== 'undefined' && module.exports) {
     criarEstadoPet,
     processarRespostaPet,
     criarEstadoSobrevivencia,
-    processarRespostaSobrevivencia
+    processarRespostaSobrevivencia,
+    criarEstadoSimulado,
+    processarRespostaSimulado,
+    calcularScoreAWS,
+    calcularTempoRestanteSimulado
   };
-} else if (typeof window !== 'undefined') {
+} else if (typeof window !== "undefined") {
   window.JogoCore = {
     MILISSEGUNDOS_POR_DIA,
     INTERVALOS_LEITNER_DIAS,
@@ -379,6 +600,7 @@ if (typeof module !== 'undefined' && module.exports) {
     obterCartoesDevidos,
     calcularGanhoXP,
     obterCategoriaFase,
+    obterEstatisticasServicos,
     filtrarFases,
     embaralharArray,
     validarQuestao,
@@ -386,6 +608,10 @@ if (typeof module !== 'undefined' && module.exports) {
     criarEstadoPet,
     processarRespostaPet,
     criarEstadoSobrevivencia,
-    processarRespostaSobrevivencia
+    processarRespostaSobrevivencia,
+    criarEstadoSimulado,
+    processarRespostaSimulado,
+    calcularScoreAWS,
+    calcularTempoRestanteSimulado
   };
 }

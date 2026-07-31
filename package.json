@@ -6,8 +6,17 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test testes/*.test.js && python3 -m unittest discover -s testes -p 'test_*.py'",
+    "lint": "eslint src/ testes/",
+    "lint:fix": "eslint src/ testes/ --fix",
+    "format": "prettier --write src/ testes/",
+    "format:check": "prettier --check src/ testes/",
     "build:bank": "python3 data/build-bank.py"
   },
   "author": "nin-guem <299251671+ninguem-tech@users.noreply.github.com>",
-  "license": "AGPL-3.0"
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6"
+  }
 }

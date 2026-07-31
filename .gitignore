@@ -9,5 +9,9 @@ docs/pt-book-coverage-*.md
 # macOS
 .DS_Store
 
+# Node.js
+node_modules/
+package-lock.json
+
 # Python
 __pycache__/

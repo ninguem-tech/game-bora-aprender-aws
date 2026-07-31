@@ -1,15 +1,16 @@
 /**
  * Módulo de atalhos de teclado do jogo.
  *
- * Registra o handler global de keydown que mapeia teclas numéricas (1-4),
- * letras (a-d), Escape, H (dica) e Enter/Espaço para as ações da interface.
+ * Registra o handler global de keydown que mapeia Alt+teclas numéricas (1-4),
+ * Alt+letras (a-d), Alt+H (dica), Escape, Enter/Espaço para as ações da interface.
  *
- * Garantias de acessibilidade (WCAG 2.1.1, 2.1.2):
+ * Garantias de acessibilidade (WCAG 2.1.1, 2.1.2, 2.1.4):
+ *  - Atalhos de caractere (1-4, A-D, H) exigem o modificador Alt;
  *  - Atalhos nunca disparam durante digitação em input, textarea, select
  *    ou elementos com contentEditable;
- *  - Atalhos nunca disparam com teclas modificadoras (Ctrl/Meta/Alt);
- *  - Cada tecla dispara uma única ação (a tecla D responde a opção D;
- *    a dica usa somente a tecla H);
+ *  - Atalhos nunca disparam com Ctrl/Meta sozinhos;
+ *  - Cada tecla dispara uma única ação (Alt+D responde a opção D;
+ *    Alt+H revela a dica);
  *  - Enter/Espaço sobre um controle focado seguem o comportamento nativo
  *    do HTML, sem dupla ativação pelo handler global.
  *
@@ -25,7 +26,7 @@
 function estaEmCampoEditavel(elemento) {
   if (!elemento || !elemento.tagName) return false;
   const tag = String(elemento.tagName).toUpperCase();
-  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
   return elemento.isContentEditable === true;
 }
 
@@ -38,7 +39,7 @@ function estaEmCampoEditavel(elemento) {
 function ehControleNativo(alvo) {
   if (!alvo || !alvo.tagName) return false;
   const tag = String(alvo.tagName).toUpperCase();
-  return tag === 'BUTTON' || tag === 'A';
+  return tag === "BUTTON" || tag === "A";
 }
 
 /**
@@ -55,29 +56,46 @@ function ehControleNativo(alvo) {
  * @param {Function} deps.getCtaBtn - Retorna o botão CTA principal ou null.
  */
 function instalarAtalhosTeclado(deps) {
-  window.addEventListener('keydown', function (e) {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+  window.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey) return;
     if (estaEmCampoEditavel(e.target) || estaEmCampoEditavel(document.activeElement)) return;
 
-    var key = e.key.toLowerCase();
+    var code = e.code;
+    var atalhoDeCaractere = [
+      "Digit1",
+      "Digit2",
+      "Digit3",
+      "Digit4",
+      "KeyA",
+      "KeyB",
+      "KeyC",
+      "KeyD",
+      "KeyH"
+    ].includes(code);
 
-    if (e.key === 'Escape') {
+    if (atalhoDeCaractere && !e.altKey) return;
+    if (atalhoDeCaractere) e.preventDefault();
+
+    if (e.key === "Escape") {
       deps.intro();
       return;
     }
 
-    if (['1', '2', '3', '4', 'a', 'b', 'c', 'd'].includes(key)) {
+    if (["Digit1", "Digit2", "Digit3", "Digit4", "KeyA", "KeyB", "KeyC", "KeyD"].includes(code)) {
       var optIdx = -1;
-      if (['1', '2', '3', '4'].includes(key)) optIdx = parseInt(key) - 1;
-      else if (key === 'a') optIdx = 0;
-      else if (key === 'b') optIdx = 1;
-      else if (key === 'c') optIdx = 2;
-      else if (key === 'd' && deps.getOpcoesDesabilitadas().length > 3) optIdx = 3;
+      if (code === "Digit1") optIdx = 0;
+      else if (code === "Digit2") optIdx = 1;
+      else if (code === "Digit3") optIdx = 2;
+      else if (code === "Digit4") optIdx = 3;
+      else if (code === "KeyA") optIdx = 0;
+      else if (code === "KeyB") optIdx = 1;
+      else if (code === "KeyC") optIdx = 2;
+      else if (code === "KeyD") optIdx = 3;
 
       var revisao = deps.getModoRevisao();
       if (revisao && revisao.revelado) {
-        if (key === '1' || key === 'a') deps.avalia(false);
-        else if (key === '2' || key === 'b') deps.avalia(true);
+        if (code === "Digit1" || code === "KeyA") deps.avalia(false);
+        else if (code === "Digit2" || code === "KeyB") deps.avalia(true);
         return;
       }
 
@@ -89,14 +107,14 @@ function instalarAtalhosTeclado(deps) {
       }
     }
 
-    if (key === 'h') {
+    if (code === "KeyH") {
       var dicaBtn = deps.getDicaBtn();
       if (dicaBtn && !dicaBtn.disabled) {
         dicaBtn.click();
       }
     }
 
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       if (ehControleNativo(e.target)) return;
       var revisaoEnter = deps.getModoRevisao();
       if (revisaoEnter) {
@@ -110,7 +128,7 @@ function instalarAtalhosTeclado(deps) {
         return;
       }
       var ctaBtn = deps.getCtaBtn();
-      if (ctaBtn && !ctaBtn.disabled && ctaBtn.id !== 'mostrarBtn') {
+      if (ctaBtn && !ctaBtn.disabled && ctaBtn.id !== "mostrarBtn") {
         e.preventDefault();
         ctaBtn.click();
       }
@@ -118,8 +136,8 @@ function instalarAtalhosTeclado(deps) {
   });
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { instalarAtalhosTeclado, estaEmCampoEditavel, ehControleNativo };
-} else if (typeof window !== 'undefined') {
+} else if (typeof window !== "undefined") {
   window.TECLADO = { instalarAtalhosTeclado, estaEmCampoEditavel, ehControleNativo };
 }

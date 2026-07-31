@@ -6,6 +6,10 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+# Serviços descontinuados pela AWS; questões que os citam devem ser revisadas
+# antes de entrar no banco oficial.
+DEPRECATED_SERVICES = {"qldb"}
+
 MANIFEST = [
     ("fundamentos", "Fundamentos da Nuvem", ["supplement-fundamentos.json"]),
     ("computacao-rede", "Computação e Rede (EC2, VPC, ELB)",
@@ -56,7 +60,7 @@ MANIFEST = [
      ["supplement-s3-avancado.json"]),
     ("bancos-especializados", "Bancos de Dados Especializados (DocumentDB, Neptune, Timestream...)",
      ["supplement-bancos-especializados.json"]),
-    ("fundamentos", "Fundamentos: Global, Responsabilidade e Well-Architected",
+    ("fundamentos-well-architected", "Fundamentos: Global, Responsabilidade e Well-Architected",
      ["supplement-fundamentos-governanca.json"]),
     ("lambda-avancado", "AWS Lambda — Aprofundamento",
      ["supplement-lambda-avancado.json"]),
@@ -103,15 +107,70 @@ MANIFEST = [
 ]
 
 
+def _texto_menciona_servico_descontinuado(texto):
+    """Verifica se um texto menciona algum serviço descontinuado."""
+    if not isinstance(texto, str):
+        return False
+    normalizado = texto.lower()
+    return any(s in normalizado for s in DEPRECATED_SERVICES)
+
+
+def _campos_texto_da_questao(q):
+    """Yields strings dos campos textuais de uma questão."""
+    for campo in ("situacao", "stem", "explanation"):
+        if campo in q:
+            yield q[campo]
+    options = q.get("options")
+    if isinstance(options, list):
+        for opt in options:
+            if isinstance(opt, dict):
+                yield opt.get("text")
+    hints = q.get("hints")
+    if isinstance(hints, list):
+        for hint in hints:
+            if isinstance(hint, str):
+                yield hint
+    why_not = q.get("whyNots")
+    if isinstance(why_not, dict):
+        for valor in why_not.values():
+            if isinstance(valor, str):
+                yield valor
+
+
 def load_supplement_questions(file_path):
-    """Carrega as questões de um arquivo JSON suplementar."""
+    """Carrega as questões de um arquivo JSON suplementar, rejeitando serviços descontinuados."""
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     if not isinstance(data, dict) or "questions" not in data or not isinstance(data["questions"], list):
         raise ValueError(f"Estrutura JSON inválida em {file_path}: esperada chave 'questions' contendo uma lista.")
-    return data["questions"]
+    questions = data["questions"]
+    for idx, q in enumerate(questions):
+        if not isinstance(q, dict):
+            raise ValueError(f"Elemento {idx} em {file_path} não é um objeto de questão.")
+        services = q.get("services")
+        if services is not None and not isinstance(services, list):
+            raise ValueError(f"Questão '{q.get('id', idx)}' em {file_path}: 'services' deve ser uma lista.")
+        for s in services or []:
+            if not isinstance(s, str):
+                raise ValueError(
+                    f"Questão '{q.get('id', idx)}' em {file_path}: 'services' deve conter apenas strings."
+                )
+            if s.lower() in DEPRECATED_SERVICES:
+                qid = q.get("id", idx)
+                raise ValueError(
+                    f"Questão '{qid}' em {file_path} referencia serviço descontinuado: {s}. "
+                    "Remova ou substitua a questão antes de gerar o banco."
+                )
+        for texto in _campos_texto_da_questao(q):
+            if _texto_menciona_servico_descontinuado(texto):
+                qid = q.get("id", idx)
+                raise ValueError(
+                    f"Questão '{qid}' em {file_path} menciona serviço descontinuado no texto. "
+                    "Remova ou substitua a questão antes de gerar o banco."
+                )
+    return questions
 
 
 def build_bank_data(manifest, data_dir=HERE):

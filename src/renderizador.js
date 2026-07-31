@@ -145,6 +145,7 @@ function intro(silencioso) {
       <button class="tabBtn ${App.modoJogo === "simulado" ? "active" : ""}" ${App.modoJogo === "simulado" ? 'aria-current="true"' : ""} data-action="set-modo" data-modo="simulado"><span aria-hidden="true">📝</span> Simulado</button>
       <button class="tabBtn ${App.modoJogo === "leitner" ? "active" : ""}" ${App.modoJogo === "leitner" ? 'aria-current="true"' : ""} data-action="set-modo" data-modo="leitner"><span aria-hidden="true">📒</span> Leitner (${due})</button>
       <button class="tabBtn ${App.modoJogo === "servicos" ? "active" : ""}" ${App.modoJogo === "servicos" ? 'aria-current="true"' : ""} data-action="set-modo" data-modo="servicos"><span aria-hidden="true">☁️</span> Serviços</button>
+      <button class="tabBtn ${App.modoJogo === "conquistas" ? "active" : ""}" ${App.modoJogo === "conquistas" ? 'aria-current="true"' : ""} data-action="set-modo" data-modo="conquistas"><span aria-hidden="true">🏅</span> Conquistas</button>
     </div>
 
     <div id="modoContent"></div>
@@ -196,7 +197,38 @@ function renderModoContent() {
     renderServicos(container);
   } else if (App.modoJogo === "leitner") {
     renderLeitnerOverview(container);
+  } else if (App.modoJogo === "conquistas") {
+    renderConquistas(container);
   }
+}
+
+// ---------- MODO: CONQUISTAS ----------
+
+/**
+ * Renderiza a aba de conquistas/desbloqueios do jogador.
+ * @param {HTMLElement} container - Container DOM.
+ */
+function renderConquistas(container) {
+  const { desbloqueadas, pendentes } = JogoCore.calcularConquistas(App.store);
+  const total = desbloqueadas.length + pendentes.length;
+
+  const badgeHtml = (c, ativo) => `
+    <li class="badgeItem ${ativo ? "" : "locked"}" aria-label="${ativo ? "Conquista desbloqueada" : "Conquista bloqueada"}: ${c.label}">
+      <span class="badgeEmoji" aria-hidden="true">${c.emoji}</span>
+      <span class="badgeLabel">${escaparHtml(c.label)}</span>
+    </li>`;
+
+  container.innerHTML = `
+    <h2 class="sr-only">Conquistas</h2>
+    <p class="lead">Você desbloqueou <b>${desbloqueadas.length}</b> de <b>${total}</b> conquistas. Mantenha o ritmo!</p>
+    <h3>Desbloqueadas</h3>
+    <ul class="badgeGrid" aria-live="polite">
+      ${desbloqueadas.map((c) => badgeHtml(c, true)).join("") || '<li class="dica">Nenhuma conquista ainda. Responda uma questão para começar!</li>'}
+    </ul>
+    <h3 style="margin-top:14px">Pendentes</h3>
+    <ul class="badgeGrid">
+      ${pendentes.map((c) => badgeHtml(c, false)).join("")}
+    </ul>`;
 }
 
 // ---------- LISTA E BUSCA DE FASES ----------
@@ -216,6 +248,8 @@ function renderFasesList(container) {
     { id: "simulados", label: "Simulados" }
   ];
 
+  const dominios = JogoCore.DOMINIOS_AWS;
+
   const html = `
     <h2 class="sr-only">Lista de fases</h2>
     <div class="searchWrap">
@@ -223,6 +257,9 @@ function renderFasesList(container) {
     </div>
     <div class="filterChips" role="group" aria-label="Filtrar por categoria">
       ${categories.map((c) => `<button class="chip ${App.categoryFilter === c.id ? "active" : ""}" aria-pressed="${App.categoryFilter === c.id}" data-action="set-category" data-category="${c.id}">${c.label}</button>`).join("")}
+    </div>
+    <div class="filterChips" role="group" aria-label="Filtrar por domínio AWS" style="margin-top:6px">
+      ${dominios.map((d) => `<button class="chip ${App.domainFilter === d.id ? "active" : ""}" aria-pressed="${App.domainFilter === d.id}" data-action="set-domain" data-domain="${d.id}">${d.label}</button>`).join("")}
     </div>
     <div class="faseGrid" id="faseGrid"></div>`;
 
@@ -263,6 +300,17 @@ function setCategoryFilter(cat) {
 }
 
 /**
+ * Define o filtro de domínio AWS e re-renderiza a lista de fases.
+ * @param {string} dom - Identificador do domínio.
+ */
+function setDomainFilter(dom) {
+  App.domainFilter = dom;
+  renderFasesList(document.getElementById("modoContent"));
+  const chipAtivo = document.querySelector('[data-action="set-domain"].active');
+  if (chipAtivo) ACESSIBILIDADE.focarElemento(chipAtivo);
+}
+
+/**
  * Atualiza a grade de fases conforme filtros de busca e categoria.
  */
 function updateFaseGrid() {
@@ -273,7 +321,9 @@ function updateFaseGrid() {
     .map((f, idx) => ({ f, idx }))
     .filter(({ f }) => {
       const cat = JogoCore.obterCategoriaFase(f.titulo);
+      const dom = JogoCore.obterDominioFase(f.titulo);
       const matchesCat = App.categoryFilter === "todas" || App.categoryFilter === cat;
+      const matchesDomain = App.domainFilter === "todos" || App.domainFilter === dom;
       const matchesSearch =
         !App.searchFilter ||
         f.titulo.toLowerCase().includes(App.searchFilter) ||
@@ -282,7 +332,7 @@ function updateFaseGrid() {
             q.stem.toLowerCase().includes(App.searchFilter) ||
             (q.services && q.services.some((s) => s.toLowerCase().includes(App.searchFilter)))
         );
-      return matchesCat && matchesSearch;
+      return matchesCat && matchesDomain && matchesSearch;
     });
 
   if (!filtered.length) {
@@ -1369,6 +1419,7 @@ if (typeof module !== "undefined" && module.exports) {
     renderFasesList,
     onSearchInput,
     setCategoryFilter,
+    setDomainFilter,
     updateFaseGrid,
     renderPetSelector,
     selectPet,
@@ -1384,6 +1435,7 @@ if (typeof module !== "undefined" && module.exports) {
     atualizarModoSimulado,
     renderLeitnerOverview,
     renderServicos,
+    renderConquistas,
     renderOptionsAndHints,
     startFase,
     mostra,
@@ -1421,6 +1473,7 @@ if (typeof window !== "undefined") {
     renderFasesList,
     onSearchInput,
     setCategoryFilter,
+    setDomainFilter,
     updateFaseGrid,
     renderPetSelector,
     selectPet,
@@ -1436,6 +1489,7 @@ if (typeof window !== "undefined") {
     atualizarModoSimulado,
     renderLeitnerOverview,
     renderServicos,
+    renderConquistas,
     renderOptionsAndHints,
     startFase,
     mostra,

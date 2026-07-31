@@ -171,6 +171,131 @@ function obterCategoriaFase(tituloFase) {
   return "avancado";
 }
 
+const DOMINIOS_AWS = [
+  { id: "todos", label: "Todos" },
+  { id: "fundamentos", label: "Fundamentos" },
+  { id: "computacao", label: "Computação" },
+  { id: "armazenamento", label: "Armazenamento" },
+  { id: "banco_de_dados", label: "Banco de Dados" },
+  { id: "rede", label: "Rede e Entrega" },
+  { id: "seguranca", label: "Segurança" },
+  { id: "aplicacao", label: "Aplicação" },
+  { id: "governanca", label: "Governança" },
+  { id: "analytics", label: "Analytics" },
+  { id: "migracao", label: "Migração" }
+];
+
+/**
+ * Classifica o domínio AWS oficial a partir do título da fase.
+ *
+ * @param {string} tituloFase Título da fase.
+ * @returns {string} Identificador do domínio AWS.
+ */
+function obterDominioFase(tituloFase) {
+  if (!tituloFase) return "fundamentos";
+  const t = tituloFase.toLowerCase();
+
+  if (
+    t.includes("segurança") ||
+    t.includes("iam") ||
+    t.includes("kms") ||
+    t.includes("waf") ||
+    t.includes("compliance") ||
+    t.includes("auditoria") ||
+    t.includes("certificado") ||
+    t.includes("diretório")
+  ) {
+    return "seguranca";
+  }
+  if (
+    t.includes("banco") ||
+    t.includes("dynamodb") ||
+    t.includes("rds") ||
+    t.includes("documentdb") ||
+    t.includes("neptune") ||
+    t.includes("timestream")
+  ) {
+    return "banco_de_dados";
+  }
+  if (
+    t.includes("armazenamento") ||
+    t.includes("s3") ||
+    t.includes("ebs") ||
+    t.includes("efs") ||
+    t.includes("fsx")
+  ) {
+    return "armazenamento";
+  }
+  if (
+    t.includes("rede") ||
+    t.includes("vpc") ||
+    t.includes("route 53") ||
+    t.includes("cloudfront") ||
+    t.includes("nacl") ||
+    t.includes("conectividade")
+  ) {
+    return "rede";
+  }
+  if (
+    t.includes("computação") ||
+    t.includes("ec2") ||
+    t.includes("lambda") ||
+    t.includes("contêiner") ||
+    t.includes("conteiner") ||
+    t.includes("ecs") ||
+    t.includes("ecr") ||
+    t.includes("eks") ||
+    t.includes("workspaces") ||
+    t.includes("computação de usuário")
+  ) {
+    return "computacao";
+  }
+  if (
+    t.includes("aplicação") ||
+    t.includes("sqs") ||
+    t.includes("sns") ||
+    t.includes("api gateway") ||
+    t.includes("step functions") ||
+    t.includes("cloudfront") ||
+    t.includes("cloudfront e edge") ||
+    t.includes("mensageria")
+  ) {
+    return "aplicacao";
+  }
+  if (
+    t.includes("governança") ||
+    t.includes("custos") ||
+    t.includes("organizat") ||
+    t.includes("control tower") ||
+    t.includes("cloudwatch") ||
+    t.includes("monitoramento") ||
+    t.includes("observabilidade") ||
+    t.includes("config") ||
+    t.includes("ops") ||
+    t.includes("operações")
+  ) {
+    return "governanca";
+  }
+  if (
+    t.includes("analytics") ||
+    t.includes("big data") ||
+    t.includes("opensearch") ||
+    t.includes("logs")
+  ) {
+    return "analytics";
+  }
+  if (
+    t.includes("migração") ||
+    t.includes("transferência") ||
+    t.includes("dr") ||
+    t.includes("recuperação")
+  ) {
+    return "migracao";
+  }
+
+  return "fundamentos";
+}
+
 /**
  * Extrai estatísticas de serviços AWS mencionados no banco de questões.
  *
@@ -305,6 +430,103 @@ function embaralharArray(arrayOriginal) {
     [copia[indice], copia[indiceAleatorio]] = [copia[indiceAleatorio], copia[indice]];
   }
   return copia;
+}
+
+/**
+ * Lista de conquistas e regras de desbloqueio.
+ *
+ * @returns {Array<{id: string, label: string, emoji: string, criterio: Function}>} Conquistas.
+ */
+function obterConquistasDefinicao() {
+  return [
+    {
+      id: "primeira_resposta",
+      label: "Primeiros Passos",
+      emoji: "👟",
+      criterio: (s) => (s.stats.totalAnswered || 0) >= 1
+    },
+    {
+      id: "cem_questoes",
+      label: "Cem Desafios",
+      emoji: "💯",
+      criterio: (s) => (s.stats.totalAnswered || 0) >= 100
+    },
+    {
+      id: "streak_3",
+      label: "Fogo de 3 Dias",
+      emoji: "🔥",
+      criterio: (s) => (s.streakDays || 0) >= 3
+    },
+    {
+      id: "streak_7",
+      label: "Fogo de 7 Dias",
+      emoji: "🔥🔥",
+      criterio: (s) => (s.streakDays || 0) >= 7
+    },
+    {
+      id: "primeira_fase",
+      label: "Primeira Fase Concluída",
+      emoji: "🌟",
+      criterio: (s) =>
+        Object.values(s.phaseStats || {}).some((p) => p && p.completed) ||
+        Object.values(s.phaseStats || {}).some((p) => p && p.bestPercent >= 80)
+    },
+    {
+      id: "fase_perfeita",
+      label: "Fase Perfeita",
+      emoji: "⭐",
+      criterio: (s) => Object.values(s.phaseStats || {}).some((p) => p && p.bestPercent === 100)
+    },
+    {
+      id: "pet_salvo",
+      label: "Salvou o Pet",
+      emoji: "🐾",
+      criterio: () => false
+    },
+    {
+      id: "leitner_10",
+      label: "Baralho de 10",
+      emoji: "📒",
+      criterio: (s) => Object.keys(s.deck || {}).length >= 10
+    },
+    {
+      id: "simulado_aprovado",
+      label: "Aprovado no Simulado",
+      emoji: "✅",
+      criterio: (s) =>
+        (s.examHistory || []).some((e) => e && typeof e.score === "number" && e.score >= 720)
+    },
+    {
+      id: "simulado_perfeito",
+      label: "Score Máximo",
+      emoji: "🏆",
+      criterio: (s) =>
+        (s.examHistory || []).some((e) => e && typeof e.score === "number" && e.score >= 1000)
+    }
+  ];
+}
+
+/**
+ * Calcula as conquistas desbloqueadas e pendentes do jogador.
+ *
+ * @param {Object} store Estado persistente.
+ * @returns {{desbloqueadas: Array<Object>, pendentes: Array<Object>}} Conquistas.
+ */
+function calcularConquistas(store) {
+  const seguro = store || {};
+  seguro.stats = seguro.stats || {};
+  seguro.phaseStats = seguro.phaseStats || {};
+  seguro.examHistory = seguro.examHistory || [];
+  seguro.deck = seguro.deck || {};
+
+  const conquistas = obterConquistasDefinicao();
+  const desbloqueadas = [];
+  const pendentes = [];
+  conquistas.forEach((c) => {
+    if (c.criterio(seguro)) desbloqueadas.push(c);
+    else pendentes.push(c);
+  });
+  return { desbloqueadas, pendentes };
 }
 
 /**
@@ -623,10 +845,14 @@ if (typeof module !== "undefined" && module.exports) {
     adicionarAoLeitner,
     obterCartoesDevidos,
     calcularGanhoXP,
+    DOMINIOS_AWS,
     obterCategoriaFase,
+    obterDominioFase,
     obterEstatisticasServicos,
     calcularReadiness,
     classificarReadiness,
+    calcularConquistas,
+    obterConquistasDefinicao,
     filtrarFases,
     embaralharArray,
     validarQuestao,
@@ -649,10 +875,14 @@ if (typeof module !== "undefined" && module.exports) {
     adicionarAoLeitner,
     obterCartoesDevidos,
     calcularGanhoXP,
+    DOMINIOS_AWS,
     obterCategoriaFase,
+    obterDominioFase,
     obterEstatisticasServicos,
     calcularReadiness,
     classificarReadiness,
+    calcularConquistas,
+    obterConquistasDefinicao,
     filtrarFases,
     embaralharArray,
     validarQuestao,

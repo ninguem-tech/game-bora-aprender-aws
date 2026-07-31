@@ -34,6 +34,7 @@
     survivalEstado: JogoCore.criarEstadoSobrevivencia(3),
     searchFilter: "",
     categoryFilter: "todas",
+    domainFilter: "todos",
     iniciado: false,
     focoOrigem: null
   };
@@ -190,6 +191,9 @@
         break;
       case "set-category":
         R.setCategoryFilter(target.dataset.category);
+        break;
+      case "set-domain":
+        R.setDomainFilter(target.dataset.domain);
         break;
       case "avalia":
         R.avalia(target.dataset.acertou === "true");

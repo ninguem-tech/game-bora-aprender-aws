@@ -9,7 +9,8 @@ const {
   criarEstadoSimulado,
   processarRespostaSimulado,
   calcularScoreAWS,
-  calcularTempoRestanteSimulado
+  calcularTempoRestanteSimulado,
+  calcularConquistas
 } = require("../src/jogo.js");
 
 describe("Regras e Modos de Jogo", () => {
@@ -159,6 +160,34 @@ describe("Regras e Modos de Jogo", () => {
       const fim = agora + 130 * 60 * 1000;
       assert.equal(calcularTempoRestanteSimulado(fim, agora), 7800);
       assert.equal(calcularTempoRestanteSimulado(agora - 1, agora), 0);
+    });
+  });
+
+  describe("Conquistas", () => {
+    it("deve retornar conquistas desbloqueadas de acordo com o estado", () => {
+      const store = {
+        stats: { totalAnswered: 100, totalCorrect: 80 },
+        streakDays: 3,
+        phaseStats: { f1: { completed: true, bestPercent: 100 } },
+        examHistory: [{ score: 800 }],
+        deck: { q1: {}, q2: {}, q3: {}, q4: {}, q5: {}, q6: {}, q7: {}, q8: {}, q9: {}, q10: {} }
+      };
+      const { desbloqueadas, pendentes } = calcularConquistas(store);
+
+      assert.ok(desbloqueadas.some((c) => c.id === "primeira_resposta"));
+      assert.ok(desbloqueadas.some((c) => c.id === "cem_questoes"));
+      assert.ok(desbloqueadas.some((c) => c.id === "streak_3"));
+      assert.ok(desbloqueadas.some((c) => c.id === "fase_perfeita"));
+      assert.ok(desbloqueadas.some((c) => c.id === "simulado_aprovado"));
+      assert.ok(desbloqueadas.some((c) => c.id === "leitner_10"));
+      assert.ok(pendentes.some((c) => c.id === "streak_7"));
+      assert.ok(pendentes.some((c) => c.id === "simulado_perfeito"));
+    });
+
+    it("deve retornar todas as conquistas como pendentes para estado vazio", () => {
+      const { desbloqueadas, pendentes } = calcularConquistas({});
+      assert.equal(desbloqueadas.length, 0);
+      assert.ok(pendentes.length > 0);
     });
   });
 });

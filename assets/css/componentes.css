@@ -151,6 +151,13 @@ body.dark .chip.active { color: #161412; }
 .readinessValue { font-size: .9rem; color: var(--cafe2); margin-top: 6px; }
 .readinessValue b { font-weight: 800; }
 
+/* Badges / Conquistas */
+.badgeGrid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.badgeItem { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.badgeItem.locked { opacity: .55; filter: grayscale(1); }
+.badgeEmoji { font-size: 1.8rem; }
+.badgeLabel { font-size: .75rem; font-weight: 700; color: var(--cafe2); line-height: 1.2; }
+
 /* Service guide */
 .servList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
 .servItem { background: var(--creme); border: 1px solid var(--linha); border-radius: 12px; padding: 10px 12px; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; }

@@ -4,6 +4,8 @@ const {
   validarQuestao,
   validarBancoDados,
   obterCategoriaFase,
+  obterDominioFase,
+  DOMINIOS_AWS,
   obterEstatisticasServicos,
   calcularReadiness,
   classificarReadiness,
@@ -228,6 +230,26 @@ describe("Validação do Banco de Dados e Utilitários", () => {
     it("deve retornar lista vazia para entradas inválidas", () => {
       assert.deepStrictEqual(obterEstatisticasServicos(null), []);
       assert.deepStrictEqual(obterEstatisticasServicos([]), []);
+    });
+  });
+
+  describe("Domínio AWS da Fase", () => {
+    it("deve classificar domínios a partir do título da fase", () => {
+      assert.equal(obterDominioFase("EC2 — Modelos de Preço"), "computacao");
+      assert.equal(obterDominioFase("S3 — Recursos Avançados"), "armazenamento");
+      assert.equal(obterDominioFase("IAM e Identidade"), "seguranca");
+      assert.equal(obterDominioFase("Bancos de Dados — Aprofundamento"), "banco_de_dados");
+      assert.equal(obterDominioFase("VPC — Fundamentos de Rede"), "rede");
+      assert.equal(obterDominioFase("CloudWatch e Monitoramento"), "governanca");
+      assert.equal(obterDominioFase("SQS, SNS e API Gateway"), "aplicacao");
+      assert.equal(obterDominioFase("RDS e DynamoDB"), "banco_de_dados");
+      assert.equal(obterDominioFase("Fundamentos da Nuvem"), "fundamentos");
+    });
+
+    it("deve expor a lista de domínios AWS suportados", () => {
+      assert.ok(DOMINIOS_AWS.length > 0);
+      assert.ok(DOMINIOS_AWS.some((d) => d.id === "computacao"));
+      assert.ok(DOMINIOS_AWS.every((d) => d.id && d.label));
     });
   });
 

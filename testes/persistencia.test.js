@@ -4,6 +4,7 @@ const {
   carregar,
   salvar,
   registrarExame,
+  importarProgressoJSON,
   LS_KEY,
   ESTADO_PADRAO
 } = require("../src/persistencia.js");
@@ -302,5 +303,38 @@ describe("Camada de Persistência (localStorage)", () => {
     });
 
     global.localStorage = storeOriginal;
+  });
+
+  it("deve rejeitar backup com tentativa de prototype pollution", () => {
+    const malicioso = JSON.stringify({
+      ["__proto__"]: { polluted: true },
+      stats: { totalAnswered: 1, totalCorrect: 1, maxStreak: 1 }
+    });
+    const resultado = importarProgressoJSON(malicioso);
+    assert.equal(resultado, null);
+  });
+
+  it("deve rejeitar backup com chaves desconhecidas ou muito grande", () => {
+    const resultado = importarProgressoJSON('{"stats":{},"tema":"hacker"}');
+    assert.equal(resultado, null);
+  });
+
+  it("deve rejeitar backup com lastActiveDate inválido", () => {
+    const resultado = importarProgressoJSON('{"stats":{},"lastActiveDate":"ontem"}');
+    assert.equal(resultado, null);
+  });
+
+  it("deve importar backup válido e descartar campos inválidos", () => {
+    const valido = JSON.stringify({
+      xpTotal: 50,
+      theme: "dark",
+      fontScale: 1.3,
+      stats: { totalAnswered: 10, totalCorrect: 8, maxStreak: 2 }
+    });
+    const resultado = importarProgressoJSON(valido);
+    assert.equal(resultado.xpTotal, 50);
+    assert.equal(resultado.theme, "dark");
+    assert.equal(resultado.fontScale, 1.3);
+    assert.equal(resultado.stats.totalCorrect, 8);
   });
 });

@@ -276,10 +276,50 @@ function exportarProgressoJSON(store) {
  * @param {string} jsonString Conteúdo do arquivo JSON.
  * @returns {Object|null} Estado importado ou null.
  */
+function possuiChavePerigosa(obj) {
+  if (!obj || typeof obj !== "object") return false;
+  const perigosas = ["__proto__", "constructor", "prototype"];
+  return Object.getOwnPropertyNames(obj).some((k) => perigosas.includes(k));
+}
+
+function validarEstruturaBackup(parsed) {
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return false;
+  if (possuiChavePerigosa(parsed)) return false;
+
+  const chavesPermitidas = new Set([
+    "deck",
+    "xpTotal",
+    "theme",
+    "muted",
+    "fontScale",
+    "phaseStats",
+    "stats",
+    "lastActiveDate",
+    "streakDays",
+    "studyLogs",
+    "examHistory",
+    "hasSeenWelcome"
+  ]);
+  const chaves = Object.getOwnPropertyNames(parsed);
+  if (chaves.length > 30 || chaves.some((k) => !chavesPermitidas.has(k))) return false;
+
+  if (parsed.lastActiveDate && !/^\d{4}-\d{2}-\d{2}$/.test(parsed.lastActiveDate)) return false;
+  if (parsed.theme && !["light", "dark"].includes(parsed.theme)) return false;
+
+  if (possuiChavePerigosa(parsed.deck)) return false;
+  if (possuiChavePerigosa(parsed.phaseStats)) return false;
+  if (possuiChavePerigosa(parsed.stats)) return false;
+  if (possuiChavePerigosa(parsed.studyLogs)) return false;
+
+  return true;
+}
+
 function importarProgressoJSON(jsonString) {
   try {
+    if (typeof jsonString !== "string" || jsonString.length > 2 * 1024 * 1024) return null;
+    if (jsonString.includes("__proto__") || jsonString.includes("constructor")) return null;
     const parsed = JSON.parse(jsonString);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
+    if (!validarEstruturaBackup(parsed)) return null;
     const importado = carregar();
     if (parsed.deck) importado.deck = normalizarDeck(parsed.deck);
     if (typeof parsed.xpTotal === "number") importado.xpTotal = Math.max(0, parsed.xpTotal);

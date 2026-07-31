@@ -33,6 +33,50 @@ function escaparHtml(texto) {
     .replace(/'/g, "&#39;");
 }
 
+/**
+ * Dispara uma animação de confete leve via CSS, respeitando
+ * prefers-reduced-motion. Retorna o contêiner para remoção posterior.
+ *
+ * @param {HTMLElement} [target] Elemento ancorador (padrão: body).
+ * @returns {HTMLElement|null} Contêiner do confete.
+ */
+function dispararConfete(target) {
+  if (typeof window === "undefined") return null;
+  if (ACESSIBILIDADE.prefereMovimentoReduzido()) return null;
+
+  const cores = ["#f87171", "#34d399", "#60a5fa", "#facc15", "#a78bfa", "#fb923c"];
+  const container = document.createElement("div");
+  container.className = "confete";
+  container.setAttribute("aria-hidden", "true");
+  const ancora = target || document.body;
+  const rect = ancora.getBoundingClientRect();
+  const origemX = rect.left + rect.width / 2;
+  const origemY = rect.top + rect.height / 2;
+
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement("span");
+    p.className = "confete-piece";
+    p.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+    p.style.left = origemX + "px";
+    p.style.top = origemY + "px";
+    const angulo = Math.random() * Math.PI * 2;
+    const distancia = 80 + Math.random() * 120;
+    const tx = Math.cos(angulo) * distancia;
+    const ty = Math.sin(angulo) * distancia - 120;
+    p.style.setProperty("--tx", tx + "px");
+    p.style.setProperty("--ty", ty + "px");
+    p.style.setProperty("--rot", Math.floor(Math.random() * 360) + "deg");
+    p.style.animationDelay = Math.random() * 0.4 + "s";
+    container.appendChild(p);
+  }
+
+  document.body.appendChild(container);
+  setTimeout(function () {
+    if (container.parentNode) container.parentNode.removeChild(container);
+  }, 1800);
+  return container;
+}
+
 const PETS = [
   { id: "cat", name: "Gatinho", emoji: "🐱", word: "Mimi" },
   { id: "dog", name: "Cãozinho", emoji: "🐶", word: "Bidu" },
@@ -633,8 +677,13 @@ function resumoSimulado() {
   const score = JogoCore.calcularScoreAWS(e.acertos, e.total);
   const percent = e.total > 0 ? Math.round((e.acertos / e.total) * 100) : 0;
   const aprovado = score >= 720;
-  if (aprovado) AUDIO.playSound("fanfare", App.store);
-  else AUDIO.playSound("no", App.store);
+  if (aprovado) {
+    AUDIO.playSound("fanfare", App.store);
+    dispararConfete();
+    if (score >= 1000) comemorarConquista("simulado_perfeito");
+  } else {
+    AUDIO.playSound("no", App.store);
+  }
 
   const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
   const ultimosExames = examHistory.slice(0, 5).map(
@@ -1106,6 +1155,39 @@ function responde(key, btn) {
   if (App.modoJogo === "fases" || App.modoJogo === "simulado") setProgress(App.i + 1, App.q.length);
 }
 
+// ---------- UTILITÁRIOS ----------
+
+/**
+ * Verifica se uma conquista recém-desbloqueada deve ser anunciada/celebrada.
+ * @param {string} conquistaId Identificador da conquista.
+ */
+function comemorarConquista(conquistaId) {
+  const conquistas = JogoCore.calcularConquistas(App.store).desbloqueadas;
+  const conquista = conquistas.find((c) => c.id === conquistaId);
+  if (!conquista) return;
+  mostrarToast("Conquista desbloqueada: " + conquista.label + " " + conquista.emoji);
+}
+
+/**
+ * Exibe um toast de informação temporário na tela.
+ * @param {string} mensagem Texto do toast.
+ */
+function mostrarToast(mensagem) {
+  if (typeof document === "undefined") return;
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.setAttribute("role", "status");
+  toast.setAttribute("aria-live", "polite");
+  toast.textContent = mensagem;
+  document.body.appendChild(toast);
+  setTimeout(function () {
+    toast.classList.add("sair");
+  }, 2600);
+  setTimeout(function () {
+    if (toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 3000);
+}
+
 // ---------- RESUMOS DE FIM DE JOGO ----------
 
 /**
@@ -1125,6 +1207,13 @@ function resumo() {
     bestPercent: Math.max(prev.bestPercent || 0, percent)
   };
   PERSISTENCIA.salvar(App.store);
+
+  const gabaritou = App.acertos === total;
+  if (gabaritou) {
+    dispararConfete();
+    const prev = App.store.phaseStats[App.fase.id] || {};
+    if (prev.bestPercent !== 100) comemorarConquista("fase_perfeita");
+  }
 
   app.innerHTML = `
     <span class="who rafael">Rafael · mentor</span>

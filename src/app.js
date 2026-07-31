@@ -224,6 +224,16 @@
         fecharBackup();
         break;
       }
+      case "bem-vindo": {
+        var w = document.getElementById("welcomeDialog") || criarBemVindoDialog();
+        w.hidden = false;
+        ACESSIBILIDADE.focarTitulo(w.querySelector(".card"));
+        break;
+      }
+      case "fechar-bem-vindo": {
+        fecharBemVindo();
+        break;
+      }
       case "exportar-backup":
         PERSISTENCIA.exportarProgressoJSON(store);
         break;
@@ -273,6 +283,44 @@
     }
   });
 
+  // ---------- MODAL DE BOAS-VINDAS ----------
+  function fecharBemVindo() {
+    var d = document.getElementById("welcomeDialog");
+    if (d) d.hidden = true;
+    App.store.hasSeenWelcome = true;
+    PERSISTENCIA.salvar(App.store);
+  }
+
+  function criarBemVindoDialog() {
+    var overlay = document.createElement("div");
+    overlay.className = "backupDialog";
+    overlay.id = "welcomeDialog";
+    overlay.setAttribute("role", "presentation");
+    overlay.innerHTML =
+      "" +
+      '<div class="card" role="dialog" aria-modal="true" aria-labelledby="welcomeTitulo">' +
+      '  <h1 id="welcomeTitulo">Bem-vinda, Júlia! ☕</h1>' +
+      '  <p class="lead">O jogo tem vários modos de estudo. Aqui vai um resumo rápido:</p>' +
+      '  <ul style="text-align:left;margin:12px 0;padding-left:18px;font-size:.9rem">' +
+      "    <li><b>Fases</b>: estude por tópico e avance no seu ritmo.</li>" +
+      "    <li><b>Salvar o Pet</b>: missão com meta de acertos e limite de erros.</li>" +
+      "    <li><b>Sobrevivência</b>: não erre 3 vezes seguidas.</li>" +
+      "    <li><b>Simulado</b>: 65 questões em 130 min, score estilo AWS.</li>" +
+      "    <li><b>Leitner</b>: revisão espaçada do que você errou.</li>" +
+      "    <li><b>Serviços</b> e <b>Conquistas</b>: guia e metas.</li>" +
+      "  </ul>" +
+      '  <p style="font-size:.85rem;color:var(--dim)">Atalhos: <b>Alt+1 a Alt+4</b> respondem, <b>Alt+H</b> dica, <b>Esc</b> volta ao início.</p>' +
+      '  <button class="cta" data-action="fechar-bem-vindo">Bora começar!</button>' +
+      "</div>";
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) fecharBemVindo();
+    });
+
+    document.body.appendChild(overlay);
+    return overlay;
+  }
+
   // ---------- TRAP FOCUS E ESCAPE DO BACKUP ----------
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
@@ -295,4 +343,10 @@
   // A partir do primeiro render, toda mudança de tela gerencia o foco e
   // os anúncios (no carregamento inicial o foco permanece no documento).
   App.iniciado = true;
+
+  if (!store.hasSeenWelcome) {
+    var w = document.getElementById("welcomeDialog") || criarBemVindoDialog();
+    w.hidden = false;
+    ACESSIBILIDADE.announce("Bem-vinda ao Bora Aprender AWS.");
+  }
 })();

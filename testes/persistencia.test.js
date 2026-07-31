@@ -46,6 +46,7 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.deepStrictEqual(estado.phaseStats, {});
     assert.deepStrictEqual(estado.stats, { totalAnswered: 0, totalCorrect: 0, maxStreak: 0 });
     assert.deepStrictEqual(estado.examHistory, []);
+    assert.equal(estado.hasSeenWelcome, false);
   });
 
   it("deve salvar e carregar o estado completo corretamente", () => {
@@ -56,7 +57,8 @@ describe("Camada de Persistência (localStorage)", () => {
       muted: true,
       fontScale: 1.15,
       phaseStats: { f1: { completed: true, bestPercent: 80 } },
-      stats: { totalAnswered: 20, totalCorrect: 16, maxStreak: 5 }
+      stats: { totalAnswered: 20, totalCorrect: 16, maxStreak: 5 },
+      hasSeenWelcome: true
     };
 
     salvar(estadoCompleto);
@@ -82,6 +84,7 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.deepStrictEqual(estadoCarregado.phaseStats, estadoCompleto.phaseStats);
     assert.deepStrictEqual(estadoCarregado.stats, estadoCompleto.stats);
     assert.deepStrictEqual(estadoCarregado.examHistory, []);
+    assert.equal(estadoCarregado.hasSeenWelcome, true);
   });
 
   it("deve retornar o estado padrão quando o JSON no localStorage é inválido", () => {

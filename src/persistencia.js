@@ -19,7 +19,8 @@ const ESTADO_PADRAO = {
   lastActiveDate: null,
   streakDays: 0,
   studyLogs: {},
-  examHistory: []
+  examHistory: [],
+  hasSeenWelcome: false
 };
 
 function numeroOuPadrao(valor, padrao) {
@@ -232,7 +233,8 @@ function carregar() {
       lastActiveDate: ultimo,
       streakDays: normalizarInteiroPositivo(parsed.streakDays, 0),
       studyLogs: normalizarStudyLogs(parsed.studyLogs),
-      examHistory: normalizarExamHistory(parsed.examHistory)
+      examHistory: normalizarExamHistory(parsed.examHistory),
+      hasSeenWelcome: booleanoOuPadrao(parsed.hasSeenWelcome, ESTADO_PADRAO.hasSeenWelcome)
     };
     if (ultimo !== hoje) {
       return atualizarStreak(base);
@@ -288,6 +290,8 @@ function importarProgressoJSON(jsonString) {
     if (parsed.stats) importado.stats = normalizarStats(parsed.stats);
     if (parsed.studyLogs) importado.studyLogs = normalizarStudyLogs(parsed.studyLogs);
     if (parsed.examHistory) importado.examHistory = normalizarExamHistory(parsed.examHistory);
+    if (typeof parsed.hasSeenWelcome === "boolean")
+      importado.hasSeenWelcome = parsed.hasSeenWelcome;
     if (typeof parsed.streakDays === "number")
       importado.streakDays = normalizarInteiroPositivo(parsed.streakDays, 0);
     if (typeof parsed.lastActiveDate === "string") importado.lastActiveDate = parsed.lastActiveDate;

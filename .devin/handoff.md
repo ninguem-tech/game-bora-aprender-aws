@@ -18,10 +18,11 @@ Você está continuando a incorporação de melhores ideias do projeto `aws-cert
 10. **Readiness gauge** no dashboard.
 11. **Modal de boas-vindas** para primeira visita.
 12. **Hardening AppSec**: CSP, X-Content-Type-Options, Referrer-Policy, validação de backup contra prototype pollution, chaves desconhecidas e payload grande.
+13. **Sanitização do termo de busca de fases**: função `sanitizarTermoBusca` no core remove caracteres de controle, limita a 100 caracteres e normaliza minúsculas; usada no filtro da grade de fases e no `input` de busca.
 
 ## Estado dos testes
 
-- `npm test` passa com **104 testes** (29 suites JS + 13 testes Python).
+- `npm test` passa com **112 testes JS + 13 testes Python** (30 suites JS).
 - `npm run lint` e `npm run format:check` passam.
 - `npm audit` sem vulnerabilidades.
 
@@ -34,18 +35,18 @@ Você está continuando a incorporação de melhores ideias do projeto `aws-cert
 
 ## Últimos commits no branch `main`
 
+- `feat: sanitização do termo de busca de fases com limitação e remoção de caracteres de controle.`
 - `feat: hardening AppSec — CSP, headers e validação de backup.`
 - Anteriores: modal de boas-vindas, confete, filtros/domínios, conquistas, readiness, simulado, PWA, etc.
 
 ## Próximas melhorias sugeridas (prioridade aproximada)
 
-1. **Sanitizar termo de busca de fases**: limitar tamanho, remover caracteres de controle e validar contra input malicioso.
-2. **Hash/integridade do backup**: gerar checksum simples (SHA-256) no export e validar no import.
-3. **Rate limiting local**: impedir importação repetida em curto espaço de tempo.
-4. **Modo escuro automático**: detectar `prefers-color-scheme`.
-5. **Gráfico de evolução dos simulados**: exibir linha de score ao longo do tempo.
-6. **Compartilhar resultado do simulado** como texto/imagem.
-7. **Validação mais rígida do schema do banco de questões** (`data/bank.js`).
+1. **Hash/integridade do backup**: gerar checksum simples (SHA-256) no export e validar no import.
+2. **Rate limiting local**: impedir importação repetida em curto espaço de tempo.
+3. **Modo escuro automático**: detectar `prefers-color-scheme`.
+4. **Gráfico de evolução dos simulados**: exibir linha de score ao longo do tempo.
+5. **Compartilhar resultado do simulado** como texto/imagem.
+6. **Validação mais rígida do schema do banco de questões** (`data/bank.js`).
 
 ## Convênções obrigatórias
 
@@ -57,4 +58,4 @@ Você está continuando a incorporação de melhores ideias do projeto `aws-cert
 
 ## Primeira ação recomendada
 
-A próxima melhoria mais alinhada com o contexto AppSec/UX atual é a **sanitização do termo de busca de fases**. Pergunte ao usuário se deseja começar por ela ou por outra sugestão da lista acima.
+A próxima melhoria mais alinhada com o contexto AppSec/UX atual é o **hash/integridade do backup JSON** (SHA-256 no export e validação no import). Pergunte ao usuário se deseja começar por ela ou por outra sugestão da lista acima.

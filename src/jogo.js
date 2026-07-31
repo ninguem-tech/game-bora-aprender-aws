@@ -376,6 +376,29 @@ function classificarReadiness(readiness) {
 }
 
 /**
+ * Sanitiza um termo de busca para uso seguro na interface.
+ *
+ * Remove caracteres de controle (incluindo null bytes), normaliza espaços,
+ * limita o tamanho e converte para minúsculas. O resultado é seguro para
+ * inserção via textContent e para comparações de string.
+ *
+ * @param {string} termo Termo de busca bruto.
+ * @param {number} [tamanhoMaximo=100] Tamanho máximo permitido.
+ * @returns {string} Termo sanitizado e normalizado.
+ */
+function sanitizarTermoBusca(termo, tamanhoMaximo = 100) {
+  if (typeof termo !== "string") return "";
+  const semControle = termo
+    .split("")
+    .filter((caractere) => {
+      const codigo = caractere.charCodeAt(0);
+      return codigo >= 32 && codigo !== 127;
+    })
+    .join("");
+  return semControle.trim().slice(0, tamanhoMaximo).toLowerCase();
+}
+
+/**
  * Filtra a lista de fases por palavra-chave e categoria temática.
  *
  * @param {Array<Object>} fases Lista completa de fases.
@@ -386,7 +409,7 @@ function classificarReadiness(readiness) {
 function filtrarFases(fases, termoBusca = "", categoriaFiltro = "todas") {
   if (!Array.isArray(fases)) return [];
 
-  const buscaNormalizada = termoBusca.trim().toLowerCase();
+  const buscaNormalizada = sanitizarTermoBusca(termoBusca);
 
   return fases.filter((fase) => {
     if (!fase) return false;
@@ -854,6 +877,7 @@ if (typeof module !== "undefined" && module.exports) {
     calcularConquistas,
     obterConquistasDefinicao,
     filtrarFases,
+    sanitizarTermoBusca,
     embaralharArray,
     validarQuestao,
     validarBancoDados,
@@ -884,6 +908,7 @@ if (typeof module !== "undefined" && module.exports) {
     calcularConquistas,
     obterConquistasDefinicao,
     filtrarFases,
+    sanitizarTermoBusca,
     embaralharArray,
     validarQuestao,
     validarBancoDados,

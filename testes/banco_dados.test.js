@@ -10,6 +10,7 @@ const {
   calcularReadiness,
   classificarReadiness,
   filtrarFases,
+  sanitizarTermoBusca,
   embaralharArray
 } = require("../src/jogo.js");
 
@@ -197,6 +198,58 @@ describe("Validação do Banco de Dados e Utilitários", () => {
       const apenasFundamentos = filtrarFases(listaFasesFicticia, "", "fundamentos");
       assert.equal(apenasFundamentos.length, 1);
       assert.equal(apenasFundamentos[0].id, "f1");
+    });
+  });
+
+  describe("Sanitização do Termo de Busca", () => {
+    it("deve normalizar espaços e converter para minúsculas", () => {
+      assert.equal(sanitizarTermoBusca("  EC2  "), "ec2");
+      assert.equal(sanitizarTermoBusca("S3 Glacier"), "s3 glacier");
+    });
+
+    it("deve remover caracteres de controle e null bytes", () => {
+      assert.equal(sanitizarTermoBusca("EC2\x00\x01\x1F\x7F"), "ec2");
+      assert.equal(sanitizarTermoBusca("\n\rIAM\t"), "iam");
+    });
+
+    it("deve limitar o tamanho máximo padrão do termo", () => {
+      const longo = "a".repeat(200);
+      const resultado = sanitizarTermoBusca(longo);
+      assert.equal(resultado.length, 100);
+      assert.equal(resultado, "a".repeat(100));
+    });
+
+    it("deve aceitar tamanho máximo customizado", () => {
+      const termo = "a".repeat(50);
+      assert.equal(sanitizarTermoBusca(termo, 10).length, 10);
+      assert.equal(sanitizarTermoBusca(termo, 10), "a".repeat(10));
+    });
+
+    it("deve retornar string vazia para entradas inválidas", () => {
+      assert.equal(sanitizarTermoBusca(null), "");
+      assert.equal(sanitizarTermoBusca(undefined), "");
+      assert.equal(sanitizarTermoBusca(123), "");
+      assert.equal(sanitizarTermoBusca({}), "");
+    });
+
+    it("deve retornar vazio quando o termo contém apenas caracteres de controle", () => {
+      assert.equal(sanitizarTermoBusca("\x00\x01\x02\x03"), "");
+      assert.equal(sanitizarTermoBusca("   "), "");
+    });
+
+    it("deve manter caracteres unicode e acentuação válidos", () => {
+      assert.equal(sanitizarTermoBusca("Computação"), "computação");
+      assert.equal(sanitizarTermoBusca("Serviços"), "serviços");
+    });
+
+    it("deve usar termo sanitizado ao filtrar fases", () => {
+      const fases = [
+        { id: "f1", titulo: "Fundamentos EC2", questions: [] },
+        { id: "f2", titulo: "Armazenamento S3", questions: [] }
+      ];
+      const resultado = filtrarFases(fases, "  EC2\x00\n  ", "todas");
+      assert.equal(resultado.length, 1);
+      assert.equal(resultado[0].id, "f1");
     });
   });
 

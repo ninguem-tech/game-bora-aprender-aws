@@ -327,7 +327,7 @@ function renderFasesList(container) {
  * @param {string} val - Valor atual do campo de busca.
  */
 function onSearchInput(val) {
-  App.searchFilter = val.toLowerCase();
+  App.searchFilter = JogoCore.sanitizarTermoBusca(val);
   updateFaseGrid();
 }
 

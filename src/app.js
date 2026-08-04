@@ -46,9 +46,11 @@
     if (!netBadge) return;
     if (navigator.onLine) {
       netBadge.textContent = "● online";
+      netBadge.setAttribute("aria-label", "Status da rede: online");
       netBadge.classList.remove("offline");
     } else {
       netBadge.textContent = "● offline";
+      netBadge.setAttribute("aria-label", "Status da rede: offline");
       netBadge.classList.add("offline");
     }
   }
@@ -80,35 +82,57 @@
   });
 
   // ---------- PWA: BACKUP E RESTAURAÇÃO ----------
-  var backupFocoAnterior = null;
+  var modalFocoAnterior = null;
+
+  function obterModalAberto() {
+    var backup = document.getElementById("backupDialog");
+    if (backup && !backup.hidden) return { dialog: backup, fechar: fecharBackup };
+    var welcome = document.getElementById("welcomeDialog");
+    if (welcome && !welcome.hidden) return { dialog: welcome, fechar: fecharBemVindo };
+    return null;
+  }
 
   function fecharBackup() {
     var d = document.getElementById("backupDialog");
     if (!d) return;
     d.hidden = true;
     ACESSIBILIDADE.announce("Diálogo de backup fechado.");
-    if (backupFocoAnterior) {
-      ACESSIBILIDADE.focarElemento(backupFocoAnterior);
-      backupFocoAnterior = null;
+    if (modalFocoAnterior) {
+      ACESSIBILIDADE.focarElemento(modalFocoAnterior);
+      modalFocoAnterior = null;
     }
   }
 
-  function gerenciarTecladoBackup(e) {
-    var d = document.getElementById("backupDialog");
-    if (!d || d.hidden) return;
+  function fecharBemVindo() {
+    var d = document.getElementById("welcomeDialog");
+    if (d) d.hidden = true;
+    App.store.hasSeenWelcome = true;
+    PERSISTENCIA.salvar(App.store);
+    if (modalFocoAnterior) {
+      ACESSIBILIDADE.focarElemento(modalFocoAnterior);
+      modalFocoAnterior = null;
+    }
+  }
+
+  function gerenciarTecladoModais(e) {
+    var modal = obterModalAberto();
+    if (!modal) return;
+    // Impede que o handler global de atalhos (window) também reaja ao Escape
+    // e navegue para a home enquanto um diálogo está aberto.
+    e.stopPropagation();
 
     if (e.key === "Escape") {
       e.preventDefault();
-      fecharBackup();
+      modal.fechar();
       return;
     }
 
     if (e.key === "Tab") {
-      var focusables = Array.from(d.querySelectorAll("textarea, button, [href], input")).filter(
-        function (el) {
-          return !el.disabled && !el.hidden;
-        }
-      );
+      var focusables = Array.from(
+        modal.dialog.querySelectorAll("textarea, button, [href], input")
+      ).filter(function (el) {
+        return !el.disabled && !el.hidden;
+      });
       if (focusables.length === 0) return;
       var first = focusables[0];
       var last = focusables[focusables.length - 1];
@@ -212,7 +236,7 @@
         break;
       case "backup": {
         var dialog = document.getElementById("backupDialog") || criarBackupDialog();
-        backupFocoAnterior = document.activeElement;
+        modalFocoAnterior = document.activeElement;
         dialog.hidden = false;
         var ta = dialog.querySelector("textarea");
         if (ta) ta.value = "";
@@ -226,6 +250,7 @@
       }
       case "bem-vindo": {
         var w = document.getElementById("welcomeDialog") || criarBemVindoDialog();
+        modalFocoAnterior = document.activeElement;
         w.hidden = false;
         ACESSIBILIDADE.focarTitulo(w.querySelector(".card"));
         break;
@@ -284,13 +309,6 @@
   });
 
   // ---------- MODAL DE BOAS-VINDAS ----------
-  function fecharBemVindo() {
-    var d = document.getElementById("welcomeDialog");
-    if (d) d.hidden = true;
-    App.store.hasSeenWelcome = true;
-    PERSISTENCIA.salvar(App.store);
-  }
-
   function criarBemVindoDialog() {
     var overlay = document.createElement("div");
     overlay.className = "backupDialog";
@@ -321,16 +339,10 @@
     return overlay;
   }
 
-  // ---------- TRAP FOCUS E ESCAPE DO BACKUP ----------
+  // ---------- TRAP FOCUS E ESCAPE DOS MODAIS ----------
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      var d = document.getElementById("backupDialog");
-      if (d && !d.hidden) {
-        e.preventDefault();
-        fecharBackup();
-      }
-    } else if (e.key === "Tab") {
-      gerenciarTecladoBackup(e);
+    if (e.key === "Escape" || e.key === "Tab") {
+      gerenciarTecladoModais(e);
     }
   });
 

@@ -20,7 +20,8 @@ const ESTADO_PADRAO = {
   streakDays: 0,
   studyLogs: {},
   examHistory: [],
-  hasSeenWelcome: false
+  hasSeenWelcome: false,
+  petsSalvos: 0
 };
 
 function numeroOuPadrao(valor, padrao) {
@@ -138,11 +139,23 @@ function normalizarStudyLogs(studyLogs) {
 }
 
 /**
+ * Formata um objeto Date como string local YYYY-MM-DD.
+ * @param {Date} d Data a formatar.
+ * @returns {string} Data local no formato ISO.
+ */
+function formatarDataLocal(d) {
+  const ano = d.getFullYear();
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return ano + "-" + mes + "-" + dia;
+}
+
+/**
  * Retorna a data local de hoje no formato ISO (YYYY-MM-DD).
  * @returns {string}
  */
 function dataHojeIso() {
-  return new Date().toISOString().split("T")[0];
+  return formatarDataLocal(new Date());
 }
 
 /**
@@ -152,7 +165,7 @@ function dataHojeIso() {
 function dataOntemIso() {
   const d = new Date();
   d.setDate(d.getDate() - 1);
-  return d.toISOString().split("T")[0];
+  return formatarDataLocal(d);
 }
 
 /**
@@ -169,8 +182,6 @@ function atualizarStreak(store) {
   let streak = normalizarInteiroPositivo(store.streakDays, 0);
   if (ultimo === dataOntemIso()) {
     streak += 1;
-  } else if (ultimo !== null) {
-    streak = 1;
   } else {
     streak = 1;
   }
@@ -234,9 +245,10 @@ function carregar() {
       streakDays: normalizarInteiroPositivo(parsed.streakDays, 0),
       studyLogs: normalizarStudyLogs(parsed.studyLogs),
       examHistory: normalizarExamHistory(parsed.examHistory),
-      hasSeenWelcome: booleanoOuPadrao(parsed.hasSeenWelcome, ESTADO_PADRAO.hasSeenWelcome)
+      hasSeenWelcome: booleanoOuPadrao(parsed.hasSeenWelcome, ESTADO_PADRAO.hasSeenWelcome),
+      petsSalvos: normalizarInteiroPositivo(parsed.petsSalvos, 0)
     };
-    if (ultimo !== hoje) {
+    if (ultimo !== null && ultimo !== hoje) {
       return atualizarStreak(base);
     }
     return base;
@@ -262,13 +274,22 @@ function salvar(store) {
  * @param {Object} store Estado persistente.
  */
 function exportarProgressoJSON(store) {
-  const conteudo = encodeURIComponent(JSON.stringify(store, null, 2));
+  const conteudo = JSON.stringify(store, null, 2);
   const link = document.createElement("a");
-  link.href = "data:application/json;charset=utf-8," + conteudo;
   link.download = "bora-aprender-aws-backup-" + dataHojeIso() + ".json";
+  if (typeof URL !== "undefined" && URL.createObjectURL) {
+    const blob = new Blob([conteudo], { type: "application/json" });
+    link.href = URL.createObjectURL(blob);
+  } else {
+    // Fallback para navegadores sem Blob URLs.
+    link.href = "data:application/json;charset=utf-8," + encodeURIComponent(conteudo);
+  }
   document.body.appendChild(link);
   link.click();
   link.remove();
+  if (link.href && link.href.startsWith("blob:")) {
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  }
 }
 
 /**
@@ -298,7 +319,8 @@ function validarEstruturaBackup(parsed) {
     "streakDays",
     "studyLogs",
     "examHistory",
-    "hasSeenWelcome"
+    "hasSeenWelcome",
+    "petsSalvos"
   ]);
   const chaves = Object.getOwnPropertyNames(parsed);
   if (chaves.length > 30 || chaves.some((k) => !chavesPermitidas.has(k))) return false;
@@ -332,6 +354,8 @@ function importarProgressoJSON(jsonString) {
     if (parsed.examHistory) importado.examHistory = normalizarExamHistory(parsed.examHistory);
     if (typeof parsed.hasSeenWelcome === "boolean")
       importado.hasSeenWelcome = parsed.hasSeenWelcome;
+    if (typeof parsed.petsSalvos === "number")
+      importado.petsSalvos = normalizarInteiroPositivo(parsed.petsSalvos, 0);
     if (typeof parsed.streakDays === "number")
       importado.streakDays = normalizarInteiroPositivo(parsed.streakDays, 0);
     if (typeof parsed.lastActiveDate === "string") importado.lastActiveDate = parsed.lastActiveDate;
@@ -374,7 +398,10 @@ if (typeof module !== "undefined" && module.exports) {
     registrarExame,
     atualizarStreak,
     normalizarStudyLogs,
-    normalizarExamHistory
+    normalizarExamHistory,
+    formatarDataLocal,
+    dataHojeIso,
+    dataOntemIso
   };
 } else if (typeof window !== "undefined") {
   window.PERSISTENCIA = {

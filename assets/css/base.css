@@ -1,5 +1,10 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; background: var(--creme); color: var(--cafe); font-family: -apple-system, Segoe UI, Roboto, Ubuntu, system-ui, sans-serif; line-height: 1.5; transition: background 0.25s, color 0.25s; }
+/* Garante que o atributo hidden sempre esconda o elemento, inclusive quando
+   uma classe de autor define display (ex.: .backupDialog usa display:flex). */
+[hidden] { display: none !important; }
+html, body { margin: 0; background: var(--creme); color: var(--cafe); font-family: var(--font-body, -apple-system, Segoe UI, Roboto, system-ui, sans-serif); line-height: 1.5; transition: background 0.25s, color 0.25s; }
+
+h1, h2, h3, .logo { font-family: var(--font-title, 'Outfit', -apple-system, sans-serif); }
 
 *:focus-visible {
   outline: 3px solid var(--focus-ring) !important;

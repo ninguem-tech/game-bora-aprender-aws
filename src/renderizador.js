@@ -90,6 +90,7 @@ BANK.fases.forEach((f) => f.questions.forEach((q) => (QINDEX[q.id] = { q, faseId
 
 const app = typeof document !== "undefined" ? document.getElementById("app") : null;
 const elXp = typeof document !== "undefined" ? document.getElementById("xp") : null;
+const elStreak = typeof document !== "undefined" ? document.getElementById("streak") : null;
 const elBar = typeof document !== "undefined" ? document.getElementById("bar") : null;
 const elHome = typeof document !== "undefined" ? document.getElementById("home") : null;
 
@@ -98,18 +99,30 @@ const elHome = typeof document !== "undefined" ? document.getElementById("home")
  * @param {boolean} b - True para exibir, false para ocultar.
  */
 function showHome(b) {
-  elHome.hidden = !b;
+  if (elHome) elHome.hidden = !b;
 }
 
 /**
- * Atualiza a barra de progresso e o contador de XP total.
+ * Atualiza a barra de progresso, a sequência diária e o contador de XP total.
  * @param {number} done - Quantidade de itens concluídos.
  * @param {number} total - Quantidade total de itens.
  */
 function setProgress(done, total) {
-  elBar.style.width = Math.min(100, ((done || 0) / (total || 1)) * 100) + "%";
-  elBar.parentElement.setAttribute("aria-valuenow", Math.round(((done || 0) / (total || 1)) * 100));
-  elXp.textContent = (App.store.xpTotal || 0) + " XP";
+  if (elBar) {
+    elBar.style.width = Math.min(100, ((done || 0) / (total || 1)) * 100) + "%";
+    elBar.parentElement.setAttribute(
+      "aria-valuenow",
+      Math.round(((done || 0) / (total || 1)) * 100)
+    );
+  }
+  if (elXp) {
+    elXp.textContent = (App && App.store ? App.store.xpTotal || 0 : 0) + " XP";
+  }
+  if (elStreak) {
+    const d =
+      App && App.store && typeof App.store.streakDays === "number" ? App.store.streakDays : 0;
+    elStreak.textContent = "🔥 " + d + "d";
+  }
 }
 
 /**
@@ -118,6 +131,18 @@ function setProgress(done, total) {
  */
 function devidos() {
   return JogoCore.obterCartoesDevidos(App.store.deck);
+}
+
+/**
+ * Interrompe o cronômetro do modo Simulado, se estiver ativo.
+ * Deve ser chamado ao sair do modo (ex.: Esc voltando à home) para que o
+ * timer não continue rodando fora da tela e dispare o resumo sozinho.
+ */
+function pararTimerSimulado() {
+  if (App.simuladoTimer) {
+    clearInterval(App.simuladoTimer);
+    App.simuladoTimer = null;
+  }
 }
 
 /**
@@ -145,6 +170,7 @@ function topicoQuestao(d) {
  *   de tela (usado por setModo, onde a troca de aba já dá o contexto).
  */
 function intro(silencioso) {
+  pararTimerSimulado();
   app.className = "card pop";
   App.modoRevisao = null;
   showHome(false);
@@ -155,7 +181,7 @@ function intro(silencioso) {
       ? Math.round(((App.store.stats.totalCorrect || 0) / totalResponded) * 100)
       : 0;
   const streak = App.store.streakDays || 0;
-  const hoje = new Date().toISOString().split("T")[0];
+  const hoje = PERSISTENCIA.dataHojeIso();
   const logHoje = App.store.studyLogs && App.store.studyLogs[hoje];
   const hojeQuestoes = logHoje ? logHoje.questionsAnswered || 0 : 0;
   const readiness = JogoCore.calcularReadiness(App.store, BANK.fases.length);
@@ -297,7 +323,7 @@ function renderFasesList(container) {
   const html = `
     <h2 class="sr-only">Lista de fases</h2>
     <div class="searchWrap">
-      <input type="search" class="searchInput" id="faseSearch" aria-label="Buscar fase por assunto ou serviço" placeholder="🔍 Buscar por assunto ou serviço (ex: EC2, S3, IAM, VPC)..." data-action-input="search" />
+      <input type="search" class="searchInput" id="faseSearch" aria-label="Buscar fase por assunto ou serviço" placeholder="🔍 Buscar por assunto ou serviço (ex: EC2, S3, IAM, VPC)..." />
     </div>
     <div class="filterChips" role="group" aria-label="Filtrar por categoria">
       ${categories.map((c) => `<button class="chip ${App.categoryFilter === c.id ? "active" : ""}" aria-pressed="${App.categoryFilter === c.id}" data-action="set-category" data-category="${c.id}">${c.label}</button>`).join("")}
@@ -604,7 +630,7 @@ function startSimuladoMode() {
   App.streak = 0;
   App.acertos = 0;
   App.respondida = false;
-  if (App.simuladoTimer) clearInterval(App.simuladoTimer);
+  pararTimerSimulado();
   App.simuladoTimer = setInterval(atualizarTimerSimulado, 1000);
   mostraSimuladoPergunta();
 }
@@ -614,13 +640,22 @@ function startSimuladoMode() {
  */
 function atualizarTimerSimulado() {
   if (App.modoJogo !== "simulado") {
-    clearInterval(App.simuladoTimer);
-    App.simuladoTimer = null;
+    pararTimerSimulado();
     return;
   }
   const segundos = JogoCore.calcularTempoRestanteSimulado(App.simuladoEstado.tempoFimMs);
   const timerEl = document.getElementById("timerSimulado");
-  if (timerEl) timerEl.textContent = formatarTempo(segundos);
+  if (timerEl) {
+    timerEl.textContent = formatarTempo(segundos);
+    const badgeTimer = timerEl.closest ? timerEl.closest(".badge") : null;
+    if (badgeTimer) {
+      if (segundos > 0 && segundos < 600) {
+        badgeTimer.classList.add("warning-timer");
+      } else {
+        badgeTimer.classList.remove("warning-timer");
+      }
+    }
+  }
   if (segundos <= 0) {
     App.simuladoEstado.status = "timeout";
     resumoSimulado();
@@ -651,7 +686,7 @@ function mostraSimuladoPergunta() {
     <div class="opts" id="opts" role="group" aria-label="Alternativas de resposta"></div>
     <div id="fb"></div>`;
 
-  renderOptionsAndHints(d);
+  renderOptionsAndHints(d, false);
   setProgress(App.i, App.q.length);
   ACESSIBILIDADE.focarTitulo(app);
   ACESSIBILIDADE.announce(
@@ -669,23 +704,21 @@ function mostraSimuladoPergunta() {
  * Renderiza o resumo do modo Simulado.
  */
 function resumoSimulado() {
-  if (App.simuladoTimer) {
-    clearInterval(App.simuladoTimer);
-    App.simuladoTimer = null;
-  }
+  pararTimerSimulado();
   const e = App.simuladoEstado;
   const score = JogoCore.calcularScoreAWS(e.acertos, e.total);
   const percent = e.total > 0 ? Math.round((e.acertos / e.total) * 100) : 0;
   const aprovado = score >= 720;
+  const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
+  const jaTinhaAprovado = examHistory.some((ex) => ex && ex.score >= 720);
+  const jaTinhaPerfeito = examHistory.some((ex) => ex && ex.score >= 1000);
   if (aprovado) {
     AUDIO.playSound("fanfare", App.store);
     dispararConfete();
-    if (score >= 1000) comemorarConquista("simulado_perfeito");
   } else {
     AUDIO.playSound("no", App.store);
   }
 
-  const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
   const ultimosExames = examHistory.slice(0, 5).map(
     (ex) => `
       <li class="examItem">
@@ -725,6 +758,15 @@ function resumoSimulado() {
     studyTimeMinutes: tempoUsadoMinutos
   });
   PERSISTENCIA.salvar(App.store);
+  // As conquistas dependem do examHistory já atualizado; por isso a
+  // comemoração acontece depois de registrar o exame.
+  if (aprovado) {
+    if (!jaTinhaPerfeito && score >= 1000) {
+      comemorarConquista("simulado_perfeito");
+    } else if (!jaTinhaAprovado) {
+      comemorarConquista("simulado_aprovado");
+    }
+  }
   ACESSIBILIDADE.focarTitulo(app);
   ACESSIBILIDADE.announce(
     "Simulado finalizado. Score " + score + ". " + (aprovado ? "Aprovado." : "Não aprovado.")
@@ -812,9 +854,9 @@ function renderServicos(container) {
  * Renderiza as opções de resposta e o botão de dica para uma questão.
  * @param {Object} d - Objeto da questão.
  */
-function renderOptionsAndHints(d) {
+function renderOptionsAndHints(d, permitirDica = true) {
   const dicaArea = document.getElementById("dicaArea");
-  if (d.hints && d.hints.length) {
+  if (permitirDica && d.hints && d.hints.length) {
     const b = document.createElement("button");
     b.className = "dicaBtn";
     b.id = "dicaBtn";
@@ -903,7 +945,7 @@ function mostra() {
  */
 function revelarDica() {
   const d = App.q[App.i];
-  if (App.hintsShown >= d.hints.length) return;
+  if (!Array.isArray(d.hints) || App.hintsShown >= d.hints.length) return;
   const area = document.getElementById("dicaArea");
   const btn = document.getElementById("dicaBtn");
   const div = document.createElement("div");
@@ -1202,6 +1244,7 @@ function resumo() {
 
   const percent = Math.round((App.acertos / total) * 100);
   const prev = App.store.phaseStats[App.fase.id] || { bestPercent: 0 };
+  const eraPerfeita = prev.bestPercent === 100;
   App.store.phaseStats[App.fase.id] = {
     completed: true,
     bestPercent: Math.max(prev.bestPercent || 0, percent)
@@ -1211,8 +1254,7 @@ function resumo() {
   const gabaritou = App.acertos === total;
   if (gabaritou) {
     dispararConfete();
-    const prev = App.store.phaseStats[App.fase.id] || {};
-    if (prev.bestPercent !== 100) comemorarConquista("fase_perfeita");
+    if (!eraPerfeita) comemorarConquista("fase_perfeita");
   }
 
   app.innerHTML = `
@@ -1240,8 +1282,15 @@ function resumo() {
 function resumoPet() {
   app.className = "card pop";
   const win = App.petEstado.status === "salvo";
-  if (win) AUDIO.playSound("fanfare", App.store);
-  else AUDIO.playSound("no", App.store);
+  if (win) {
+    AUDIO.playSound("fanfare", App.store);
+    const primeiroPetSalvo = !(App.store.petsSalvos > 0);
+    App.store.petsSalvos = (App.store.petsSalvos || 0) + 1;
+    PERSISTENCIA.salvar(App.store);
+    if (primeiroPetSalvo) comemorarConquista("pet_salvo");
+  } else {
+    AUDIO.playSound("no", App.store);
+  }
 
   app.innerHTML = `
     <span class="who pet">${App.petSelecionado.emoji} Missão Salvar o Pet</span>

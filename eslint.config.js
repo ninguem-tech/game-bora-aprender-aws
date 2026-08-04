@@ -13,6 +13,8 @@ module.exports = [
         module: "readonly",
         require: "readonly",
         console: "readonly",
+        URL: "readonly",
+        Blob: "readonly",
         Date: "readonly",
         Math: "readonly",
         JSON: "readonly",

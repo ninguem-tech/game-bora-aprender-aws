@@ -17,6 +17,12 @@ header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 .statusBar { display: flex; align-items: center; gap: 10px; }
 .bar { flex: 1; height: 10px; background: var(--linha); border: 1px solid var(--borda-ctrl); border-radius: 99px; overflow: hidden; }
 .bar > i { display: block; height: 100%; width: 0; background: var(--verde); transition: width .4s ease-out; }
+.streak {
+  font-weight: 800; font-size: .85rem; color: #d97706; background: #fef3c7;
+  border: 1px solid #f59e0b; border-radius: 99px; padding: 2px 8px;
+  display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
+}
+body.dark .streak { background: #451a03; color: #fbbf24; border-color: #d97706; }
 .xp { font-weight: 800; font-size: .95rem; color: var(--cafe2); white-space: nowrap; }
 
 .homeBtn {
@@ -55,6 +61,7 @@ body.dark .who.pet { background: #451a03; color: #fde68a; }
 body.dark .badge.prova { background: #3d2b17; color: #fcd34d; }
 .badge.desafio { background: var(--vermelho-bg); color: var(--vermelho); }
 .badge.box { background: var(--azul-bg); color: var(--azul); }
+.badge.warning-timer { background: var(--vermelho-bg); color: var(--vermelho); border: 1px solid var(--vermelho); animation: timerPulse 1s infinite alternate; }
 
 /* Content Blocks */
 .situacao { background: var(--creme); border-left: 4px solid var(--dourado); padding: 12px 14px; border-radius: 10px; margin: 10px 0 16px; font-size: 1.02rem; }
@@ -78,13 +85,13 @@ body.dark .badge.prova { background: #3d2b17; color: #fcd34d; }
 button.opt {
   text-align: left; font: inherit; font-size: 1rem; color: var(--cafe);
   background: var(--leite); border: 2px solid var(--borda-ctrl); border-radius: 14px;
-  padding: 13px 16px; cursor: pointer; transition: border-color .15s, background .15s; min-height: 52px;
+  padding: 13px 16px; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; min-height: 52px;
   display: flex; align-items: center; justify-content: space-between;
 }
-button.opt:hover:not(:disabled) { border-color: var(--dourado); background: var(--creme); }
+button.opt:hover:not(:disabled) { border-color: var(--dourado); background: var(--creme); transform: translateY(-1px); }
 button.opt:disabled { cursor: default; opacity: .95; }
-button.opt.ok { border-color: var(--verde); background: var(--verde-bg); font-weight: 600; }
-button.opt.no { border-color: var(--vermelho); background: var(--vermelho-bg); }
+button.opt.ok { border-color: var(--verde); background: var(--verde-bg); font-weight: 600; animation: optCorrectPulse 0.4s ease-out; }
+button.opt.no { border-color: var(--vermelho); background: var(--vermelho-bg); animation: optWrongShake 0.4s ease-in-out; }
 
 .optKeyGroup { display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; }
 .keyBadge {

@@ -19,6 +19,8 @@
   /* Borda de controles com contraste >= 3:1 sobre o fundo (WCAG 1.4.11) */
   --borda-ctrl: #96826a;
   --font-scale: 1rem;
+  --font-title: 'Outfit', -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, Segoe UI, Roboto, system-ui, sans-serif;
 }
 
 body.dark {

@@ -4,9 +4,14 @@ const {
   carregar,
   salvar,
   registrarExame,
+  registrarEstudo,
+  atualizarStreak,
   importarProgressoJSON,
   LS_KEY,
-  ESTADO_PADRAO
+  ESTADO_PADRAO,
+  formatarDataLocal,
+  dataHojeIso,
+  dataOntemIso
 } = require("../src/persistencia.js");
 
 function criarLocalStorageFalso() {
@@ -48,6 +53,43 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.deepStrictEqual(estado.stats, { totalAnswered: 0, totalCorrect: 0, maxStreak: 0 });
     assert.deepStrictEqual(estado.examHistory, []);
     assert.equal(estado.hasSeenWelcome, false);
+    assert.equal(estado.streakDays, 0, "Usuário novo não deve começar com streak");
+    assert.equal(estado.lastActiveDate, null, "Usuário novo não deve ter data de atividade");
+  });
+
+  it("só deve iniciar o streak após a primeira atividade registrada", () => {
+    const estado = carregar();
+    assert.equal(estado.streakDays, 0);
+    assert.equal(estado.lastActiveDate, null);
+
+    registrarEstudo(estado, { questionsAnswered: 1 });
+
+    assert.equal(estado.streakDays, 1);
+    assert.equal(estado.lastActiveDate, dataHojeIso());
+  });
+
+  it("deve incrementar o streak quando a última atividade foi ontem", () => {
+    const estado = { streakDays: 2, lastActiveDate: dataOntemIso(), studyLogs: {} };
+
+    atualizarStreak(estado);
+
+    assert.equal(estado.streakDays, 3);
+    assert.equal(estado.lastActiveDate, dataHojeIso());
+  });
+
+  it("deve reiniciar o streak para 1 quando houve lacuna de dias", () => {
+    const tresDiasAtras = new Date();
+    tresDiasAtras.setDate(tresDiasAtras.getDate() - 3);
+    const estado = {
+      streakDays: 5,
+      lastActiveDate: formatarDataLocal(tresDiasAtras),
+      studyLogs: {}
+    };
+
+    atualizarStreak(estado);
+
+    assert.equal(estado.streakDays, 1);
+    assert.equal(estado.lastActiveDate, dataHojeIso());
   });
 
   it("deve salvar e carregar o estado completo corretamente", () => {
@@ -336,5 +378,44 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(resultado.theme, "dark");
     assert.equal(resultado.fontScale, 1.3);
     assert.equal(resultado.stats.totalCorrect, 8);
+  });
+});
+
+describe("Datas locais (formatarDataLocal, dataHojeIso, dataOntemIso)", () => {
+  it("deve formatar uma data local corretamente com zero-padding", () => {
+    const d = new Date(2026, 0, 5, 23, 59, 59);
+    assert.equal(formatarDataLocal(d), "2026-01-05");
+  });
+
+  it("deve formatar o mês de dezembro e dia 31 corretamente", () => {
+    const d = new Date(2025, 11, 31);
+    assert.equal(formatarDataLocal(d), "2025-12-31");
+  });
+
+  it("deve usar data local e não UTC em dataHojeIso", () => {
+    const resultado = dataHojeIso();
+    assert.match(resultado, /^\d{4}-\d{2}-\d{2}$/, "Formato YYYY-MM-DD");
+    const agora = new Date();
+    const esperado =
+      agora.getFullYear() +
+      "-" +
+      String(agora.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(agora.getDate()).padStart(2, "0");
+    assert.equal(resultado, esperado);
+  });
+
+  it("deve retornar a data de ontem local em dataOntemIso", () => {
+    const resultado = dataOntemIso();
+    assert.match(resultado, /^\d{4}-\d{2}-\d{2}$/, "Formato YYYY-MM-DD");
+    const ontem = new Date();
+    ontem.setDate(ontem.getDate() - 1);
+    const esperado =
+      ontem.getFullYear() +
+      "-" +
+      String(ontem.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(ontem.getDate()).padStart(2, "0");
+    assert.equal(resultado, esperado);
   });
 });

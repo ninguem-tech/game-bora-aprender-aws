@@ -195,6 +195,11 @@ function obterDominioFase(tituloFase) {
   if (!tituloFase) return "fundamentos";
   const t = tituloFase.toLowerCase();
 
+  // "Aplicação" precisa ser testado antes de "rede", pois títulos como
+  // "Serviços de Aplicação (Lambda, Filas, CloudFront, Containers)" citam
+  // CloudFront mas pertencem ao domínio de Aplicação.
+  if (t.includes("aplicação")) return "aplicacao";
+
   if (
     t.includes("segurança") ||
     t.includes("iam") ||
@@ -504,7 +509,7 @@ function obterConquistasDefinicao() {
       id: "pet_salvo",
       label: "Salvou o Pet",
       emoji: "🐾",
-      criterio: () => false
+      criterio: (s) => (s.petsSalvos || 0) >= 1
     },
     {
       id: "leitner_10",
@@ -536,11 +541,14 @@ function obterConquistasDefinicao() {
  * @returns {{desbloqueadas: Array<Object>, pendentes: Array<Object>}} Conquistas.
  */
 function calcularConquistas(store) {
-  const seguro = store || {};
-  seguro.stats = seguro.stats || {};
-  seguro.phaseStats = seguro.phaseStats || {};
-  seguro.examHistory = seguro.examHistory || [];
-  seguro.deck = seguro.deck || {};
+  const base = store && typeof store === "object" ? store : {};
+  const seguro = {
+    ...base,
+    stats: base.stats || {},
+    phaseStats: base.phaseStats || {},
+    examHistory: base.examHistory || [],
+    deck: base.deck || {}
+  };
 
   const conquistas = obterConquistasDefinicao();
   const desbloqueadas = [];

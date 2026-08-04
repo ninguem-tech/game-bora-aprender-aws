@@ -304,6 +304,13 @@ describe("Validação do Banco de Dados e Utilitários", () => {
       assert.ok(DOMINIOS_AWS.some((d) => d.id === "computacao"));
       assert.ok(DOMINIOS_AWS.every((d) => d.id && d.label));
     });
+
+    it("deve classificar fase de aplicação mesmo quando cita CloudFront", () => {
+      assert.equal(
+        obterDominioFase("Serviços de Aplicação (Lambda, Filas, CloudFront, Containers)"),
+        "aplicacao"
+      );
+    });
   });
 
   describe("Prontidão para o exame (Readiness)", () => {

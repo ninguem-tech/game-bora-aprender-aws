@@ -164,6 +164,15 @@ describe("Regras e Modos de Jogo", () => {
   });
 
   describe("Conquistas", () => {
+    it("não deve mutar o store ao calcular conquistas", () => {
+      const store = { stats: { totalAnswered: 0 } };
+      const antes = JSON.stringify(store);
+
+      calcularConquistas(store);
+
+      assert.equal(JSON.stringify(store), antes, "calcularConquistas deve ser pura");
+    });
+
     it("deve retornar conquistas desbloqueadas de acordo com o estado", () => {
       const store = {
         stats: { totalAnswered: 100, totalCorrect: 80 },
@@ -188,6 +197,18 @@ describe("Regras e Modos de Jogo", () => {
       const { desbloqueadas, pendentes } = calcularConquistas({});
       assert.equal(desbloqueadas.length, 0);
       assert.ok(pendentes.length > 0);
+    });
+
+    it("deve manter 'pet_salvo' pendente enquanto petsSalvos for 0", () => {
+      const { desbloqueadas, pendentes } = calcularConquistas({ petsSalvos: 0 });
+      assert.ok(pendentes.some((c) => c.id === "pet_salvo"));
+      assert.ok(!desbloqueadas.some((c) => c.id === "pet_salvo"));
+    });
+
+    it("deve desbloquear 'pet_salvo' quando petsSalvos for maior ou igual a 1", () => {
+      const { desbloqueadas, pendentes } = calcularConquistas({ petsSalvos: 1 });
+      assert.ok(desbloqueadas.some((c) => c.id === "pet_salvo"));
+      assert.ok(!pendentes.some((c) => c.id === "pet_salvo"));
     });
   });
 });

@@ -6,29 +6,33 @@
  * em requisicoes de navegacao quando offline.
  */
 
-const CACHE_NAME = 'bora-aws-v1';
+const CACHE_NAME = 'bora-aws-v2';
+// Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
+// para funcionar tanto na raiz do dominio quanto em um subcaminho
+// (ex.: GitHub Pages de projeto: usuario.github.io/repo/).
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/css/variaveis.css',
-  '/assets/css/base.css',
-  '/assets/css/componentes.css',
-  '/assets/css/telas.css',
-  '/assets/css/animacoes.css',
-  '/assets/nin-guem-favicon-32-light.png',
-  '/assets/nin-guem-favicon-32-dark.png',
-  '/assets/nin-guem-apple-touch-180.png',
-  '/assets/nin-guem-icon-192.png',
-  '/assets/nin-guem-icon-512.png',
-  '/src/jogo.js',
-  '/src/persistencia.js',
-  '/src/audio.js',
-  '/src/acessibilidade.js',
-  '/src/renderizador.js',
-  '/src/teclado.js',
-  '/src/app.js',
-  '/data/bank.js'
+  './',
+  './index.html',
+  './manifest.json',
+  './assets/css/variaveis.css',
+  './assets/css/base.css',
+  './assets/css/componentes.css',
+  './assets/css/telas.css',
+  './assets/css/animacoes.css',
+  './assets/nin-guem-favicon-32-light.png',
+  './assets/nin-guem-favicon-32-dark.png',
+  './assets/nin-guem-apple-touch-180.png',
+  './assets/nin-guem-icon-192.png',
+  './assets/nin-guem-icon-512.png',
+  './src/jogo.js',
+  './src/persistencia.js',
+  './src/audio.js',
+  './src/acessibilidade.js',
+  './src/renderizador.js',
+  './src/teclado.js',
+  './src/sw-register.js',
+  './src/app.js',
+  './data/bank.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -56,7 +60,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() =>
-        caches.match('/index.html') || caches.match('/')
+        caches.match('./index.html').then((resp) => resp || caches.match('./'))
       )
     );
     return;
@@ -78,7 +82,7 @@ self.addEventListener('fetch', (event) => {
         return cached;
       }
 
-      return fetch(event.request).catch(() => caches.match('/index.html'));
+      return fetch(event.request).catch(() => caches.match('./index.html'));
     })
   );
 });

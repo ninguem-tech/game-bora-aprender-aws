@@ -454,6 +454,9 @@ if (typeof module !== "undefined" && module.exports) {
     calcularChecksumBackup,
     registrarEstudo,
     registrarExame,
-    atualizarStreak
+    atualizarStreak,
+    formatarDataLocal,
+    dataHojeIso,
+    dataOntemIso
   };
 }

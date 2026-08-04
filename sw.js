@@ -6,7 +6,7 @@
  * em requisicoes de navegacao quando offline.
  */
 
-const CACHE_NAME = 'bora-aws-v3';
+const CACHE_NAME = 'bora-aws-v4';
 // Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
 // para funcionar tanto na raiz do dominio quanto em um subcaminho
 // (ex.: GitHub Pages de projeto: usuario.github.io/repo/).
@@ -32,6 +32,7 @@ const ASSETS = [
   './src/renderizador.js',
   './src/teclado.js',
   './src/sw-register.js',
+  './src/pwa.js',
   './src/app.js',
   './data/bank.js'
 ];

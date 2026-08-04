@@ -4,7 +4,8 @@
  * Arquivo separado (e não script inline) para respeitar a CSP
  * `script-src 'self'` do index.html.
  */
-if ("serviceWorker" in navigator) {
+// Service Worker só é suportado em http/https; em file:// o registro falha.
+if ("serviceWorker" in navigator && /^https?:$/.test(window.location.protocol)) {
   navigator.serviceWorker
     .register("sw.js")
     .then(function (reg) {

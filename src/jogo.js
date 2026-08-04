@@ -576,10 +576,18 @@ function validarQuestao(questao) {
     erros.push("Falta o campo 'id' ou não é uma string");
   if (!questao.stem || typeof questao.stem !== "string")
     erros.push("Falta o enunciado ('stem') ou não é uma string");
-  if (questao.type && typeof questao.type !== "string") erros.push("'type' deve ser uma string");
+  if (questao.type && questao.type !== "single") erros.push("'type' deve ser 'single'");
+  if (
+    questao.difficulty !== undefined &&
+    !["intro", "exam", "challenge"].includes(questao.difficulty)
+  ) {
+    erros.push("'difficulty' deve ser 'intro', 'exam' ou 'challenge'");
+  }
 
   if (!Array.isArray(questao.options) || questao.options.length < 2) {
     erros.push("Deve ter pelo menos 2 opções");
+  } else if (questao.options.length > 4) {
+    erros.push("Deve ter no máximo 4 opções (atalhos de teclado Alt+1 a Alt+4)");
   }
 
   const chavesOpcoes = new Set();

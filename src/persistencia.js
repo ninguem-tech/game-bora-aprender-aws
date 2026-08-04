@@ -410,6 +410,49 @@ function importarProgressoJSON(jsonString) {
   }
 }
 
+const LS_KEY_RATE = "bora_aws_v2_import_rate";
+const JANELA_RATE_MS = 60000;
+const MAX_IMPORTS_POR_JANELA = 5;
+
+function lerRegistrosImport(agoraMs) {
+  try {
+    const raw = localStorage.getItem(LS_KEY_RATE);
+    const registros = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(registros)) return [];
+    return registros.filter((t) => Number.isFinite(t) && agoraMs - t < JANELA_RATE_MS);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Consulta o limite local de restaurações de backup (anti-repetição).
+ * @param {number} [agoraMs] Timestamp atual (injetável para testes).
+ * @returns {{bloqueado: boolean, esperaSegundos: number, tentativas: number}}
+ */
+function consultarLimiteImports(agoraMs = Date.now()) {
+  const recentes = lerRegistrosImport(agoraMs);
+  const bloqueado = recentes.length >= MAX_IMPORTS_POR_JANELA;
+  const esperaSegundos = bloqueado
+    ? Math.max(1, Math.ceil((JANELA_RATE_MS - (agoraMs - recentes[0])) / 1000))
+    : 0;
+  return { bloqueado, esperaSegundos, tentativas: recentes.length };
+}
+
+/**
+ * Registra uma tentativa de restauração para o limite local.
+ * @param {number} [agoraMs] Timestamp atual (injetável para testes).
+ */
+function registrarImport(agoraMs = Date.now()) {
+  try {
+    const recentes = lerRegistrosImport(agoraMs);
+    recentes.push(agoraMs);
+    localStorage.setItem(LS_KEY_RATE, JSON.stringify(recentes));
+  } catch {
+    /* quota excedida */
+  }
+}
+
 /**
  * Adiciona o resultado de um simulado ao histórico.
  * @param {Object} store Estado persistente.
@@ -438,6 +481,8 @@ if (typeof module !== "undefined" && module.exports) {
     ESTADO_PADRAO,
     exportarProgressoJSON,
     importarProgressoJSON,
+    consultarLimiteImports,
+    registrarImport,
     calcularChecksumBackup,
     registrarEstudo,
     registrarExame,
@@ -456,6 +501,8 @@ if (typeof module !== "undefined" && module.exports) {
     ESTADO_PADRAO,
     exportarProgressoJSON,
     importarProgressoJSON,
+    consultarLimiteImports,
+    registrarImport,
     calcularChecksumBackup,
     registrarEstudo,
     registrarExame,

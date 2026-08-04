@@ -272,6 +272,14 @@
           ACESSIBILIDADE.announce("Cole um JSON válido na área de backup.");
           break;
         }
+        var limite = PERSISTENCIA.consultarLimiteImports();
+        if (limite.bloqueado) {
+          ACESSIBILIDADE.announce(
+            "Muitas restaurações em sequência. Aguarde " + limite.esperaSegundos + " segundos."
+          );
+          break;
+        }
+        PERSISTENCIA.registrarImport();
         var importado = PERSISTENCIA.importarProgressoJSON(area.value.trim());
         if (importado) {
           App.store = store = importado;

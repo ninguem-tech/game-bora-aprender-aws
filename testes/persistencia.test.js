@@ -8,6 +8,8 @@ const {
   atualizarStreak,
   importarProgressoJSON,
   calcularChecksumBackup,
+  consultarLimiteImports,
+  registrarImport,
   LS_KEY,
   ESTADO_PADRAO,
   formatarDataLocal,
@@ -506,5 +508,47 @@ describe("Datas locais (formatarDataLocal, dataHojeIso, dataOntemIso)", () => {
       "-" +
       String(ontem.getDate()).padStart(2, "0");
     assert.equal(resultado, esperado);
+  });
+});
+
+describe("Limite local de restaurações de backup", () => {
+  let localStorageFalso;
+
+  beforeEach(() => {
+    localStorageFalso = criarLocalStorageFalso();
+    global.localStorage = localStorageFalso;
+  });
+
+  it("deve permitir até 5 restaurações por janela de 60s e bloquear a seguinte", () => {
+    const agora = 1700000000000;
+    for (let i = 0; i < 5; i++) {
+      assert.equal(consultarLimiteImports(agora + i).bloqueado, false);
+      registrarImport(agora + i);
+    }
+
+    const sexto = consultarLimiteImports(agora + 10);
+    assert.equal(sexto.bloqueado, true, "Sexta tentativa dentro da janela deve ser bloqueada");
+    assert.equal(
+      sexto.esperaSegundos,
+      60,
+      "Espera deve ser o tempo até a primeira tentativa sair da janela"
+    );
+  });
+
+  it("deve liberar novas restaurações quando a janela passa", () => {
+    const agora = 1700000000000;
+    for (let i = 0; i < 5; i++) registrarImport(agora + i);
+
+    const depois = consultarLimiteImports(agora + 61000);
+    assert.equal(depois.bloqueado, false, "Fora da janela o limite não bloqueia");
+    assert.equal(depois.tentativas, 0);
+  });
+
+  it("deve ignorar registros corrompidos no armazenamento do limite", () => {
+    localStorageFalso.setItem("bora_aws_v2_import_rate", "{inválido");
+    assert.equal(consultarLimiteImports(1700000000000).bloqueado, false);
+
+    localStorageFalso.setItem("bora_aws_v2_import_rate", JSON.stringify(["x", null, 5]));
+    assert.equal(consultarLimiteImports(1700000000000).tentativas, 0);
   });
 });

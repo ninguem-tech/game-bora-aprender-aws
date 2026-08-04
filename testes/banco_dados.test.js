@@ -154,6 +154,71 @@ describe("Validação do Banco de Dados e Utilitários", () => {
       assert.ok(resultado.erros.some((err) => err.includes("services")));
       assert.ok(resultado.erros.some((err) => err.includes("whyNots")));
     });
+
+    it("deve rejeitar difficulty fora do conjunto suportado pelo jogo", () => {
+      const questao = {
+        id: "q-diff",
+        stem: "Pergunta com difficulty inválida",
+        difficulty: "extremo",
+        options: [
+          { key: "A", text: "Opção A" },
+          { key: "B", text: "Opção B" }
+        ],
+        answers: ["A"]
+      };
+
+      const resultado = validarQuestao(questao);
+      assert.ok(!resultado.valida);
+      assert.ok(resultado.erros.some((err) => err.includes("difficulty")));
+    });
+
+    it("deve rejeitar mais de 4 opções (limite dos atalhos de teclado)", () => {
+      const opcoes = ["A", "B", "C", "D", "E"].map((key) => ({ key, text: "Opção " + key }));
+      const questao = {
+        id: "q-5-opcoes",
+        stem: "Pergunta com 5 opções",
+        options: opcoes,
+        answers: ["A"]
+      };
+
+      const resultado = validarQuestao(questao);
+      assert.ok(!resultado.valida);
+      assert.ok(resultado.erros.some((err) => err.includes("4 opções")));
+    });
+
+    it("deve rejeitar type diferente de single (único formato jogável)", () => {
+      const questao = {
+        id: "q-type",
+        stem: "Pergunta com type inválido",
+        type: "multipla",
+        options: [
+          { key: "A", text: "Opção A" },
+          { key: "B", text: "Opção B" }
+        ],
+        answers: ["A"]
+      };
+
+      const resultado = validarQuestao(questao);
+      assert.ok(!resultado.valida);
+      assert.ok(resultado.erros.some((err) => err.includes("'type'")));
+    });
+
+    it("deve aprovar questão com difficulty e type válidos", () => {
+      const questao = {
+        id: "q-completa",
+        stem: "Pergunta completa",
+        difficulty: "exam",
+        type: "single",
+        options: [
+          { key: "A", text: "Opção A" },
+          { key: "B", text: "Opção B" }
+        ],
+        answers: ["A"]
+      };
+
+      const resultado = validarQuestao(questao);
+      assert.ok(resultado.valida, `Erros: ${resultado.erros.join(", ")}`);
+    });
   });
 
   describe("Classificação de Categorias e Filtro de Fases", () => {

@@ -7,16 +7,18 @@
  */
 
 /**
- * Aplica o tema atual (claro ou escuro) ao documento.
+ * Aplica o tema atual (claro, escuro ou automático) ao documento.
+ * No modo automático, segue a preferência do sistema (prefers-color-scheme).
  * Atualiza o estado acessível (aria-pressed) do botão de tema.
  * @param {Object} store - Estado persistente.
+ * @param {Function} [matchMediaFn] - Implementação de matchMedia (injetável para testes).
  */
-function applyTheme(store) {
-  const escuro = store.theme === "dark";
+function applyTheme(store, matchMediaFn) {
+  const escuro = temaEfetivoEscuro(store, matchMediaFn);
   document.body.classList.toggle("dark", escuro);
   const btn = document.getElementById("btnTheme");
   if (btn) {
-    btn.textContent = escuro ? "🌙" : "☀️";
+    btn.textContent = store.theme === "auto" ? "🌓" : escuro ? "🌙" : "☀️";
     btn.setAttribute("aria-pressed", String(escuro));
   }
   const fav = document.getElementById("favicon");
@@ -28,15 +30,41 @@ function applyTheme(store) {
 }
 
 /**
- * Alterna entre tema claro e escuro, salvando a preferência.
+ * Resolve se o tema efetivo é escuro, considerando o modo automático.
+ * Sem matchMedia disponível (ex.: Node), o modo automático resolve para claro.
+ * @param {Object} store - Estado persistente.
+ * @param {Function} [matchMediaFn] - Implementação de matchMedia (injetável para testes).
+ * @returns {boolean} True se o tema efetivo é escuro.
+ */
+function temaEfetivoEscuro(store, matchMediaFn) {
+  if (store.theme === "dark") return true;
+  if (store.theme === "light") return false;
+  const mm = matchMediaFn || (typeof window !== "undefined" ? window.matchMedia : null);
+  if (typeof mm === "function") {
+    const consulta = mm("(prefers-color-scheme: dark)");
+    if (consulta && typeof consulta.matches === "boolean") return consulta.matches;
+  }
+  return false;
+}
+
+/**
+ * Alterna o tema entre claro, escuro e automático, salvando a preferência.
  * @param {Object} store - Estado persistente.
  * @param {Function} salvar - Função de salvamento (PERSISTENCIA.salvar).
  */
 function toggleTheme(store, salvar) {
-  store.theme = store.theme === "dark" ? "light" : "dark";
+  const ordem = ["light", "dark", "auto"];
+  const indice = ordem.indexOf(store.theme);
+  store.theme = ordem[(indice + 1) % ordem.length];
   salvar(store);
   applyTheme(store);
-  announce(store.theme === "dark" ? "Tema escuro ativado." : "Tema claro ativado.");
+  announce(
+    store.theme === "dark"
+      ? "Tema escuro ativado."
+      : store.theme === "auto"
+        ? "Tema automático (segue o sistema)."
+        : "Tema claro ativado."
+  );
 }
 
 /**
@@ -129,6 +157,7 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     applyTheme,
     toggleTheme,
+    temaEfetivoEscuro,
     applyFontScale,
     changeFontScale,
     announce,
@@ -140,6 +169,7 @@ if (typeof module !== "undefined" && module.exports) {
   window.ACESSIBILIDADE = {
     applyTheme,
     toggleTheme,
+    temaEfetivoEscuro,
     applyFontScale,
     changeFontScale,
     announce,

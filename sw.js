@@ -6,7 +6,7 @@
  * em requisicoes de navegacao quando offline.
  */
 
-const CACHE_NAME = 'bora-aws-v4';
+const CACHE_NAME = 'bora-aws-v5';
 // Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
 // para funcionar tanto na raiz do dominio quanto em um subcaminho
 // (ex.: GitHub Pages de projeto: usuario.github.io/repo/).

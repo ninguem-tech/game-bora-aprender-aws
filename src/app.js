@@ -207,6 +207,9 @@
       case "start-simulado":
         R.startSimuladoMode();
         break;
+      case "compartilhar-simulado":
+        R.compartilharSimulado();
+        break;
       case "revisar0":
         R.revisar0();
         break;
@@ -345,6 +348,19 @@
       gerenciarTecladoModais(e);
     }
   });
+
+  // ---------- TEMA AUTOMÁTICO: reage a prefers-color-scheme ----------
+  if (typeof window.matchMedia === "function") {
+    const consultaTema = window.matchMedia("(prefers-color-scheme: dark)");
+    const aoMudarSistema = function () {
+      if (App.store.theme === "auto") ACESSIBILIDADE.applyTheme(App.store);
+    };
+    if (typeof consultaTema.addEventListener === "function") {
+      consultaTema.addEventListener("change", aoMudarSistema);
+    } else if (typeof consultaTema.addListener === "function") {
+      consultaTema.addListener(aoMudarSistema);
+    }
+  }
 
   // ---------- INICIALIZAÇÃO ----------
   ACESSIBILIDADE.applyTheme(store);

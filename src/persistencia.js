@@ -15,7 +15,7 @@ const SHA =
 const ESTADO_PADRAO = {
   deck: {},
   xpTotal: 0,
-  theme: "light",
+  theme: "auto",
   muted: false,
   fontScale: 1.0,
   phaseStats: {},
@@ -229,7 +229,7 @@ function carregar() {
     const raw = localStorage.getItem(LS_KEY);
     const parsed = raw ? JSON.parse(raw) : {};
     const tema = stringOuPadrao(parsed.theme, ESTADO_PADRAO.theme);
-    const temaValido = tema === "light" || tema === "dark" ? tema : ESTADO_PADRAO.theme;
+    const temaValido = ["light", "dark", "auto"].includes(tema) ? tema : ESTADO_PADRAO.theme;
     const escalasPermitidas = [0.85, 1.0, 1.15, 1.3];
     const fonteBruta = numeroOuPadrao(parsed.fontScale, ESTADO_PADRAO.fontScale);
     const fonteValida = escalasPermitidas.includes(fonteBruta)
@@ -365,7 +365,7 @@ function validarEstruturaBackup(parsed) {
   if (chaves.length > 30 || chaves.some((k) => !chavesPermitidas.has(k))) return false;
 
   if (parsed.lastActiveDate && !/^\d{4}-\d{2}-\d{2}$/.test(parsed.lastActiveDate)) return false;
-  if (parsed.theme && !["light", "dark"].includes(parsed.theme)) return false;
+  if (parsed.theme && !["light", "dark", "auto"].includes(parsed.theme)) return false;
 
   if (possuiChavePerigosa(parsed.deck)) return false;
   if (possuiChavePerigosa(parsed.phaseStats)) return false;
@@ -389,7 +389,8 @@ function importarProgressoJSON(jsonString) {
     const importado = carregar();
     if (dados.deck) importado.deck = normalizarDeck(dados.deck);
     if (typeof dados.xpTotal === "number") importado.xpTotal = Math.max(0, dados.xpTotal);
-    if (dados.theme === "light" || dados.theme === "dark") importado.theme = dados.theme;
+    if (dados.theme === "light" || dados.theme === "dark" || dados.theme === "auto")
+      importado.theme = dados.theme;
     if (typeof dados.muted === "boolean") importado.muted = dados.muted;
     if ([0.85, 1.0, 1.15, 1.3].includes(dados.fontScale)) importado.fontScale = dados.fontScale;
     if (dados.phaseStats) importado.phaseStats = normalizarPhaseStats(dados.phaseStats);

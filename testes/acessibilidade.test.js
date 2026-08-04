@@ -149,11 +149,33 @@ describe("Acessibilidade — tema, fonte e áudio", () => {
 
     ACESSIBILIDADE.toggleTheme(store, salvar);
 
+    assert.equal(store.theme, "auto", "Ciclo claro → escuro → automático");
+    assert.equal(dom._elementos.btnTheme.textContent, "🌓");
+
+    ACESSIBILIDADE.toggleTheme(store, salvar);
+
     assert.equal(store.theme, "light");
     assert.equal(dom.body.classList.contains("dark"), false);
     assert.equal(dom._elementos.btnTheme.textContent, "☀️");
     assert.equal(dom._elementos.btnTheme.getAttribute("aria-pressed"), "false");
     assert.equal(dom._elementos.favicon.href, "assets/nin-guem-favicon-32-light.png");
+  });
+
+  it("no modo automático deve seguir o prefers-color-scheme do sistema", () => {
+    global.window = { matchMedia: () => ({ matches: true }) };
+    const store = { theme: "auto" };
+
+    ACESSIBILIDADE.applyTheme(store);
+
+    assert.ok(dom.body.classList.contains("dark"), "Sistema escuro → tema escuro");
+    assert.equal(dom._elementos.btnTheme.textContent, "🌓");
+    assert.equal(dom._elementos.btnTheme.getAttribute("aria-pressed"), "true");
+
+    global.window = { matchMedia: () => ({ matches: false }) };
+    ACESSIBILIDADE.applyTheme(store);
+
+    assert.equal(dom.body.classList.contains("dark"), false, "Sistema claro → tema claro");
+    assert.equal(dom._elementos.btnTheme.getAttribute("aria-pressed"), "false");
   });
 
   it("deve limitar a escala de fonte aos valores mínimo e máximo", () => {
@@ -434,6 +456,30 @@ describe("Acessibilidade — atalhos de teclado", () => {
   });
 });
 
+describe("Acessibilidade — resolução do tema efetivo", () => {
+  afterEach(() => {
+    delete global.window;
+  });
+
+  it("deve resolver temas explícitos sem consultar o sistema", () => {
+    assert.equal(ACESSIBILIDADE.temaEfetivoEscuro({ theme: "dark" }), true);
+    assert.equal(ACESSIBILIDADE.temaEfetivoEscuro({ theme: "light" }), false);
+  });
+
+  it("deve consultar prefers-color-scheme no modo automático", () => {
+    const escuro = () => ({ matches: true });
+    const claro = () => ({ matches: false });
+
+    assert.equal(ACESSIBILIDADE.temaEfetivoEscuro({ theme: "auto" }, escuro), true);
+    assert.equal(ACESSIBILIDADE.temaEfetivoEscuro({ theme: "auto" }, claro), false);
+  });
+
+  it("sem matchMedia disponível o modo automático resolve para claro", () => {
+    delete global.window;
+    assert.equal(ACESSIBILIDADE.temaEfetivoEscuro({ theme: "auto" }), false);
+  });
+});
+
 describe("Acessibilidade — preferência por movimento reduzido", () => {
   it("deve detectar prefers-reduced-motion via matchMedia injetado", () => {
     const simAtivo = () => ({ matches: true });
@@ -564,5 +610,29 @@ describe("Acessibilidade — integração com o renderizador (anúncios e foco)"
     assert.equal(dom._elementos.ariaAnnounce.textContent, "Sobre o autor.");
     assert.ok(titulo.focado);
     assert.equal(dom._elementos.home.hidden, false);
+  });
+
+  it("deve exibir o gráfico de evolução com 2+ simulados e ocultar com menos", () => {
+    global.App.store.examHistory = [
+      { date: "2026-08-01", acertos: 51, total: 65, score: 800, tempoMinutos: 100 },
+      { date: "2026-07-01", acertos: 40, total: 65, score: 600, tempoMinutos: 120 }
+    ];
+    const container = { innerHTML: "" };
+
+    RENDERIZADOR.renderSimuladoIntro(container);
+
+    assert.ok(container.innerHTML.includes("graficoSimulados"), "Gráfico presente com 2 exames");
+    assert.ok(container.innerHTML.includes("polyline"));
+    assert.ok(container.innerHTML.includes("corte 720"));
+    assert.ok(container.innerHTML.includes('role="img"'), "Gráfico acessível via role=img");
+
+    global.App.store.examHistory = [];
+    RENDERIZADOR.renderSimuladoIntro(container);
+
+    assert.equal(
+      container.innerHTML.includes("graficoSimulados"),
+      false,
+      "Sem histórico suficiente não há gráfico"
+    );
   });
 });

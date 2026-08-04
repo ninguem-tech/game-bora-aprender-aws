@@ -872,6 +872,55 @@ function calcularTempoRestanteSimulado(tempoFimMs, agoraMs = Date.now()) {
   return Math.ceil(restanteMs / 1000);
 }
 
+/**
+ * Retorna os scores dos simulados em ordem cronológica (do mais antigo
+ * para o mais recente), para o gráfico de evolução.
+ *
+ * @param {Array<Object>} examHistory Histórico de simulados (mais recente primeiro).
+ * @returns {Array<number>} Scores em ordem cronológica.
+ */
+function serieScoresSimulados(examHistory) {
+  if (!Array.isArray(examHistory)) return [];
+  return examHistory
+    .filter((exame) => exame && typeof exame.score === "number")
+    .map((exame) => exame.score)
+    .reverse();
+}
+
+/**
+ * Monta o texto de compartilhamento do resultado de um simulado.
+ *
+ * @param {Object} resultado Resultado: { score, acertos, total, tempoMinutos }.
+ * @returns {string} Texto pronto para compartilhar ou copiar.
+ */
+function montarTextoCompartilhamentoSimulado(resultado) {
+  const r = resultado && typeof resultado === "object" ? resultado : {};
+  const score = normalizarNumero(r.score, 0);
+  const acertos = normalizarNumero(r.acertos, 0);
+  const total = normalizarNumero(r.total, 0);
+  const tempoMinutos = normalizarNumero(r.tempoMinutos, 0);
+  const aprovado = score >= 720;
+
+  return (
+    "E aí, Bora Aprender AWS? ☕\n" +
+    "Simulado SAA-C03: " +
+    score +
+    "/1000 (" +
+    acertos +
+    "/" +
+    total +
+    " acertos) — " +
+    (aprovado ? "aprovado! ✅" : "ainda não, mas sigo estudando. 📚") +
+    "\nTempo: " +
+    tempoMinutos +
+    " min · do zero à aprovação"
+  );
+}
+
+function normalizarNumero(valor, padrao) {
+  return Number.isFinite(valor) ? Math.max(0, Math.trunc(valor)) : padrao;
+}
+
 // Exportação compatível com Node.js (CommonJS) e Navegador (Global/UMD)
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
@@ -902,7 +951,9 @@ if (typeof module !== "undefined" && module.exports) {
     criarEstadoSimulado,
     processarRespostaSimulado,
     calcularScoreAWS,
-    calcularTempoRestanteSimulado
+    calcularTempoRestanteSimulado,
+    serieScoresSimulados,
+    montarTextoCompartilhamentoSimulado
   };
 } else if (typeof window !== "undefined") {
   window.JogoCore = {
@@ -933,6 +984,8 @@ if (typeof module !== "undefined" && module.exports) {
     criarEstadoSimulado,
     processarRespostaSimulado,
     calcularScoreAWS,
-    calcularTempoRestanteSimulado
+    calcularTempoRestanteSimulado,
+    serieScoresSimulados,
+    montarTextoCompartilhamentoSimulado
   };
 }

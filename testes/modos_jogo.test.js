@@ -10,6 +10,8 @@ const {
   processarRespostaSimulado,
   calcularScoreAWS,
   calcularTempoRestanteSimulado,
+  serieScoresSimulados,
+  montarTextoCompartilhamentoSimulado,
   calcularConquistas
 } = require("../src/jogo.js");
 
@@ -248,6 +250,54 @@ describe("Regras e Modos de Jogo", () => {
       const { desbloqueadas, pendentes } = calcularConquistas({ petsSalvos: 1 });
       assert.ok(desbloqueadas.some((c) => c.id === "pet_salvo"));
       assert.ok(!pendentes.some((c) => c.id === "pet_salvo"));
+    });
+  });
+
+  describe("Evolução dos Simulados (gráfico)", () => {
+    it("deve retornar os scores em ordem cronológica (mais antigo primeiro)", () => {
+      // examHistory guarda o mais recente primeiro
+      const historico = [{ score: 800 }, { score: 650 }, { score: 500 }];
+      assert.deepEqual(serieScoresSimulados(historico), [500, 650, 800]);
+    });
+
+    it("deve ignorar entradas inválidas e lidar com listas vazias", () => {
+      const historico = [{ score: "alto" }, null, { score: 720 }, {}];
+      assert.deepEqual(serieScoresSimulados(historico), [720]);
+      assert.deepEqual(serieScoresSimulados([]), []);
+      assert.deepEqual(serieScoresSimulados(null), []);
+    });
+  });
+
+  describe("Compartilhamento do resultado do simulado", () => {
+    it("deve montar texto de aprovação com score, acertos e tempo", () => {
+      const texto = montarTextoCompartilhamentoSimulado({
+        score: 780,
+        acertos: 51,
+        total: 65,
+        tempoMinutos: 120
+      });
+
+      assert.ok(texto.includes("780/1000"));
+      assert.ok(texto.includes("51/65"));
+      assert.ok(texto.includes("aprovado! ✅"));
+      assert.ok(texto.includes("120 min"));
+    });
+
+    it("deve montar texto de reprovação sem dados pessoais", () => {
+      const texto = montarTextoCompartilhamentoSimulado({
+        score: 600,
+        acertos: 40,
+        total: 65,
+        tempoMinutos: 130
+      });
+
+      assert.ok(texto.includes("ainda não, mas sigo estudando. 📚"));
+      assert.ok(!texto.includes("@"));
+    });
+
+    it("deve tolerar resultado ausente ou malformado", () => {
+      const texto = montarTextoCompartilhamentoSimulado(undefined);
+      assert.ok(texto.includes("0/1000"));
     });
   });
 });

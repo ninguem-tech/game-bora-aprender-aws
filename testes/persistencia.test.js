@@ -47,7 +47,7 @@ describe("Camada de Persistência (localStorage)", () => {
 
     assert.deepStrictEqual(estado.deck, {});
     assert.equal(estado.xpTotal, 0);
-    assert.equal(estado.theme, "light");
+    assert.equal(estado.theme, "auto", "Novos usuários começam no tema automático");
     assert.equal(estado.muted, false);
     assert.equal(estado.fontScale, 1.0);
     assert.deepStrictEqual(estado.phaseStats, {});
@@ -135,6 +135,14 @@ describe("Camada de Persistência (localStorage)", () => {
     );
   });
 
+  it("deve aceitar o tema automático salvo e rejeitar temas inválidos", () => {
+    localStorageFalso.setItem(LS_KEY, JSON.stringify({ theme: "auto" }));
+    assert.equal(carregar().theme, "auto");
+
+    localStorageFalso.setItem(LS_KEY, JSON.stringify({ theme: "sepia" }));
+    assert.equal(carregar().theme, "auto", "Tema inválido volta ao padrão automático");
+  });
+
   it("deve salvar e carregar o estado completo corretamente", () => {
     const estadoCompleto = {
       deck: { q1: { id: "q1", box: 2, due: 1000 } },
@@ -180,7 +188,7 @@ describe("Camada de Persistência (localStorage)", () => {
 
     assert.deepStrictEqual(estado.deck, {});
     assert.equal(estado.xpTotal, 0);
-    assert.equal(estado.theme, "light");
+    assert.equal(estado.theme, "auto");
   });
 
   it("deve preencher campos ausentes com valores padrão ao carregar dados parciais", () => {
@@ -190,7 +198,7 @@ describe("Camada de Persistência (localStorage)", () => {
 
     assert.equal(estado.xpTotal, 42);
     assert.deepStrictEqual(estado.deck, {});
-    assert.equal(estado.theme, "light");
+    assert.equal(estado.theme, "auto");
     assert.equal(estado.muted, false);
     assert.deepStrictEqual(estado.stats, { totalAnswered: 0, totalCorrect: 0, maxStreak: 0 });
   });
@@ -212,7 +220,7 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(estado.xpTotal, 0);
     assert.equal(estado.muted, false);
     assert.equal(estado.fontScale, 1.0);
-    assert.equal(estado.theme, "light");
+    assert.equal(estado.theme, "auto");
     assert.deepStrictEqual(estado.stats, { totalAnswered: 0, totalCorrect: 0, maxStreak: 0 });
   });
 
@@ -346,7 +354,7 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.ok(ESTADO_PADRAO);
     assert.deepStrictEqual(ESTADO_PADRAO.deck, {});
     assert.equal(ESTADO_PADRAO.xpTotal, 0);
-    assert.equal(ESTADO_PADRAO.theme, "light");
+    assert.equal(ESTADO_PADRAO.theme, "auto");
     assert.equal(ESTADO_PADRAO.muted, false);
     assert.equal(ESTADO_PADRAO.fontScale, 1.0);
   });

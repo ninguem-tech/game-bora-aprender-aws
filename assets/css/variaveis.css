@@ -11,6 +11,9 @@
   --vermelho: #a03d28;
   --vermelho-bg: #f7e6e0;
   --dourado: #c98a3c;
+  /* Dourado para TEXTO sobre fundos claros (--creme/--leite): 5.4:1.
+     O --dourado original (2.56:1) segue válido para superfícies/realces. */
+  --dourado-texto: #8a5a1e;
   --azul: #2b5d6b;
   --azul-bg: #e6eff2;
   --shadow: rgba(62,42,32,0.08);
@@ -18,7 +21,6 @@
   --focus-ring: #8a5a1e;
   /* Borda de controles com contraste >= 3:1 sobre o fundo (WCAG 1.4.11) */
   --borda-ctrl: #96826a;
-  --font-scale: 1rem;
   --font-title: 'Outfit', -apple-system, Segoe UI, Roboto, sans-serif;
   --font-body: 'Inter', -apple-system, Segoe UI, Roboto, system-ui, sans-serif;
 }
@@ -35,6 +37,7 @@ body.dark {
   --vermelho: #f87171;
   --vermelho-bg: #3d1714;
   --dourado: #fbbf24;
+  --dourado-texto: #fbbf24;
   --azul: #38bdf8;
   --azul-bg: #112834;
   --shadow: rgba(0,0,0,0.3);

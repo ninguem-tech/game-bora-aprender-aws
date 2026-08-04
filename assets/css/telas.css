@@ -22,6 +22,10 @@ body.dark .tabBtn.active { background: var(--dourado); color: #161412; border-co
   font-weight: 700; color: var(--cafe); background: var(--creme); border: 2px solid var(--borda-ctrl);
   border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: border-color .15s, transform .1s;
   min-height: 52px;
+  /* Dentro do .faseGrid (flex column com max-height), itens flex encolhem por
+     padrão até o min-height — títulos de 2 linhas vazavam e sobrepunham os
+     cards vizinhos. flex-shrink: 0 mantém a altura do conteúdo. */
+  flex-shrink: 0;
 }
 .faseBtn:hover { border-color: var(--dourado); transform: translateY(-1px); }
 .faseBtn small { display: block; font-weight: 600; color: var(--dim); font-size: .78rem; margin-top: 2px; }

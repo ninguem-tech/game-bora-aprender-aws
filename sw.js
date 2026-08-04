@@ -4,9 +4,16 @@
  * Habilita funcionamento offline e instalacao como PWA.
  * Estrategia: cache-first para assets estaticos, com fallback para index.html
  * em requisicoes de navegacao quando offline.
+ *
+ * data/bank.js (~1MB, o banco de questoes) fica FORA do precache de
+ * instalacao de proposito: instalar o Service Worker nao deve ficar
+ * bloqueado baixando 1MB antes de o app poder abrir. Ele e buscado
+ * normalmente via <script> no primeiro carregamento e so entra no cache
+ * (para uso offline depois) atraves do cache-em-runtime abaixo, na
+ * primeira vez que for de fato requisitado.
  */
 
-const CACHE_NAME = 'bora-aws-v5';
+const CACHE_NAME = 'bora-aws-v7';
 // Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
 // para funcionar tanto na raiz do dominio quanto em um subcaminho
 // (ex.: GitHub Pages de projeto: usuario.github.io/repo/).
@@ -33,8 +40,7 @@ const ASSETS = [
   './src/teclado.js',
   './src/sw-register.js',
   './src/pwa.js',
-  './src/app.js',
-  './data/bank.js'
+  './src/app.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -71,20 +77,50 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) {
-        // Atualiza em segundo plano se houver rede disponivel
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) =>
-                cache.put(event.request, networkResponse)
-              );
-            }
-          })
-          .catch(() => {});
+        // Atualiza em segundo plano se houver rede disponivel. waitUntil
+        // mantem o Service Worker vivo ate o cache.put terminar — sem isso,
+        // o navegador pode encerrar o worker assim que a resposta em cache
+        // e entregue (respondWith ja resolveu), derrubando a atualizacao no
+        // meio do caminho de forma silenciosa e intermitente.
+        event.waitUntil(
+          fetch(event.request)
+            .then((networkResponse) => {
+              if (networkResponse && networkResponse.status === 200) {
+                return caches
+                  .open(CACHE_NAME)
+                  .then((cache) => cache.put(event.request, networkResponse));
+              }
+            })
+            .catch(() => {})
+        );
         return cached;
       }
 
-      return fetch(event.request).catch(() => caches.match('./index.html'));
+      // Nao estava pre-cacheado (ex.: data/bank.js na primeira visita).
+      // Busca na rede e, se der certo, guarda em cache pra proxima vez —
+      // sem isso, qualquer asset fora do precache nunca ficava disponivel
+      // offline, mesmo depois de carregado com sucesso uma vez.
+      return fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const paraCache = networkResponse.clone();
+            // Mesmo motivo do ramo "cached" acima: manter o worker vivo ate
+            // o cache.put terminar, em vez de so dispara-lo sem aguardar.
+            event.waitUntil(
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, paraCache))
+            );
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Fallback de index.html so vale para navegacao/documentos.
+          // Devolver HTML para um .js/.css/imagem que falhou offline vira
+          // erro de sintaxe silencioso (ex.: data/bank.js nunca cacheado).
+          if (event.request.destination === 'document') {
+            return caches.match('./index.html');
+          }
+          return Response.error();
+        });
     })
   );
 });

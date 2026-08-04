@@ -122,7 +122,7 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
       );
     });
 
-    it("deve remover cartão da caixa 5 ao acertar novamente", () => {
+    it("deve avançar até a caixa 5 (teto) com acertos consecutivos", () => {
       const todas = fases.reduce((acc, f) => acc.concat(f.questions), []);
       const q = todas[0];
 
@@ -139,9 +139,11 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
       cartao = calcularAgendamentoLeitner(cartao, true, dataBase);
       assert.strictEqual(cartao.box, 5);
 
-      // Caixa 5 indica domínio: remove do baralho (simulado pelo renderizador)
+      // calcularAgendamentoLeitner é uma função PURA: não remove nada do
+      // baralho. A remoção do cartão dominado (caixa 5) acontece no fluxo de
+      // revisão (RENDERIZADOR.avalia), coberto em acessibilidade.test.js.
       const ids = Object.keys(baralho);
-      assert.ok(ids.includes(q.id), "Ainda está no baralho até ser removido pelo fluxo de revisão");
+      assert.ok(ids.includes(q.id), "A função pura de agendamento não altera o baralho");
     });
 
     it("deve retornar à caixa 1 e incrementar lapsos ao errar", () => {

@@ -375,14 +375,27 @@ describe("Acessibilidade — atalhos de teclado", () => {
     assert.equal(opcoes[0].clicado, 1);
   });
 
-  it("Alt+D deve disparar apenas a opção D, nunca a dica (ação única por tecla)", () => {
+  it("Alt+4 deve disparar apenas a quarta opção, nunca a dica (ação única por tecla)", () => {
     const handler = instalar();
 
-    handler(criarEvento("d", { altKey: true }));
+    handler(criarEvento("4", { altKey: true }));
 
     assert.equal(opcoes[3].clicado, 1);
     assert.equal(dicaBtn.clicado, 0);
     assert.equal(opcoes[0].clicado + opcoes[1].clicado + opcoes[2].clicado, 0);
+  });
+
+  it("Alt+letra (A-D) não deve disparar nenhuma ação — removido por conflitar com atalhos do navegador (ex.: Alt+D = barra de endereço no Chrome/Firefox/Edge)", () => {
+    const handler = instalar();
+
+    handler(criarEvento("a", { altKey: true }));
+    handler(criarEvento("b", { altKey: true }));
+    handler(criarEvento("c", { altKey: true }));
+    handler(criarEvento("d", { altKey: true }));
+
+    opcoes.forEach((opcao) => assert.equal(opcao.clicado, 0));
+    assert.equal(dicaBtn.clicado, 0);
+    assert.equal(chamadas.intro, 0);
   });
 
   it("Alt+H deve revelar a dica sem clicar em opções", () => {
@@ -397,11 +410,11 @@ describe("Acessibilidade — atalhos de teclado", () => {
   it("não deve clicar em opção desabilitada nem sem opções suficientes", () => {
     const handler = instalar();
     opcoes[3].disabled = true;
-    handler(criarEvento("d", { altKey: true }));
+    handler(criarEvento("4", { altKey: true }));
     assert.equal(opcoes[3].clicado, 0);
 
     const handler2 = instalar({ getOpcoesDesabilitadas: () => opcoes.slice(0, 3) });
-    handler2(criarEvento("d", { altKey: true }));
+    handler2(criarEvento("4", { altKey: true }));
     assert.equal(opcoes[3].clicado, 0);
   });
 
@@ -425,12 +438,23 @@ describe("Acessibilidade — atalhos de teclado", () => {
     assert.ok(evento.defaultPrevented);
   });
 
+  it("Espaço sem nada realmente focado não deve ativar o CTA (rolagem nativa da página)", () => {
+    const handler = instalar();
+    dom.activeElement = dom.body;
+
+    const evento = criarEvento(" ");
+    handler(evento);
+
+    assert.equal(ctaBtn.clicado, 0, "Sem foco real, Espaço deve rolar a página, não clicar no CTA");
+    assert.equal(evento.defaultPrevented, false);
+  });
+
   it("na revisão, Alt+1/Alt+2 avaliam o cartão e Espaço revela a resposta", () => {
     const mostrarBtn = criarElementoFalso("button");
     const handler = instalar({ getModoRevisao: () => ({ revelado: true }) });
 
     handler(criarEvento("1", { altKey: true }));
-    handler(criarEvento("b", { altKey: true }));
+    handler(criarEvento("2", { altKey: true }));
     assert.deepEqual(chamadas.avalia, [false, true]);
 
     const handler2 = instalar({
@@ -634,5 +658,60 @@ describe("Acessibilidade — integração com o renderizador (anúncios e foco)"
       false,
       "Sem histórico suficiente não há gráfico"
     );
+  });
+
+  it("avalia: cartão que chega à caixa 5 é removido do baralho (domínio)", () => {
+    dom._elementos.ariaAnnounce.textContent = "";
+    const carta = {
+      id: "q-dominio",
+      box: 4,
+      due: 0,
+      stem: "Pergunta de revisão",
+      correta: "Resposta certa",
+      porque: "",
+      situacao: "",
+      lapsos: 0
+    };
+    global.App.store.deck = { "q-dominio": carta };
+    global.App.store.studyLogs = {};
+    global.App.modoRevisao = { cards: [carta], idx: 0, acertosRev: 0, revelado: true };
+
+    RENDERIZADOR.avalia(true);
+
+    assert.ok(
+      !Object.prototype.hasOwnProperty.call(global.App.store.deck, "q-dominio"),
+      "Cartão dominado (caixa 5) deve sair do baralho"
+    );
+    assert.equal(global.App.modoRevisao, null, "Revisão termina após o último cartão");
+    assert.match(dom._elementos.ariaAnnounce.textContent, /Revisão concluída/);
+
+    global.App.store.deck = {};
+  });
+
+  it("avalia: cartão errado volta à caixa 1 e permanece no baralho", () => {
+    const carta = {
+      id: "q-erro",
+      box: 3,
+      due: 0,
+      stem: "Pergunta de revisão",
+      correta: "Resposta certa",
+      porque: "",
+      situacao: "",
+      lapsos: 0
+    };
+    global.App.store.deck = { "q-erro": carta };
+    global.App.store.studyLogs = {};
+    global.App.modoRevisao = { cards: [carta], idx: 0, acertosRev: 0, revelado: true };
+
+    RENDERIZADOR.avalia(false);
+
+    assert.ok(
+      Object.prototype.hasOwnProperty.call(global.App.store.deck, "q-erro"),
+      "Cartão errado continua no baralho"
+    );
+    assert.equal(global.App.store.deck["q-erro"].box, 1, "Erro devolve o cartão à caixa 1");
+
+    global.App.store.deck = {};
+    global.App.modoRevisao = null;
   });
 });

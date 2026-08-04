@@ -196,6 +196,27 @@ function atualizarStreak(store) {
 }
 
 /**
+ * Zera streakDays quando a última atividade não foi nem hoje nem ontem
+ * (sequência quebrada). Não mexe em lastActiveDate — só corrige a exibição
+ * do streak, igual ao que carregar() já fazia isoladamente.
+ *
+ * Compartilhada entre carregar() e importarProgressoJSON(): antes, só
+ * carregar() aplicava essa correção, então restaurar um backup antigo podia
+ * mostrar um streak inflado/desatualizado até o próximo carregamento da página.
+ *
+ * @param {Object} store Estado persistente (mutado in-place).
+ * @returns {Object} O mesmo objeto `store`, com streakDays corrigido se necessário.
+ */
+function corrigirStreakDesatualizado(store) {
+  const hoje = dataHojeIso();
+  const ultimo = stringOuPadrao(store.lastActiveDate, null);
+  if (ultimo !== null && ultimo !== hoje && ultimo !== dataOntemIso()) {
+    store.streakDays = 0;
+  }
+  return store;
+}
+
+/**
  * Registra atividade de estudo no log do dia.
  * @param {Object} store Estado persistente.
  * @param {Object} deltas Quantidades a adicionar: { questionsAnswered, studyTimeMinutes, leitnerReviews }.
@@ -235,7 +256,6 @@ function carregar() {
     const fonteValida = escalasPermitidas.includes(fonteBruta)
       ? fonteBruta
       : ESTADO_PADRAO.fontScale;
-    const hoje = dataHojeIso();
     const ultimo = stringOuPadrao(parsed.lastActiveDate, null);
     const base = {
       deck: normalizarDeck(parsed.deck),
@@ -256,10 +276,7 @@ function carregar() {
     // registrarEstudo/registrarExame. No carregamento apenas corrige a
     // exibição — se a última atividade não foi ontem nem hoje, a sequência
     // já foi quebrada e deve aparecer zerada.
-    if (ultimo !== null && ultimo !== hoje && ultimo !== dataOntemIso()) {
-      base.streakDays = 0;
-    }
-    return base;
+    return corrigirStreakDesatualizado(base);
   } catch {
     return JSON.parse(JSON.stringify(ESTADO_PADRAO));
   }
@@ -307,27 +324,35 @@ function calcularChecksumBackup(store) {
 /**
  * Gera um download JSON do progresso do usuário.
  * @param {Object} store Estado persistente.
+ * @returns {boolean} true se o download foi iniciado com sucesso, false em caso de
+ *   erro (ex.: SHA-256 indisponível, DOM indisponível) — quem chama decide como
+ *   avisar o usuário (esta camada não depende de ACESSIBILIDADE/DOM de aviso).
  */
 function exportarProgressoJSON(store) {
-  const conteudo = JSON.stringify(
-    { checksum: calcularChecksumBackup(store), data: store },
-    null,
-    2
-  );
-  const link = document.createElement("a");
-  link.download = "bora-aprender-aws-backup-" + dataHojeIso() + ".json";
-  if (typeof URL !== "undefined" && URL.createObjectURL) {
-    const blob = new Blob([conteudo], { type: "application/json" });
-    link.href = URL.createObjectURL(blob);
-  } else {
-    // Fallback para navegadores sem Blob URLs.
-    link.href = "data:application/json;charset=utf-8," + encodeURIComponent(conteudo);
-  }
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  if (link.href && link.href.startsWith("blob:")) {
-    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  try {
+    const conteudo = JSON.stringify(
+      { checksum: calcularChecksumBackup(store), data: store },
+      null,
+      2
+    );
+    const link = document.createElement("a");
+    link.download = "bora-aprender-aws-backup-" + dataHojeIso() + ".json";
+    if (typeof URL !== "undefined" && URL.createObjectURL) {
+      const blob = new Blob([conteudo], { type: "application/json" });
+      link.href = URL.createObjectURL(blob);
+    } else {
+      // Fallback para navegadores sem Blob URLs.
+      link.href = "data:application/json;charset=utf-8," + encodeURIComponent(conteudo);
+    }
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    if (link.href && link.href.startsWith("blob:")) {
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -340,6 +365,24 @@ function possuiChavePerigosa(obj) {
   if (!obj || typeof obj !== "object") return false;
   const perigosas = ["__proto__", "constructor", "prototype"];
   return Object.getOwnPropertyNames(obj).some((k) => perigosas.includes(k));
+}
+
+/**
+ * Varre a estrutura inteira (com limite de profundidade) atrás de chaves
+ * perigosas. Substitui o antigo filtro por substring no JSON bruto, que
+ * rejeitava backups legítimos cujo TEXTO contivesse a palavra "constructor"
+ * (ex.: enunciado de um cartão do Leitner) — aqui só CHAVES contam.
+ * @param {*} obj Valor a inspecionar.
+ * @param {number} [profundidadeMax=8] Limite de recursão.
+ * @returns {boolean} True se alguma chave perigosa for encontrada.
+ */
+function possuiChavePerigosaProfunda(obj, profundidadeMax = 8) {
+  if (!obj || typeof obj !== "object") return false;
+  if (profundidadeMax < 0) return true; // profundo demais: rejeita por precaução
+  if (possuiChavePerigosa(obj)) return true;
+  return Object.getOwnPropertyNames(obj).some((k) =>
+    possuiChavePerigosaProfunda(obj[k], profundidadeMax - 1)
+  );
 }
 
 function validarEstruturaBackup(parsed) {
@@ -378,8 +421,8 @@ function validarEstruturaBackup(parsed) {
 function importarProgressoJSON(jsonString) {
   try {
     if (typeof jsonString !== "string" || jsonString.length > 2 * 1024 * 1024) return null;
-    if (jsonString.includes("__proto__") || jsonString.includes("constructor")) return null;
     const parsed = JSON.parse(jsonString);
+    if (possuiChavePerigosaProfunda(parsed)) return null;
     const possuiEnvelope = parsed && typeof parsed === "object" && "data" in parsed;
     const dados = possuiEnvelope ? parsed.data : parsed;
     if (possuiEnvelope) {
@@ -388,7 +431,10 @@ function importarProgressoJSON(jsonString) {
     if (!validarEstruturaBackup(dados)) return null;
     const importado = carregar();
     if (dados.deck) importado.deck = normalizarDeck(dados.deck);
-    if (typeof dados.xpTotal === "number") importado.xpTotal = Math.max(0, dados.xpTotal);
+    // normalizarInteiroPositivo (e não Math.max) porque typeof NaN/Infinity
+    // também é "number" — sem isso o header exibia "NaN XP" até o reload.
+    if (typeof dados.xpTotal === "number")
+      importado.xpTotal = normalizarInteiroPositivo(dados.xpTotal, 0);
     if (dados.theme === "light" || dados.theme === "dark" || dados.theme === "auto")
       importado.theme = dados.theme;
     if (typeof dados.muted === "boolean") importado.muted = dados.muted;
@@ -403,6 +449,7 @@ function importarProgressoJSON(jsonString) {
     if (typeof dados.streakDays === "number")
       importado.streakDays = normalizarInteiroPositivo(dados.streakDays, 0);
     if (typeof dados.lastActiveDate === "string") importado.lastActiveDate = dados.lastActiveDate;
+    corrigirStreakDesatualizado(importado);
     salvar(importado);
     return importado;
   } catch {
@@ -487,6 +534,7 @@ if (typeof module !== "undefined" && module.exports) {
     registrarEstudo,
     registrarExame,
     atualizarStreak,
+    corrigirStreakDesatualizado,
     normalizarStudyLogs,
     normalizarExamHistory,
     formatarDataLocal,
@@ -507,6 +555,7 @@ if (typeof module !== "undefined" && module.exports) {
     registrarEstudo,
     registrarExame,
     atualizarStreak,
+    corrigirStreakDesatualizado,
     formatarDataLocal,
     dataHojeIso,
     dataOntemIso

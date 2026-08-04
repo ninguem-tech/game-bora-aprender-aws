@@ -13,11 +13,11 @@
  */
 
 (function () {
-  var store = PERSISTENCIA.carregar();
+  var storeInicial = PERSISTENCIA.carregar();
   var R = RENDERIZADOR;
 
   window.App = {
-    store: store,
+    store: storeInicial,
     modoJogo: "fases",
     modoRevisao: null,
     fase: null,
@@ -63,14 +63,24 @@
   var installBtn = document.getElementById("btnInstall");
   var deferredInstallPrompt = null;
 
+  // Clique tratado diretamente aqui (fora do switch de data-action abaixo)
+  // porque precisa do fechamento sobre deferredInstallPrompt, que só existe
+  // neste escopo. O botão não usa data-action de propósito, para não sugerir
+  // que o switch de baixo trata esse caso.
   if (installBtn) {
     installBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      if (!deferredInstallPrompt) return;
-      deferredInstallPrompt.prompt();
-      deferredInstallPrompt.userChoice.then(function () {
-        deferredInstallPrompt = null;
-        installBtn.hidden = true;
+      var promptCapturado = deferredInstallPrompt;
+      if (!promptCapturado) return;
+      promptCapturado.prompt();
+      promptCapturado.userChoice.then(function () {
+        // Só limpa/esconde se ainda for o mesmo prompt: um novo
+        // beforeinstallprompt pode ter substituído deferredInstallPrompt
+        // enquanto o usuário decidia neste userChoice.
+        if (deferredInstallPrompt === promptCapturado) {
+          deferredInstallPrompt = null;
+          installBtn.hidden = true;
+        }
       });
     });
   }
@@ -226,16 +236,16 @@
         R.avalia(target.dataset.acertou === "true");
         break;
       case "theme":
-        ACESSIBILIDADE.toggleTheme(store, PERSISTENCIA.salvar);
+        ACESSIBILIDADE.toggleTheme(App.store, PERSISTENCIA.salvar);
         break;
       case "font-minus":
-        ACESSIBILIDADE.changeFontScale(store, -1, PERSISTENCIA.salvar);
+        ACESSIBILIDADE.changeFontScale(App.store, -1, PERSISTENCIA.salvar);
         break;
       case "font-plus":
-        ACESSIBILIDADE.changeFontScale(store, 1, PERSISTENCIA.salvar);
+        ACESSIBILIDADE.changeFontScale(App.store, 1, PERSISTENCIA.salvar);
         break;
       case "audio":
-        AUDIO.toggleAudio(store, PERSISTENCIA.salvar);
+        AUDIO.toggleAudio(App.store, PERSISTENCIA.salvar);
         break;
       case "backup": {
         var dialog = document.getElementById("backupDialog") || criarBackupDialog();
@@ -263,7 +273,9 @@
         break;
       }
       case "exportar-backup":
-        PERSISTENCIA.exportarProgressoJSON(store);
+        if (!PERSISTENCIA.exportarProgressoJSON(App.store)) {
+          ACESSIBILIDADE.announce("Não foi possível exportar o backup. Tente novamente.");
+        }
         break;
       case "restaurar-backup": {
         var d2 = document.getElementById("backupDialog");
@@ -282,10 +294,10 @@
         PERSISTENCIA.registrarImport();
         var importado = PERSISTENCIA.importarProgressoJSON(area.value.trim());
         if (importado) {
-          App.store = store = importado;
-          ACESSIBILIDADE.applyTheme(store);
-          ACESSIBILIDADE.applyFontScale(store);
-          AUDIO.aplicarEstadoAudio(store);
+          App.store = importado;
+          ACESSIBILIDADE.applyTheme(App.store);
+          ACESSIBILIDADE.applyFontScale(App.store);
+          AUDIO.aplicarEstadoAudio(App.store);
           R.intro();
           if (d2) d2.hidden = true;
           ACESSIBILIDADE.announce("Backup restaurado com sucesso.");
@@ -351,8 +363,13 @@
   }
 
   // ---------- TRAP FOCUS E ESCAPE DOS MODAIS ----------
+  // Enter/Espaço também passam por aqui: sem isso, com um diálogo aberto e o
+  // foco fora de um botão (ex.: título recém-focado), o handler global de
+  // atalhos encontrava um ".cta" da tela ATRÁS do modal e o clicava. O
+  // stopPropagation em gerenciarTecladoModais impede isso sem quebrar a
+  // ativação nativa de botões dentro do diálogo (não há preventDefault).
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" || e.key === "Tab") {
+    if (e.key === "Escape" || e.key === "Tab" || e.key === "Enter" || e.key === " ") {
       gerenciarTecladoModais(e);
     }
   });
@@ -371,16 +388,16 @@
   }
 
   // ---------- INICIALIZAÇÃO ----------
-  ACESSIBILIDADE.applyTheme(store);
-  ACESSIBILIDADE.applyFontScale(store);
-  AUDIO.aplicarEstadoAudio(store);
+  ACESSIBILIDADE.applyTheme(App.store);
+  ACESSIBILIDADE.applyFontScale(App.store);
+  AUDIO.aplicarEstadoAudio(App.store);
 
   R.intro();
   // A partir do primeiro render, toda mudança de tela gerencia o foco e
   // os anúncios (no carregamento inicial o foco permanece no documento).
   App.iniciado = true;
 
-  if (!store.hasSeenWelcome) {
+  if (!App.store.hasSeenWelcome) {
     var w = document.getElementById("welcomeDialog") || criarBemVindoDialog();
     w.hidden = false;
     ACESSIBILIDADE.announce("Bem-vinda ao Bora Aprender AWS.");

@@ -17,7 +17,10 @@ function getAudioCtx() {
     if (AudioContext) audioCtx = new AudioContext();
   }
   if (audioCtx && audioCtx.state === "suspended") {
-    audioCtx.resume();
+    // resume() retorna uma Promise; sem o catch, uma rejeição (ex.: política
+    // de autoplay do navegador) vira unhandled rejection não capturada pelo
+    // try/catch síncrono de playSound().
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 }

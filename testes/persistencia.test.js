@@ -137,6 +137,34 @@ describe("Camada de Persistência (localStorage)", () => {
     );
   });
 
+  it("deve exibir streak zerado imediatamente ao IMPORTAR um backup com sequência quebrada", () => {
+    // Regressão: antes, só carregar() aplicava essa correção. Restaurar um
+    // backup com streak desatualizado mostrava o valor inflado até o próximo
+    // carregamento da página, porque importarProgressoJSON persistia o
+    // streakDays do backup sem revalidar a data.
+    const quatroDiasAtras = new Date();
+    quatroDiasAtras.setDate(quatroDiasAtras.getDate() - 4);
+    const backup = JSON.stringify({
+      streakDays: 7,
+      lastActiveDate: formatarDataLocal(quatroDiasAtras),
+      stats: { totalAnswered: 1, totalCorrect: 1, maxStreak: 7 }
+    });
+
+    const resultado = importarProgressoJSON(backup);
+
+    assert.ok(resultado);
+    assert.equal(
+      resultado.streakDays,
+      0,
+      "Sequência quebrada de um backup antigo deve aparecer zerada já no retorno da importação"
+    );
+    assert.equal(
+      JSON.parse(localStorageFalso.getItem(LS_KEY)).streakDays,
+      0,
+      "A correção deve ser persistida, não só devolvida em memória"
+    );
+  });
+
   it("deve aceitar o tema automático salvo e rejeitar temas inválidos", () => {
     localStorageFalso.setItem(LS_KEY, JSON.stringify({ theme: "auto" }));
     assert.equal(carregar().theme, "auto");
@@ -431,6 +459,42 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(resultado.theme, "dark");
     assert.equal(resultado.fontScale, 1.3);
     assert.equal(resultado.stats.totalCorrect, 8);
+  });
+
+  it("deve aceitar backup legítimo cujo texto contém 'constructor' ou '__proto__'", () => {
+    // Regressão: o filtro antigo por substring no JSON bruto rejeitava
+    // qualquer backup cujo CONTEÚDO (não as chaves) contivesse essas
+    // palavras — ex.: enunciado de um cartão do Leitner sobre JavaScript.
+    const valido = JSON.stringify({
+      deck: {
+        q1: {
+          id: "q1",
+          box: 2,
+          due: 1000,
+          stem: "O que um constructor faz em uma classe?",
+          correta: "Inicializa a instância",
+          porque: "O texto pode citar __proto__ sem ser uma chave do objeto.",
+          situacao: "",
+          lapsos: 0
+        }
+      }
+    });
+    const resultado = importarProgressoJSON(valido);
+    assert.ok(resultado, "Backup com essas palavras apenas no texto deve importar");
+    assert.ok(resultado.deck.q1, "Cartão preservado");
+    assert.equal(resultado.deck.q1.box, 2);
+  });
+
+  it("deve rejeitar backup com chave perigosa aninhada em profundidade", () => {
+    const malicioso = '{"studyLogs":{"2026-01-01":{"__proto__":{"polluted":true}}}}';
+    assert.equal(importarProgressoJSON(malicioso), null);
+  });
+
+  it("deve normalizar xpTotal NaN/Infinity para 0 na importação", () => {
+    // JSON.parse("1e999") vira Infinity, e typeof Infinity === "number".
+    const resultado = importarProgressoJSON('{"xpTotal":1e999,"stats":{}}');
+    assert.ok(resultado);
+    assert.equal(resultado.xpTotal, 0, "Infinity não pode virar XP exibido");
   });
 
   it("deve calcular checksum estável independente da ordem das chaves", () => {

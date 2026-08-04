@@ -89,6 +89,12 @@ const QINDEX = {};
 BANK.fases.forEach((f) => f.questions.forEach((q) => (QINDEX[q.id] = { q, faseId: f.id })));
 
 const app = typeof document !== "undefined" ? document.getElementById("app") : null;
+if (typeof document !== "undefined" && !app) {
+  throw new Error(
+    "renderizador.js: elemento #app não encontrado no DOM. Verifique se este script " +
+      'é carregado a partir de index.html (depois de <main id="app">), não isoladamente.'
+  );
+}
 const elXp = typeof document !== "undefined" ? document.getElementById("xp") : null;
 const elStreak = typeof document !== "undefined" ? document.getElementById("streak") : null;
 const elBar = typeof document !== "undefined" ? document.getElementById("bar") : null;
@@ -109,11 +115,12 @@ function showHome(b) {
  */
 function setProgress(done, total) {
   if (elBar) {
-    elBar.style.width = Math.min(100, ((done || 0) / (total || 1)) * 100) + "%";
-    elBar.parentElement.setAttribute(
-      "aria-valuenow",
-      Math.round(((done || 0) / (total || 1)) * 100)
-    );
+    // Mesmo percentual clampado (0-100) usado tanto na largura visual quanto
+    // no aria-valuenow — sem o clamp aqui, done > total gera um valor fora
+    // do intervalo declarado em aria-valuemax="100" (index.html).
+    const pct = Math.min(100, ((done || 0) / (total || 1)) * 100);
+    elBar.style.width = pct + "%";
+    elBar.parentElement.setAttribute("aria-valuenow", Math.round(pct));
   }
   if (elXp) {
     elXp.textContent = (App && App.store ? App.store.xpTotal || 0 : 0) + " XP";
@@ -186,18 +193,26 @@ function intro(silencioso) {
   const hojeQuestoes = logHoje ? logHoje.questionsAnswered || 0 : 0;
   const readiness = JogoCore.calcularReadiness(App.store, BANK.fases.length);
   const rLabel = JogoCore.classificarReadiness(readiness);
+  const prontidaoConfiavel = JogoCore.prontidaoEhConfiavel(totalResponded);
+  const readinessAriaLabel = prontidaoConfiavel
+    ? `Prontidão para o exame: ${readiness}% — ${escaparHtml(rLabel.label)}`
+    : "Prontidão para o exame: continue respondendo pra desbloquear";
 
   app.innerHTML = `
     <span class="who rafael">Rafael · mentor</span>
     <h1>Bora começar do zero?</h1>
     <p class="lead">Você é a <b>Júlia</b>. Aqui aprendemos a AWS resolvendo problemas reais, sem empáfia e com muito acolhimento. <span aria-hidden="true">☕</span></p>
 
-    <div class="readiness" role="img" aria-label="Prontidão para o exame: ${readiness}% — ${rLabel.label}">
+    <div class="readiness" role="img" aria-label="${readinessAriaLabel}">
       <div class="readinessLabel">Prontidão para o exame</div>
       <div class="readinessTrack" aria-hidden="true">
-        <div class="readinessFill" style="width:${readiness}%;background:${rLabel.cor}"></div>
+        <div class="readinessFill" style="width:${prontidaoConfiavel ? readiness : 8}%;background:${prontidaoConfiavel ? rLabel.cor : "var(--dourado)"}"></div>
       </div>
-      <div class="readinessValue" aria-hidden="true"><b>${readiness}%</b> — ${rLabel.label}</div>
+      <div class="readinessValue" aria-hidden="true">${
+        prontidaoConfiavel
+          ? `<b>${readiness}%</b> — ${rLabel.label}`
+          : "Continue respondendo pra desbloquear sua prontidão"
+      }</div>
     </div>
 
     <div class="dashGrid">
@@ -283,7 +298,7 @@ function renderConquistas(container) {
   const total = desbloqueadas.length + pendentes.length;
 
   const badgeHtml = (c, ativo) => `
-    <li class="badgeItem ${ativo ? "" : "locked"}" aria-label="${ativo ? "Conquista desbloqueada" : "Conquista bloqueada"}: ${c.label}">
+    <li class="badgeItem ${ativo ? "" : "locked"}" aria-label="${ativo ? "Conquista desbloqueada" : "Conquista bloqueada"}: ${escaparHtml(c.label)}">
       <span class="badgeEmoji" aria-hidden="true">${c.emoji}</span>
       <span class="badgeLabel">${escaparHtml(c.label)}</span>
     </li>`;
@@ -308,6 +323,7 @@ function renderConquistas(container) {
  * @param {HTMLElement} container - Container DOM onde a lista será inserida.
  */
 function renderFasesList(container) {
+  if (!container) return;
   const categories = [
     { id: "todas", label: "Todas" },
     { id: "fundamentos", label: "Fundamentos" },
@@ -779,10 +795,14 @@ function resumoSimulado() {
     score: score,
     tempoMinutos: tempoUsadoMinutos
   });
-  PERSISTENCIA.registrarEstudo(App.store, {
-    questionsAnswered: e.indice,
-    studyTimeMinutes: tempoUsadoMinutos
-  });
+  // Cada resposta do simulado já foi registrada individualmente por
+  // processarPontuacao (1 questão + 1 min). Recontar aqui dobrava o log
+  // diário (um simulado de 65 questões aparecia como ~130 no "hoje").
+  // Registra-se apenas o tempo de cronômetro que excede o já contabilizado.
+  const tempoExtraMinutos = Math.max(0, tempoUsadoMinutos - e.indice);
+  if (tempoExtraMinutos > 0) {
+    PERSISTENCIA.registrarEstudo(App.store, { studyTimeMinutes: tempoExtraMinutos });
+  }
   PERSISTENCIA.salvar(App.store);
 
   // O histórico exibido inclui o simulado recém-concluído (já registrado).
@@ -967,7 +987,10 @@ function renderOptionsAndHints(d, permitirDica = true) {
     dicaArea.appendChild(b);
   }
   const opts = document.getElementById("opts");
-  d.options.forEach(function (o, idx) {
+  // A ordem das alternativas é sorteada a cada apresentação da questão: a letra
+  // exibida segue a posição na tela, mas `o.key` continua sendo a chave original
+  // do banco, usada por `responde`, `desabilitarOpcoes` e `whyNots`.
+  JogoCore.embaralharOpcoes(d).forEach(function (o, idx) {
     const b = document.createElement("button");
     b.className = "opt";
     b.dataset.k = o.key;
@@ -982,7 +1005,7 @@ function renderOptionsAndHints(d, permitirDica = true) {
     }
     const key = document.createElement("span");
     key.className = "k";
-    key.textContent = o.key;
+    key.textContent = o.rotulo;
     keyGroup.appendChild(key);
     linha.appendChild(keyGroup);
     linha.appendChild(document.createTextNode(o.text));
@@ -1177,16 +1200,20 @@ function atualizarModoSimulado(certo) {
  * @param {boolean} certo - Se a resposta está correta.
  * @param {string} key - Chave selecionada.
  * @param {boolean} usouDica - Se o jogador revelou alguma dica.
+ * @param {number} [xpGanho] - Total de XP ganho nesta resposta (só relevante se certo).
  */
-function renderizarFeedback(d, certo, key, usouDica) {
+function renderizarFeedback(d, certo, key, usouDica, xpGanho) {
   const fb = document.getElementById("fb");
   fb.className = "fb " + (certo ? "ok" : "no");
   fb.innerHTML = "";
 
+  // Mostra o XP TOTAL ganho (base + bônus), não só o bônus "sem dica" —
+  // do contrário o card sugere que o jogador ganhou só +2 XP quando na
+  // verdade ganhou o valor cheio de calcularGanhoXP.
   const tag = certo
     ? "✓ Mandou bem!" +
       (App.streak >= 3 ? " 🔥 sequência de " + App.streak : "") +
-      (usouDica ? "" : " (+2 sem dica)")
+      (Number.isFinite(xpGanho) ? ` (+${xpGanho} XP${usouDica ? "" : ", sem dica"})` : "")
     : "✕ Quase — bora entender, sem estresse";
 
   const tagEl = document.createElement("span");
@@ -1279,6 +1306,10 @@ function responde(key, btn) {
   desabilitarOpcoes(d, key, certo);
 
   let msg = processarPontuacao(d, certo, usouDica);
+  // App.streak já reflete o pós-incremento aplicado dentro de processarPontuacao,
+  // então recalcular aqui com os mesmos parâmetros reproduz o XP realmente
+  // creditado (função pura, sem efeitos colaterais adicionais).
+  const xpGanho = certo ? JogoCore.calcularGanhoXP(true, App.streak, usouDica) : 0;
 
   if (App.modoJogo === "pet") {
     msg += atualizarModoPet(certo);
@@ -1289,7 +1320,7 @@ function responde(key, btn) {
   }
 
   ACESSIBILIDADE.announce(msg);
-  renderizarFeedback(d, certo, key, usouDica);
+  renderizarFeedback(d, certo, key, usouDica, xpGanho);
 
   const last = ehUltimaQuestao();
   criarBotaoProximo(last);

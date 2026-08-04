@@ -2,15 +2,22 @@
  * Módulo de atalhos de teclado do jogo.
  *
  * Registra o handler global de keydown que mapeia Alt+teclas numéricas (1-4),
- * Alt+letras (a-d), Alt+H (dica), Escape, Enter/Espaço para as ações da interface.
+ * Alt+H (dica), Escape, Enter/Espaço para as ações da interface.
  *
  * Garantias de acessibilidade (WCAG 2.1.1, 2.1.2, 2.1.4):
- *  - Atalhos de caractere (1-4, A-D, H) exigem o modificador Alt;
+ *  - Atalhos de caractere (1-4, H) exigem o modificador Alt;
  *  - Atalhos nunca disparam durante digitação em input, textarea, select
  *    ou elementos com contentEditable;
  *  - Atalhos nunca disparam com Ctrl/Meta sozinhos;
- *  - Cada tecla dispara uma única ação (Alt+D responde a opção D;
- *    Alt+H revela a dica);
+ *  - Cada tecla dispara uma única ação (Alt+1 a Alt+4 respondem a uma opção;
+ *    Alt+H revela a dica). Não há atalhos Alt+letra: em Chrome/Firefox/Edge
+ *    no Windows/Linux, Alt+D é interceptado pelo próprio navegador (foco na
+ *    barra de endereço) antes de chegar à página, o que quebrava esse
+ *    atalho silenciosamente;
+ *  - Enter/Espaço só disparam um CTA quando há um elemento com foco real
+ *    (document.activeElement !== document.body) — sem isso, Espaço para
+ *    rolar uma tela longa sem nada focado podia "clicar" em um CTA por trás
+ *    do conteúdo em vez de rolar a página;
  *  - Enter/Espaço sobre um controle focado seguem o comportamento nativo
  *    do HTML, sem dupla ativação pelo handler global.
  *
@@ -61,17 +68,7 @@ function instalarAtalhosTeclado(deps) {
     if (estaEmCampoEditavel(e.target) || estaEmCampoEditavel(document.activeElement)) return;
 
     var code = e.code;
-    var atalhoDeCaractere = [
-      "Digit1",
-      "Digit2",
-      "Digit3",
-      "Digit4",
-      "KeyA",
-      "KeyB",
-      "KeyC",
-      "KeyD",
-      "KeyH"
-    ].includes(code);
+    var atalhoDeCaractere = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyH"].includes(code);
 
     if (atalhoDeCaractere && !e.altKey) return;
     if (atalhoDeCaractere) e.preventDefault();
@@ -81,21 +78,17 @@ function instalarAtalhosTeclado(deps) {
       return;
     }
 
-    if (["Digit1", "Digit2", "Digit3", "Digit4", "KeyA", "KeyB", "KeyC", "KeyD"].includes(code)) {
+    if (["Digit1", "Digit2", "Digit3", "Digit4"].includes(code)) {
       var optIdx = -1;
       if (code === "Digit1") optIdx = 0;
       else if (code === "Digit2") optIdx = 1;
       else if (code === "Digit3") optIdx = 2;
       else if (code === "Digit4") optIdx = 3;
-      else if (code === "KeyA") optIdx = 0;
-      else if (code === "KeyB") optIdx = 1;
-      else if (code === "KeyC") optIdx = 2;
-      else if (code === "KeyD") optIdx = 3;
 
       var revisao = deps.getModoRevisao();
       if (revisao && revisao.revelado) {
-        if (code === "Digit1" || code === "KeyA") deps.avalia(false);
-        else if (code === "Digit2" || code === "KeyB") deps.avalia(true);
+        if (code === "Digit1") deps.avalia(false);
+        else if (code === "Digit2") deps.avalia(true);
         return;
       }
 
@@ -116,6 +109,12 @@ function instalarAtalhosTeclado(deps) {
 
     if (e.key === "Enter" || e.key === " ") {
       if (ehControleNativo(e.target)) return;
+      // Sem nada focado (ex.: usuário só rolando a página com Espaço),
+      // document.activeElement é o <body>. Não interceptar aqui: senão
+      // Espaço para rolar podia "clicar" num CTA visível por trás do
+      // conteúdo em vez de rolar a tela — pior justamente para quem depende
+      // de teclado em telas longas.
+      if (document.activeElement === document.body) return;
       var revisaoEnter = deps.getModoRevisao();
       if (revisaoEnter) {
         if (!revisaoEnter.revelado) {

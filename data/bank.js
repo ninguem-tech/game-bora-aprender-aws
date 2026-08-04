@@ -20,7 +20,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "IaaS — você monta tudo"
+              "text": "SaaS — já vem pronto pra usar"
             },
             {
               "key": "B",
@@ -28,19 +28,19 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "SaaS — já vem pronto pra usar"
+              "text": "IaaS — você monta tudo"
             }
           ],
           "answers": [
-            "C"
+            "A"
           ],
           "hints": [
             "💡 Rafael (dica): pensa em nuvem como pão 🍞 — IaaS = farinha + forno (você põe a mão na massa em quase tudo); PaaS = massa pronta (você só cuida do código); SaaS = pão da padaria (já vem pronto)."
           ],
           "explanation": "Gmail é SaaS — você só usa, não gerencia servidor nem código.",
           "whyNots": {
-            "A": "IaaS é montar tudo (servidor, sistema). No Gmail você não faz nada disso.",
-            "B": "PaaS é quando você ainda cuida do seu código. No Gmail você nem isso — só usa."
+            "B": "PaaS é quando você ainda cuida do seu código. No Gmail você nem isso — só usa.",
+            "C": "IaaS é montar tudo (servidor, sistema). No Gmail você não faz nada disso."
           },
           "source": "supplement",
           "book": "e-ai-bora-aprender-aws",
@@ -61,7 +61,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma instância bem grande numa AZ só"
+              "text": "Guardar tudo numa Edge Location"
             },
             {
               "key": "B",
@@ -69,7 +69,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Guardar tudo numa Edge Location"
+              "text": "Uma instância bem grande numa AZ só"
             }
           ],
           "answers": [
@@ -80,8 +80,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Várias AZs = se uma cai, as outras seguram. É a base de Alta Disponibilidade.",
           "whyNots": {
-            "A": "Máquina grande numa AZ só cai junto com a AZ. Tamanho não dá disponibilidade.",
-            "C": "Edge Location é cache de entrega de conteúdo, não redundância de data center."
+            "A": "Edge Location é cache de entrega de conteúdo, não redundância de data center.",
+            "C": "Máquina grande numa AZ só cai junto com a AZ. Tamanho não dá disponibilidade."
           },
           "source": "supplement",
           "book": "e-ai-bora-aprender-aws",
@@ -102,27 +102,27 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Trocar o servidor por um maior na Virgínia"
+              "text": "Mudar tudo de Região toda hora"
             },
             {
               "key": "B",
-              "text": "Usar CloudFront com Edge Locations perto dos usuários"
+              "text": "Trocar o servidor por um maior na Virgínia"
             },
             {
               "key": "C",
-              "text": "Mudar tudo de Região toda hora"
+              "text": "Usar CloudFront com Edge Locations perto dos usuários"
             }
           ],
           "answers": [
-            "B"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Edge Location é a padaria da esquina — em vez de buscar o pão na fábrica longe, você pega pertinho. O conteúdo fica em cache perto do usuário."
           ],
           "explanation": "CloudFront serve do Edge mais perto — performance lá em cima e usuário feliz.",
           "whyNots": {
-            "A": "Servidor maior na Virgínia continua longe do Brasil; a distância é o problema, não o tamanho.",
-            "C": "Ficar trocando de Região não aproxima o conteúdo de quem acessa — quem faz isso é o CloudFront."
+            "A": "Ficar trocando de Região não aproxima o conteúdo de quem acessa — quem faz isso é o CloudFront.",
+            "B": "Servidor maior na Virgínia continua longe do Brasil; a distância é o problema, não o tamanho."
           },
           "source": "supplement",
           "book": "e-ai-bora-aprender-aws",
@@ -143,27 +143,27 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Criar a maior instância pra aprender logo"
+              "text": "Usar o Free Plan (crédito ao criar a conta) com recursos pequenos, tipo t3.micro"
             },
             {
               "key": "B",
-              "text": "Usar recursos do Free Tier (ex.: t3.micro) e ficar nos limites"
+              "text": "Criar a maior instância pra aprender logo, sem se preocupar com o consumo"
             },
             {
               "key": "C",
-              "text": "Não criar conta e só ler"
+              "text": "Não criar conta e só ler, já que a prova não cobra prática"
             }
           ],
           "answers": [
-            "B"
+            "A"
           ],
           "hints": [
-            "💡 Rafael (dica): o Free Tier é a degustação grátis do mercado ☕ — dá pra experimentar sem pagar, desde que você fique nos limites e use recursos elegíveis (tipo a t3.micro)."
+            "💡 Rafael (dica): toda conta nova da AWS já entra no Free Plan — vem com crédito (até uns US$200 em 6 meses) e SEM cobrança automática: se o crédito ou o prazo acabar, a conta fecha sozinha, a não ser que você peça upgrade pra conta paga. Por isso vale usar recursos pequenos: o crédito rende mais tempo de prática."
           ],
-          "explanation": "Free Tier + t3.micro = prática de verdade, sem susto. E praticar é o que faz passar.",
+          "explanation": "Toda conta nova entra no Free Plan: ganha crédito (até uns US$200 em 6 meses) e não tem cobrança automática — se o crédito ou o prazo acabar, a conta simplesmente fecha, a não ser que a Júlia peça upgrade pra conta paga. Usar recursos pequenos, tipo t3.micro, faz esse crédito render bem mais tempo de prática.",
           "whyNots": {
-            "A": "Máquina grande sai da faixa grátis e gera fatura — exatamente o susto que ela teme.",
-            "C": "Só ler não fixa; a prática é o que aprova. Dá pra praticar de graça no Free Tier."
+            "B": "Uma instância grande consome o crédito muito mais rápido — o tempo de prática acaba antes, mesmo sem gerar cobrança automática.",
+            "C": "Só ler não fixa; a prática é o que aprova. E dá pra praticar de graça dentro do Free Plan."
           },
           "source": "supplement",
           "book": "e-ai-bora-aprender-aws",
@@ -184,11 +184,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Usar a Região de São Paulo (sa-east-1)"
+              "text": "Usar Edge Locations no Brasil"
             },
             {
               "key": "B",
-              "text": "Usar Edge Locations no Brasil"
+              "text": "Usar a Região de São Paulo (sa-east-1)"
             },
             {
               "key": "C",
@@ -196,7 +196,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): escolher a Região é escolher a cidade onde seus dados moram fisicamente.",
@@ -204,7 +204,7 @@ window.AWS_BANK = {
           ],
           "explanation": "A Região define onde os dados ficam fisicamente. sa-east-1 = São Paulo. (Na prova, Route 53 Geolocation pode entrar junto.)",
           "whyNots": {
-            "B": "Edge Location é só cache de entrega, não onde o dado mora.",
+            "A": "Edge Location é só cache de entrega, não onde o dado mora.",
             "C": "Quem decide onde o dado mora é você, ao escolher a Região — não fica a cargo da AWS."
           },
           "source": "supplement",
@@ -244,11 +244,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Memory Optimized (ex.: r6i) — muita RAM para dados em memória"
+              "text": "Storage Optimized (ex.: i3) — muitos discos rápidos"
             },
             {
               "key": "D",
-              "text": "Storage Optimized (ex.: i3) — muitos discos rápidos"
+              "text": "Memory Optimized (ex.: r6i) — muita RAM para dados em memória"
             }
           ],
           "answers": [
@@ -260,8 +260,8 @@ window.AWS_BANK = {
           "explanation": "General Purpose equilibra CPU, memória e rede — é a escolha certa quando o trabalho é variado e não estressa nenhum recurso específico. É a família do t3.micro, a mesma do Free Tier.",
           "whyNots": {
             "B": "GPU (Accelerated Computing) é pra machine learning ou renderização — caro e desnecessário pra uma API comum.",
-            "C": "Memory Optimized é pra quem precisa segurar muito dado na RAM, tipo Redis grande. Não é o caso.",
-            "D": "Storage Optimized é pra muita leitura/escrita em disco. Uma API de testes não pede isso."
+            "C": "Storage Optimized é pra muita leitura/escrita em disco. Uma API de testes não pede isso.",
+            "D": "Memory Optimized é pra quem precisa segurar muito dado na RAM, tipo Redis grande. Não é o caso."
           }
         },
         {
@@ -282,11 +282,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Reserved Instances (compromisso de 1 ou 3 anos)"
+              "text": "Dedicated Hosts (servidor físico inteiro só seu)"
             },
             {
               "key": "B",
-              "text": "On-Demand (paga por hora, sem compromisso)"
+              "text": "Reserved Instances (compromisso de 1 ou 3 anos)"
             },
             {
               "key": "C",
@@ -294,20 +294,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Dedicated Hosts (servidor físico inteiro só seu)"
+              "text": "On-Demand (paga por hora, sem compromisso)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): é como o passe do busão. Se você anda todo dia, o mensal sai bem mais barato que pagar cada corrida avulsa. Uso certo e contínuo? Compromisso compensa."
           ],
           "explanation": "Reserved Instances dão até 72% de desconto em troca de um compromisso de 1 ou 3 anos. Com 2 anos de uso contínuo garantido, o desconto se paga rápido (o break-even costuma vir em uns 7-8 meses). Uso previsível pede compromisso.",
           "whyNots": {
-            "B": "On-Demand é flexível, mas é o mais caro por hora. Pra algo que fica ligado sempre, você estaria pagando o preço cheio à toa.",
+            "A": "Dedicated Hosts só se justifica por compliance ou licença de software atrelada ao hardware. Aqui é só custo a mais.",
             "C": "Spot pode ser interrompido com 2 minutos de aviso — você não quer isso num servidor de produção que precisa ficar de pé.",
-            "D": "Dedicated Hosts só se justifica por compliance ou licença de software atrelada ao hardware. Aqui é só custo a mais."
+            "D": "On-Demand é flexível, mas é o mais caro por hora. Pra algo que fica ligado sempre, você estaria pagando o preço cheio à toa."
           }
         },
         {
@@ -328,32 +328,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Spot Instances (até 90% de desconto, pode ser interrompida)"
-            },
-            {
-              "key": "B",
-              "text": "On-Demand (sem compromisso, preço cheio)"
-            },
-            {
-              "key": "C",
               "text": "Reserved Instances (compromisso de 1 a 3 anos)"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Dedicated Hosts (hardware isolado)"
+            },
+            {
+              "key": "C",
+              "text": "Spot Instances (até 90% de desconto, pode ser interrompida)"
+            },
+            {
+              "key": "D",
+              "text": "On-Demand (sem compromisso, preço cheio)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): é como pegar o pão da promoção no fim do dia da padaria. Baratíssimo — mas pode acabar a qualquer momento. Se você não tem pressa e pode voltar amanhã, vale demais a pena."
           ],
           "explanation": "Spot usa capacidade ociosa da AWS com até 90% de desconto. O preço é poder ser interrompido com 2 minutos de aviso — o que não é problema nenhum pra um job que tolera reinício. Carga interrompível + Spot é um par clássico de economia na prova.",
           "whyNots": {
-            "B": "On-Demand funcionaria, mas você jogaria fora a economia enorme do Spot num trabalho que aceita interrupção numa boa.",
-            "C": "Reserved é pra uso contínuo de longo prazo. Um job de fim de semana não fica ligado o suficiente pra compensar o compromisso.",
-            "D": "Dedicated Hosts não tem nada a ver com esse caso — é isolamento de hardware, não economia de batch."
+            "A": "Reserved é pra uso contínuo de longo prazo. Um job de fim de semana não fica ligado o suficiente pra compensar o compromisso.",
+            "B": "Dedicated Hosts não tem nada a ver com esse caso — é isolamento de hardware, não economia de batch.",
+            "D": "On-Demand funcionaria, mas você jogaria fora a economia enorme do Spot num trabalho que aceita interrupção numa boa."
           }
         },
         {
@@ -374,32 +374,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "On-Demand — disponível na hora, sem compromisso, e Spot poderia sumir bem no meio do pico"
+              "text": "Dedicated Hosts — só com hardware físico dedicado dá pra aguentar picos repentinos de verdade"
             },
             {
               "key": "B",
-              "text": "Spot — é sempre o mais barato, então é sempre a melhor escolha"
+              "text": "Reserved — o compromisso de longo prazo resolve qualquer caso, até carga imprevisível"
             },
             {
               "key": "C",
-              "text": "Reserved — compromisso de longo prazo resolve qualquer caso"
+              "text": "Spot — é sempre o mais barato, então é sempre a melhor escolha, inclusive nesse pico"
             },
             {
               "key": "D",
-              "text": "Dedicated Hosts — só assim dá pra aguentar picos"
+              "text": "On-Demand — disponível na hora, sem compromisso, e Spot poderia sumir bem no meio do pico"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pra esse caso, On-Demand é como o táxi. Paga mais caro a corrida, mas ele tá lá na hora que você precisa, sem combinar nada antes. Spot seria a carona que pode cancelar de última hora — ótimo quando você não tem pressa, péssimo quando o cliente já tá te esperando no pico."
           ],
           "explanation": "Imprevisível elimina o Reserved (compromisso só compensa com uso certo e contínuo). Curto e na hora elimina o Spot: ele pode ser interrompido com 2 minutos de aviso, e justo no pico você não pode arriscar a instância sumir com o usuário esperando. On-Demand dá a flexibilidade de subir capacidade na hora, pagando só pelo que usar.",
           "whyNots": {
-            "B": "'Spot é sempre o mais barato, logo sempre o melhor' é a pegadinha. Barato não adianta se a instância é interrompida no exato momento em que você precisa dela.",
-            "C": "Reserved exige uso previsível e contínuo pra valer o desconto. Carga imprevisível não casa com compromisso de 1-3 anos.",
-            "D": "Dedicated Hosts é sobre isolamento físico (compliance/licença), não sobre aguentar picos."
+            "A": "Dedicated Hosts é sobre isolamento físico (compliance/licença), não sobre aguentar picos.",
+            "B": "Reserved exige uso previsível e contínuo pra valer o desconto. Carga imprevisível não casa com compromisso de 1-3 anos.",
+            "C": "'Spot é sempre o mais barato, logo sempre o melhor' é a pegadinha. Barato não adianta se a instância é interrompida no exato momento em que você precisa dela."
           }
         },
         {
@@ -425,15 +425,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Um backup automático do disco da instância"
+              "text": "Um endereço IP fixo para a instância, que identifica e libera as conexões permitidas"
             },
             {
               "key": "C",
-              "text": "Um endereço IP fixo para a instância"
+              "text": "Um backup automático do disco da instância, tirado sempre que uma conexão é bloqueada"
             },
             {
               "key": "D",
-              "text": "Um script que roda quando a instância liga pela primeira vez"
+              "text": "Um script que roda quando a instância liga pela primeira vez e fecha as portas abertas"
             }
           ],
           "answers": [
@@ -444,8 +444,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Security Group é um firewall virtual que age no nível da instância EC2, controlando tráfego de entrada (inbound) e saída (outbound). Por padrão bloqueia toda entrada e libera toda saída — você abre só o que precisa.",
           "whyNots": {
-            "B": "Backup de disco é assunto de snapshots/EBS, não de Security Group.",
-            "C": "IP fixo é o Elastic IP.",
+            "B": "IP fixo é o Elastic IP.",
+            "C": "Backup de disco é assunto de snapshots/EBS, não de Security Group.",
             "D": "Script no primeiro boot é o User Data."
           }
         },
@@ -468,23 +468,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "80 e 443 de 0.0.0.0/0; e 22 só de 203.0.113.50/32 — a conexão ao RDS é saída, não precisa de regra de entrada"
+              "text": "80, 443 e 22 todos de 0.0.0.0/0, mais 3306 de 0.0.0.0/0 — tudo aberto pra garantir que nada seja bloqueado"
             },
             {
               "key": "B",
-              "text": "80, 443 e 22 todos de 0.0.0.0/0, mais 3306 de 0.0.0.0/0"
+              "text": "80 e 443 de 0.0.0.0/0; e 22 só de 203.0.113.50/32 — a conexão ao RDS é saída, não precisa de regra de entrada"
             },
             {
               "key": "C",
-              "text": "Só a porta 22 de 0.0.0.0/0; o resto a AWS abre sozinha"
+              "text": "80, 443 e 3306 de 0.0.0.0/0; o SSH não precisa de regra de entrada porque a resposta dele é stateful"
             },
             {
               "key": "D",
-              "text": "80, 443 e 3306 de 0.0.0.0/0; o SSH não precisa de regra"
+              "text": "Só a porta 22 de 0.0.0.0/0; as portas web e a do banco a AWS libera sozinha quando detecta o tráfego"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): separa o que é entrada do que é saída. HTTP/HTTPS é o público batendo na porta (entrada, de qualquer IP). SSH é você entrando — restringe ao IP do escritório.",
@@ -492,9 +492,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Entrada: 80 e 443 abertos pra internet (0.0.0.0/0), e 22 restrito ao IP do escritório (princípio do menor privilégio). A conexão ao RDS parte da instância — é tráfego de saída, automaticamente permitido. A regra inbound da porta 3306 ficaria no Security Group do RDS, não no da instância web.",
           "whyNots": {
-            "B": "Abrir SSH (22) e o banco (3306) pro mundo inteiro é furo de segurança grave.",
-            "C": "Security Group não abre nada sozinho — por padrão bloqueia toda entrada.",
-            "D": "Faltou o SSH restrito, e 3306 não é entrada na instância web — é saída dela."
+            "A": "Abrir SSH (22) e o banco (3306) pro mundo inteiro é furo de segurança grave.",
+            "C": "Faltou o SSH restrito, e 3306 não é entrada na instância web — é saída dela.",
+            "D": "Security Group não abre nada sozinho — por padrão bloqueia toda entrada."
           }
         },
         {
@@ -515,32 +515,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "User Data"
-            },
-            {
-              "key": "B",
               "text": "Elastic IP"
             },
             {
+              "key": "B",
+              "text": "Key Pair"
+            },
+            {
               "key": "C",
-              "text": "Security Group"
+              "text": "User Data"
             },
             {
               "key": "D",
-              "text": "Key Pair"
+              "text": "Security Group"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): é como deixar um bilhete na porta da geladeira do apartamento novo: 'quando ligar, faça X, Y e Z'. A instância lê o bilhete sozinha no primeiro boot."
           ],
           "explanation": "User Data é um script passado na criação da instância que roda automaticamente no primeiro boot — atualiza pacotes, instala dependências, sobe a aplicação. Roda uma única vez por padrão, antes de qualquer acesso.",
           "whyNots": {
-            "B": "Elastic IP é endereço fixo, não automação de configuração.",
-            "C": "Security Group é firewall, não executa script.",
-            "D": "Key Pair é a chave de acesso SSH, não inicialização."
+            "A": "Elastic IP é endereço fixo, não automação de configuração.",
+            "B": "Key Pair é a chave de acesso SSH, não inicialização.",
+            "D": "Security Group é firewall, não executa script."
           }
         },
         {
@@ -563,23 +563,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Na regra de entrada, usar como origem o Security Group do load balancer (referência entre grupos), não um IP"
+              "text": "Fixar o IP atual do load balancer na regra de entrada da porta 8080 — o IP do ELB nunca muda depois de criado"
             },
             {
               "key": "B",
-              "text": "Abrir a porta 8080 para 0.0.0.0/0 e confiar que só o load balancer vai usar"
+              "text": "Abrir a porta 8080 para 0.0.0.0/0 e confiar que só o load balancer vai usar — ninguém de fora conhece a porta"
             },
             {
               "key": "C",
-              "text": "Fixar o IP atual do load balancer na regra de entrada da porta 8080"
+              "text": "Criar uma regra de saída na porta 8080 nas instâncias de aplicação — é a saída que controla quem pode entrar"
             },
             {
               "key": "D",
-              "text": "Criar uma regra de saída na porta 8080 nas instâncias de aplicação"
+              "text": "Na regra de entrada, usar como origem o Security Group do load balancer (referência entre grupos), não um IP"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): IP de load balancer pode mudar. Existe um jeito de dizer 'libera pra quem pertence a este grupo' em vez de 'libera pra este endereço'.",
@@ -587,9 +587,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Referenciar o Security Group do load balancer como origem da regra de entrada libera a porta só para instâncias daquele grupo, sem depender de IP. É o padrão de arquitetura em camadas: a aplicação só aceita tráfego vindo do grupo do load balancer.",
           "whyNots": {
+            "A": "Fixar IP quebra quando o load balancer trocar de endereço (e ele troca).",
             "B": "Abrir pro mundo todo é o oposto de menor privilégio — qualquer um na internet poderia tentar a 8080.",
-            "C": "Fixar IP quebra quando o load balancer trocar de endereço (e ele troca).",
-            "D": "O controle de quem ENTRA na porta 8080 é regra de entrada, não de saída."
+            "C": "O controle de quem ENTRA na porta 8080 é regra de entrada, não de saída."
           }
         },
         {
@@ -614,15 +614,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "A pública é mais cara; a privada é de graça"
+              "text": "A subnet privada tem todo o tráfego criptografado por padrão; a pública trafega tudo sem nenhuma criptografia"
             },
             {
               "key": "C",
-              "text": "A pública fica numa região e a privada em outra"
+              "text": "A subnet pública tem cobrança por hora mais cara; a privada é gratuita, por isso é usada pra bancos de dados"
             },
             {
               "key": "D",
-              "text": "A privada é criptografada e a pública não"
+              "text": "A subnet pública fica sempre numa região diferente da privada, pra garantir isolamento geográfico entre as duas"
             }
           ],
           "answers": [
@@ -633,9 +633,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A diferença está na Route Table: a subnet pública tem uma rota 0.0.0.0/0 apontando para o Internet Gateway; a privada não tem. Por isso recursos numa subnet privada (bancos de dados, servidores internos) ficam invisíveis para a internet.",
           "whyNots": {
-            "B": "A diferença não é preço — é roteamento para a internet.",
-            "C": "Subnets ficam dentro de uma VPC e de uma AZ; não é questão de regiões diferentes.",
-            "D": "Pública vs privada é sobre rota para a internet, não sobre criptografia."
+            "B": "Pública vs privada é sobre rota para a internet, não sobre criptografia.",
+            "C": "A diferença não é preço — é roteamento para a internet.",
+            "D": "Subnets ficam dentro de uma VPC e de uma AZ; não é questão de regiões diferentes."
           }
         },
         {
@@ -657,15 +657,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Um NAT Gateway, colocado numa subnet pública"
+              "text": "Um Elastic IP na própria instância do banco"
             },
             {
               "key": "B",
-              "text": "Um Internet Gateway anexado direto na subnet privada"
+              "text": "Um NAT Gateway, colocado numa subnet pública"
             },
             {
               "key": "C",
-              "text": "Um Elastic IP na própria instância do banco"
+              "text": "Um Internet Gateway anexado direto na subnet privada"
             },
             {
               "key": "D",
@@ -673,7 +673,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): você quer um caminho de mão única — a instância sai, mas ninguém entra de volta.",
@@ -681,8 +681,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O NAT Gateway permite saída para a internet (updates, APIs externas) sem permitir entrada. Ele fica numa subnet pública (tem Elastic IP e rota para o IGW), e a Route Table da subnet privada manda o tráfego 0.0.0.0/0 para o NAT Gateway.",
           "whyNots": {
-            "B": "Dar IGW direto à subnet privada a tornaria pública — o banco ficaria exposto, o oposto do requisito.",
-            "C": "Um Elastic IP na instância privada a tornaria alcançável de fora.",
+            "A": "Um Elastic IP na instância privada a tornaria alcançável de fora.",
+            "C": "Dar IGW direto à subnet privada a tornaria pública — o banco ficaria exposto, o oposto do requisito.",
             "D": "VPC Peering conecta duas VPCs, não dá acesso à internet."
           }
         },
@@ -705,32 +705,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "API na pública (recebe usuários), banco na privada (não exposto), NAT Gateway na pública"
+              "text": "Banco na pública (facilita o acesso), API na privada (protegida), NAT Gateway na privada"
             },
             {
               "key": "B",
-              "text": "Tudo na subnet privada, por segurança"
+              "text": "Tudo na subnet privada, por segurança — os usuários chegam na API pelo NAT Gateway"
             },
             {
               "key": "C",
-              "text": "Tudo na subnet pública, por simplicidade"
+              "text": "API na pública (recebe usuários), banco na privada (não exposto), NAT Gateway na pública"
             },
             {
               "key": "D",
-              "text": "Banco na pública, API na privada, NAT Gateway na privada"
+              "text": "Tudo na subnet pública, por simplicidade — o Security Group já protege o banco sozinho"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): a regra é simples de lembrar — precisa ser acessado de fora? Pública. Só de dentro? Privada. E o NAT precisa de IP público pra fazer o papel de saída, então ele também é da turma da pública."
           ],
           "explanation": "API na subnet pública (recebe requisições da internet), banco na privada (nunca exposto — expor banco é risco grave), e o NAT Gateway na pública (precisa de Elastic IP e rota para o IGW para encaminhar a saída das subnets privadas).",
           "whyNots": {
+            "A": "Banco na pública é justamente o que você quer evitar; NAT na privada não funciona (ele precisa de saída pública).",
             "B": "Tudo privado impede a API de ser acessada pelos usuários.",
-            "C": "Tudo público expõe o banco à internet — risco inaceitável.",
-            "D": "Banco na pública é justamente o que você quer evitar; NAT na privada não funciona (ele precisa de saída pública)."
+            "D": "Tudo público expõe o banco à internet — risco inaceitável."
           }
         },
         {
@@ -752,23 +752,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Não — VPC Peering não é transitivo; é preciso um peering direto A↔C (ou um Transit Gateway como hub)"
+              "text": "Não — e a única solução possível é refazer tudo numa VPC só, migrando A, B e C pra mesma rede"
             },
             {
               "key": "B",
-              "text": "Sim — como B fala com os dois, o tráfego de A passa por B até C"
+              "text": "Sim — peering é sempre transitivo na AWS: qualquer cadeia de conexões propaga as rotas sozinha"
             },
             {
               "key": "C",
-              "text": "Sim — peering é sempre transitivo na AWS"
+              "text": "Sim — como B fala com os dois, o tráfego de A passa por B até C, que atua como roteador intermediário"
             },
             {
               "key": "D",
-              "text": "Não — e a única solução possível é refazer tudo numa VPC só"
+              "text": "Não — VPC Peering não é transitivo; é preciso um peering direto A↔C (ou um Transit Gateway como hub)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): VPC Peering é uma ponte entre dois bairros. Ter ponte de A pra B e de B pra C não te dá passagem livre de A até C.",
@@ -776,9 +776,9 @@ window.AWS_BANK = {
           ],
           "explanation": "VPC Peering não é transitivo: A↔B e B↔C não criam A↔C. Para A alcançar C, crie um peering direto A↔C. Quando há muitas VPCs (ou conexão com on-premises), o Transit Gateway funciona como hub central e evita o emaranhado de peerings ponto a ponto.",
           "whyNots": {
-            "B": "Justamente o que peering NÃO faz — o tráfego não 'salta' por B.",
-            "C": "Peering nunca é transitivo na AWS.",
-            "D": "Há soluções diretas (peering A↔C ou Transit Gateway) sem precisar refazer tudo numa VPC."
+            "A": "Há soluções diretas (peering A↔C ou Transit Gateway) sem precisar refazer tudo numa VPC.",
+            "B": "Peering nunca é transitivo na AWS.",
+            "C": "Justamente o que peering NÃO faz — o tráfego não 'salta' por B."
           }
         },
         {
@@ -803,15 +803,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "São a mesma coisa, com nomes diferentes"
+              "text": "Security Group age na subnet e é stateless; NACL age na instância e é stateful"
             },
             {
               "key": "C",
-              "text": "Security Group age na subnet; NACL age na instância"
+              "text": "Security Group é pago por regra; NACL é gratuito — a diferença é só o preço"
             },
             {
               "key": "D",
-              "text": "Security Group é pago; NACL é gratuito"
+              "text": "São a mesma coisa, com nomes diferentes — ambos stateful no mesmo nível de rede"
             }
           ],
           "answers": [
@@ -822,9 +822,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Security Group atua no nível da instância e é stateful (a resposta de uma conexão permitida é liberada automaticamente). NACL atua no nível da subnet e é stateless (precisa de regra de entrada E de saída separadas; avalia em ordem numérica e permite Deny explícito).",
           "whyNots": {
-            "B": "São camadas diferentes (instância vs subnet) com comportamentos diferentes (stateful vs stateless).",
-            "C": "Está invertido: SG = instância, NACL = subnet.",
-            "D": "A diferença não é preço."
+            "B": "Está invertido: SG = instância, NACL = subnet.",
+            "C": "A diferença não é preço.",
+            "D": "São camadas diferentes (instância vs subnet) com comportamentos diferentes (stateful vs stateless)."
           }
         },
         {
@@ -845,23 +845,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "NACL (tem regra de Deny explícito, no nível da subnet)"
+              "text": "Security Group (basta criar a regra de Deny na entrada)"
             },
             {
               "key": "B",
-              "text": "Security Group (basta criar uma regra de Deny)"
+              "text": "NACL (tem regra de Deny explícito, no nível da subnet)"
             },
             {
               "key": "C",
-              "text": "Route Table"
+              "text": "Internet Gateway (tem blocklist de IPs na borda)"
             },
             {
               "key": "D",
-              "text": "Internet Gateway"
+              "text": "Route Table (rota de Deny descarta o IP na subnet)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): Security Group só sabe dizer 'pode entrar'. Ele não tem como dizer 'este aqui NÃO'.",
@@ -869,9 +869,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Security Group só tem regras de Allow — tudo que não está liberado é negado, mas não dá pra negar um IP específico se o resto está aberto. NACL tem Deny explícito e age na subnet: você cria uma regra negando o IP malicioso (ex.: número 100, DENY) e outra permitindo o resto.",
           "whyNots": {
-            "B": "Security Group NÃO tem regra de Deny — só Allow. Essa é a pegadinha clássica.",
-            "C": "Route Table define para onde o tráfego vai, não bloqueia IPs por segurança.",
-            "D": "Internet Gateway conecta a VPC à internet; não filtra IPs."
+            "A": "Security Group NÃO tem regra de Deny — só Allow. Essa é a pegadinha clássica.",
+            "C": "Internet Gateway conecta a VPC à internet; não filtra IPs.",
+            "D": "Route Table define para onde o tráfego vai, não bloqueia IPs por segurança."
           }
         },
         {
@@ -894,23 +894,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Gateway Endpoint — disponível justamente para S3 e DynamoDB, e gratuito"
+              "text": "Interface Endpoint — é o único que funciona para S3, e ainda sai de graça"
             },
             {
               "key": "B",
-              "text": "Interface Endpoint — é o único que funciona para S3"
+              "text": "Não dá: S3 sempre exige internet pública, por ser um serviço global"
             },
             {
               "key": "C",
-              "text": "Não dá: S3 sempre exige internet pública"
+              "text": "Gateway Endpoint — disponível justamente para S3 e DynamoDB, e gratuito"
             },
             {
               "key": "D",
-              "text": "Um NAT Gateway adicional só para o S3"
+              "text": "Um NAT Gateway adicional só para o S3, que não cobra transferência"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): em vez de pedir pizza pela rede pública, é como ter um ramal interno direto pra pizzaria do mesmo prédio.",
@@ -918,8 +918,8 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 e DynamoDB suportam o Gateway Endpoint: gratuito, configurado por uma rota na Route Table, mantendo o tráfego dentro da rede da AWS. Para os demais serviços (Secrets Manager, SQS, SNS, EC2 API...), usa-se o Interface Endpoint (PrivateLink), que cria uma ENI com IP privado.",
           "whyNots": {
-            "B": "Para S3 o tipo certo e econômico é o Gateway Endpoint; Interface Endpoint é para os outros serviços.",
-            "C": "Dá sim — o VPC Endpoint existe exatamente para acessar o S3 sem internet pública.",
+            "A": "Para S3 o tipo certo e econômico é o Gateway Endpoint; Interface Endpoint é para os outros serviços.",
+            "B": "Dá sim — o VPC Endpoint existe exatamente para acessar o S3 sem internet pública.",
             "D": "NAT Gateway justamente faz o tráfego sair pela internet e cobra por GB — o oposto do pedido."
           }
         },
@@ -941,23 +941,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "NACL é stateless: falta a regra de SAÍDA nas portas efêmeras (1024–65535) para o tráfego de resposta"
+              "text": "Falta um Internet Gateway na conta: sem ele o NACL descarta qualquer resposta de saída da subnet"
             },
             {
               "key": "B",
-              "text": "Security Group bloqueou a resposta automaticamente"
+              "text": "O Security Group bloqueou a resposta automaticamente — ele é stateless e exige regra de saída"
             },
             {
               "key": "C",
-              "text": "A porta 443 precisa estar fechada para a resposta sair"
+              "text": "A porta 443 precisa estar fechada na entrada para a resposta conseguir sair pelas portas efêmeras"
             },
             {
               "key": "D",
-              "text": "Falta um Internet Gateway na conta"
+              "text": "NACL é stateless: falta a regra de SAÍDA nas portas efêmeras (1024–65535) para o tráfego de resposta"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): lembra do crachá vs alfândega? Um libera a volta automaticamente, o outro não.",
@@ -966,9 +966,9 @@ window.AWS_BANK = {
           ],
           "explanation": "NACL é stateless: ao contrário do Security Group, ele não libera a resposta automaticamente. O tráfego de resposta sai por uma porta efêmera (1024–65535), e sem uma regra de saída liberando essa faixa, a regra padrão `* DENY` bloqueia a resposta. Security Group faria isso sozinho — NACL exige a regra explícita.",
           "whyNots": {
+            "A": "O sintoma (resposta travando) é de NACL stateless, não de falta de Internet Gateway.",
             "B": "Security Group é stateful — ele NÃO bloquearia a resposta de uma conexão permitida.",
-            "C": "Fechar a 443 não tem nada a ver; o problema é a faixa de portas efêmeras de saída.",
-            "D": "O sintoma (resposta travando) é de NACL stateless, não de falta de Internet Gateway."
+            "C": "Fechar a 443 não tem nada a ver; o problema é a faixa de portas efêmeras de saída."
           }
         },
         {
@@ -993,15 +993,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Aumenta a memória RAM de uma única instância"
+              "text": "Guarda os arquivos enviados pelos usuários da aplicação, funcionando como storage de objetos"
             },
             {
               "key": "C",
-              "text": "Guarda os arquivos enviados pelos usuários"
+              "text": "Cria um backup diário automático das instâncias, garantindo recuperação se uma delas cair"
             },
             {
               "key": "D",
-              "text": "Cria um backup diário das instâncias"
+              "text": "Aumenta a memória RAM de uma única instância sob demanda, evitando que ela sobrecarregue"
             }
           ],
           "answers": [
@@ -1012,9 +1012,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O load balancer distribui o tráfego de entrada entre várias instâncias. Em vez de um servidor receber tudo (ponto único de falha), a carga é dividida — e se uma instância cai, as outras absorvem o tráfego.",
           "whyNots": {
-            "B": "Aumentar RAM é escalar verticalmente uma instância, não balancear carga.",
-            "C": "Guardar arquivos é papel do S3/EFS, não do load balancer.",
-            "D": "Backup é outro assunto (snapshots/AWS Backup)."
+            "B": "Guardar arquivos é papel do S3/EFS, não do load balancer.",
+            "C": "Backup é outro assunto (snapshots/AWS Backup).",
+            "D": "Aumentar RAM é escalar verticalmente uma instância, não balancear carga."
           }
         },
         {
@@ -1035,23 +1035,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ALB (Application Load Balancer) — camada 7, entende HTTP e roteia por path/host/header"
+              "text": "CLB (Classic Load Balancer) — a geração antiga, que roteia por path e por header"
             },
             {
               "key": "B",
-              "text": "NLB (Network Load Balancer) — camada 4"
+              "text": "ALB (Application Load Balancer) — camada 7, entende HTTP e roteia por path/host/header"
             },
             {
               "key": "C",
-              "text": "CLB (Classic Load Balancer)"
+              "text": "GWLB (Gateway Load Balancer) — feito pra inspecionar HTTP e rotear por caminho"
             },
             {
               "key": "D",
-              "text": "GWLB (Gateway Load Balancer)"
+              "text": "NLB (Network Load Balancer) — camada 4, que entende HTTP e roteia por path/host"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): rotear por /api vs /static é ler o conteúdo da requisição HTTP. Isso é coisa de camada 7.",
@@ -1059,9 +1059,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Roteamento por path/host/header é funcionalidade de camada 7 (HTTP), e quem opera nessa camada é o ALB. Ele lê a requisição e manda /api e /static para Target Groups diferentes.",
           "whyNots": {
-            "B": "NLB é camada 4 (TCP/UDP) — não lê o conteúdo HTTP, então não roteia por path.",
-            "C": "CLB é legado e não tem o roteamento por conteúdo do ALB; evite em projetos novos.",
-            "D": "GWLB é para appliances de segurança de rede, não para roteamento de aplicação web."
+            "A": "CLB é legado e não tem o roteamento por conteúdo do ALB; evite em projetos novos.",
+            "C": "GWLB é para appliances de segurança de rede, não para roteamento de aplicação web.",
+            "D": "NLB é camada 4 (TCP/UDP) — não lê o conteúdo HTTP, então não roteia por path."
           }
         },
         {
@@ -1082,32 +1082,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "NLB (Network Load Balancer) — camada 4, ultra-baixa latência, suporta UDP"
+              "text": "GWLB (Gateway Load Balancer) — otimizado pra tráfego UDP de jogos"
             },
             {
               "key": "B",
-              "text": "ALB (Application Load Balancer) — camada 7"
+              "text": "CLB (Classic Load Balancer) — o veterano, com o UDP mais rápido da AWS"
             },
             {
               "key": "C",
-              "text": "CLB (Classic Load Balancer)"
+              "text": "NLB (Network Load Balancer) — camada 4, ultra-baixa latência, suporta UDP"
             },
             {
               "key": "D",
-              "text": "GWLB (Gateway Load Balancer)"
+              "text": "ALB (Application Load Balancer) — camada 7, com suporte nativo a UDP"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): UDP e latência mínima pedem o load balancer que NÃO perde tempo lendo o conteúdo — só encaminha pacote. Esse é o de rede, camada 4: o NLB."
           ],
           "explanation": "UDP e latência abaixo de 1ms são domínio da camada 4. O NLB apenas encaminha pacotes (sem inspecionar conteúdo), com latência mínima, e suporta TCP/UDP — além de poder ter IP estático.",
           "whyNots": {
-            "B": "ALB é camada 7 (HTTP/HTTPS) e não atende UDP nem a latência de camada 4.",
-            "C": "CLB é legado, sem o desempenho e os recursos do NLB.",
-            "D": "GWLB é para inspeção de tráfego com appliances de segurança, não para um jogo UDP."
+            "A": "GWLB é para inspeção de tráfego com appliances de segurança, não para um jogo UDP.",
+            "B": "CLB é legado, sem o desempenho e os recursos do NLB.",
+            "D": "ALB é camada 7 (HTTP/HTTPS) e não atende UDP nem a latência de camada 4."
           }
         },
         {
@@ -1128,23 +1128,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Scheduled Scaling (para o padrão diário previsível) + Target Tracking (reage aos picos surpresa)"
+              "text": "Nenhuma política — deixar o número de instâncias fixo no máximo o tempo todo sai mais barato"
             },
             {
               "key": "B",
-              "text": "Só Scheduled Scaling — basta agendar tudo"
+              "text": "Só Simple Scaling com um alarme de CPU — ele já cobre o padrão previsível e o surpresa de uma vez"
             },
             {
               "key": "C",
-              "text": "Só Simple Scaling com um alarme de CPU"
+              "text": "Só Scheduled Scaling — basta agendar tudo, até as promoções surpresa entram no cronograma"
             },
             {
               "key": "D",
-              "text": "Nenhuma política — deixar o número de instâncias fixo no máximo o tempo todo"
+              "text": "Scheduled Scaling (para o padrão diário previsível) + Target Tracking (reage aos picos surpresa)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): tem dois padrões diferentes. Um você sabe a hora (todo dia das 9h às 18h). O outro você NÃO sabe quando vem (promoção surpresa).",
@@ -1152,9 +1152,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Scheduled Scaling provisiona antes do pico previsível (ex.: sobe às 8h45, desce às 18h15) — proativo e econômico. Target Tracking mantém um alvo (ex.: CPU 60%) e reage aos picos imprevisíveis das promoções, escalando além do agendado. Juntas, garantem capacidade na hora certa e absorvem surpresas — padrão clássico de custo + disponibilidade.",
           "whyNots": {
-            "B": "Só agendado não cobre a promoção surpresa — você não sabe quando ela vem.",
-            "C": "Simple Scaling reage, mas é grosseiro (oscila) e não aproveita o padrão diário previsível.",
-            "D": "Ficar no máximo o tempo todo desperdiça dinheiro à noite e no fim de semana — o oposto de otimizar custo."
+            "A": "Ficar no máximo o tempo todo desperdiça dinheiro à noite e no fim de semana — o oposto de otimizar custo.",
+            "B": "Simple Scaling reage, mas é grosseiro (oscila) e não aproveita o padrão diário previsível.",
+            "C": "Só agendado não cobre a promoção surpresa — você não sabe quando ela vem."
           }
         }
       ]
@@ -1185,15 +1185,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Um banco de dados relacional gerenciado"
+              "text": "Um firewall de rede gerenciado, que filtra o tráfego de entrada e saída dos buckets"
             },
             {
               "key": "C",
-              "text": "O disco virtual que se anexa a uma instância EC2"
+              "text": "O disco virtual de blocos que se anexa a uma instância EC2 pra armazenar o sistema"
             },
             {
               "key": "D",
-              "text": "Um firewall de rede"
+              "text": "Um banco de dados relacional gerenciado, com tabelas e SQL, pra guardar arquivos como registros"
             }
           ],
           "answers": [
@@ -1204,9 +1204,9 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 é armazenamento de OBJETOS: qualquer arquivo (imagem, vídeo, backup, log), guardado num bucket e recuperado por chave. Durabilidade de 11 noves. Não é sistema de arquivos nem banco de dados.",
           "whyNots": {
-            "B": "Banco relacional gerenciado é o RDS.",
+            "B": "Firewall é Security Group / NACL.",
             "C": "Disco da instância é o EBS.",
-            "D": "Firewall é Security Group / NACL."
+            "D": "Banco relacional gerenciado é o RDS."
           }
         },
         {
@@ -1227,15 +1227,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Glacier Deep Archive"
+              "text": "S3 Standard-IA"
             },
             {
               "key": "B",
-              "text": "S3 Standard"
+              "text": "S3 Glacier Deep Archive"
             },
             {
               "key": "C",
-              "text": "S3 Standard-IA"
+              "text": "S3 Standard"
             },
             {
               "key": "D",
@@ -1243,7 +1243,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): a regra é — quanto menos você acessa, mais barato guardar (e mais lento/caro recuperar). Aqui o acesso é raríssimo e a pressa é zero.",
@@ -1251,8 +1251,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Glacier Deep Archive é o mais barato pra guardar, com recuperação em 12–48h — perfeito pra retenção longa de compliance que quase nunca é lida. O custo de espera é aceitável pelo enunciado.",
           "whyNots": {
-            "B": "Standard é pra acesso frequente — caríssimo pra guardar 7 anos de log parado.",
-            "C": "Standard-IA é mais barato que Standard, mas ainda bem mais caro que Glacier pra arquivo de 7 anos.",
+            "A": "Standard-IA é mais barato que Standard, mas ainda bem mais caro que Glacier pra arquivo de 7 anos.",
+            "C": "Standard é pra acesso frequente — caríssimo pra guardar 7 anos de log parado.",
             "D": "Glacier Instant entrega em milissegundos (e custa mais) — você está pagando por uma rapidez que o enunciado não exige."
           }
         },
@@ -1274,32 +1274,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Intelligent-Tiering"
+              "text": "S3 Glacier Flexible Retrieval"
             },
             {
               "key": "B",
-              "text": "S3 Standard"
-            },
-            {
-              "key": "C",
               "text": "S3 One Zone-IA"
             },
             {
+              "key": "C",
+              "text": "S3 Intelligent-Tiering"
+            },
+            {
               "key": "D",
-              "text": "S3 Glacier Flexible Retrieval"
+              "text": "S3 Standard"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): quando você NÃO sabe o padrão de acesso, deixa a AWS observar e mover sozinha. Tem uma classe que faz exatamente isso, por uma taxinha de monitoramento."
           ],
           "explanation": "Intelligent-Tiering monitora o acesso e move os objetos entre as camadas (frequente, infrequente...) automaticamente, sem custo de recuperação — só uma pequena taxa de monitoramento. É a escolha quando o padrão é imprevisível.",
           "whyNots": {
-            "B": "Standard é fixo no nível mais caro — não otimiza sozinho.",
-            "C": "One Zone-IA é barato mas guarda em uma AZ só (risco de perda) e não move automaticamente.",
-            "D": "Glacier Flexible é arquivamento com recuperação em horas — ruim pra dado que às vezes é muito acessado."
+            "A": "Glacier Flexible é arquivamento com recuperação em horas — ruim pra dado que às vezes é muito acessado.",
+            "B": "One Zone-IA é barato mas guarda em uma AZ só (risco de perda) e não move automaticamente.",
+            "D": "Standard é fixo no nível mais caro — não otimiza sozinho."
           }
         },
         {
@@ -1320,23 +1320,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Glacier Instant Retrieval (acesso em milissegundos, armazenamento barato)"
+              "text": "S3 Glacier Flexible Retrieval (recuperação em milissegundos, custo mínimo)"
             },
             {
               "key": "B",
-              "text": "S3 Glacier Flexible Retrieval"
+              "text": "S3 Glacier Deep Archive (classe mais barata, com acesso quase imediato)"
             },
             {
               "key": "C",
-              "text": "S3 Glacier Deep Archive"
+              "text": "S3 Standard (armazenamento de custo mais baixo entre todas as classes)"
             },
             {
               "key": "D",
-              "text": "S3 Standard"
+              "text": "S3 Glacier Instant Retrieval (acesso em milissegundos, armazenamento barato)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): a pegadinha está no tempo de recuperação. 'Em até 5 minutos' derruba qualquer classe que leve HORAS.",
@@ -1344,9 +1344,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Glacier Instant Retrieval guarda barato (arquivo raramente acessado) e devolve em milissegundos — atende o 'em até 5 minutos'. Standard-IA também serviria, mas o Glacier Instant tem custo de armazenamento menor pra dado pouco acessado.",
           "whyNots": {
-            "B": "Glacier Flexible leva de minutos a horas (Standard 3–5h) — arrisca estourar os 5 minutos.",
-            "C": "Deep Archive leva 12–48h — muito longe do exigido.",
-            "D": "Standard atende a rapidez, mas é o mais caro pra guardar algo que quase nunca é acessado."
+            "A": "Glacier Flexible leva de minutos a horas (Standard 3–5h) — arrisca estourar os 5 minutos.",
+            "B": "Deep Archive leva 12–48h — muito longe do exigido.",
+            "C": "Standard atende a rapidez, mas é o mais caro pra guardar algo que quase nunca é acessado."
           }
         },
         {
@@ -1373,7 +1373,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Colocar a Access Key e a Secret Key fixas no código da Lambda"
+              "text": "Compartilhar o arquivo .pem da instância com a Lambda"
             },
             {
               "key": "C",
@@ -1381,7 +1381,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Compartilhar o arquivo .pem da instância com a Lambda"
+              "text": "Colocar a Access Key e a Secret Key fixas no código da Lambda"
             }
           ],
           "answers": [
@@ -1392,9 +1392,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A Lambda assume uma IAM Role na execução, e essa Role carrega a permissão (ex.: s3:PutObject). Nada de chave fixa no código — a credencial é temporária e gerenciada pela AWS.",
           "whyNots": {
-            "B": "Chave fixa no código vaza fácil (repositório, log) e é péssima prática.",
+            "B": ".pem é chave de SSH de instância EC2, não tem a ver com permissão da Lambda no S3.",
             "C": "Bucket público abre o conteúdo pro mundo — o oposto de seguro.",
-            "D": ".pem é chave de SSH de instância EC2, não tem a ver com permissão da Lambda no S3."
+            "D": "Chave fixa no código vaza fácil (repositório, log) e é péssima prática."
           }
         },
         {
@@ -1415,11 +1415,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Object Lock no modo Compliance"
+              "text": "S3 Object Lock no modo Governance"
             },
             {
               "key": "B",
-              "text": "S3 Object Lock no modo Governance"
+              "text": "S3 Object Lock no modo Compliance"
             },
             {
               "key": "C",
@@ -1431,7 +1431,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): 'nem o root pode' é a pista. Existe um modo que não abre exceção pra ninguém.",
@@ -1439,7 +1439,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Object Lock no modo Compliance impede deleção/alteração por qualquer entidade — incluindo a conta raiz — até o fim do período de retenção. É imutabilidade de verdade, pra compliance.",
           "whyNots": {
-            "B": "No modo Governance, quem tem permissão especial PODE sobrescrever — não atende o 'nem o root'.",
+            "A": "No modo Governance, quem tem permissão especial PODE sobrescrever — não atende o 'nem o root'.",
             "C": "Bucket Policy pode ser alterada por quem administra a conta; não é imutabilidade garantida.",
             "D": "Versionamento guarda versões, mas não impede a deleção/exclusão definitiva como o Object Lock Compliance."
           }
@@ -1463,23 +1463,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "SSE-KMS (chave gerenciada no KMS, com auditoria no CloudTrail e revogação)"
+              "text": "Nenhuma — S3 não criptografa em repouso, só em trânsito via HTTPS"
             },
             {
               "key": "B",
-              "text": "SSE-S3 (a AWS gerencia tudo automaticamente)"
+              "text": "SSE-C (você fornece a chave em cada request), auditado direto no CloudTrail"
             },
             {
               "key": "C",
-              "text": "SSE-C (você fornece a chave em cada request)"
+              "text": "SSE-KMS (chave gerenciada no KMS, com auditoria no CloudTrail e revogação)"
             },
             {
               "key": "D",
-              "text": "Nenhuma — S3 não criptografa em repouso"
+              "text": "SSE-S3 (a AWS gerencia tudo automaticamente), com log por chave e revogação"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): as palavras-chave são 'auditável' e 'revogar acesso'. Qual serviço de chaves registra cada uso e deixa você desligar a chave?",
@@ -1487,9 +1487,9 @@ window.AWS_BANK = {
           ],
           "explanation": "SSE-KMS usa o KMS: cada uso da chave fica registrado no CloudTrail (auditoria), e você pode desabilitar a chave para revogar o acesso sem deletar os objetos (eles continuam no S3, só ficam inacessíveis).",
           "whyNots": {
-            "B": "SSE-S3 criptografa, mas não dá auditoria por chave nem revogação controlada.",
-            "C": "SSE-C deixa a chave com você, sem auditoria gerenciada pela AWS.",
-            "D": "S3 criptografa em repouso sim — inclusive SSE-S3 é padrão desde 2023."
+            "A": "S3 criptografa em repouso sim — inclusive SSE-S3 é padrão desde 2023.",
+            "B": "SSE-C deixa a chave com você, sem auditoria gerenciada pela AWS.",
+            "D": "SSE-S3 criptografa, mas não dá auditoria por chave nem revogação controlada."
           }
         },
         {
@@ -1510,23 +1510,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "O backend gera uma Presigned URL temporária (ex.: 15 min) e entrega ao usuário autenticado"
+              "text": "Desativar o Block Public Access e tornar o bucket público por uns minutos, depois fechar"
             },
             {
               "key": "B",
-              "text": "Desativar o Block Public Access e tornar o bucket público"
+              "text": "Mover o arquivo pro Glacier Deep Archive, que gera link público de download na hora"
             },
             {
               "key": "C",
-              "text": "Dar uma chave de acesso AWS pro usuário final"
+              "text": "Dar uma chave de acesso AWS pro usuário final com policy de leitura — padrão recomendado"
             },
             {
               "key": "D",
-              "text": "Mover o arquivo pro Glacier Deep Archive"
+              "text": "O backend gera uma Presigned URL temporária (ex.: 15 min) e entrega ao usuário autenticado"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): dá pra abrir uma porta só pra aquele arquivo, por tempo limitado, sem escancarar o bucket inteiro.",
@@ -1534,9 +1534,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Presigned URL: o backend, autenticado pela IAM Role, gera uma URL temporária para aquele objeto específico. O usuário baixa direto do S3 até a URL expirar, e o bucket continua privado. É o padrão para acesso pontual sem expor o bucket.",
           "whyNots": {
-            "B": "Tornar o bucket público viola o requisito (e expõe arquivos de todo mundo).",
-            "C": "Dar credencial AWS a usuário final é grave risco de segurança.",
-            "D": "Mudar a classe de armazenamento não tem nada a ver com liberar o download com segurança."
+            "A": "Tornar o bucket público viola o requisito (e expõe arquivos de todo mundo).",
+            "B": "Mudar a classe de armazenamento não tem nada a ver com liberar o download com segurança.",
+            "C": "Dar credencial AWS a usuário final é grave risco de segurança."
           }
         },
         {
@@ -1562,15 +1562,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Armazenamento de objetos acessado por HTTP"
+              "text": "Um sistema de arquivos compartilhado entre várias instâncias ao mesmo tempo, via NFS"
             },
             {
               "key": "C",
-              "text": "Um sistema de arquivos compartilhado entre várias instâncias"
+              "text": "Um banco de dados gerenciado, com backups e réplicas cuidados pela própria AWS"
             },
             {
               "key": "D",
-              "text": "Um banco de dados gerenciado"
+              "text": "Armazenamento de objetos acessado por HTTP, com URLs públicas pra cada arquivo"
             }
           ],
           "answers": [
@@ -1581,9 +1581,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EBS (Elastic Block Store) é armazenamento em bloco: um disco virtual anexado a uma instância EC2, que o enxerga como HD/SSD local. Fica em uma única AZ e persiste após a instância parar.",
           "whyNots": {
-            "B": "Objetos por HTTP é o S3.",
-            "C": "Sistema de arquivos compartilhado entre instâncias é o EFS.",
-            "D": "Banco gerenciado é o RDS."
+            "B": "Sistema de arquivos compartilhado entre instâncias é o EFS.",
+            "C": "Banco gerenciado é o RDS.",
+            "D": "Objetos por HTTP é o S3."
           }
         },
         {
@@ -1605,15 +1605,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EFS (sistema de arquivos NFS compartilhado, multi-AZ)"
+              "text": "Amazon S3 com File Gateway local"
             },
             {
               "key": "B",
-              "text": "Amazon EBS (um volume por instância, preso a uma AZ)"
+              "text": "Amazon EFS (sistema de arquivos NFS compartilhado, multi-AZ)"
             },
             {
               "key": "C",
-              "text": "Amazon S3 com File Gateway local"
+              "text": "Amazon EBS (um volume por instância, preso a uma AZ)"
             },
             {
               "key": "D",
@@ -1621,7 +1621,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): EBS é o HD do seu notebook — só você usa. Aqui você precisa do servidor de arquivos da empresa, que todo mundo monta ao mesmo tempo.",
@@ -1629,8 +1629,8 @@ window.AWS_BANK = {
           ],
           "explanation": "EFS é um sistema de arquivos NFS gerenciado, acessível de qualquer AZ da região: várias instâncias montam e compartilham os mesmos arquivos ao mesmo tempo. EBS é por instância e preso a uma AZ (Multi-Attach io1/io2 só vale na mesma AZ).",
           "whyNots": {
-            "B": "EBS é preso a uma AZ e, em geral, a uma instância — não é o compartilhamento multi-AZ pedido.",
-            "C": "File Gateway é pra estender storage on-premises, não pra compartilhar entre EC2 na nuvem.",
+            "A": "File Gateway é pra estender storage on-premises, não pra compartilhar entre EC2 na nuvem.",
+            "C": "EBS é preso a uma AZ e, em geral, a uma instância — não é o compartilhamento multi-AZ pedido.",
             "D": "Instance Store é disco efêmero — some quando a instância para, e não é compartilhado."
           }
         },
@@ -1653,31 +1653,31 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Snow Family (ex.: Snowball Edge) — dispositivo físico que a AWS envia, você copia e devolve"
+              "text": "Usar S3 Transfer Acceleration, que resolve qualquer volume mesmo com link lento e instável"
             },
             {
               "key": "B",
-              "text": "Subir tudo pela internet com upload paralelo"
+              "text": "Subir tudo pela internet com upload paralelo e multipart, que compensa a banda limitada"
             },
             {
               "key": "C",
-              "text": "Usar Transfer Acceleration"
+              "text": "AWS Snow Family (ex.: Snowball Edge) — dispositivo físico que a AWS envia, você copia e devolve"
             },
             {
               "key": "D",
-              "text": "Comprar uma instância maior"
+              "text": "Comprar uma instância EC2 maior, já que o gargalo do upload é a máquina de origem"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): se subir pela internet levaria mais de uma semana, calcula o Snow. A AWS te manda um (ou vários) dispositivos físicos, você copia, devolve, e os dados aparecem no S3."
           ],
           "explanation": "Pra volumes enormes com banda limitada, a Snow Family é o caminho: dispositivos físicos (Snowball Edge tem 80 TB cada; pra 2 PB, vários em paralelo) que a AWS envia, você copia, devolve, e ela carrega no seu S3. Mais rápido e barato que a internet aqui.",
           "whyNots": {
+            "A": "Transfer Acceleration ajuda uploads longos, mas não resolve a ordem de grandeza de 2 PB em 1 Gbps.",
             "B": "2 PB a 1 Gbps levaria mais de um ano, mesmo paralelizando — inviável.",
-            "C": "Transfer Acceleration ajuda uploads longos, mas não resolve a ordem de grandeza de 2 PB em 1 Gbps.",
             "D": "Instância maior não acelera a transferência pela internet."
           }
         },
@@ -1699,23 +1699,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "io2 (ou io1) — SSD com IOPS provisionado, até 64.000 (256.000 no io2 Block Express)"
+              "text": "st1 — HDD otimizado pra throughput sequencial, com IOPS alto e consistente"
             },
             {
               "key": "B",
-              "text": "gp3 — SSD de uso geral, até 16.000 IOPS"
+              "text": "sc1 — HDD frio, o mais barato, suficiente pra qualquer banco transacional"
             },
             {
               "key": "C",
-              "text": "st1 — HDD de throughput"
+              "text": "gp3 — SSD de uso geral, até 16.000 IOPS, o único tipo com IOPS provisionado"
             },
             {
               "key": "D",
-              "text": "sc1 — HDD frio, o mais barato"
+              "text": "io2 (ou io1) — SSD com IOPS provisionado, até 64.000 (256.000 no io2 Block Express)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): 50.000 IOPS consistentes é muito. Tem família de EBS feita pra banco de dados crítico, com IOPS provisionado.",
@@ -1723,9 +1723,9 @@ window.AWS_BANK = {
           ],
           "explanation": "io2/io1 são SSD com IOPS provisionado e consistente — io2 chega a 64.000 (256.000 no Block Express), cobrindo os 50.000 exigidos por um banco de dados crítico. O gp3 para em 16.000 IOPS, insuficiente.",
           "whyNots": {
-            "B": "gp3 é ótimo de custo, mas seu teto (16.000 IOPS) fica abaixo dos 50.000 pedidos.",
-            "C": "st1 é HDD de throughput (acesso sequencial), não de IOPS alto aleatório de banco.",
-            "D": "sc1 é HDD frio, o mais barato e mais lento — o oposto do necessário."
+            "A": "st1 é HDD de throughput (acesso sequencial), não de IOPS alto aleatório de banco.",
+            "B": "sc1 é HDD frio, o mais barato e mais lento — o oposto do necessário.",
+            "C": "gp3 é ótimo de custo, mas seu teto (16.000 IOPS) fica abaixo dos 50.000 pedidos."
           }
         },
         {
@@ -1750,15 +1750,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Nada — RDS é só uma instância EC2 com um nome diferente"
+              "text": "As suas queries e o modelo de dados, mas não a infraestrutura — patch e backup ficam com você"
             },
             {
               "key": "C",
-              "text": "As suas queries e o modelo de dados, mas não a infraestrutura"
+              "text": "Apenas o backup diário automático; patch, failover e monitoramento continuam manuais"
             },
             {
               "key": "D",
-              "text": "Apenas o backup; o resto continua manual"
+              "text": "Nada — RDS é só uma instância EC2 com um nome diferente, e você segue cuidando de tudo via SSH"
             }
           ],
           "answers": [
@@ -1769,9 +1769,9 @@ window.AWS_BANK = {
           ],
           "explanation": "RDS é banco relacional gerenciado: a AWS cuida de backups automáticos (PITR), patches, monitoramento e failover Multi-AZ. Com você ficam o schema, as queries e os dados.",
           "whyNots": {
-            "B": "RDS abstrai justamente a gestão de infraestrutura que uma EC2 crua exigiria.",
-            "C": "Está invertido — a infraestrutura é o que a AWS gerencia; o schema/queries ficam com você.",
-            "D": "A AWS cuida de muito além do backup: patch, failover, monitoramento."
+            "B": "Está invertido — a infraestrutura é o que a AWS gerencia; o schema/queries ficam com você.",
+            "C": "A AWS cuida de muito além do backup: patch, failover, monitoramento.",
+            "D": "RDS abstrai justamente a gestão de infraestrutura que uma EC2 crua exigiria."
           }
         },
         {
@@ -1792,23 +1792,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Read Replicas (réplicas de leitura) e aponta as consultas pesadas pra elas"
+              "text": "Ativar Multi-AZ (o standby passa a atender leitura e divide os dashboards)"
             },
             {
               "key": "B",
-              "text": "Ativar Multi-AZ (o standby passa a atender leitura)"
+              "text": "Read Replicas (réplicas de leitura) e aponta as consultas pesadas pra elas"
             },
             {
               "key": "C",
-              "text": "Aumentar o storage da instância primária"
+              "text": "Trocar para um volume EBS mais rápido, que separa a leitura da escrita"
             },
             {
               "key": "D",
-              "text": "Trocar para um volume EBS mais rápido"
+              "text": "Aumentar o storage da instância primária — mais espaço dá mais leituras"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): o problema é só na LEITURA. Você quer tirar essa carga de cima da instância que também escreve.",
@@ -1816,9 +1816,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Read Replicas são cópias com replicação assíncrona que aceitam leitura. Você aponta as queries pesadas (relatórios/dashboards) para o endpoint da réplica, aliviando a primária. Multi-AZ NÃO serve aqui — o standby só existe para failover, não atende leitura.",
           "whyNots": {
-            "B": "O standby do Multi-AZ não aceita leitura — ele só assume em caso de falha. Multi-AZ é disponibilidade, não escala de leitura.",
-            "C": "Mais storage não resolve gargalo de leitura concorrente.",
-            "D": "Disco mais rápido ajuda I/O, mas não separa a carga de leitura da de escrita como a réplica faz."
+            "A": "O standby do Multi-AZ não aceita leitura — ele só assume em caso de falha. Multi-AZ é disponibilidade, não escala de leitura.",
+            "C": "Disco mais rápido ajuda I/O, mas não separa a carga de leitura da de escrita como a réplica faz.",
+            "D": "Mais storage não resolve gargalo de leitura concorrente."
           }
         },
         {
@@ -1839,23 +1839,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Multi-AZ — réplica síncrona em outra AZ, failover automático em ~1–2 min"
+              "text": "Snapshots manuais a cada hora — restauração instantânea se a instância cair"
             },
             {
               "key": "B",
-              "text": "Read Replica — uma réplica assume sozinha em caso de falha"
+              "text": "Read Replica — uma réplica síncrona que assume sozinha em caso de falha"
             },
             {
               "key": "C",
-              "text": "Snapshots manuais a cada hora"
+              "text": "Multi-AZ — réplica síncrona em outra AZ, failover automático em ~1–2 min"
             },
             {
               "key": "D",
-              "text": "Aumentar a retenção de backup para 35 dias"
+              "text": "Aumentar a retenção de backup para 35 dias, cobrindo falha de hardware"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): aqui o tema é disponibilidade (ficar de pé), não velocidade de leitura.",
@@ -1863,8 +1863,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Multi-AZ mantém um standby síncrono em outra AZ; na falha da primária, o RDS aponta o endpoint para o standby automaticamente em ~1–2 minutos. Read Replica é assíncrona e exige promoção MANUAL — não garante failover automático.",
           "whyNots": {
+            "A": "Snapshots são backup, não failover — restaurar leva tempo e cria nova instância.",
             "B": "Read Replica não faz failover automático — você precisa promovê-la na mão; e a replicação é assíncrona.",
-            "C": "Snapshots são backup, não failover — restaurar leva tempo e cria nova instância.",
             "D": "Retenção de backup é recuperação de dados, não disponibilidade contínua."
           }
         },
@@ -1888,23 +1888,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "RDS Proxy — mantém um pool de conexões persistentes e as reaproveita"
+              "text": "Uma Read Replica para cada função Lambda, pra diluir as conexões"
             },
             {
               "key": "B",
-              "text": "Uma Read Replica para cada função Lambda"
+              "text": "Aumentar a memória da Lambda — com mais RAM ela reusa a mesma conexão"
             },
             {
               "key": "C",
-              "text": "Um Application Load Balancer na frente do RDS"
+              "text": "Um Application Load Balancer na frente do RDS, balanceando o SQL"
             },
             {
               "key": "D",
-              "text": "Aumentar a memória da Lambda"
+              "text": "RDS Proxy — mantém um pool de conexões persistentes e as reaproveita"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): o problema não é leitura nem hardware — é cada invocação da Lambda abrindo e fechando conexão, e o banco não aguentando o volume.",
@@ -1912,9 +1912,9 @@ window.AWS_BANK = {
           ],
           "explanation": "RDS Proxy fica entre a aplicação e o banco, mantendo um pool de conexões persistentes que são reutilizadas — evitando que cada invocação da Lambda crie uma conexão nova e esgote o banco. Também acelera o failover e suporta autenticação via IAM.",
           "whyNots": {
-            "B": "Read Replica escala leitura, não resolve o excesso de CONEXÕES (e cada réplica teria o mesmo problema).",
-            "C": "ALB balanceia tráfego HTTP/web, não gerencia pool de conexões de banco.",
-            "D": "Mais memória na Lambda não muda o número de conexões abertas no banco."
+            "A": "Read Replica escala leitura, não resolve o excesso de CONEXÕES (e cada réplica teria o mesmo problema).",
+            "B": "Mais memória na Lambda não muda o número de conexões abertas no banco.",
+            "C": "ALB balanceia tráfego HTTP/web, não gerencia pool de conexões de banco."
           }
         },
         {
@@ -1939,15 +1939,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon RDS (banco relacional)"
+              "text": "Amazon RDS (banco relacional) — índice primário entrega ms em qualquer escala"
             },
             {
               "key": "C",
-              "text": "Amazon Redshift (data warehouse)"
+              "text": "Amazon S3 (armazenamento de objetos) — acesso por chave, ideal pra sessão"
             },
             {
               "key": "D",
-              "text": "Amazon S3 (armazenamento de objetos)"
+              "text": "Amazon Redshift (data warehouse) — colunar, responde por chave em ms"
             }
           ],
           "answers": [
@@ -1959,8 +1959,8 @@ window.AWS_BANK = {
           "explanation": "DynamoDB é um NoSQL chave-valor/documento, serverless e totalmente gerenciado, com latência de um dígito em milissegundos — a mesma com 10 ou 10 bilhões de itens. Perfeito pra sessão, preferências e carrinho.",
           "whyNots": {
             "B": "RDS é relacional (SQL, JOINs); ótimo pra transações, mas não entrega o acesso por chave em ms na escala do DynamoDB.",
-            "C": "Redshift é analítico (OLAP), pra grandes volumes históricos.",
-            "D": "S3 guarda arquivos por chave, mas não é banco operacional pra itens de aplicação."
+            "C": "S3 guarda arquivos por chave, mas não é banco operacional pra itens de aplicação.",
+            "D": "Redshift é analítico (OLAP), pra grandes volumes históricos."
           }
         },
         {
@@ -1981,23 +1981,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Um GSI (Global Secondary Index) com status como partition key"
+              "text": "Um Scan com filtro por status a cada consulta, rápido e barato"
             },
             {
               "key": "B",
-              "text": "Um Scan com filtro por status a cada consulta"
+              "text": "Um GSI (Global Secondary Index) com status como partition key"
             },
             {
               "key": "C",
-              "text": "Uma Read Replica do DynamoDB"
+              "text": "Uma Read Replica do DynamoDB dedicada às queries de status"
             },
             {
               "key": "D",
-              "text": "Trocar a chave primária para status"
+              "text": "Trocar a chave primária para status, sem afetar o orderId"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): consultar por um campo que não é a chave, sem varrer a tabela inteira, pede uma 'visão alternativa' da tabela com outra chave.",
@@ -2005,7 +2005,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Um GSI cria uma visão da tabela com uma partition key diferente (ex.: status), mantida automaticamente, permitindo Query eficiente por esse atributo. Scan varreria a tabela toda — caro e lento em produção.",
           "whyNots": {
-            "B": "Scan lê a tabela inteira e filtra — ineficiente e caro; o índice existe justamente pra evitar isso.",
+            "A": "Scan lê a tabela inteira e filtra — ineficiente e caro; o índice existe justamente pra evitar isso.",
             "C": "DynamoDB não usa 'Read Replica' — escala é nativa; o que resolve query alternativa é o índice.",
             "D": "Trocar a chave primária quebraria a busca por orderId, que ainda é necessária."
           }
@@ -2028,32 +2028,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "On-Demand (escala instantânea, sem throttling, paga por requisição)"
+              "text": "Provisioned sem Auto Scaling, que absorve qualquer pico sozinho"
             },
             {
               "key": "B",
-              "text": "Provisioned com RCU/WCU fixos baixos"
+              "text": "Não usar DynamoDB para esse caso — ele não aguenta picos de 50x"
             },
             {
               "key": "C",
-              "text": "Provisioned sem Auto Scaling"
+              "text": "On-Demand (escala instantânea, sem throttling, paga por requisição)"
             },
             {
               "key": "D",
-              "text": "Não usar DynamoDB para esse caso"
+              "text": "Provisioned com RCU/WCU fixos baixos, que a AWS eleva no pico"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): quando o tráfego é imprevisível e cada pedido perdido dói, você não quer apostar num número fixo de capacidade. O modo que escala sozinho na hora, sem throttling, é o On-Demand."
           ],
           "explanation": "On-Demand escala instantaneamente para qualquer volume sem throttling — você paga por requisição. Em picos imprevisíveis como a Black Friday, onde throttling = venda perdida, é o trade-off certo (mesmo custando mais por requisição).",
           "whyNots": {
-            "B": "Capacidade fixa baixa causaria throttling nos picos — pedidos perdidos.",
-            "C": "Sem Auto Scaling, o Provisioned não acompanha picos imprevisíveis.",
-            "D": "DynamoDB é justamente forte pra esse padrão de chave-valor em alta escala; o ajuste é o modo de capacidade."
+            "A": "Sem Auto Scaling, o Provisioned não acompanha picos imprevisíveis.",
+            "B": "DynamoDB é justamente forte pra esse padrão de chave-valor em alta escala; o ajuste é o modo de capacidade.",
+            "D": "Capacidade fixa baixa causaria throttling nos picos — pedidos perdidos."
           }
         },
         {
@@ -2074,23 +2074,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "LSI — mesma partition key, sort key diferente, criado JUNTO com a tabela; é o que serve aqui"
+              "text": "GSI — porque o LSI foi descontinuado e não existe mais no DynamoDB pra tabelas novas"
             },
             {
               "key": "B",
-              "text": "GSI — porque LSI não existe mais no DynamoDB"
+              "text": "Nenhum dos dois — no DynamoDB só dá pra ordenar resultados fazendo Scan completo da tabela"
             },
             {
               "key": "C",
-              "text": "Tanto faz: LSI e GSI são idênticos"
+              "text": "Tanto faz: LSI e GSI são idênticos em chaves, custo e momento de criação; é só apelido"
             },
             {
               "key": "D",
-              "text": "Nenhum — só dá pra ordenar com Scan"
+              "text": "LSI — mesma partition key, sort key diferente, criado JUNTO com a tabela; é o que serve aqui"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): a pista é 'mesma partition key' + 'outra ordenação' + 'já sei disso antes de criar a tabela'.",
@@ -2099,9 +2099,9 @@ window.AWS_BANK = {
           ],
           "explanation": "LSI mantém a MESMA partition key da tabela com uma sort key diferente, mas só pode ser criado no momento da criação da tabela. GSI usa uma partition key DIFERENTE e pode ser criado a qualquer momento. Como aqui a partition key é a mesma e a necessidade é conhecida antecipadamente, LSI serve.",
           "whyNots": {
-            "B": "LSI existe sim — apenas tem a restrição de ser criado junto com a tabela.",
-            "C": "São diferentes: LSI = mesma PK/outra sort key (na criação); GSI = PK diferente (a qualquer hora).",
-            "D": "Índices existem justamente pra evitar Scan na ordenação alternativa."
+            "A": "LSI existe sim — apenas tem a restrição de ser criado junto com a tabela.",
+            "B": "Índices existem justamente pra evitar Scan na ordenação alternativa.",
+            "C": "São diferentes: LSI = mesma PK/outra sort key (na criação); GSI = PK diferente (a qualquer hora)."
           }
         },
         {
@@ -2127,15 +2127,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "ElastiCache for Memcached"
+              "text": "ElastiCache for Memcached, que também tem estruturas ricas como sorted sets"
             },
             {
               "key": "C",
-              "text": "Uma Read Replica do RDS"
+              "text": "Uma Read Replica do RDS, que entrega a mesma latência de um cache in-memory"
             },
             {
               "key": "D",
-              "text": "Amazon Redshift"
+              "text": "Amazon Redshift, que funciona como banco in-memory ideal pra rankings ao vivo"
             }
           ],
           "answers": [
@@ -2170,15 +2170,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Neptune (banco de grafo)"
+              "text": "Amazon DynamoDB"
             },
             {
               "key": "B",
-              "text": "Amazon RDS com muitos JOINs"
+              "text": "Amazon Neptune (banco de grafo)"
             },
             {
               "key": "C",
-              "text": "Amazon DynamoDB"
+              "text": "Amazon RDS com muitos JOINs"
             },
             {
               "key": "D",
@@ -2186,7 +2186,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): o valor aqui está na CONEXÃO entre as coisas (quem comprou o quê, quem conhece quem), não nas coisas isoladas.",
@@ -2194,8 +2194,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Quando o dado central é o RELACIONAMENTO entre entidades (recomendação, 'amigos de amigos', detecção de fraude), o banco de grafo é o ideal. Neptune percorre nós e arestas nativamente — bem mais eficiente que simular grafo com JOINs no relacional.",
           "whyNots": {
-            "B": "RDS guardaria os dados, mas traversals de grafo viram JOINs caros e lentos em escala.",
-            "C": "DynamoDB é excelente pra acesso por chave, não pra percorrer relacionamentos complexos.",
+            "A": "DynamoDB é excelente pra acesso por chave, não pra percorrer relacionamentos complexos.",
+            "C": "RDS guardaria os dados, mas traversals de grafo viram JOINs caros e lentos em escala.",
             "D": "Redshift é pra análise OLAP de grandes volumes, não pra traversal de grafo em tempo real."
           }
         },
@@ -2218,23 +2218,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Redshift (data warehouse, armazenamento colunar, processamento paralelo)"
+              "text": "Amazon RDS (banco relacional de linhas, otimizado pra transações em tempo real)"
             },
             {
               "key": "B",
-              "text": "Amazon RDS (transações em tempo real)"
+              "text": "Amazon DynamoDB (chave-valor serverless, feito pra consultas analíticas OLAP)"
             },
             {
               "key": "C",
-              "text": "Amazon DynamoDB"
+              "text": "Amazon Redshift (data warehouse, armazenamento colunar, processamento paralelo)"
             },
             {
               "key": "D",
-              "text": "Amazon ElastiCache"
+              "text": "Amazon ElastiCache (cache in-memory, ideal pra agregações analíticas pesadas)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): a palavra-chave é análise de grandes volumes históricos — OLAP, não OLTP (transação em tempo real).",
@@ -2242,8 +2242,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Redshift é o data warehouse da AWS, com armazenamento colunar e MPP (processamento paralelo massivo) — ideal pra varrer poucas colunas de muitas linhas em grandes volumes (OLAP). RDS/Aurora são pra OLTP (transações em tempo real), não pra esse tipo de análise.",
           "whyNots": {
-            "B": "RDS é OLTP — transações individuais em tempo real, não varredura analítica de anos de dados.",
-            "C": "DynamoDB é chave-valor operacional, não análise OLAP.",
+            "A": "RDS é OLTP — transações individuais em tempo real, não varredura analítica de anos de dados.",
+            "B": "DynamoDB é chave-valor operacional, não análise OLAP.",
             "D": "ElastiCache é cache in-memory, não ferramenta analítica."
           }
         }
@@ -2271,32 +2271,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "O serviço que controla autenticação e autorização — quem pode fazer o quê em cada recurso"
+              "text": "Um firewall de rede para instâncias EC2, filtrando portas e IPs de entrada e de saída"
             },
             {
               "key": "B",
-              "text": "Um firewall de rede para instâncias EC2"
+              "text": "Um serviço de backup automático que protege usuários e permissões contra exclusão"
             },
             {
               "key": "C",
-              "text": "Um serviço de backup automático"
+              "text": "Um banco de dados gerenciado pra guardar os usuários finais da sua aplicação web"
             },
             {
               "key": "D",
-              "text": "Um banco de dados de usuários da aplicação"
+              "text": "O serviço que controla autenticação e autorização — quem pode fazer o quê em cada recurso"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): IAM é a portaria do prédio. Ela autentica (você é o Rafael?) e autoriza (Rafael pode entrar no 5º andar?). Sem portaria, qualquer um entra em qualquer sala."
           ],
           "explanation": "IAM (Identity and Access Management) é o serviço global que controla autenticação (provar quem você é) e autorização (o que você pode fazer) sobre os recursos da AWS.",
           "whyNots": {
-            "B": "Firewall de instância é o Security Group.",
-            "C": "Backup é outro assunto (snapshots/AWS Backup).",
-            "D": "Identidade de usuário final de aplicação é o Cognito; IAM é pra acesso à própria AWS."
+            "A": "Firewall de instância é o Security Group.",
+            "B": "Backup é outro assunto (snapshots/AWS Backup).",
+            "C": "Identidade de usuário final de aplicação é o Cognito; IAM é pra acesso à própria AWS."
           }
         },
         {
@@ -2321,15 +2321,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Anexar a policy individualmente a cada um dos 50 usuários"
+              "text": "Anexar a policy individualmente a cada um dos 50 usuários — é o que o IAM recomenda"
             },
             {
               "key": "C",
-              "text": "Compartilhar a conta root com os 50 devs"
+              "text": "Criar 50 policies, uma para cada usuário, pra cada mudança ficar isolada e rastreável"
             },
             {
               "key": "D",
-              "text": "Criar 50 policies, uma para cada usuário"
+              "text": "Compartilhar a conta root com os 50 devs, já que ela sempre tem a permissão necessária"
             }
           ],
           "answers": [
@@ -2341,8 +2341,8 @@ window.AWS_BANK = {
           "explanation": "IAM Groups agregam usuários: você anexa a policy ao grupo e todos herdam. Mudou a regra? Edita o grupo uma vez e vale para os 50. Anexar policy direto em cada usuário é insustentável em escala.",
           "whyNots": {
             "B": "Editar 50 usuários a cada mudança é insustentável — o grupo existe pra isso.",
-            "C": "Conta root jamais para uso diário, e nunca compartilhada com o time.",
-            "D": "50 policies idênticas é duplicação pura; uma policy num grupo resolve."
+            "C": "50 policies idênticas é duplicação pura; uma policy num grupo resolve.",
+            "D": "Conta root jamais para uso diário, e nunca compartilhada com o time."
           }
         },
         {
@@ -2363,11 +2363,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Não — um Deny explícito sempre sobrepõe qualquer Allow"
+              "text": "Sim — o Allow para s3:* inclui o delete e prevalece"
             },
             {
               "key": "B",
-              "text": "Sim — o Allow para s3:* inclui o delete e prevalece"
+              "text": "Não — um Deny explícito sempre sobrepõe qualquer Allow"
             },
             {
               "key": "C",
@@ -2379,7 +2379,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): na AVALIAÇÃO de permissões da AWS existe uma regra de ouro que decide empates.",
@@ -2387,7 +2387,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Regra de avaliação do IAM: um Deny explícito sempre vence qualquer Allow, de qualquer policy, independentemente da ordem. Por padrão tudo é negado; só o que é explicitamente permitido (e não negado) passa.",
           "whyNots": {
-            "B": "O Allow s3:* é derrubado pelo Deny explícito no DeleteObject.",
+            "A": "O Allow s3:* é derrubado pelo Deny explícito no DeleteObject.",
             "C": "A ordem não importa — Deny explícito vence sempre.",
             "D": "Deny explícito funciona em IAM policy também, não só em SCP."
           }
@@ -2411,23 +2411,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma policy identity-based na conta A E uma policy resource-based (Bucket Policy) na conta B"
+              "text": "Criar um usuário IAM da conta A dentro da conta B, já que o IAM não enxerga identidade de fora"
             },
             {
               "key": "B",
-              "text": "Apenas uma policy no usuário da conta A"
+              "text": "Apenas uma policy no usuário da conta A — quem chama é ela, então só a origem precisa autorizar"
             },
             {
               "key": "C",
-              "text": "Tornar o bucket público para qualquer conta acessar"
+              "text": "Uma policy identity-based na conta A E uma policy resource-based (Bucket Policy) na conta B"
             },
             {
               "key": "D",
-              "text": "Criar um usuário IAM da conta A dentro da conta B"
+              "text": "Tornar o bucket público para qualquer conta acessar — o jeito padrão de compartilhar"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): tem dois lados na história — quem pede (a identidade na conta A) e quem aceita (o recurso na conta B). Os dois precisam concordar.",
@@ -2435,9 +2435,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Em acesso cross-account, normalmente precisa dos dois lados: a policy identity-based na conta de origem (permite a identidade agir) e a policy resource-based no recurso de destino — a Bucket Policy na conta B, dizendo que aceita aquela identidade. Ambas precisam estar de acordo.",
           "whyNots": {
+            "A": "O objetivo do cross-account é justamente NÃO precisar criar usuários da conta A na conta B (use Bucket Policy ou AssumeRole).",
             "B": "Só a policy na conta A não basta — o bucket na conta B também precisa autorizar.",
-            "C": "Tornar o bucket público é furo de segurança e não é a forma correta de cross-account.",
-            "D": "O objetivo do cross-account é justamente NÃO precisar criar usuários da conta A na conta B (use Bucket Policy ou AssumeRole)."
+            "D": "Tornar o bucket público é furo de segurança e não é a forma correta de cross-account."
           }
         },
         {
@@ -2460,32 +2460,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma IAM Role (execution role) que a Lambda assume ao executar, com permissão no DynamoDB"
+              "text": "Salvar a chave numa variável de ambiente da Lambda — fora do código ela deixa de ser risco"
             },
             {
               "key": "B",
-              "text": "Colocar Access Key e Secret Key no código da Lambda"
+              "text": "Colocar Access Key e Secret Key no código da Lambda — o código da função já é privado mesmo"
             },
             {
               "key": "C",
-              "text": "Salvar a chave numa variável de ambiente da Lambda"
+              "text": "Usar a conta root para a Lambda, garantindo que nunca vai faltar permissão pro DynamoDB"
             },
             {
               "key": "D",
-              "text": "Usar a conta root para a Lambda"
+              "text": "Uma IAM Role (execution role) que a Lambda assume ao executar, com permissão no DynamoDB"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): Role é tipo crachá de visitante — a AWS emite credenciais TEMPORÁRIAS, que expiram sozinhas, sem nenhuma chave fixa no código. A Lambda 'veste' a Role ao rodar."
           ],
           "explanation": "A Lambda assume uma IAM Role (execution role) na execução e recebe credenciais temporárias do STS — nada de chave estática no código. A Trust Policy permite lambda.amazonaws.com assumir a Role; a Permissions Policy dá o acesso ao DynamoDB.",
           "whyNots": {
+            "A": "Variável de ambiente é melhor que código, mas ainda é uma chave estática a rotacionar e vazável.",
             "B": "Chave fixa no código vaza fácil (git, log) e não expira — é a prática que se quer eliminar.",
-            "C": "Variável de ambiente é melhor que código, mas ainda é uma chave estática a rotacionar e vazável.",
-            "D": "Conta root jamais — é acesso irrestrito, nunca para serviços."
+            "C": "Conta root jamais — é acesso irrestrito, nunca para serviços."
           }
         },
         {
@@ -2512,15 +2512,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Manter a Access Key, mas movê-la para uma variável de ambiente"
+              "text": "Manter a Access Key permanente, mas movê-la para uma variável de ambiente — assim ela deixa de ser um risco"
             },
             {
               "key": "C",
-              "text": "Copiar o arquivo .pem para dentro da instância"
+              "text": "Copiar o arquivo .pem para dentro da instância, que passa a autenticar as chamadas ao S3 automaticamente"
             },
             {
               "key": "D",
-              "text": "Deixar o bucket público para a instância acessar"
+              "text": "Deixar o bucket público apenas durante o horário de uso, pra instância acessar sem credencial nenhuma"
             }
           ],
           "answers": [
@@ -2555,11 +2555,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Service Control Policy (SCP) aplicada na OU de Produção"
+              "text": "Uma IAM Policy anexada a cada usuário da conta"
             },
             {
               "key": "B",
-              "text": "Uma IAM Policy anexada a cada usuário da conta"
+              "text": "Service Control Policy (SCP) aplicada na OU de Produção"
             },
             {
               "key": "C",
@@ -2571,7 +2571,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): 'nem o administrador da conta pode' é a pista — precisa de algo ACIMA da IAM policy da conta.",
@@ -2579,7 +2579,7 @@ window.AWS_BANK = {
           ],
           "explanation": "SCP (Service Control Policy) define o teto de permissões de uma OU/conta no Organizations: mesmo um usuário com AdministratorAccess não passa do que a SCP permite. Uma SCP com Deny fora de sa-east-1 bloqueia todas as contas da OU, inclusive admins.",
           "whyNots": {
-            "B": "IAM Policy controla uma identidade; um admin poderia se conceder mais. SCP é o limite superior da conta inteira.",
+            "A": "IAM Policy controla uma identidade; um admin poderia se conceder mais. SCP é o limite superior da conta inteira.",
             "C": "Security Group é firewall de instância, não controla região nem permissões.",
             "D": "Bucket Policy controla acesso a um bucket, não a criação de recursos por região."
           }
@@ -2603,23 +2603,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Não — a SCP é o teto máximo; se ela nega, a IAM policy de Allow não adianta"
+              "text": "Sim — a IAM Policy concede a permissão e sempre prevalece sobre a SCP"
             },
             {
               "key": "B",
-              "text": "Sim — a IAM Policy concede a permissão e prevalece sobre a SCP"
+              "text": "Depende: a SCP concede a permissão se a IAM também conceder o Allow"
             },
             {
               "key": "C",
-              "text": "Sim — SCP só vale para a conta root"
+              "text": "Não — a SCP é o teto máximo; se ela nega, a IAM policy de Allow não adianta"
             },
             {
               "key": "D",
-              "text": "Depende: a SCP concede a permissão se a IAM também conceder"
+              "text": "Sim — SCP só vale para a conta root; usuários IAM comuns passam direto"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): SCP e IAM policy não somam permissão — uma define o teto, a outra concede dentro do teto.",
@@ -2627,9 +2627,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A SCP define o máximo de permissões da conta e NÃO concede nada — só restringe. Se a SCP nega Redshift, nenhum usuário ou role da conta usa Redshift, mesmo com IAM Policy de Allow. A permissão efetiva é a interseção (o que a IAM permite E a SCP não proíbe).",
           "whyNots": {
-            "B": "IAM Allow não fura uma SCP de Deny — a SCP é o limite superior.",
-            "C": "SCP vale para todas as identidades da conta-membro, não só o root.",
-            "D": "SCP nunca concede permissão; ela só limita. Quem concede é a IAM policy, dentro do teto da SCP."
+            "A": "IAM Allow não fura uma SCP de Deny — a SCP é o limite superior.",
+            "B": "SCP nunca concede permissão; ela só limita. Quem concede é a IAM policy, dentro do teto da SCP.",
+            "D": "SCP vale para todas as identidades da conta-membro, não só o root."
           }
         },
         {
@@ -2650,11 +2650,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS CloudTrail"
+              "text": "Amazon CloudWatch (métricas)"
             },
             {
               "key": "B",
-              "text": "Amazon CloudWatch (métricas)"
+              "text": "Amazon GuardDuty"
             },
             {
               "key": "C",
@@ -2662,20 +2662,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon GuardDuty"
+              "text": "AWS CloudTrail"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): quando alguém pede PROVA, não quer opinião — quer trilha. Toda chamada de API na AWS deixa um rastro: quem, o quê, de onde, quando. Essa trilha é o CloudTrail."
           ],
           "explanation": "CloudTrail registra todas as chamadas de API da conta (console, CLI, SDK): identidade, ação, recurso, IP de origem, horário e resultado. É a trilha de auditoria — responde 'quem fez o quê e quando'.",
           "whyNots": {
-            "B": "CloudWatch é métricas e logs operacionais, não a trilha de chamadas de API por identidade.",
-            "C": "Config registra o ESTADO/configuração dos recursos ao longo do tempo, não cada chamada de API.",
-            "D": "GuardDuty detecta ameaças; não é o registro de auditoria de cada ação."
+            "A": "CloudWatch é métricas e logs operacionais, não a trilha de chamadas de API por identidade.",
+            "B": "GuardDuty detecta ameaças; não é o registro de auditoria de cada ação.",
+            "C": "Config registra o ESTADO/configuração dos recursos ao longo do tempo, não cada chamada de API."
           }
         },
         {
@@ -2700,15 +2700,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS CloudTrail"
+              "text": "AWS CloudTrail (histórico de configuração)"
             },
             {
               "key": "C",
-              "text": "Amazon Inspector"
+              "text": "AWS WAF (audita compliance dos recursos)"
             },
             {
               "key": "D",
-              "text": "AWS WAF"
+              "text": "Amazon Inspector (checa config de bucket)"
             }
           ],
           "answers": [
@@ -2718,11 +2718,11 @@ window.AWS_BANK = {
             "💡 Rafael (dica 1): a pergunta não é 'quem fez' (isso é CloudTrail) — é 'o recurso está configurado em conformidade, e continuou assim?'.",
             "💡 Rafael (dica 2): existe um serviço que grava o ESTADO de configuração ao longo do tempo e checa regras (bucket público? volume sem criptografia? MFA?). É o AWS Config."
           ],
-          "explanation": "AWS Config registra o estado de configuração dos recursos ao longo do tempo e avalia Config Rules de conformidade (ex.: s3-bucket-public-read-prohibited, encrypted-volumes, mfa-enabled). Responde 'o recurso está e continuou em conformidade?'. CloudTrail registra ações; Config registra estado/configuração.",
+          "explanation": "AWS Config registra o estado de configuração dos recursos ao longo do tempo e avalia Config Rules de conformidade (ex.: s3-bucket-public-read-prohibited, encrypted-volumes, mfa-enabled-for-iam-console-access). Responde 'o recurso está e continuou em conformidade?'. CloudTrail registra ações; Config registra estado/configuração.",
           "whyNots": {
             "B": "CloudTrail mostra ações (quem fez o quê), não o histórico de conformidade da configuração.",
-            "C": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não conformidade de configuração geral.",
-            "D": "WAF filtra tráfego de aplicação, nada a ver com relatório de conformidade."
+            "C": "WAF filtra tráfego de aplicação, nada a ver com relatório de conformidade.",
+            "D": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não conformidade de configuração geral."
           }
         },
         {
@@ -2743,23 +2743,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon GuardDuty"
+              "text": "AWS CloudTrail"
             },
             {
               "key": "B",
-              "text": "AWS Config"
+              "text": "Amazon GuardDuty"
             },
             {
               "key": "C",
-              "text": "Amazon Macie"
+              "text": "AWS Config"
             },
             {
               "key": "D",
-              "text": "AWS CloudTrail"
+              "text": "Amazon Macie"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): aqui não é 'configuração' nem 'log cru' — é detectar comportamento SUSPEITO em tempo real.",
@@ -2767,9 +2767,9 @@ window.AWS_BANK = {
           ],
           "explanation": "GuardDuty usa machine learning sobre VPC Flow Logs, DNS Logs e CloudTrail para detectar ameaças: IPs maliciosos, comunicação de command & control, exfiltração de credenciais. Ele alerta (não bloqueia) — a resposta fica com você (manual ou via EventBridge + Lambda).",
           "whyNots": {
-            "B": "Config checa conformidade de configuração, não ameaças ativas em tempo real.",
-            "C": "Macie acha dados sensíveis (PII) no S3, não detecta comunicação maliciosa de instâncias.",
-            "D": "CloudTrail é o log de chamadas de API; GuardDuty é quem analisa e detecta ameaça em cima desses dados."
+            "A": "CloudTrail é o log de chamadas de API; GuardDuty é quem analisa e detecta ameaça em cima desses dados.",
+            "C": "Config checa conformidade de configuração, não ameaças ativas em tempo real.",
+            "D": "Macie acha dados sensíveis (PII) no S3, não detecta comunicação maliciosa de instâncias."
           }
         },
         {
@@ -2792,7 +2792,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Macie"
+              "text": "Amazon Inspector"
             },
             {
               "key": "B",
@@ -2800,7 +2800,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Inspector"
+              "text": "Amazon Macie"
             },
             {
               "key": "D",
@@ -2808,7 +2808,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): cuidado pra não confundir os 'detetives'. Aqui o alvo é DADO sensível (CPF, cartão) parado no S3 — não ameaça de rede, não CVE.",
@@ -2816,8 +2816,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Macie usa ML para descobrir e classificar dados sensíveis (PII como CPF, cartão de crédito, credenciais) armazenados no S3 e alertar sobre exposição. GuardDuty é ameaça em tempo real; Inspector é vulnerabilidade (CVE) em EC2/containers — nenhum dos dois faz a descoberta de PII.",
           "whyNots": {
+            "A": "Inspector procura CVEs em instâncias e containers, não dados sensíveis no S3.",
             "B": "GuardDuty detecta ameaças de comportamento (rede/API), não vasculha PII em buckets.",
-            "C": "Inspector procura CVEs em instâncias e containers, não dados sensíveis no S3.",
             "D": "CloudTrail registra ações, não classifica o conteúdo dos objetos."
           }
         },
@@ -2839,32 +2839,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS WAF (Web Application Firewall)"
+              "text": "AWS Shield (filtra o payload HTTP)"
             },
             {
               "key": "B",
-              "text": "AWS Shield"
+              "text": "Amazon GuardDuty (bloqueia o XSS)"
             },
             {
               "key": "C",
-              "text": "Security Group"
+              "text": "Security Group (barra SQLi e XSS)"
             },
             {
               "key": "D",
-              "text": "Amazon GuardDuty"
+              "text": "AWS WAF (Web Application Firewall)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): SQL injection e XSS são payloads maliciosos DENTRO da requisição HTTP. Quem inspeciona o conteúdo da requisição (camada 7) e bloqueia com 403 é o WAF."
           ],
           "explanation": "AWS WAF protege na camada 7 (HTTP): você cria Web ACLs com regras (inclusive grupos gerenciados como o AWSManagedRulesCommonRuleSet) que detectam SQL injection, XSS, bots e rate limiting, bloqueando a requisição antes de chegar à aplicação. Integra com CloudFront, ALB e API Gateway.",
           "whyNots": {
-            "B": "Shield protege contra DDoS volumétrico (camada 3/4), não inspeciona payload HTTP.",
-            "C": "Security Group filtra por porta/IP, não entende SQL injection no conteúdo da requisição.",
-            "D": "GuardDuty detecta ameaças nos logs; não filtra requisições HTTP na borda."
+            "A": "Shield protege contra DDoS volumétrico (camada 3/4), não inspeciona payload HTTP.",
+            "B": "GuardDuty detecta ameaças nos logs; não filtra requisições HTTP na borda.",
+            "C": "Security Group filtra por porta/IP, não entende SQL injection no conteúdo da requisição."
           }
         },
         {
@@ -2890,15 +2890,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS WAF"
+              "text": "AWS Secrets Manager, ativo por padrão contra inundações"
             },
             {
               "key": "C",
-              "text": "AWS Secrets Manager"
+              "text": "AWS Config, que detecta e mitiga o pico de tráfego sozinho"
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "AWS WAF, que vem ativo de graça e segura o volumétrico"
             }
           ],
           "answers": [
@@ -2910,9 +2910,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Shield Standard protege contra DDoS de camada 3/4 (volumétrico: UDP/SYN flood, amplificação) automaticamente e sem custo, em CloudFront, Route 53, ALB e Elastic IP. WAF é complementar, mas atua na camada 7 (payload HTTP). Shield Advanced (pago) acrescenta proteção L7, DDoS Response Team e proteção de custo.",
           "whyNots": {
-            "B": "WAF filtra ataques de aplicação (SQL injection, XSS), não a inundação volumétrica de rede.",
-            "C": "Secrets Manager guarda credenciais — nada a ver com DDoS.",
-            "D": "Config é conformidade de configuração, não proteção contra DDoS."
+            "B": "Secrets Manager guarda credenciais — nada a ver com DDoS.",
+            "C": "Config é conformidade de configuração, não proteção contra DDoS.",
+            "D": "WAF filtra ataques de aplicação (SQL injection, XSS), não a inundação volumétrica de rede."
           }
         },
         {
@@ -2934,32 +2934,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Secrets Manager"
-            },
-            {
-              "key": "B",
               "text": "SSM Parameter Store (Standard)"
             },
             {
+              "key": "B",
+              "text": "AWS Secrets Manager"
+            },
+            {
               "key": "C",
-              "text": "Um arquivo .env criptografado na instância"
+              "text": "AWS KMS"
             },
             {
               "key": "D",
-              "text": "AWS KMS"
+              "text": "Um arquivo .env criptografado na instância"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): a palavra mágica é 'rotação automática de senha de banco'. Tem um serviço que integra com RDS e troca a senha sozinho, sem downtime — o Secrets Manager."
           ],
           "explanation": "Secrets Manager armazena segredos criptografados com KMS e faz rotação automática nativa integrada com RDS/Redshift/DocumentDB — troca a senha no banco e atualiza o segredo sem downtime. A aplicação busca a senha em runtime via API, usando a IAM Role.",
           "whyNots": {
-            "B": "SSM Parameter Store não tem rotação automática nativa (precisaria de Lambda customizado).",
-            "C": "Arquivo na instância é credencial estática — o problema que se quer eliminar.",
-            "D": "KMS gerencia as CHAVES de criptografia, não armazena nem rotaciona a senha do banco."
+            "A": "SSM Parameter Store não tem rotação automática nativa (precisaria de Lambda customizado).",
+            "C": "KMS gerencia as CHAVES de criptografia, não armazena nem rotaciona a senha do banco.",
+            "D": "Arquivo na instância é credencial estática — o problema que se quer eliminar."
           }
         },
         {
@@ -2981,23 +2981,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "SSM Parameter Store (Standard) — gratuito e simples para config não sensível"
+              "text": "Hardcoded no código da aplicação — flag booleana quase não muda, sai de graça"
             },
             {
               "key": "B",
-              "text": "AWS Secrets Manager (com rotação automática)"
+              "text": "AWS Secrets Manager (com rotação automática) — a opção gratuita pra toda config"
             },
             {
               "key": "C",
-              "text": "Hardcoded no código da aplicação"
+              "text": "SSM Parameter Store (Standard) — gratuito e simples para config não sensível"
             },
             {
               "key": "D",
-              "text": "Num bucket S3 público"
+              "text": "Num bucket S3 público — flag não sensível pode ficar aberta, e o S3 é baratinho"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): não é segredo, não precisa de rotação. Pagar por Secrets Manager aqui é desperdício.",
@@ -3005,8 +3005,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Para configuração NÃO sensível (feature flag, URL pública), o SSM Parameter Store Standard é gratuito e suficiente. Secrets Manager (~$0,40/segredo/mês + rotação) é pra credenciais sensíveis que precisam de rotação — usá-lo aqui é custo à toa.",
           "whyNots": {
+            "A": "Hardcoded no código obriga deploy a cada mudança de flag e mistura config com código.",
             "B": "Secrets Manager é pago e voltado a segredos com rotação — exagero para uma flag não sensível.",
-            "C": "Hardcoded no código obriga deploy a cada mudança de flag e mistura config com código.",
             "D": "Bucket público expõe configuração desnecessariamente — má prática de segurança."
           }
         }
@@ -3034,32 +3034,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Lambda (serverless, event-driven)"
+              "text": "Amazon RDS rodando o job em SQL"
             },
             {
               "key": "B",
-              "text": "Uma instância EC2 maior"
+              "text": "Amazon S3 executando o script"
             },
             {
               "key": "C",
-              "text": "Amazon S3"
+              "text": "Uma instância EC2 maior e mais barata"
             },
             {
               "key": "D",
-              "text": "Amazon RDS"
+              "text": "AWS Lambda (serverless, event-driven)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): Lambda é tipo micro-ondas — você põe o prato (código), aperta o botão (o evento), ele cozinha pelo tempo necessário e desliga sozinho. Você não mantém o forno ligado esperando o próximo prato."
           ],
           "explanation": "Lambda é computação serverless event-driven: você sobe a função, um evento (trigger) dispara, a AWS executa num ambiente efêmero e você paga só pela duração + memória. Sem servidor ligado à toa.",
           "whyNots": {
-            "B": "EC2 maior continua ligada (e cobrando) 24h pra um job de 10 minutos.",
-            "C": "S3 guarda arquivos, não executa código.",
-            "D": "RDS é banco de dados, não execução de código sob demanda."
+            "A": "RDS é banco de dados, não execução de código sob demanda.",
+            "B": "S3 guarda arquivos, não executa código.",
+            "C": "EC2 maior continua ligada (e cobrando) 24h pra um job de 10 minutos."
           }
         },
         {
@@ -3085,15 +3085,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Nada impede — Lambda roda por qualquer tempo"
+              "text": "Falta criar um Security Group para a função — sem ele o job não roda 20 min"
             },
             {
               "key": "C",
-              "text": "Lambda não aceita arquivos, só texto"
+              "text": "Nada impede — Lambda roda por qualquer tempo, sem nenhum limite de duração"
             },
             {
               "key": "D",
-              "text": "Falta criar um Security Group para a função"
+              "text": "Lambda não aceita arquivos, só texto — binário de 2 GB nem chega na função"
             }
           ],
           "answers": [
@@ -3105,9 +3105,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Lambda tem timeout máximo de 15 minutos por execução. Um job de ~20 minutos estoura esse limite, então a alternativa é um container em Fargate (ou uma instância EC2), que não têm esse teto.",
           "whyNots": {
-            "B": "Lambda NÃO roda por qualquer tempo — para em 15 minutos.",
-            "C": "Lambda processa arquivos (tem /tmp de até 10 GB); o problema é o tempo.",
-            "D": "Security Group não tem relação com o limite de duração da função."
+            "B": "Security Group não tem relação com o limite de duração da função.",
+            "C": "Lambda NÃO roda por qualquer tempo — para em 15 minutos.",
+            "D": "Lambda processa arquivos (tem /tmp de até 10 GB); o problema é o tempo."
           }
         },
         {
@@ -3128,15 +3128,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Provisioned Concurrency"
+              "text": "Aumentar o timeout da função"
             },
             {
               "key": "B",
-              "text": "Reserved Concurrency"
+              "text": "Provisioned Concurrency"
             },
             {
               "key": "C",
-              "text": "Aumentar o timeout da função"
+              "text": "Reserved Concurrency"
             },
             {
               "key": "D",
@@ -3144,7 +3144,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): cold start é o tempo de 'ligar' o ambiente. Pra matar isso, você precisa deixar ambientes já ligados, esperando.",
@@ -3152,8 +3152,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Provisioned Concurrency mantém ambientes de execução pré-inicializados (aquecidos), eliminando o cold start — ideal para endpoints críticos com SLA de latência. Reserved Concurrency garante/limita o número de execuções, mas não elimina o cold start.",
           "whyNots": {
-            "B": "Reserved Concurrency reserva/limita a quantidade de execuções concorrentes, mas não aquece os ambientes — o cold start continua.",
-            "C": "Timeout maior não reduz o tempo de inicialização.",
+            "A": "Timeout maior não reduz o tempo de inicialização.",
+            "C": "Reserved Concurrency reserva/limita a quantidade de execuções concorrentes, mas não aquece os ambientes — o cold start continua.",
             "D": "Layer compartilha dependências entre funções; não trata cold start."
           }
         },
@@ -3175,23 +3175,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "WebSocket API (conexão persistente bidirecional)"
+              "text": "HTTP API (mais barata e com push nativo)"
             },
             {
               "key": "B",
-              "text": "REST API"
+              "text": "REST API (o servidor envia via response)"
             },
             {
               "key": "C",
-              "text": "HTTP API"
+              "text": "WebSocket API (conexão persistente bidirecional)"
             },
             {
               "key": "D",
-              "text": "Nenhum — API Gateway não serve para chat"
+              "text": "Nenhum — API Gateway não serve para chat ao vivo"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): REST e HTTP API são pergunta-resposta (stateless): o servidor só fala quando o cliente pede. Aqui o servidor precisa EMPURRAR mensagens.",
@@ -3199,8 +3199,8 @@ window.AWS_BANK = {
           ],
           "explanation": "WebSocket API mantém uma conexão persistente bidirecional: o cliente conecta uma vez e o servidor pode enviar mensagens a qualquer momento (postToConnection) — exatamente o que chat em tempo real precisa. REST/HTTP API são request-response (o servidor só responde quando perguntado).",
           "whyNots": {
+            "A": "HTTP API também é stateless request-response, sem push do servidor.",
             "B": "REST API é request-response; pra push em tempo real exigiria polling, que é ineficiente.",
-            "C": "HTTP API também é stateless request-response, sem push do servidor.",
             "D": "API Gateway serve sim para chat — com o tipo WebSocket."
           }
         },
@@ -3222,32 +3222,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma fila Amazon SQS — registra a mensagem, responde 200, e um consumidor envia o e-mail depois"
+              "text": "Colocar o serviço de e-mail num Security Group separado, o que desacopla os dois processos"
             },
             {
               "key": "B",
-              "text": "Aumentar o timeout da requisição de cadastro"
+              "text": "Aumentar o timeout da requisição de cadastro até o e-mail sair, evitando qualquer erro 500"
             },
             {
               "key": "C",
-              "text": "Rodar tudo numa instância EC2 maior"
+              "text": "Rodar cadastro e e-mail numa instância EC2 maior, que processa os dois sem travar a resposta"
             },
             {
               "key": "D",
-              "text": "Colocar o serviço de e-mail num Security Group"
+              "text": "Uma fila Amazon SQS — registra a mensagem, responde 200, e um consumidor envia o e-mail depois"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): SQS é como a caixa de entrada do e-mail — quem envia não espera você ler. O cadastro larga a mensagem na fila, responde na hora, e outro processo envia o e-mail no próprio ritmo. Se o e-mail cai, a mensagem espera na fila."
           ],
           "explanation": "SQS desacopla produtor e consumidor: a aplicação põe a mensagem na fila e responde 200 imediatamente; um consumidor separado processa e envia o e-mail depois. Se o serviço de e-mail cair, as mensagens ficam na fila esperando — o cadastro não falha junto.",
           "whyNots": {
+            "A": "Security Group é firewall — não tem a ver com desacoplar processos.",
             "B": "Timeout maior só faz o usuário esperar mais; o acoplamento continua.",
-            "C": "Instância maior não desacopla os processos.",
-            "D": "Security Group é firewall — não tem a ver com desacoplar processos."
+            "C": "Instância maior não desacopla os processos."
           }
         },
         {
@@ -3272,15 +3272,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "SQS Standard (alto throughput, ordem best-effort)"
+              "text": "SNS Topic, que enfileira os pedidos em ordem"
             },
             {
               "key": "C",
-              "text": "SNS Topic"
+              "text": "SQS Standard, com ordem best-effort"
             },
             {
               "key": "D",
-              "text": "EventBridge bus"
+              "text": "EventBridge bus com ordem FIFO nas regras"
             }
           ],
           "answers": [
@@ -3292,8 +3292,8 @@ window.AWS_BANK = {
           ],
           "explanation": "FIFO (First In, First Out) garante a ordem exata de chegada e entrega exatamente uma vez — essencial quando a sequência define o resultado (preço de execução) e duplicatas são inaceitáveis. Standard tem mais throughput, mas ordem best-effort e pode duplicar.",
           "whyNots": {
-            "B": "Standard pode entregar fora de ordem e duplicar — inaceitável para pedidos de bolsa.",
-            "C": "SNS é pub/sub (broadcast), não fila ordenada de processamento.",
+            "B": "SNS é pub/sub (broadcast), não fila ordenada de processamento.",
+            "C": "Standard pode entregar fora de ordem e duplicar — inaceitável para pedidos de bolsa.",
             "D": "EventBridge roteia eventos por regra, não garante ordem FIFO de processamento."
           }
         },
@@ -3316,15 +3316,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Fan-out: SNS Topic → uma fila SQS para cada consumidor"
+              "text": "Chamar os três serviços em sequência dentro da mesma requisição"
             },
             {
               "key": "B",
-              "text": "Uma única fila SQS lida pelos três processos"
+              "text": "Fan-out: SNS Topic → uma fila SQS para cada consumidor"
             },
             {
               "key": "C",
-              "text": "Chamar os três serviços em sequência dentro da mesma requisição"
+              "text": "Uma única fila SQS lida pelos três processos"
             },
             {
               "key": "D",
@@ -3332,7 +3332,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): você quer que UM evento vire CÓPIAS pra vários destinos, e que a falha de um não derrube os outros.",
@@ -3340,8 +3340,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O padrão fan-out usa SNS (pub/sub) entregando uma cópia do evento a múltiplas filas SQS — uma por consumidor. Cada SQS dá buffer e retry independentes, então se o estoque cair, e-mail e analytics seguem. SNS direto para Lambda perderia o evento se a Lambda falhasse.",
           "whyNots": {
-            "B": "Uma fila única, cada mensagem é consumida por um só consumidor — não entrega aos três.",
-            "C": "Em sequência na mesma requisição volta ao acoplamento (lento e frágil).",
+            "A": "Em sequência na mesma requisição volta ao acoplamento (lento e frágil).",
+            "C": "Uma fila única, cada mensagem é consumida por um só consumidor — não entrega aos três.",
             "D": "Security Group é firewall, irrelevante para distribuição de eventos."
           }
         },
@@ -3363,23 +3363,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma Dead Letter Queue (DLQ) com maxReceiveCount configurado"
+              "text": "Deletar a fila e criar outra do zero, sem a mensagem ruim"
             },
             {
               "key": "B",
-              "text": "Aumentar o Visibility Timeout para 12 horas"
+              "text": "Trocar a fila Standard por FIFO, que descarta falhas sozinha"
             },
             {
               "key": "C",
-              "text": "Deletar a fila e criar outra"
+              "text": "Uma Dead Letter Queue (DLQ) com maxReceiveCount configurado"
             },
             {
               "key": "D",
-              "text": "Trocar a fila Standard por FIFO"
+              "text": "Aumentar o Visibility Timeout para 12 horas, que já isola"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): você não quer que a 'mensagem envenenada' fique girando pra sempre. Quer mandá-la pra um canto e analisar depois.",
@@ -3387,9 +3387,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A DLQ recebe automaticamente as mensagens que falharam mais de maxReceiveCount vezes (ex.: 3). Assim, a 'mensagem envenenada' é isolada para análise sem ficar reprocessando para sempre e sem bloquear o restante da fila. É boa prática em produção.",
           "whyNots": {
-            "B": "Visibility Timeout maior só adia o reprocessamento; a mensagem ainda fica presa na fila.",
-            "C": "Recriar a fila perderia tudo e não resolve a causa (a mensagem que falha).",
-            "D": "Trocar para FIFO muda ordem/duplicação, não isola mensagens que falham."
+            "A": "Recriar a fila perderia tudo e não resolve a causa (a mensagem que falha).",
+            "B": "Trocar para FIFO muda ordem/duplicação, não isola mensagens que falham.",
+            "D": "Visibility Timeout maior só adia o reprocessamento; a mensagem ainda fica presa na fila."
           }
         },
         {
@@ -3410,32 +3410,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon CloudFront (CDN, com Edge Locations perto dos usuários)"
+              "text": "Amazon SQS, que enfileira as imagens perto dos usuários"
             },
             {
               "key": "B",
-              "text": "Um servidor EC2 maior em São Paulo"
+              "text": "Amazon RDS Read Replica em Lisboa servindo as imagens do site"
             },
             {
               "key": "C",
-              "text": "Amazon RDS Read Replica"
+              "text": "Um servidor EC2 maior em São Paulo, que compensa a distância"
             },
             {
               "key": "D",
-              "text": "Amazon SQS"
+              "text": "Amazon CloudFront (CDN, com Edge Locations perto dos usuários)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pensa numa biblioteca em São Paulo e cópias em filiais. Em vez de todo mundo ir até SP buscar o livro, o conteúdo fica em cache na filial (Edge Location) mais perto de quem acessa. Essa rede de filiais é o CloudFront."
           ],
           "explanation": "CloudFront é o CDN da AWS: distribui o conteúdo de 400+ Edge Locations e serve do ponto mais próximo do usuário (cache hit), reduzindo latência. Só vai até a origem (S3) quando não tem o conteúdo em cache.",
           "whyNots": {
-            "B": "Servidor maior em SP continua longe de Porto Alegre/Lisboa — a distância é o problema.",
-            "C": "Read Replica escala leitura de banco, não entrega de conteúdo estático global.",
-            "D": "SQS é fila de mensagens, nada a ver com entrega de conteúdo."
+            "A": "SQS é fila de mensagens, nada a ver com entrega de conteúdo.",
+            "B": "Read Replica escala leitura de banco, não entrega de conteúdo estático global.",
+            "C": "Servidor maior em SP continua longe de Porto Alegre/Lisboa — a distância é o problema."
           }
         },
         {
@@ -3465,11 +3465,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Uma Presigned URL para cada objeto"
+              "text": "Um NAT Gateway na frente do bucket"
             },
             {
               "key": "D",
-              "text": "Um NAT Gateway na frente do bucket"
+              "text": "Uma Presigned URL para cada objeto"
             }
           ],
           "answers": [
@@ -3482,8 +3482,8 @@ window.AWS_BANK = {
           "explanation": "Com OAC (Origin Access Control), o CloudFront assina as requisições para o S3, e a Bucket Policy aceita apenas o CloudFront — o bucket fica privado e ninguém o acessa direto. OAC é o sucessor moderno do OAI (suporta SSE-KMS e regiões novas).",
           "whyNots": {
             "B": "Abrir o bucket viola o requisito de mantê-lo privado.",
-            "C": "Presigned URL serve acesso pontual a objetos, não é a forma de integrar CloudFront a bucket privado.",
-            "D": "NAT Gateway é saída de subnet privada para a internet — nada a ver com servir o bucket."
+            "C": "NAT Gateway é saída de subnet privada para a internet — nada a ver com servir o bucket.",
+            "D": "Presigned URL serve acesso pontual a objetos, não é a forma de integrar CloudFront a bucket privado."
           }
         },
         {
@@ -3504,23 +3504,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Failover (com Health Check no primário)"
+              "text": "Simple, que detecta a falha sozinho"
             },
             {
               "key": "B",
-              "text": "Weighted"
+              "text": "Failover (com Health Check no primário)"
             },
             {
               "key": "C",
-              "text": "Geolocation"
+              "text": "Geolocation, que roteia por saúde"
             },
             {
               "key": "D",
-              "text": "Simple"
+              "text": "Weighted, feito pra failover de DR"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): o cenário é clássico de DR — um ativo (primário) e um reserva (standby), troca automática na falha.",
@@ -3528,9 +3528,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A policy Failover define o primário (sa-east-1) e o secundário (us-east-1). Com Health Check no primário, se ele falhar o Route 53 passa automaticamente a responder com o DR. É a política de DR ativo/passivo.",
           "whyNots": {
-            "B": "Weighted divide o tráfego por peso (A/B), não faz failover por saúde.",
+            "A": "Simple devolve um destino só, sem health check nem failover.",
             "C": "Geolocation roteia por país/continente, não por falha do recurso.",
-            "D": "Simple devolve um destino só, sem health check nem failover."
+            "D": "Weighted divide o tráfego por peso (A/B), não faz failover por saúde."
           }
         },
         {
@@ -3551,23 +3551,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Geolocation"
-            },
-            {
-              "key": "B",
-              "text": "Latency-based"
-            },
-            {
-              "key": "C",
               "text": "Weighted"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Multi-Value"
+            },
+            {
+              "key": "C",
+              "text": "Geolocation"
+            },
+            {
+              "key": "D",
+              "text": "Latency-based"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): cuidado com a pegadinha — Latency-based mandaria pro mais rápido, mas o requisito é por PAÍS, de forma determinística (compliance).",
@@ -3575,9 +3575,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Geolocation roteia pela localização geográfica de origem da consulta (país/continente), de forma determinística — ideal para compliance de residência de dados (brasileiro → Brasil, europeu → Europa). Latency-based mandaria para o mais rápido, o que normalmente coincide, mas não garante a regra por país.",
           "whyNots": {
-            "B": "Latency-based otimiza latência, não garante a residência por país exigida por compliance.",
-            "C": "Weighted divide por porcentagem, sem relação com geografia.",
-            "D": "Multi-Value retorna vários IPs saudáveis, não roteia por país."
+            "A": "Weighted divide por porcentagem, sem relação com geografia.",
+            "B": "Multi-Value retorna vários IPs saudáveis, não roteia por país.",
+            "D": "Latency-based otimiza latência, não garante a residência por país exigida por compliance."
           }
         },
         {
@@ -3599,7 +3599,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon ECS com launch type Fargate"
+              "text": "AWS Lambda Layer"
             },
             {
               "key": "B",
@@ -3611,20 +3611,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Lambda Layer"
+              "text": "Amazon ECS com launch type Fargate"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): você quer só dizer 'roda esse container com tanto de CPU e memória' e não cuidar de servidor nenhum. No ECS, o launch type que faz isso (a AWS aloca a infra invisível) é o Fargate."
           ],
           "explanation": "ECS com Fargate roda containers sem você gerenciar servidores: define CPU e memória da task e a AWS aloca a infraestrutura, cobrando por vCPU/memória por segundo. É o caminho mais simples para a maioria dos casos.",
           "whyNots": {
+            "A": "Layer compartilha dependências de Lambda; não roda containers de longa duração.",
             "B": "EC2 com Docker na mão te devolve toda a gestão de servidor que você quer evitar.",
-            "C": "S3 guarda objetos, não roda containers.",
-            "D": "Layer compartilha dependências de Lambda; não roda containers de longa duração."
+            "C": "S3 guarda objetos, não roda containers."
           }
         },
         {
@@ -3650,15 +3650,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS DMS (Database Migration Service)"
+              "text": "Amazon ECR"
             },
             {
               "key": "C",
-              "text": "AWS DataSync"
+              "text": "AWS DMS (Database Migration Service)"
             },
             {
               "key": "D",
-              "text": "Amazon ECR"
+              "text": "AWS DataSync"
             }
           ],
           "answers": [
@@ -3670,9 +3670,9 @@ window.AWS_BANK = {
           ],
           "explanation": "MGN (Application Migration Service) faz lift-and-shift: um agente replica continuamente o disco do servidor de origem para a AWS; quando pronto, o Cutover sobe uma EC2 com a aplicação rodando exatamente como estava — sem reescrita. DMS migra bancos; DataSync migra arquivos.",
           "whyNots": {
-            "B": "DMS migra DADOS de banco de dados, não o servidor inteiro com a aplicação.",
-            "C": "DataSync transfere ARQUIVOS entre armazenamentos, não levanta o servidor como EC2.",
-            "D": "ECR é repositório de imagens de container, não migração de servidor."
+            "B": "ECR é repositório de imagens de container, não migração de servidor.",
+            "C": "DMS migra DADOS de banco de dados, não o servidor inteiro com a aplicação.",
+            "D": "DataSync transfere ARQUIVOS entre armazenamentos, não levanta o servidor como EC2."
           }
         },
         {
@@ -3693,23 +3693,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS DMS (Full Load + CDC) com o Schema Conversion Tool (SCT) para o schema"
+              "text": "AWS MGN (Application Migration Service), que converte schema e migra dados"
             },
             {
               "key": "B",
-              "text": "AWS MGN (Application Migration Service)"
+              "text": "AWS DMS (Full Load + CDC) com o Schema Conversion Tool (SCT) para o schema"
             },
             {
               "key": "C",
-              "text": "AWS DataSync"
+              "text": "AWS DataSync, que replica bancos com CDC e converte o schema junto"
             },
             {
               "key": "D",
-              "text": "AWS Snowmobile"
+              "text": "AWS Snowmobile, o caminhão de migração indicado pra bancos pequenos"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): é migração de BANCO de dados, e ainda muda de engine (Oracle → PostgreSQL = heterogênea).",
@@ -3717,7 +3717,7 @@ window.AWS_BANK = {
           ],
           "explanation": "DMS migra bancos com Full Load (cópia inicial) + CDC (captura de mudanças em tempo real), permitindo cutover com downtime mínimo. Como é migração heterogênea (Oracle → PostgreSQL), o Schema Conversion Tool (SCT) converte o schema antes.",
           "whyNots": {
-            "B": "MGN migra servidores inteiros para EC2, não converte/migra banco entre engines.",
+            "A": "MGN migra servidores inteiros para EC2, não converte/migra banco entre engines.",
             "C": "DataSync transfere arquivos, não migra banco relacional com CDC.",
             "D": "Snowmobile é transporte físico de exabytes — exagero e fora de contexto para 800 GB de banco com CDC."
           }
@@ -3742,15 +3742,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS DataSync"
-            },
-            {
-              "key": "B",
               "text": "AWS DMS"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "AWS MGN"
+            },
+            {
+              "key": "C",
+              "text": "AWS DataSync"
             },
             {
               "key": "D",
@@ -3758,7 +3758,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): cuidado pra não confundir as ferramentas de migração: aqui é ARQUIVO (NAS), não banco e não servidor.",
@@ -3766,8 +3766,8 @@ window.AWS_BANK = {
           ],
           "explanation": "DataSync é especializado em transferir ARQUIVOS entre armazenamentos (NFS/SMB on-premise → S3/EFS/FSx) pela rede, com agendamento, verificação e criptografia. Como a rede comporta os 50 TB, DataSync é o caminho (se a rede fosse insuficiente, aí sim Snowball Edge).",
           "whyNots": {
-            "B": "DMS migra bancos de dados relacionais, não arquivos de um NAS.",
-            "C": "MGN migra servidores inteiros para EC2, não arquivos.",
+            "A": "DMS migra bancos de dados relacionais, não arquivos de um NAS.",
+            "B": "MGN migra servidores inteiros para EC2, não arquivos.",
             "D": "Snowmobile/Snow é transporte físico — só quando a rede não dá conta; aqui a rede comporta."
           }
         }
@@ -3795,7 +3795,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Cost Explorer"
+              "text": "Amazon CloudWatch"
             },
             {
               "key": "B",
@@ -3807,20 +3807,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon CloudWatch"
+              "text": "AWS Cost Explorer"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pensa no Cost Explorer como o painel do carro — mostra, em gráfico, quanto você gastou, em quê, e estima quanto vai gastar. É análise visual do que JÁ aconteceu."
           ],
           "explanation": "Cost Explorer é a ferramenta visual pra analisar custos e uso reais: gráficos por serviço/conta/tag, até 13 meses de histórico, previsão pra frente e recomendações de RI/Savings Plans.",
           "whyNots": {
+            "A": "CloudWatch é métricas/logs operacionais, não análise de fatura.",
             "B": "Pricing Calculator ESTIMA custo de algo que ainda não foi criado, não analisa o gasto real.",
-            "C": "CUR é o dado bruto, linha a linha, no S3 — não a visão visual pronta.",
-            "D": "CloudWatch é métricas/logs operacionais, não análise de fatura."
+            "C": "CUR é o dado bruto, linha a linha, no S3 — não a visão visual pronta."
           }
         },
         {
@@ -3845,7 +3845,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Cost Explorer"
+              "text": "AWS Pricing Calculator"
             },
             {
               "key": "C",
@@ -3853,7 +3853,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Pricing Calculator"
+              "text": "AWS Cost Explorer"
             }
           ],
           "answers": [
@@ -3864,9 +3864,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Budgets define orçamentos de custo/uso e dispara alertas (e-mail/SNS) quando o gasto real OU previsto cruza o limite. É a ferramenta de ALERTA proativo.",
           "whyNots": {
-            "B": "Cost Explorer analisa e prevê visualmente, mas não é o mecanismo de alerta por limite.",
+            "B": "Pricing Calculator estima custo futuro de um projeto, não monitora gasto.",
             "C": "CUR é exportação de dados brutos, não alerta.",
-            "D": "Pricing Calculator estima custo futuro de um projeto, não monitora gasto."
+            "D": "Cost Explorer analisa e prevê visualmente, mas não é o mecanismo de alerta por limite."
           }
         },
         {
@@ -3888,23 +3888,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cost and Usage Report (CUR), entregue no S3 (e consultado com Athena/QuickSight)"
+              "text": "O painel padrão do Cost Explorer, que exporta a visão agregada em PDF"
             },
             {
               "key": "B",
-              "text": "O painel padrão do Cost Explorer"
+              "text": "Cost and Usage Report (CUR), entregue no S3 (e consultado com Athena/QuickSight)"
             },
             {
               "key": "C",
-              "text": "AWS Budgets"
+              "text": "AWS Pricing Calculator, que estima e detalha o uso real por recurso"
             },
             {
               "key": "D",
-              "text": "AWS Pricing Calculator"
+              "text": "AWS Budgets, que grava automaticamente o uso granular num bucket S3"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): a palavra é GRANULAR — linha a linha, pra carregar nas ferramentas deles. Não é gráfico pronto, é dado cru.",
@@ -3912,9 +3912,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O CUR é o conjunto de dados de billing mais completo — linha a linha, por hora, por recurso e por tags — entregue num bucket S3 (CSV/Parquet) pra carregar em Athena/QuickSight/BI. Cost Explorer é visual; CUR é o dado bruto pra ferramenta própria.",
           "whyNots": {
-            "B": "Cost Explorer é ótimo pra visualizar, mas não é o export bruto pra ferramentas próprias.",
-            "C": "Budgets é alerta por limite, não fonte de dados granular.",
-            "D": "Pricing Calculator estima custos que ainda não aconteceram."
+            "A": "Cost Explorer é ótimo pra visualizar, mas não é o export bruto pra ferramentas próprias.",
+            "C": "Pricing Calculator estima custos que ainda não aconteceram.",
+            "D": "Budgets é alerta por limite, não fonte de dados granular."
           }
         },
         {
@@ -3935,7 +3935,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Pricing Calculator"
+              "text": "AWS Budgets"
             },
             {
               "key": "B",
@@ -3943,24 +3943,24 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Cost and Usage Report (CUR)"
+              "text": "AWS Pricing Calculator"
             },
             {
               "key": "D",
-              "text": "AWS Budgets"
+              "text": "Cost and Usage Report (CUR)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'nada foi criado ainda' derruba qualquer ferramenta que olha gasto REAL. Pra estimar antes de existir, é o Pricing Calculator."
           ],
           "explanation": "Como nada foi implantado, não há custo real pra analisar — você precisa de uma ESTIMATIVA antecipada da arquitetura proposta, que é exatamente o AWS Pricing Calculator (planejamento, ROI, migração).",
           "whyNots": {
+            "A": "Budgets alerta sobre gasto real/previsto, não estima um projeto novo do zero.",
             "B": "Cost Explorer analisa custos JÁ incorridos — não existem aqui.",
-            "C": "CUR reporta uso real — não há uso ainda.",
-            "D": "Budgets alerta sobre gasto real/previsto, não estima um projeto novo do zero."
+            "D": "CUR reporta uso real — não há uso ainda."
           }
         },
         {
@@ -3982,33 +3982,33 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Compute Savings Plans (compromisso de gasto/hora, flexível entre EC2/Fargate/Lambda)"
+              "text": "Dedicated Hosts (host físico dedicado, com desconto flexível entre serviços)"
             },
             {
               "key": "B",
-              "text": "On-Demand (sem compromisso, preço cheio)"
+              "text": "On-Demand (sem compromisso, preço cheio — mas com desconto automático por volume)"
             },
             {
               "key": "C",
-              "text": "Spot Instances (pode ser interrompido)"
+              "text": "Spot Instances (capacidade sobrando, pode ser interrompida a qualquer momento)"
             },
             {
               "key": "D",
-              "text": "Dedicated Hosts"
+              "text": "Compute Savings Plans (compromisso de gasto/hora, flexível entre EC2/Fargate/Lambda)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica 1): uso estável de longo prazo pede compromisso (desconto). Mas você quer poder trocar instância/região/serviço sem perder o desconto.",
             "💡 Rafael (dica 2): Reserved Instances travam numa família/região; o Compute Savings Plans compromete um valor por hora e vale pra EC2, Fargate e Lambda — bem mais flexível."
           ],
-          "explanation": "Compute Savings Plans dão até ~72% de desconto por um compromisso de gasto por hora (1 ou 3 anos), e — diferente do Reserved Instances — a flexibilidade vale entre EC2 (qualquer família/região/SO), Fargate e Lambda. Perfeito pra uso estável que ainda pode mudar de forma.",
+          "explanation": "Compute Savings Plans dão até ~66% de desconto por um compromisso de gasto por hora (1 ou 3 anos), e — diferente do Reserved Instances — a flexibilidade vale entre EC2 (qualquer família/região/SO), Fargate e Lambda. (O EC2 Instance Savings Plans chega a ~72%, mas trava família de instância e região — menos flexível.) Perfeito pra uso estável que ainda pode mudar de forma.",
           "whyNots": {
+            "A": "Dedicated Hosts é sobre isolamento/licenciamento, não desconto por compromisso flexível.",
             "B": "On-Demand não tem compromisso, mas é o mais caro pra uso contínuo.",
-            "C": "Spot é baratíssimo mas pode ser interrompido — não serve pra carga estável que precisa ficar de pé.",
-            "D": "Dedicated Hosts é sobre isolamento/licenciamento, não desconto por compromisso flexível."
+            "C": "Spot é baratíssimo mas pode ser interrompido — não serve pra carga estável que precisa ficar de pé."
           }
         },
         {
@@ -4037,11 +4037,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Cost and Usage Report (CUR)"
+              "text": "AWS Pricing Calculator"
             },
             {
               "key": "D",
-              "text": "AWS Pricing Calculator"
+              "text": "Cost and Usage Report (CUR)"
             }
           ],
           "answers": [
@@ -4053,8 +4053,8 @@ window.AWS_BANK = {
           "explanation": "Compute Optimizer usa métricas de uso (e ML) pra recomendar right-sizing de EC2, Auto Scaling Groups, EBS, Lambda, ECS no Fargate e bancos RDS/Aurora (além de recomendações de licença e de recursos ociosos em outros serviços) — apontando recursos superdimensionados e o tamanho ideal pra economizar.",
           "whyNots": {
             "B": "Budgets alerta sobre limite de gasto, não recomenda redimensionamento.",
-            "C": "CUR é dado bruto de billing, não recomendação de right-sizing.",
-            "D": "Pricing Calculator estima custos de projetos novos, não analisa o uso atual."
+            "C": "Pricing Calculator estima custos de projetos novos, não analisa o uso atual.",
+            "D": "CUR é dado bruto de billing, não recomendação de right-sizing."
           }
         },
         {
@@ -4075,11 +4075,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Trusted Advisor"
+              "text": "Amazon GuardDuty"
             },
             {
               "key": "B",
-              "text": "Amazon Inspector"
+              "text": "AWS Trusted Advisor"
             },
             {
               "key": "C",
@@ -4087,20 +4087,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon GuardDuty"
+              "text": "Amazon Inspector"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): pensa no Trusted Advisor como um check-up de saúde da conta — ele passa um pente fino e aponta economia, riscos de segurança, limites perto do teto e pontos frágeis, em categorias."
           ],
           "explanation": "Trusted Advisor faz verificações automáticas em 6 categorias — otimização de custos, performance, resiliência (tolerância a falhas), segurança, excelência operacional e limites de serviço — recomendando ações. É o check-up geral da conta. (Verificado na doc oficial 2026-06: são 6 categorias, não 5.)",
           "whyNots": {
-            "B": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não esse check-up multi-categoria.",
-            "C": "Config monitora conformidade de configuração ao longo do tempo, não o resumo de oportunidades em 5 categorias.",
-            "D": "GuardDuty detecta ameaças, não oportunidades de custo/limites."
+            "A": "GuardDuty detecta ameaças, não oportunidades de custo/limites.",
+            "C": "Config monitora conformidade de configuração ao longo do tempo, não o resumo de oportunidades nas 6 categorias do Trusted Advisor.",
+            "D": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não esse check-up multi-categoria."
           }
         },
         {
@@ -4121,23 +4121,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cost Allocation Tags (tags de alocação de custo)"
+              "text": "Uma VPC por time — a fatura vem separada por VPC"
             },
             {
               "key": "B",
-              "text": "Security Groups por time"
+              "text": "Reserved Instances rateadas por time na fatura"
             },
             {
               "key": "C",
-              "text": "Uma VPC por time"
+              "text": "Cost Allocation Tags (tags de alocação de custo)"
             },
             {
               "key": "D",
-              "text": "Reserved Instances"
+              "text": "Security Groups por time, que agrupam o custo"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica 1): pra a fatura saber 'isso é do time de dados', cada recurso precisa de uma etiqueta padronizada.",
@@ -4145,9 +4145,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cost Allocation Tags marcam recursos (ex.: Team, Project, Environment); uma vez ativadas no billing, o Cost Explorer e o CUR conseguem agrupar e ratear o custo por essas tags — é assim que se separa gasto por time/projeto.",
           "whyNots": {
-            "B": "Security Group é firewall, não rastreia custo.",
-            "C": "Uma VPC por time isola rede, mas não é o mecanismo de rateio de custo na fatura.",
-            "D": "Reserved Instances é desconto por compromisso, não rastreamento de custo por time."
+            "A": "Uma VPC por time isola rede, mas não é o mecanismo de rateio de custo na fatura.",
+            "B": "Reserved Instances é desconto por compromisso, não rastreamento de custo por time.",
+            "D": "Security Group é firewall, não rastreia custo."
           }
         },
         {
@@ -4168,32 +4168,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Consolidated Billing (cobrança consolidada)"
+              "text": "Service Control Policies (SCPs) de billing"
             },
             {
               "key": "B",
-              "text": "Service Control Policies (SCPs)"
+              "text": "AWS Config Rules somando as 12 faturas"
             },
             {
               "key": "C",
-              "text": "AWS Config Rules"
+              "text": "VPC Peering, que unifica a cobrança"
             },
             {
               "key": "D",
-              "text": "VPC Peering"
+              "text": "Consolidated Billing (cobrança consolidada)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): juntar todas as contas debaixo de uma conta pagadora dá uma fatura só — e o uso somado de todas ajuda a alcançar faixas de desconto por volume. Isso é o Consolidated Billing do Organizations."
           ],
           "explanation": "Consolidated Billing (no AWS Organizations) reúne todas as contas-membro sob uma conta pagadora: fatura única, visão por conta, e os descontos por volume (ex.: S3, transferência) consideram o uso AGREGADO de todas as contas.",
           "whyNots": {
-            "B": "SCP define o teto de permissões das contas — governança, não cobrança/desconto.",
-            "C": "Config Rules checam conformidade, não consolidam fatura.",
-            "D": "VPC Peering conecta redes, nada a ver com billing."
+            "A": "SCP define o teto de permissões das contas — governança, não cobrança/desconto.",
+            "B": "Config Rules checam conformidade, não consolidam fatura.",
+            "C": "VPC Peering conecta redes, nada a ver com billing."
           }
         },
         {
@@ -4221,15 +4221,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "1 Cost Explorer · 2 Pricing Calculator · 3 Budgets · 4 CUR"
-            },
-            {
-              "key": "C",
               "text": "1 CUR · 2 Budgets · 3 Cost Explorer · 4 Pricing Calculator"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "1 Pricing Calculator · 2 Budgets · 3 Cost Explorer · 4 CUR"
+            },
+            {
+              "key": "D",
+              "text": "1 Cost Explorer · 2 Pricing Calculator · 3 Budgets · 4 CUR"
             }
           ],
           "answers": [
@@ -4241,9 +4241,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada ferramenta de custo tem um verbo: Pricing Calculator ESTIMA o futuro (não-construído); Cost Explorer ANALISA/prevê o gasto real (visual); Budgets ALERTA quando cruza um limite; CUR EXPORTA o dado bruto, linha a linha, pro S3. Saber qual faz o quê é o que a prova cobra.",
           "whyNots": {
-            "B": "Trocou estimar com analisar: Cost Explorer não estima projeto novo; Pricing Calculator não analisa o passado.",
-            "C": "Embaralhou tudo — CUR não estima, Budgets não analisa trimestre.",
-            "D": "Trocou analisar e alertar de lugar (Budgets alerta, Cost Explorer analisa)."
+            "B": "Embaralhou tudo — CUR não estima, Budgets não analisa trimestre.",
+            "C": "Trocou analisar e alertar de lugar (Budgets alerta, Cost Explorer analisa).",
+            "D": "Trocou estimar com analisar: Cost Explorer não estima projeto novo; Pricing Calculator não analisa o passado."
           }
         },
         {
@@ -4265,23 +4265,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Savings Plans compromete um valor por hora e vale entre famílias/regiões e até Fargate/Lambda; Reserved tende a travar configuração específica"
+              "text": "Reserved Instances dá sempre o maior desconto em qualquer cenário, então é melhor mesmo quando o workload muda de família ou de região"
             },
             {
               "key": "B",
-              "text": "Reserved Instances dá mais desconto sempre, então é melhor"
+              "text": "Savings Plans compromete um valor por hora e vale entre famílias/regiões e até Fargate/Lambda; Reserved tende a travar configuração específica"
             },
             {
               "key": "C",
-              "text": "São idênticos, só muda o nome"
+              "text": "Savings Plans e Reserved Instances são programas idênticos em flexibilidade e desconto; a AWS apenas renomeou o produto antigo"
             },
             {
               "key": "D",
-              "text": "Savings Plans só funciona com Spot"
+              "text": "Savings Plans só se aplica a instâncias Spot, então não cobre EC2 sob demanda, Fargate nem Lambda em nenhuma região"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica 1): a pista é 'pode MUDAR de família de instância'. Qual modelo não te prende a uma configuração?",
@@ -4289,7 +4289,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Compute Savings Plans dão desconto semelhante ao Reserved, mas o compromisso é de gasto por hora — o desconto segue mesmo se você trocar de família de instância, região ou migrar pra Fargate/Lambda. Reserved Instances (Standard) tendem a amarrar uma configuração específica. Pra frota estável que ainda pode mudar de forma, Savings Plans é mais flexível.",
           "whyNots": {
-            "B": "Reserved Standard pode dar desconto um pouco maior em troca de MENOS flexibilidade — e aqui flexibilidade é o requisito.",
+            "A": "Reserved Standard pode dar desconto um pouco maior em troca de MENOS flexibilidade — e aqui flexibilidade é o requisito.",
             "C": "Não são idênticos: o eixo de flexibilidade é justamente a diferença.",
             "D": "Savings Plans é sobre compromisso de uso (On-Demand com desconto), não tem a ver com Spot."
           }
@@ -4318,15 +4318,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS CloudFormation"
-            },
-            {
-              "key": "B",
               "text": "AWS Config"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Amazon CloudWatch"
+            },
+            {
+              "key": "C",
+              "text": "AWS CloudFormation"
             },
             {
               "key": "D",
@@ -4334,7 +4334,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): pensa numa receita de bolo escrita. Em vez de montar tudo no olho, você escreve o passo a passo (JSON ou YAML) e a AWS executa igualzinho toda vez. Isso é \"infraestrutura como código\".",
@@ -4342,8 +4342,8 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFormation é infraestrutura como código (IaC): você descreve os recursos num template declarativo (JSON/YAML), e ele cria uma \"stack\" com tudo — repetível, versionável e sem esquecer detalhe. O CloudFormation em si é grátis; você paga só pelos recursos criados.",
           "whyNots": {
-            "B": "Config audita e registra mudanças de configuração dos recursos — não cria infra.",
-            "C": "CloudWatch é métricas, logs e alarmes — observa, não provisiona.",
+            "A": "Config audita e registra mudanças de configuração dos recursos — não cria infra.",
+            "B": "CloudWatch é métricas, logs e alarmes — observa, não provisiona.",
             "D": "CloudTrail audita chamadas de API (quem fez o quê) — não monta ambiente."
           }
         },
@@ -4366,7 +4366,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "StackSets"
+              "text": "Drift detection"
             },
             {
               "key": "B",
@@ -4378,11 +4378,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Drift detection"
+              "text": "StackSets"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o \"Set\" no nome é a pista — é um CONJUNTO de stacks espalhado por várias contas e regiões de uma vez.",
@@ -4390,9 +4390,9 @@ window.AWS_BANK = {
           ],
           "explanation": "StackSets implanta e mantém um template em múltiplas contas E regiões numa única operação. Com permissões service-managed via Organizations, contas adicionadas depois recebem as stacks automaticamente — ótimo pra baselines de governança/segurança.",
           "whyNots": {
+            "A": "Drift detection compara o que está vivo com o template — é diagnóstico, não implantação.",
             "B": "Nested stacks dividem um template grande em pedaços reutilizáveis DENTRO de uma stack — não espalham por várias contas.",
-            "C": "Change sets só pré-visualizam o que vai mudar antes de aplicar — não fazem implantação multi-conta.",
-            "D": "Drift detection compara o que está vivo com o template — é diagnóstico, não implantação."
+            "C": "Change sets só pré-visualizam o que vai mudar antes de aplicar — não fazem implantação multi-conta."
           }
         },
         {
@@ -4418,7 +4418,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "DependsOn"
+              "text": "Termination protection do EC2"
             },
             {
               "key": "C",
@@ -4426,7 +4426,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Termination protection do EC2"
+              "text": "DependsOn"
             }
           ],
           "answers": [
@@ -4438,9 +4438,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DeletionPolicy é o atributo de recurso que controla o que acontece ao remover a stack. `Retain` mantém o recurso, `Snapshot` faz um snapshot final (suportado por RDS, EBS, etc.) e `Delete` (padrão) apaga. Pra dados stateful de produção, use `Retain` ou `Snapshot`.",
           "whyNots": {
-            "B": "DependsOn só controla a ORDEM de criação dos recursos, não o que acontece na deleção.",
+            "B": "Termination protection é uma proteção da instância EC2, não o mecanismo do CloudFormation pra um RDS na stack.",
             "C": "UpdateReplacePolicy trata o caso de substituição em UPDATE; e `Delete` apagaria o recurso, o oposto do que se quer.",
-            "D": "Termination protection é uma proteção da instância EC2, não o mecanismo do CloudFormation pra um RDS na stack."
+            "D": "DependsOn só controla a ORDEM de criação dos recursos, não o que acontece na deleção."
           }
         },
         {
@@ -4461,23 +4461,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Drift detection"
-            },
-            {
-              "key": "B",
               "text": "Change sets"
             },
             {
+              "key": "B",
+              "text": "Drift detection"
+            },
+            {
               "key": "C",
-              "text": "Stack policy"
+              "text": "Rollback automático"
             },
             {
               "key": "D",
-              "text": "Rollback automático"
+              "text": "Stack policy"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): \"drift\" é deriva — quando a realidade derivou do plano. A funcionalidade compara o recurso VIVO com o que o template manda.",
@@ -4485,9 +4485,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Drift detection compara a configuração viva de cada recurso com a esperada pelo template e reporta o que derivou (mudanças feitas fora do CloudFormation). Não cascateia em nested stacks — rode na nested diretamente.",
           "whyNots": {
-            "B": "Change sets mostram o que VAI mudar antes de você aplicar uma atualização — não detectam mudanças manuais já feitas.",
-            "C": "Stack policy protege recursos de updates acidentais — não detecta drift.",
-            "D": "Rollback automático desfaz um deploy que falhou — não compara estado manual vs. template."
+            "A": "Change sets mostram o que VAI mudar antes de você aplicar uma atualização — não detectam mudanças manuais já feitas.",
+            "C": "Rollback automático desfaz um deploy que falhou — não compara estado manual vs. template.",
+            "D": "Stack policy protege recursos de updates acidentais — não detecta drift."
           }
         },
         {
@@ -4508,23 +4508,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Elastic Beanstalk"
+              "text": "Amazon S3 static website"
             },
             {
               "key": "B",
-              "text": "Amazon EC2 puro"
-            },
-            {
-              "key": "C",
               "text": "AWS Lambda"
             },
             {
+              "key": "C",
+              "text": "AWS Elastic Beanstalk"
+            },
+            {
               "key": "D",
-              "text": "Amazon S3 static website"
+              "text": "Amazon EC2 puro"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): você entrega só o código; a AWS monta EC2, balanceador, auto scaling e monitoramento pra você. É o meio-termo entre montar tudo na mão e abrir mão de tudo.",
@@ -4532,9 +4532,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Elastic Beanstalk é PaaS: você sobe o código (Python, Java, Node.js, .NET, Docker...) e ele provisiona e gerencia EC2, ELB, auto scaling e monitoramento — sem custo adicional pelo Beanstalk (paga só os recursos subjacentes). Você mantém visibilidade e pode customizar a infra.",
           "whyNots": {
-            "B": "EC2 puro dá controle máximo, mas é exatamente o trabalho manual que a Júlia quer evitar.",
-            "C": "Lambda é serverless por evento/função; não é o jeito de hospedar uma app web tradicional \"sempre ligada\" com a infra visível.",
-            "D": "S3 static website só serve arquivos estáticos — não roda código Python no servidor."
+            "A": "S3 static website só serve arquivos estáticos — não roda código Python no servidor.",
+            "B": "Lambda é serverless por evento/função; não é o jeito de hospedar uma app web tradicional \"sempre ligada\" com a infra visível.",
+            "D": "EC2 puro dá controle máximo, mas é exatamente o trabalho manual que a Júlia quer evitar."
           }
         },
         {
@@ -4557,7 +4557,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Controle total = EC2; app web gerenciada = Elastic Beanstalk; função por evento = Lambda"
+              "text": "Os três fazem exatamente a mesma coisa, é só preferência de nome"
             },
             {
               "key": "B",
@@ -4569,20 +4569,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Os três fazem exatamente a mesma coisa, é só preferência de nome"
+              "text": "Controle total = EC2; app web gerenciada = Elastic Beanstalk; função por evento = Lambda"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): ordena por quanto a AWS faz por você. EC2 = você faz tudo. Beanstalk = você dá o código, ela monta a casa. Lambda = você dá a função, ela cuida até do servidor."
           ],
           "explanation": "EC2 entrega controle e flexibilidade máximos (você administra o servidor). Elastic Beanstalk fica no meio: você sobe o código e ele gerencia a infra de uma app web. Lambda é serverless: você sobe a função e nem pensa em servidor, paga por execução.",
           "whyNots": {
+            "A": "São modelos de responsabilidade bem diferentes; o ponto da prova é justamente saber escolher.",
             "B": "Inverte tudo — Lambda não é \"controle total\" e Beanstalk não é função por evento.",
-            "C": "Também troca os papéis; Beanstalk não dá controle total e EC2 não é função por evento.",
-            "D": "São modelos de responsabilidade bem diferentes; o ponto da prova é justamente saber escolher."
+            "C": "Também troca os papéis; Beanstalk não dá controle total e EC2 não é função por evento."
           }
         },
         {
@@ -4652,30 +4652,30 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudWatch = métricas/logs/alarmes; CloudTrail = auditoria de API; X-Ray = caminho por-requisição"
+              "text": "CloudWatch = auditoria de API; CloudTrail = caminho por-requisição; X-Ray = métricas e alarmes"
             },
             {
               "key": "B",
-              "text": "CloudWatch = auditoria de API; CloudTrail = caminho por-requisição; X-Ray = métricas"
+              "text": "CloudWatch = métricas/logs/alarmes; CloudTrail = auditoria de API; X-Ray = caminho por-requisição"
             },
             {
               "key": "C",
-              "text": "CloudWatch = caminho por-requisição; CloudTrail = métricas; X-Ray = auditoria de API"
+              "text": "CloudWatch = caminho por-requisição; CloudTrail = métricas e logs; X-Ray = auditoria de API"
             },
             {
               "key": "D",
-              "text": "Os três são intercambiáveis pra qualquer um desses objetivos"
+              "text": "Os três são intercambiáveis pra qualquer um desses objetivos — coletam os mesmos dados"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): \"Trail\" lembra trilha de auditoria (quem chamou qual API). \"Watch\" lembra vigiar números (métricas/alarmes). X-Ray é o raio-X do caminho."
           ],
           "explanation": "CloudWatch cuida de métricas, logs e alarmes agregados; CloudTrail registra chamadas de API pra auditoria (quem fez o quê, quando); X-Ray rastreia o caminho de cada requisição entre serviços. Na prova, essa separação resolve a maioria das pegadinhas de observabilidade.",
           "whyNots": {
-            "B": "Troca os papéis — CloudWatch não audita API e CloudTrail não faz tracing por requisição.",
+            "A": "Troca os papéis — CloudWatch não audita API e CloudTrail não faz tracing por requisição.",
             "C": "Também embaralha os três; nenhum desses pares está certo.",
             "D": "Não são intercambiáveis — cada um responde a uma pergunta diferente."
           }
@@ -4698,7 +4698,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Global Accelerator"
+              "text": "Amazon Route 53 latency routing"
             },
             {
               "key": "B",
@@ -4706,7 +4706,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Route 53 latency routing"
+              "text": "AWS Global Accelerator"
             },
             {
               "key": "D",
@@ -4714,7 +4714,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): o nome diz — ACELERA tráfego GLOBAL. Ele dá IPs estáticos anycast e puxa o usuário pra dentro da rede da AWS o quanto antes, inclusive pra TCP/UDP.",
@@ -4722,8 +4722,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Global Accelerator fornece IPs estáticos anycast como entrada e move o tráfego pra dentro da rede global da AWS na borda mais próxima, atravessando a backbone até o endpoint regional. Funciona em TCP/UDP, ideal pra não-HTTP (jogos UDP, IoT MQTT, VoIP) e pra HTTP que exige IP fixo ou failover regional rápido.",
           "whyNots": {
+            "A": "Route 53 resolve DNS por latência, mas depende de cache de DNS e não dá IP estático de entrada nem acelera o transporte na backbone.",
             "B": "CloudFront é CDN HTTP(S) com cache na borda; não é a escolha pra um jogo em UDP.",
-            "C": "Route 53 resolve DNS por latência, mas depende de cache de DNS e não dá IP estático de entrada nem acelera o transporte na backbone.",
             "D": "Direct Connect é link dedicado do seu data center pra AWS — não acelera usuários finais espalhados pelo mundo."
           }
         },
@@ -4746,23 +4746,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) CloudFront; (2) Global Accelerator"
+              "text": "Ambos com Global Accelerator, pois ele substitui o CloudFront"
             },
             {
               "key": "B",
-              "text": "(1) Global Accelerator; (2) CloudFront"
-            },
-            {
-              "key": "C",
               "text": "Ambos com CloudFront, pois os dois são HTTP"
             },
             {
+              "key": "C",
+              "text": "(1) Global Accelerator; (2) CloudFront"
+            },
+            {
               "key": "D",
-              "text": "Ambos com Global Accelerator, pois ele substitui o CloudFront"
+              "text": "(1) CloudFront; (2) Global Accelerator"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): conteúdo estático cacheável = CDN = CloudFront. IP fixo pra allowlist + failover rápido em TCP = Global Accelerator.",
@@ -4771,9 +4771,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFront é CDN: ideal pra acelerar e cachear conteúdo estático/dinâmico HTTP(S) mundialmente (cenário 1). Global Accelerator dá IPs estáticos anycast e failover regional rápido em TCP/UDP, perfeito pra allowlist de poucos IPs em firewalls de parceiros (cenário 2). Não fazem cache da mesma forma e podem até ser usados juntos.",
           "whyNots": {
-            "B": "Inverte: CDN de estáticos é CloudFront, não Global Accelerator.",
-            "C": "Global Accelerator não é só HTTP nem faz cache; o cenário 2 pede IP fixo/failover, que é a praia dele.",
-            "D": "Global Accelerator não substitui CloudFront — ele não faz cache de conteúdo na borda."
+            "A": "Global Accelerator não substitui CloudFront — ele não faz cache de conteúdo na borda.",
+            "B": "Global Accelerator não é só HTTP nem faz cache; o cenário 2 pede IP fixo/failover, que é a praia dele.",
+            "C": "Inverte: CDN de estáticos é CloudFront, não Global Accelerator."
           }
         },
         {
@@ -4798,7 +4798,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Ele troca os IPs a cada requisição pra dificultar ataque"
+              "text": "Ele faz cache do conteúdo da aplicação na borda"
             },
             {
               "key": "C",
@@ -4806,7 +4806,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Ele faz cache do conteúdo da aplicação na borda"
+              "text": "Ele troca os IPs a cada requisição pra dificultar ataque"
             }
           ],
           "answers": [
@@ -4818,9 +4818,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Global Accelerator fornece IPs estáticos anycast que servem de entrada fixa — perfeito quando os clientes precisam fazer allowlist de poucos IPs e quando dispositivos não honram cache de DNS. Os IPs não mudam mesmo que os endpoints regionais por trás mudem.",
           "whyNots": {
-            "B": "Os IPs são ESTÁTICOS, justamente o contrário de trocar a cada requisição.",
+            "B": "Quem faz cache de conteúdo na borda é o CloudFront; Global Accelerator acelera o transporte, não cacheia.",
             "C": "Ele entrega IPs estáticos — esse é o ponto forte aqui.",
-            "D": "Quem faz cache de conteúdo na borda é o CloudFront; Global Accelerator acelera o transporte, não cacheia."
+            "D": "Os IPs são ESTÁTICOS, justamente o contrário de trocar a cada requisição."
           }
         },
         {
@@ -4841,23 +4841,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Outputs com Export + Fn::ImportValue"
+              "text": "Metadata da stack"
             },
             {
               "key": "B",
-              "text": "Mappings"
+              "text": "Outputs com Export + Fn::ImportValue"
             },
             {
               "key": "C",
-              "text": "Parameters do tipo String digitados na mão"
+              "text": "Mappings"
             },
             {
               "key": "D",
-              "text": "Metadata da stack"
+              "text": "Parameters do tipo String digitados na mão"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): um stack EXPORTA um valor de saída; o outro IMPORTA esse valor pelo nome. É a ponte oficial entre stacks independentes (cross-stack reference).",
@@ -4865,9 +4865,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra compartilhar valores entre stacks independentes, o primeiro declara um Output com `Export` e o segundo usa `Fn::ImportValue` pra puxar esse valor pelo nome — cross-stack reference, sem copiar e colar IDs. (Nested stacks usam Fn::GetAtt nos Outputs do filho; é outro caso.)",
           "whyNots": {
-            "B": "Mappings são tabelas estáticas de lookup dentro de um template (ex.: AMI por região) — não compartilham valores entre stacks.",
-            "C": "Digitar o ID na mão como parâmetro é justamente o copia-e-cola frágil que se quer evitar.",
-            "D": "Metadata guarda informação arbitrária sobre a stack — não serve pra exportar valores pra outra stack."
+            "A": "Metadata guarda informação arbitrária sobre a stack — não serve pra exportar valores pra outra stack.",
+            "C": "Mappings são tabelas estáticas de lookup dentro de um template (ex.: AMI por região) — não compartilham valores entre stacks.",
+            "D": "Digitar o ID na mão como parâmetro é justamente o copia-e-cola frágil que se quer evitar."
           }
         }
       ]
@@ -4894,15 +4894,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Parameter Store"
-            },
-            {
-              "key": "B",
               "text": "Session Manager"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Patch Manager"
+            },
+            {
+              "key": "C",
+              "text": "Parameter Store"
             },
             {
               "key": "D",
@@ -4910,7 +4910,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): o nome diz — é uma \"loja de parâmetros\". Você guarda chave-valor de forma hierárquica (tipo pastas), com versão e acesso por IAM.",
@@ -4918,8 +4918,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Parameter Store guarda configuração e segredos leves de forma hierárquica, com versionamento e controle por IAM. Os tipos String e StringList ficam em texto puro; SecureString criptografa o valor com KMS. Barato e integrado a EC2, Lambda, ECS, CloudFormation.",
           "whyNots": {
-            "B": "Session Manager dá acesso shell às instâncias — não guarda configuração.",
-            "C": "Patch Manager aplica patches na frota — não armazena parâmetros.",
+            "A": "Session Manager dá acesso shell às instâncias — não guarda configuração.",
+            "B": "Patch Manager aplica patches na frota — não armazena parâmetros.",
             "D": "Run Command executa comandos remotos nas instâncias — não é um cofre de configuração."
           }
         },
@@ -4942,7 +4942,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Secrets Manager"
+              "text": "AWS Config"
             },
             {
               "key": "B",
@@ -4950,15 +4950,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "AWS Config"
+              "text": "Amazon S3 com versionamento"
             },
             {
               "key": "D",
-              "text": "Amazon S3 com versionamento"
+              "text": "AWS Secrets Manager"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): a palavra-chave é ROTAÇÃO AUTOMÁTICA. Parameter Store guarda segredo, mas quem roda a troca sozinho (via Lambda) é o Secrets Manager.",
@@ -4966,9 +4966,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Secrets Manager foi feito pra segredos com rotação automática nativa (via Lambda, em intervalos configuráveis), integração com bancos e replicação entre regiões. Parameter Store guarda segredo leve e barato, mas não rotaciona sozinho. Regra de bolso da prova: precisa de rotação automática = Secrets Manager.",
           "whyNots": {
+            "A": "Config avalia conformidade de recursos — não guarda nem rotaciona senha.",
             "B": "Parameter Store guarda o valor, mas não faz rotação automática de credenciais.",
-            "C": "Config avalia conformidade de recursos — não guarda nem rotaciona senha.",
-            "D": "S3 versionado guarda objetos, não é cofre de credencial com rotação."
+            "C": "S3 versionado guarda objetos, não é cofre de credencial com rotação."
           }
         },
         {
@@ -4994,7 +4994,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Parameter Store"
+              "text": "Patch Manager"
             },
             {
               "key": "C",
@@ -5002,7 +5002,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Patch Manager"
+              "text": "Parameter Store"
             }
           ],
           "answers": [
@@ -5014,9 +5014,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Session Manager abre shell interativo nas instâncias através do agente do SSM (conexão de saída), sem inbound na porta 22, sem chave SSH e sem bastion. O acesso é controlado por IAM e pode ser logado pra auditoria — reduz a superfície de ataque.",
           "whyNots": {
-            "B": "Parameter Store guarda configuração — não dá shell.",
+            "B": "Patch Manager aplica patches — não abre sessão interativa de shell.",
             "C": "Instance Connect ainda envolve a porta 22, que é justamente o que a auditoria mandou fechar.",
-            "D": "Patch Manager aplica patches — não abre sessão interativa de shell."
+            "D": "Parameter Store guarda configuração — não dá shell."
           }
         },
         {
@@ -5038,32 +5038,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Patch Manager"
+              "text": "AWS Config"
             },
             {
               "key": "B",
-              "text": "Session Manager"
+              "text": "Patch Manager"
             },
             {
               "key": "C",
-              "text": "Parameter Store"
+              "text": "Session Manager"
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "Parameter Store"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): \"Patch\" = remendo/atualização. Ele aplica patches na frota inteira e mostra o painel de conformidade (quem está atualizado e quem não está)."
           ],
           "explanation": "Patch Manager aplica patches em escala na frota e dá visibilidade de conformidade — quais nós estão atualizados e quais não. Trabalha com baselines de patch e janelas de manutenção.",
           "whyNots": {
-            "B": "Session Manager dá shell, não automatiza patch de frota.",
-            "C": "Parameter Store guarda configuração — nada a ver com patch.",
-            "D": "Config avalia conformidade de configuração de recursos em geral, mas quem aplica o patch é o Patch Manager."
+            "A": "Config avalia conformidade de configuração de recursos em geral, mas quem aplica o patch é o Patch Manager.",
+            "C": "Session Manager dá shell, não automatiza patch de frota.",
+            "D": "Parameter Store guarda configuração — nada a ver com patch."
           }
         },
         {
@@ -5084,23 +5084,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Config"
+              "text": "AWS Trusted Advisor"
             },
             {
               "key": "B",
-              "text": "AWS CloudTrail"
-            },
-            {
-              "key": "C",
               "text": "Amazon CloudWatch"
             },
             {
+              "key": "C",
+              "text": "AWS Config"
+            },
+            {
               "key": "D",
-              "text": "AWS Trusted Advisor"
+              "text": "AWS CloudTrail"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): pensa numa \"linha do tempo\" de cada recurso — como ele estava configurado ontem, semana passada, hoje. Esse é o foco do Config.",
@@ -5108,9 +5108,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Config registra continuamente a configuração dos recursos e mantém uma linha do tempo (resource timeline), permitindo auditar como cada recurso estava configurado e como mudou. Também avalia conformidade via regras.",
           "whyNots": {
-            "B": "CloudTrail registra chamadas de API (quem fez o quê) — não a foto da configuração ao longo do tempo.",
-            "C": "CloudWatch é métricas/logs/alarmes operacionais — não histórico de configuração.",
-            "D": "Trusted Advisor dá recomendações por categorias — não mantém linha do tempo de configuração."
+            "A": "Trusted Advisor dá recomendações por categorias — não mantém linha do tempo de configuração.",
+            "B": "CloudWatch é métricas/logs/alarmes operacionais — não histórico de configuração.",
+            "D": "CloudTrail registra chamadas de API (quem fez o quê) — não a foto da configuração ao longo do tempo."
           }
         },
         {
@@ -5132,7 +5132,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Conformance packs"
+              "text": "Change sets"
             },
             {
               "key": "B",
@@ -5140,15 +5140,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Change sets"
+              "text": "Service Control Policies (SCP)"
             },
             {
               "key": "D",
-              "text": "Service Control Policies (SCP)"
+              "text": "Conformance packs"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): \"conformance pack\" = pacote de conformidade. Junta um monte de Config rules + remediações num pacote único, implantável na conta/região ou na organização inteira.",
@@ -5156,9 +5156,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Um conformance pack é uma coleção de Config rules + ações de remediação empacotadas numa única entidade, implantável numa conta/região ou em toda a organização (via Organizations). Simplifica compliance e relatório em escala. Config rule sozinha avalia uma regra; o pack junta várias.",
           "whyNots": {
+            "A": "Change sets são do CloudFormation (pré-visualizar mudanças) — nada a ver com compliance do Config.",
             "B": "Uma única regra cobre só um critério; o cenário pede um conjunto + remediação implantado de uma vez.",
-            "C": "Change sets são do CloudFormation (pré-visualizar mudanças) — nada a ver com compliance do Config.",
-            "D": "SCP restringe quais ações de API são permitidas nas contas; não AVALIA a configuração existente dos recursos como o Config faz."
+            "C": "SCP restringe quais ações de API são permitidas nas contas; não AVALIA a configuração existente dos recursos como o Config faz."
           }
         },
         {
@@ -5184,15 +5184,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "(1) AWS CloudTrail; (2) AWS Config"
+              "text": "(1) CloudTrail; (2) CloudWatch"
             },
             {
               "key": "C",
-              "text": "(1) CloudWatch; (2) AWS Config"
+              "text": "(1) AWS CloudTrail; (2) AWS Config"
             },
             {
               "key": "D",
-              "text": "(1) CloudTrail; (2) CloudWatch"
+              "text": "(1) CloudWatch; (2) AWS Config"
             }
           ],
           "answers": [
@@ -5203,9 +5203,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Na investigação, AWS Config mostra O QUE mudou na configuração do recurso (e o histórico), enquanto CloudTrail mostra QUEM chamou qual API, quando e de onde. Juntos respondem o incidente completo: o quê + quem + quando.",
           "whyNots": {
-            "B": "Inverte os papéis — CloudTrail é o 'quem', não o 'o quê' da configuração.",
-            "C": "CloudWatch é métrica/log operacional, não detalhe de configuração do recurso.",
-            "D": "Nenhum dos dois responde 'o que mudou na configuração'; falta o Config."
+            "B": "Nenhum dos dois responde 'o que mudou na configuração'; falta o Config.",
+            "C": "Inverte os papéis — CloudTrail é o 'quem', não o 'o quê' da configuração.",
+            "D": "CloudWatch é métrica/log operacional, não detalhe de configuração do recurso."
           }
         },
         {
@@ -5226,15 +5226,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Service Control Policies (SCP)"
+              "text": "Conformance packs"
             },
             {
               "key": "B",
-              "text": "IAM roles na conta de gerência"
+              "text": "Service Control Policies (SCP)"
             },
             {
               "key": "C",
-              "text": "Conformance packs"
+              "text": "IAM roles na conta de gerência"
             },
             {
               "key": "D",
@@ -5242,7 +5242,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): SCP é um \"teto\" de permissões para a conta inteira. Mesmo que o IAM local permita, se a SCP nega, a ação não acontece.",
@@ -5250,8 +5250,8 @@ window.AWS_BANK = {
           ],
           "explanation": "SCPs, aplicadas via AWS Organizations a OUs/contas, definem o teto de permissões (guardrails): nenhuma identidade na conta pode ultrapassar o que a SCP permite, mesmo com IAM liberando. SCP não concede acesso — só restringe o máximo. Perfeito pra proibir desligar CloudTrail ou usar regiões não autorizadas.",
           "whyNots": {
-            "B": "IAM roles concedem permissão dentro de uma conta — não impõem um teto sobre todas as contas-filhas.",
-            "C": "Conformance packs avaliam conformidade de configuração (Config) — não bloqueiam ações de API.",
+            "A": "Conformance packs avaliam conformidade de configuração (Config) — não bloqueiam ações de API.",
+            "C": "IAM roles concedem permissão dentro de uma conta — não impõem um teto sobre todas as contas-filhas.",
             "D": "Security groups controlam tráfego de rede — nada a ver com permissões de API entre contas."
           }
         },
@@ -5274,23 +5274,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EventBridge (CloudWatch Events)"
+              "text": "AWS CloudTrail (roteia eventos de API)"
             },
             {
               "key": "B",
-              "text": "AWS Config"
+              "text": "AWS Config (agenda e dispara Lambdas)"
             },
             {
               "key": "C",
-              "text": "Amazon SQS"
+              "text": "Amazon EventBridge (CloudWatch Events)"
             },
             {
               "key": "D",
-              "text": "AWS CloudTrail"
+              "text": "Amazon SQS (fila que agenda eventos)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): pensa num \"barramento de eventos\" — coisas acontecem na AWS, e regras decidem pra qual alvo (Lambda, SNS, SQS...) mandar. Também faz agendamento tipo cron.",
@@ -5298,9 +5298,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EventBridge (antigo CloudWatch Events) é o barramento de eventos: regras casam padrões de evento (ex.: mudança de estado de EC2) ou agendas (cron) e roteiam pra alvos como Lambda, SNS, SQS, Step Functions. É a base de automação orientada a eventos.",
           "whyNots": {
+            "A": "CloudTrail registra chamadas de API; não é o mecanismo de roteamento/automação de eventos.",
             "B": "Config avalia conformidade; pode emitir eventos, mas não é o roteador de eventos/agendamento que dispara o fluxo.",
-            "C": "SQS é fila de mensagens (pull) — não roteia eventos da AWS por regra/padrão nem agenda cron.",
-            "D": "CloudTrail registra chamadas de API; não é o mecanismo de roteamento/automação de eventos."
+            "D": "SQS é fila de mensagens (pull) — não roteia eventos da AWS por regra/padrão nem agenda cron."
           }
         },
         {
@@ -5324,7 +5324,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Config; (2) CloudTrail; (3) CloudWatch; (4) SCP no Organizations"
+              "text": "(1) CloudWatch; (2) SCP; (3) Config; (4) CloudTrail"
             },
             {
               "key": "B",
@@ -5332,15 +5332,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "(1) CloudWatch; (2) SCP; (3) Config; (4) CloudTrail"
+              "text": "(1) SCP; (2) CloudWatch; (3) CloudTrail; (4) Config"
             },
             {
               "key": "D",
-              "text": "(1) SCP; (2) CloudWatch; (3) CloudTrail; (4) Config"
+              "text": "(1) Config; (2) CloudTrail; (3) CloudWatch; (4) SCP no Organizations"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): separa por verbo. Conformidade de config = Config. Quem chamou API = CloudTrail. Métrica/limite = CloudWatch. Teto de permissão entre contas = SCP.",
@@ -5349,9 +5349,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem um papel: Config avalia conformidade/configuração dos recursos; CloudTrail registra quem chamou qual API e quando; CloudWatch mede métricas e dispara alarme em limite (ex.: CPU); SCP (via Organizations) impõe o teto de permissões que bloqueia ações como usar região proibida. A opção A é a única que respeita as quatro funções.",
           "whyNots": {
+            "A": "Coloca CloudWatch como avaliador de conformidade e SCP como auditoria de API — embaralhado.",
             "B": "Troca Config com CloudTrail e usa SCP pra métrica, o que está errado.",
-            "C": "Coloca CloudWatch como avaliador de conformidade e SCP como auditoria de API — embaralhado.",
-            "D": "Usa SCP pra conformidade e Config pra bloquear região — inverte os papéis."
+            "C": "Usa SCP pra conformidade e Config pra bloquear região — inverte os papéis."
           }
         }
       ]
@@ -5386,11 +5386,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon CloudFront"
+              "text": "AWS Global Accelerator"
             },
             {
               "key": "D",
-              "text": "AWS Global Accelerator"
+              "text": "Amazon CloudFront"
             }
           ],
           "answers": [
@@ -5403,8 +5403,8 @@ window.AWS_BANK = {
           "explanation": "Direct Connect é uma conexão de rede dedicada e privada entre o data center e a AWS, sem passar pela internet pública — baixa latência, banda consistente e throughput previsível. É a escolha pra transferência alta e constante. Custa mais e demora pra provisionar (link físico).",
           "whyNots": {
             "B": "Site-to-Site VPN é criptografada, mas trafega pela internet pública — latência e banda variáveis.",
-            "C": "CloudFront é CDN pra conteúdo na borda — não conecta data center à AWS.",
-            "D": "Global Accelerator acelera usuários finais pela rede da AWS — não é link híbrido on-premises↔AWS."
+            "C": "Global Accelerator acelera usuários finais pela rede da AWS — não é link híbrido on-premises↔AWS.",
+            "D": "CloudFront é CDN pra conteúdo na borda — não conecta data center à AWS."
           }
         },
         {
@@ -5426,11 +5426,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Site-to-Site VPN (túnel IPsec sobre a internet)"
+              "text": "AWS Direct Connect dedicado"
             },
             {
               "key": "B",
-              "text": "AWS Direct Connect dedicado"
+              "text": "AWS Site-to-Site VPN (túnel IPsec sobre a internet)"
             },
             {
               "key": "C",
@@ -5442,7 +5442,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): as palavras-chave são \"agora\", \"criptografado\", \"barato\", \"volume modesto\". Isso é o perfil da VPN, não do Direct Connect.",
@@ -5450,7 +5450,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Site-to-Site VPN cria um túnel IPsec criptografado entre o on-premises e a VPC sobre a internet — rápido de configurar e barato, ideal pra volume modesto e necessidade imediata. Direct Connect seria melhor em banda/latência, mas custa mais e demora pra provisionar.",
           "whyNots": {
-            "B": "Direct Connect demora pra provisionar e é mais caro — não bate com \"agora\" e \"gastando pouco\".",
+            "A": "Direct Connect demora pra provisionar e é mais caro — não bate com \"agora\" e \"gastando pouco\".",
             "C": "VPC Peering conecta VPCs entre si, não um escritório on-premises à VPC.",
             "D": "Internet Gateway sem criptografia não atende o requisito de tráfego criptografado e seguro."
           }
@@ -5474,23 +5474,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Direct Connect como primário + Site-to-Site VPN como backup (failover automático)"
+              "text": "Direct Connect + CloudFront como rota reserva, já que a CDN assume o tráfego híbrido"
             },
             {
               "key": "B",
-              "text": "Dois Direct Connect idênticos, sem VPN"
+              "text": "Só Site-to-Site VPN, descartando o Direct Connect e mantendo a mesma banda"
             },
             {
               "key": "C",
-              "text": "Só Site-to-Site VPN, descartando o Direct Connect"
+              "text": "Direct Connect como primário + Site-to-Site VPN como backup (failover automático)"
             },
             {
               "key": "D",
-              "text": "Direct Connect + CloudFront como rota reserva"
+              "text": "Dois Direct Connect idênticos, sem VPN — redundância total pelo menor custo"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): a banca adora esse padrão — DX é caro e ótimo; a VPN é barata e \"boa o bastante\" pra emergência. Junte os dois: DX manda, VPN segura a queda.",
@@ -5499,9 +5499,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O padrão clássico de prova: Direct Connect como caminho primário (latência/banda) + Site-to-Site VPN como backup. Se o DX cair, o tráfego falha pra VPN automaticamente (via BGP), com custo bem menor que um segundo DX. O DX é sempre preferido quando ativo.",
           "whyNots": {
-            "B": "Dois DX dão alta resiliência, mas é a opção mais cara — o enunciado pede backup \"mais barato\".",
-            "C": "Abrir mão do DX perde a baixa latência/banda que o banco precisa no dia a dia.",
-            "D": "CloudFront é CDN de conteúdo — não serve de rota reserva pra conectividade híbrida."
+            "A": "CloudFront é CDN de conteúdo — não serve de rota reserva pra conectividade híbrida.",
+            "B": "Abrir mão do DX perde a baixa latência/banda que o banco precisa no dia a dia.",
+            "D": "Dois DX dão alta resiliência, mas é a opção mais cara — o enunciado pede backup \"mais barato\"."
           }
         },
         {
@@ -5523,7 +5523,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Transit Gateway"
+              "text": "AWS Direct Connect sozinho"
             },
             {
               "key": "B",
@@ -5535,11 +5535,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Direct Connect sozinho"
+              "text": "AWS Transit Gateway"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): \"Transit\" = trânsito central. Em vez de ligar cada VPC com todas (malha que explode), você liga todas a um hub único.",
@@ -5547,9 +5547,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Transit Gateway é o hub central que conecta muitas VPCs e redes on-premises (via VPN/DX) numa topologia hub-and-spoke, com roteamento centralizado. Substitui a malha de VPC peering ponto-a-ponto, que não é transitiva e não escala pra dezenas de VPCs/contas.",
           "whyNots": {
+            "A": "Direct Connect liga on-premises à AWS, mas não resolve a interconexão entre as 40 VPCs.",
             "B": "VPC peering ponto-a-ponto explode em complexidade (n² conexões) e não é transitivo — é justamente o problema do enunciado.",
-            "C": "Internet Gateway dá acesso à internet pública — não interconecta VPCs privadas entre si.",
-            "D": "Direct Connect liga on-premises à AWS, mas não resolve a interconexão entre as 40 VPCs."
+            "C": "Internet Gateway dá acesso à internet pública — não interconecta VPCs privadas entre si."
           }
         },
         {
@@ -5574,15 +5574,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon SQS Standard"
+              "text": "AWS Glue"
             },
             {
               "key": "C",
-              "text": "Amazon S3"
+              "text": "Amazon SQS Standard"
             },
             {
               "key": "D",
-              "text": "AWS Glue"
+              "text": "Amazon S3"
             }
           ],
           "answers": [
@@ -5594,9 +5594,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Kinesis Data Streams ingere streaming em tempo real, mantém os dados por um período (replay) e permite vários consumidores lerem o mesmo fluxo (PULL), ordenado por shard. Ideal pra processamento em tempo real com lógica própria (Lambda, KCL, EC2).",
           "whyNots": {
-            "B": "SQS é fila de mensagens; a mensagem some ao ser processada — não há replay nem leitura por múltiplos consumidores do mesmo fluxo.",
-            "C": "S3 é armazenamento de objetos — não é pipeline de streaming em tempo real.",
-            "D": "Glue é ETL (batch/serverless), não ingestão de stream em tempo real."
+            "B": "Glue é ETL (batch/serverless), não ingestão de stream em tempo real.",
+            "C": "SQS é fila de mensagens; a mensagem some ao ser processada — não há replay nem leitura por múltiplos consumidores do mesmo fluxo.",
+            "D": "S3 é armazenamento de objetos — não é pipeline de streaming em tempo real."
           }
         },
         {
@@ -5617,23 +5617,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Data Firehose (antigo Kinesis Data Firehose)"
+              "text": "Amazon EC2 com um script próprio, sem manutenção"
             },
             {
               "key": "B",
-              "text": "Amazon Kinesis Data Streams"
+              "text": "Amazon Data Firehose (antigo Kinesis Data Firehose)"
             },
             {
               "key": "C",
-              "text": "Amazon EC2 com um script próprio"
+              "text": "Amazon SNS entregando direto no S3 e Redshift"
             },
             {
               "key": "D",
-              "text": "Amazon SNS"
+              "text": "Amazon Kinesis Data Streams, que entrega sem código"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): a pista é \"entregar direto no S3/Redshift, sem código, gerenciado\". Esse é o Data Firehose — ele faz PUSH pro destino, com buffer e compressão.",
@@ -5641,9 +5641,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Data Firehose (renomeado em 2024; era Kinesis Data Firehose) é totalmente gerenciado e entrega streaming direto em destinos como S3, Redshift, OpenSearch e Splunk — com buffer por tamanho/tempo, compressão, transformação e criptografia, sem você escrever nem manter código de pipeline.",
           "whyNots": {
-            "B": "Data Streams é pra PROCESSAR em tempo real com consumidores próprios — exige código; não entrega sozinho no S3 sem trabalho.",
-            "C": "Script em EC2 é exatamente o código/manutenção que o time quer evitar.",
-            "D": "SNS é pub/sub de mensagens (push pra inscritos) — não é pipeline de entrega de streaming pra S3/Redshift."
+            "A": "Script em EC2 é exatamente o código/manutenção que o time quer evitar.",
+            "C": "SNS é pub/sub de mensagens (push pra inscritos) — não é pipeline de entrega de streaming pra S3/Redshift.",
+            "D": "Data Streams é pra PROCESSAR em tempo real com consumidores próprios — exige código; não entrega sozinho no S3 sem trabalho."
           }
         },
         {
@@ -5665,23 +5665,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Kinesis Data Streams; (2) Amazon Data Firehose"
+              "text": "Ambos com Data Streams, pois Firehose não entrega no S3"
             },
             {
               "key": "B",
-              "text": "(1) Amazon Data Firehose; (2) Kinesis Data Streams"
-            },
-            {
-              "key": "C",
               "text": "Ambos com Data Firehose, pois Data Streams foi descontinuado"
             },
             {
+              "key": "C",
+              "text": "(1) Kinesis Data Streams; (2) Amazon Data Firehose"
+            },
+            {
               "key": "D",
-              "text": "Ambos com Data Streams, pois Firehose não entrega no S3"
+              "text": "(1) Amazon Data Firehose; (2) Kinesis Data Streams"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): \"processar em tempo real com replay\" = Data Streams (PULL, consumidores). \"Só entregar no S3 sem código\" = Data Firehose (PUSH, gerenciado).",
@@ -5690,9 +5690,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Kinesis Data Streams é pra processamento em tempo real com consumidores próprios e replay (PULL). Amazon Data Firehose é entrega gerenciada, sem código, pra destinos como S3/Redshift (PUSH com buffer). Eles podem até trabalhar juntos: Streams processa, Firehose lê do stream e descarrega no destino.",
           "whyNots": {
-            "B": "Inverte: quem processa com lógica/replay é o Data Streams, não o Firehose.",
-            "C": "Data Streams não foi descontinuado; segue ativo e distinto do Firehose.",
-            "D": "Firehose ENTREGA no S3 nativamente — é exatamente o caso de uso dele."
+            "A": "Firehose ENTREGA no S3 nativamente — é exatamente o caso de uso dele.",
+            "B": "Data Streams não foi descontinuado; segue ativo e distinto do Firehose.",
+            "D": "Inverte: quem processa com lógica/replay é o Data Streams, não o Firehose."
           }
         },
         {
@@ -5714,23 +5714,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Fan-out: um tópico SNS publicando pra várias filas SQS inscritas"
+              "text": "Gravar tudo num único item do DynamoDB"
             },
             {
               "key": "B",
-              "text": "Uma única fila SQS lida pelos três ao mesmo tempo"
-            },
-            {
-              "key": "C",
               "text": "Chamar os três sistemas via API síncrona, em sequência"
             },
             {
+              "key": "C",
+              "text": "Uma única fila SQS lida pelos três ao mesmo tempo"
+            },
+            {
               "key": "D",
-              "text": "Gravar tudo num único item do DynamoDB"
+              "text": "Fan-out: um tópico SNS publicando pra várias filas SQS inscritas"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): \"um evento → muitos reagindo, cada um no seu ritmo\" é o padrão fan-out. SNS publica pro tópico; cada serviço tem a própria fila SQS inscrita.",
@@ -5738,9 +5738,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O padrão fan-out usa um tópico SNS que publica para várias filas SQS inscritas (uma por consumidor). Cada sistema lê da sua fila no próprio ritmo, desacoplado — se um ficar lento ou cair, os outros seguem. É resiliência e desacoplamento clássicos da prova.",
           "whyNots": {
-            "B": "Uma fila única compartilhada faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento.",
-            "C": "Chamadas síncronas em sequência acoplam os sistemas: um lento ou fora do ar derruba a cadeia.",
-            "D": "Gravar num item do DynamoDB não distribui o evento nem desacopla o processamento."
+            "A": "Gravar num item do DynamoDB não distribui o evento nem desacopla o processamento.",
+            "B": "Chamadas síncronas em sequência acoplam os sistemas: um lento ou fora do ar derruba a cadeia.",
+            "C": "Uma fila única compartilhada faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento."
           }
         },
         {
@@ -5765,15 +5765,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Identity Pool"
-            },
-            {
-              "key": "C",
               "text": "IAM User"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Security Group"
+            },
+            {
+              "key": "D",
+              "text": "Identity Pool"
             }
           ],
           "answers": [
@@ -5785,9 +5785,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O User Pool do Cognito é o diretório de usuários: cuida de sign-up/sign-in, atributos, MFA e federação com IdPs (Google, Apple, OIDC, SAML), emitindo tokens JWT (OAuth 2.0). É a camada de AUTENTICAÇÃO — responde \"quem é o usuário\".",
           "whyNots": {
-            "B": "Identity Pool é AUTORIZAÇÃO — troca o token por credenciais AWS temporárias; não é o diretório de login.",
-            "C": "IAM User é identidade pra operar a conta AWS (admin/dev), não pra usuários finais de um app.",
-            "D": "Security Group é firewall de rede — nada a ver com autenticação de usuário."
+            "B": "IAM User é identidade pra operar a conta AWS (admin/dev), não pra usuários finais de um app.",
+            "C": "Security Group é firewall de rede — nada a ver com autenticação de usuário.",
+            "D": "Identity Pool é AUTORIZAÇÃO — troca o token por credenciais AWS temporárias; não é o diretório de login."
           }
         },
         {
@@ -5809,23 +5809,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Identity Pool"
+              "text": "KMS Customer Managed Key"
             },
             {
               "key": "B",
-              "text": "User Pool"
+              "text": "Identity Pool"
             },
             {
               "key": "C",
-              "text": "Access Key de IAM fixa embutida no app"
+              "text": "User Pool"
             },
             {
               "key": "D",
-              "text": "KMS Customer Managed Key"
+              "text": "Access Key de IAM fixa embutida no app"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): User Pool diz QUEM você é (token). Identity Pool diz O QUE você pode acessar na AWS — ele troca o token por credencial AWS temporária via IAM role.",
@@ -5833,9 +5833,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Identity Pool do Cognito troca um token (de um User Pool ou IdP) por credenciais AWS temporárias, associadas a IAM roles, pra acessar serviços como S3 e DynamoDB diretamente. Suporta até usuário anônimo. É a camada de AUTORIZAÇÃO — \"o que o usuário pode acessar na AWS\".",
           "whyNots": {
-            "B": "User Pool autentica e emite token, mas não entrega credenciais AWS pra acessar S3/DynamoDB — isso é papel do Identity Pool.",
-            "C": "Access Key fixa embutida no app é uma falha de segurança séria; nunca embuta credencial de longa duração no cliente.",
-            "D": "KMS gerencia chaves de criptografia — não fornece credenciais de acesso a serviços."
+            "A": "KMS gerencia chaves de criptografia — não fornece credenciais de acesso a serviços.",
+            "C": "User Pool autentica e emite token, mas não entrega credenciais AWS pra acessar S3/DynamoDB — isso é papel do Identity Pool.",
+            "D": "Access Key fixa embutida no app é uma falha de segurança séria; nunca embuta credencial de longa duração no cliente."
           }
         }
       ]
@@ -5860,7 +5860,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "RPO (dado que se pode perder) e RTO (tempo até voltar)"
+              "text": "SLA (dado que se pode perder) e TPS (tempo até voltar)"
             },
             {
               "key": "B",
@@ -5868,15 +5868,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "SLA e TPS"
+              "text": "RPO (dado que se pode perder) e RTO (tempo até voltar)"
             },
             {
               "key": "D",
-              "text": "IOPS e throughput"
+              "text": "IOPS (dado que se pode perder) e throughput (tempo)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): RPO tem 'P' de Ponto — até que PONTO no passado você recupera (quanto dado perde). RTO tem 'T' de Tempo — em quanto TEMPO você volta.",
@@ -5884,8 +5884,8 @@ window.AWS_BANK = {
           ],
           "explanation": "RPO (Recovery Point Objective) é quanto dado se pode perder, medido em tempo (até que ponto no passado você recupera) — depende da frequência de backup/replicação. RTO (Recovery Time Objective) é quanto tempo o sistema pode ficar fora até voltar. Menor em ambos = melhor, porém mais caro.",
           "whyNots": {
+            "A": "SLA é acordo de nível de serviço e TPS é transações por segundo — não são as métricas de DR aqui.",
             "B": "Inverte os dois: RPO é sobre DADO/ponto; RTO é sobre TEMPO de recuperação.",
-            "C": "SLA é acordo de nível de serviço e TPS é transações por segundo — não são as métricas de DR aqui.",
             "D": "IOPS e throughput medem desempenho de armazenamento — nada a ver com objetivos de recuperação."
           }
         },
@@ -5907,7 +5907,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Backup"
+              "text": "Snapshots manuais de cada serviço"
             },
             {
               "key": "B",
@@ -5919,11 +5919,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Snapshots manuais de cada serviço"
+              "text": "AWS Backup"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o nome é literal — AWS Backup. Um lugar só, baseado em política, pra agendar e reter backups de EC2, EBS, RDS, DynamoDB, EFS, S3 e mais.",
@@ -5931,9 +5931,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Backup é o serviço centralizado e gerenciado, baseado em política, pra automatizar backup entre vários serviços (EC2, EBS, RDS, Aurora, DynamoDB, EFS, S3, EKS, e mais), com agendamento, retenção, monitoramento e criptografia via KMS.",
           "whyNots": {
+            "A": "Snapshots manuais por serviço são justamente a bagunça descentralizada que o enunciado quer resolver.",
             "B": "Glacier é classe de armazenamento de arquivamento barato — destino possível de backup, mas não a orquestração central de políticas.",
-            "C": "Config avalia conformidade de configuração — não faz backup.",
-            "D": "Snapshots manuais por serviço são justamente a bagunça descentralizada que o enunciado quer resolver."
+            "C": "Config avalia conformidade de configuração — não faz backup."
           }
         },
         {
@@ -5958,15 +5958,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Versionamento do S3"
+              "text": "Multi-AZ"
             },
             {
               "key": "C",
-              "text": "Security group no vault"
+              "text": "Versionamento do S3"
             },
             {
               "key": "D",
-              "text": "Multi-AZ"
+              "text": "Security group no vault"
             }
           ],
           "answers": [
@@ -5978,9 +5978,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Backup Vault Lock aplica o modelo WORM (write-once-read-many) ao cofre de backup: dentro do período de retenção, os backups não podem ser apagados nem alterados — protege contra exclusão acidental, insider malicioso e ransomware. É o controle de imutabilidade pra compliance.",
           "whyNots": {
-            "B": "Versionamento do S3 ajuda contra sobrescrita, mas não é o controle de imutabilidade WORM do cofre de backup gerenciado.",
-            "C": "Security group é firewall de rede — não impede exclusão de backup.",
-            "D": "Multi-AZ é alta disponibilidade, não imutabilidade de backup."
+            "B": "Multi-AZ é alta disponibilidade, não imutabilidade de backup.",
+            "C": "Versionamento do S3 ajuda contra sobrescrita, mas não é o controle de imutabilidade WORM do cofre de backup gerenciado.",
+            "D": "Security group é firewall de rede — não impede exclusão de backup."
           }
         },
         {
@@ -6001,23 +6001,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cópia cross-Region dos backups"
-            },
-            {
-              "key": "B",
-              "text": "Aumentar a frequência do backup na mesma região"
-            },
-            {
-              "key": "C",
               "text": "Mudar a classe de armazenamento pra Glacier"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "Cópia cross-Region dos backups"
+            },
+            {
+              "key": "C",
               "text": "Habilitar Multi-AZ no RDS"
+            },
+            {
+              "key": "D",
+              "text": "Aumentar a frequência do backup na mesma região"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): a pista é 'distância mínima' e 'perder a região inteira'. Backup na mesma região não salva se a região cai — precisa copiar pra OUTRA região.",
@@ -6025,9 +6025,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Backup copia backups cross-Region (e cross-account via Organizations) por política — leva a cópia pra longe da produção, sobrevivendo à perda da região inteira. É o requisito típico de continuidade de negócio e compliance.",
           "whyNots": {
-            "B": "Mais frequência melhora o RPO, mas tudo continua na MESMA região — não sobrevive à queda dela.",
-            "C": "Glacier reduz custo de arquivamento, mas não resolve a separação geográfica por si só.",
-            "D": "Multi-AZ protege contra falha de AZ dentro da região — não contra perder a região toda."
+            "A": "Glacier reduz custo de arquivamento, mas não resolve a separação geográfica por si só.",
+            "C": "Multi-AZ protege contra falha de AZ dentro da região — não contra perder a região toda.",
+            "D": "Mais frequência melhora o RPO, mas tudo continua na MESMA região — não sobrevive à queda dela."
           }
         },
         {
@@ -6046,7 +6046,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Backup & Restore"
+              "text": "Warm Standby"
             },
             {
               "key": "B",
@@ -6054,7 +6054,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Warm Standby"
+              "text": "Backup & Restore"
             },
             {
               "key": "D",
@@ -6062,7 +6062,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'mais barata e simples' + 'tolera horas fora' = a ponta de baixo do espectro. Você só guarda backups e restaura quando precisar.",
@@ -6070,8 +6070,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Backup & Restore é a estratégia mais simples e barata: você mantém backups e restaura na região de recuperação quando preciso. Em troca, tem o MAIOR RTO/RPO (horas) — aceitável pra quem tolera ficar um tempo fora e prioriza custo.",
           "whyNots": {
+            "A": "Warm Standby mantém um ambiente reduzido sempre ligado — custa mais que só backups.",
             "B": "Multi-site Active/Active é a mais cara e complexa (RTO/RPO perto de zero) — o oposto do orçamento apertado.",
-            "C": "Warm Standby mantém um ambiente reduzido sempre ligado — custa mais que só backups.",
             "D": "Pilot Light já replica dados e mantém o núcleo pronto — mais caro que simplesmente Backup & Restore."
           }
         },
@@ -6091,23 +6091,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Pilot Light"
-            },
-            {
-              "key": "B",
-              "text": "Backup & Restore"
-            },
-            {
-              "key": "C",
               "text": "Warm Standby"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Multi-site Active/Active"
+            },
+            {
+              "key": "C",
+              "text": "Backup & Restore"
+            },
+            {
+              "key": "D",
+              "text": "Pilot Light"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pensa na chama-piloto do fogão — fica acesa só o miolo (os dados replicados), e você 'acende' o resto (os servidores) na hora do desastre.",
@@ -6115,9 +6115,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pilot Light replica os dados continuamente e mantém o núcleo da infra provisionado na região de DR, mas com os servidores de aplicação desligados — eles são ligados e escalados quando o desastre acontece. RPO em minutos, RTO em dezenas de minutos.",
           "whyNots": {
-            "B": "Backup & Restore não mantém infra de pé na região de DR — você reconstrói a partir do backup (mais lento).",
-            "C": "No Warm Standby a aplicação JÁ está rodando (reduzida); aqui ela está desligada.",
-            "D": "Active/Active tem tudo rodando e servindo tráfego nas duas regiões — bem além do pilot light."
+            "A": "No Warm Standby a aplicação JÁ está rodando (reduzida); aqui ela está desligada.",
+            "B": "Active/Active tem tudo rodando e servindo tráfego nas duas regiões — bem além do pilot light.",
+            "C": "Backup & Restore não mantém infra de pé na região de DR — você reconstrói a partir do backup (mais lento)."
           }
         },
         {
@@ -6144,11 +6144,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Backup & Restore"
+              "text": "Cold Standby (sem nada ligado)"
             },
             {
               "key": "D",
-              "text": "Cold Standby (sem nada ligado)"
+              "text": "Backup & Restore"
             }
           ],
           "answers": [
@@ -6161,8 +6161,8 @@ window.AWS_BANK = {
           "explanation": "Warm Standby mantém uma versão reduzida, mas totalmente funcional e já em execução na região de DR — aguenta tráfego em nível baixo imediatamente e a recuperação é só escalar pra capacidade de produção. Por isso tem RTO menor que o pilot light (onde a aplicação está desligada).",
           "whyNots": {
             "B": "No Pilot Light a aplicação está DESLIGADA (só dados/núcleo prontos); aqui ela já roda reduzida.",
-            "C": "Backup & Restore não mantém nada rodando — é o mais lento pra recuperar.",
-            "D": "'Cold standby' não é uma das quatro estratégias nomeadas pela AWS; a ideia de nada ligado se aproxima de Backup & Restore."
+            "C": "'Cold standby' não é uma das quatro estratégias nomeadas pela AWS; a ideia de nada ligado se aproxima de Backup & Restore.",
+            "D": "Backup & Restore não mantém nada rodando — é o mais lento pra recuperar."
           }
         },
         {
@@ -6183,23 +6183,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Multi-site Active/Active (multi-Region)"
+              "text": "Snapshot diário em outra AZ, RPO zero"
             },
             {
               "key": "B",
-              "text": "Backup & Restore"
+              "text": "Multi-site Active/Active (multi-Region)"
             },
             {
               "key": "C",
-              "text": "Pilot Light"
+              "text": "Backup & Restore com retorno imediato"
             },
             {
               "key": "D",
-              "text": "Snapshot diário em outra AZ"
+              "text": "Pilot Light, que religa em segundos"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): RPO~0 e RTO~0 só sai com tudo já rodando e servindo tráfego em mais de uma região ao mesmo tempo — e topando o custo.",
@@ -6207,9 +6207,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Multi-site Active/Active mantém o workload implantado e SERVINDO tráfego em várias regiões simultaneamente, com RPO e RTO perto de zero — a estratégia de menor RTO/RPO, em troca do maior custo e complexidade. Route 53 com health checks roteia/redireciona o tráfego entre as regiões.",
           "whyNots": {
-            "B": "Backup & Restore tem RTO/RPO em horas — longe de 'perto de zero'.",
-            "C": "Pilot Light recupera em dezenas de minutos — não atende RTO perto de zero.",
-            "D": "Snapshot em outra AZ não protege contra perda de região e não dá RTO/RPO quase zero."
+            "A": "Snapshot em outra AZ não protege contra perda de região e não dá RTO/RPO quase zero.",
+            "C": "Backup & Restore tem RTO/RPO em horas — longe de 'perto de zero'.",
+            "D": "Pilot Light recupera em dezenas de minutos — não atende RTO perto de zero."
           }
         },
         {
@@ -6231,7 +6231,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Multi-AZ protege contra falha de AZ; Multi-Region protege contra perda de região"
+              "text": "Os dois protegem só contra falha de instância única"
             },
             {
               "key": "B",
@@ -6239,7 +6239,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Os dois protegem só contra falha de instância única"
+              "text": "Multi-AZ protege contra falha de AZ; Multi-Region protege contra perda de região"
             },
             {
               "key": "D",
@@ -6247,7 +6247,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): conta as caixas. Multi-AZ = várias zonas DENTRO de uma região (sobrevive a perder uma AZ). Multi-Region = regiões diferentes (sobrevive a perder a região).",
@@ -6255,8 +6255,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Multi-AZ distribui recursos por várias zonas de disponibilidade dentro de UMA região — sobrevive à falha de uma AZ (alta disponibilidade local). Multi-Region (read replica cross-Region, S3 CRR, Aurora Global Database, com Route 53 failover) protege contra a perda de uma REGIÃO inteira — território de DR.",
           "whyNots": {
+            "A": "Ambos vão além de uma única instância — cobrem AZ e região, respectivamente.",
             "B": "Inverte: Multi-AZ é dentro da região; quem cobre perda de região é Multi-Region.",
-            "C": "Ambos vão além de uma única instância — cobrem AZ e região, respectivamente.",
             "D": "Multi-AZ e Multi-Region são justamente pilares de resiliência/DR, junto com backup."
           }
         },
@@ -6276,23 +6276,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Backup & Restore → Pilot Light → Warm Standby → Active/Active"
-            },
-            {
-              "key": "B",
-              "text": "Pilot Light → Backup & Restore → Active/Active → Warm Standby"
-            },
-            {
-              "key": "C",
               "text": "Warm Standby → Active/Active → Backup & Restore → Pilot Light"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Active/Active → Warm Standby → Pilot Light → Backup & Restore"
+            },
+            {
+              "key": "C",
+              "text": "Pilot Light → Backup & Restore → Active/Active → Warm Standby"
+            },
+            {
+              "key": "D",
+              "text": "Backup & Restore → Pilot Light → Warm Standby → Active/Active"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): é o espectro de custo/RTO. Mais barato e lento embaixo (Backup&Restore), mais caro e instantâneo no topo (Active/Active).",
@@ -6301,9 +6301,9 @@ window.AWS_BANK = {
           ],
           "explanation": "As quatro estratégias em ordem crescente de custo/complexidade e decrescente de RTO/RPO: (1) Backup & Restore (barato, horas), (2) Pilot Light (dados replicados, app desligado), (3) Warm Standby (reduzido já rodando), (4) Multi-site Active/Active (zero downtime, multi-Region). A opção A é a única que respeita o espectro.",
           "whyNots": {
-            "B": "Embaralha a ordem — Backup & Restore é o mais barato, não o segundo, e Active/Active não vem antes de Warm Standby.",
-            "C": "Começa pelo meio/topo e joga o mais barato pro fim — fora da escada de custo.",
-            "D": "É a ordem invertida (do mais caro pro mais barato), não o mapeamento pedido."
+            "A": "Começa pelo meio/topo e joga o mais barato pro fim — fora da escada de custo.",
+            "B": "É a ordem invertida (do mais caro pro mais barato), não o mapeamento pedido.",
+            "C": "Embaralha a ordem — Backup & Restore é o mais barato, não o segundo, e Active/Active não vem antes de Warm Standby."
           }
         }
       ]
@@ -6335,15 +6335,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon Redshift provisionado"
-            },
-            {
-              "key": "C",
               "text": "Amazon EMR"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Amazon RDS"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Redshift provisionado"
             }
           ],
           "answers": [
@@ -6355,9 +6355,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Athena é serverless e consulta dados direto no S3 com SQL (ANSI), sem provisionar infra nem carregar/mover dados. Cobra por volume escaneado (~US$5/TB). Perfeito pra consultas ad-hoc/interativas, como investigar logs.",
           "whyNots": {
-            "B": "Redshift provisionado é data warehouse com cluster — exige carregar/modelar dados e gerenciar capacidade; exagero pra uma query pontual no S3.",
-            "C": "EMR é cluster de Hadoop/Spark pra processamento distribuído — peso e gestão desnecessários aqui.",
-            "D": "RDS é banco relacional transacional (OLTP), não consulta analítica sobre arquivos no S3."
+            "B": "EMR é cluster de Hadoop/Spark pra processamento distribuído — peso e gestão desnecessários aqui.",
+            "C": "RDS é banco relacional transacional (OLTP), não consulta analítica sobre arquivos no S3.",
+            "D": "Redshift provisionado é data warehouse com cluster — exige carregar/modelar dados e gerenciar capacidade; exagero pra uma query pontual no S3."
           }
         },
         {
@@ -6379,15 +6379,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Redshift"
+              "text": "Amazon DynamoDB"
             },
             {
               "key": "B",
-              "text": "Amazon Athena pra cada relatório"
+              "text": "Amazon Redshift"
             },
             {
               "key": "C",
-              "text": "Amazon DynamoDB"
+              "text": "Amazon Athena pra cada relatório"
             },
             {
               "key": "D",
@@ -6395,7 +6395,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'consolidar várias fontes', 'JOIN complexo em tabelões', 'relatório corporativo repetido' = data warehouse = Redshift.",
@@ -6403,8 +6403,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Redshift é o data warehouse gerenciado (colunar, MPP) otimizado pra consultas complexas com muitos JOINs em tabelas muito grandes e BI corporativo sobre dados históricos consolidados de várias fontes. É o caso de uso clássico de warehouse.",
           "whyNots": {
-            "B": "Athena brilha em consulta ad-hoc/pontual no S3; pra BI pesado e recorrente com joins enormes, o warehouse (Redshift) performa melhor.",
-            "C": "DynamoDB é NoSQL chave-valor pra acesso transacional rápido — não faz JOIN complexo de BI.",
+            "A": "DynamoDB é NoSQL chave-valor pra acesso transacional rápido — não faz JOIN complexo de BI.",
+            "C": "Athena brilha em consulta ad-hoc/pontual no S3; pra BI pesado e recorrente com joins enormes, o warehouse (Redshift) performa melhor.",
             "D": "S3 só armazena; não tem motor de consulta analítica por si só."
           }
         },
@@ -6426,23 +6426,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EMR"
-            },
-            {
-              "key": "B",
               "text": "Amazon Athena"
             },
             {
+              "key": "B",
+              "text": "AWS Lambda"
+            },
+            {
               "key": "C",
-              "text": "Amazon QuickSight"
+              "text": "Amazon EMR"
             },
             {
               "key": "D",
-              "text": "AWS Lambda"
+              "text": "Amazon QuickSight"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Hadoop, Spark, Presto, Hive num cluster gerenciado = EMR (Elastic MapReduce). É a casa dos frameworks de big data.",
@@ -6450,9 +6450,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EMR (Elastic MapReduce) é o cluster gerenciado pra rodar frameworks distribuídos como Hadoop, Spark, Presto e Hive, com aplicações e código customizados. É a escolha pra processamento distribuído pesado e migração de workloads Hadoop/Spark.",
           "whyNots": {
-            "B": "Athena é SQL serverless no S3 — não roda Spark/Hadoop com código customizado.",
-            "C": "QuickSight é BI/dashboards — camada de visualização, não de processamento distribuído.",
-            "D": "Lambda roda funções curtas por evento — não é cluster de big data pra Spark/Hadoop."
+            "A": "Athena é SQL serverless no S3 — não roda Spark/Hadoop com código customizado.",
+            "B": "Lambda roda funções curtas por evento — não é cluster de big data pra Spark/Hadoop.",
+            "D": "QuickSight é BI/dashboards — camada de visualização, não de processamento distribuído."
           }
         },
         {
@@ -6473,23 +6473,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Glue"
+              "text": "AWS Config"
             },
             {
               "key": "B",
-              "text": "Amazon Redshift"
-            },
-            {
-              "key": "C",
               "text": "Amazon QuickSight"
             },
             {
+              "key": "C",
+              "text": "Amazon Redshift"
+            },
+            {
               "key": "D",
-              "text": "AWS Config"
+              "text": "AWS Glue"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'cola' (glue) que junta as fontes — extrai, transforma e carrega (ETL) com Spark gerenciado, sem você cuidar de servidor.",
@@ -6497,9 +6497,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Glue é o serviço de ETL serverless (Spark gerenciado): extrai, transforma e carrega dados pra data lakes/warehouses sem provisionar servidores. Inclui o Glue Data Catalog (metadados) e os Crawlers (descoberta de esquema).",
           "whyNots": {
-            "B": "Redshift é o destino (warehouse), não a ferramenta de ETL serverless.",
-            "C": "QuickSight é visualização/BI, não ETL.",
-            "D": "Config avalia conformidade de recursos — nada a ver com ETL de dados."
+            "A": "Config avalia conformidade de recursos — nada a ver com ETL de dados.",
+            "B": "QuickSight é visualização/BI, não ETL.",
+            "C": "Redshift é o destino (warehouse), não a ferramenta de ETL serverless."
           }
         },
         {
@@ -6525,15 +6525,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Glue Job + QuickSight"
+              "text": "Lake Formation (descobre o esquema) + KMS (registra os metadados)"
             },
             {
               "key": "C",
-              "text": "Redshift Spectrum + SPICE"
+              "text": "Redshift Spectrum (infere o esquema) + SPICE (cataloga as tabelas)"
             },
             {
               "key": "D",
-              "text": "Lake Formation + KMS"
+              "text": "Glue Job (detecta as colunas) + QuickSight (registra no catálogo)"
             }
           ],
           "answers": [
@@ -6545,9 +6545,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Glue Crawler varre os dados (ex.: no S3), classifica e infere o esquema, populando automaticamente o Glue Data Catalog (repositório central de metadados). Athena, Redshift Spectrum e EMR usam esse catálogo pra consultar os dados como tabelas.",
           "whyNots": {
-            "B": "Glue Job faz a transformação ETL; QuickSight é BI — nenhum dos dois é o descobridor+catálogo de esquema.",
+            "B": "Lake Formation governa permissões e KMS criptografa — não inferem nem catalogam esquema.",
             "C": "Redshift Spectrum consulta o S3 e SPICE é o motor do QuickSight — não são o mecanismo de descoberta/catalogação.",
-            "D": "Lake Formation governa permissões e KMS criptografa — não inferem nem catalogam esquema."
+            "D": "Glue Job faz a transformação ETL; QuickSight é BI — nenhum dos dois é o descobridor+catálogo de esquema."
           }
         },
         {
@@ -6568,15 +6568,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon QuickSight"
+              "text": "AWS Glue"
             },
             {
               "key": "B",
-              "text": "Amazon Athena"
+              "text": "Amazon QuickSight"
             },
             {
               "key": "C",
-              "text": "AWS Glue"
+              "text": "Amazon Athena"
             },
             {
               "key": "D",
@@ -6584,7 +6584,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'painéis e gráficos interativos pra negócio' = BI = QuickSight. Ele se conecta a Athena, Redshift, S3, RDS e mais.",
@@ -6592,8 +6592,8 @@ window.AWS_BANK = {
           ],
           "explanation": "QuickSight é o serviço de BI serverless da AWS: cria dashboards, visualizações e análise ad-hoc, acessível de qualquer dispositivo, conectando-se a Athena, Redshift, S3, RDS, arquivos e SaaS. Usa o motor SPICE (in-memory) pra acelerar. É camada de visualização, não ETL.",
           "whyNots": {
-            "B": "Athena consulta dados com SQL — não é a ferramenta de dashboards visuais.",
-            "C": "Glue é ETL — prepara dados, não os visualiza.",
+            "A": "Glue é ETL — prepara dados, não os visualiza.",
+            "C": "Athena consulta dados com SQL — não é a ferramenta de dashboards visuais.",
             "D": "EMR é processamento distribuído — não é BI de painel."
           }
         },
@@ -6615,15 +6615,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Lake Formation"
-            },
-            {
-              "key": "B",
               "text": "Security Group"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Bucket policy do S3"
+            },
+            {
+              "key": "C",
+              "text": "AWS Lake Formation"
             },
             {
               "key": "D",
@@ -6631,7 +6631,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): controle de acesso ESTILO BANCO DE DADOS no data lake — por linha, coluna e célula — é o Lake Formation, em cima do Glue Data Catalog.",
@@ -6639,8 +6639,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Lake Formation governa o data lake com um modelo de permissões estilo banco de dados sobre o Glue Data Catalog, permitindo acesso fino em nível de linha, coluna e célula por usuário/role. É a camada de governança certa pra esconder a coluna salário do RH e filtrar linhas por região.",
           "whyNots": {
-            "B": "Security group é firewall de rede — não controla acesso a colunas/linhas de dados.",
-            "C": "Bucket policy do S3 controla acesso no nível de objeto/prefixo, sem granularidade de linha/coluna dentro da tabela.",
+            "A": "Security group é firewall de rede — não controla acesso a colunas/linhas de dados.",
+            "B": "Bucket policy do S3 controla acesso no nível de objeto/prefixo, sem granularidade de linha/coluna dentro da tabela.",
             "D": "Macie descobre e classifica dados sensíveis (PII) no S3 — não impõe permissão fina de consulta."
           }
         },
@@ -6665,23 +6665,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Glue (catálogo) → Athena (consulta SQL) → QuickSight (dashboard)"
+              "text": "DynamoDB (catálogo) → DAX (consulta SQL) → S3 (dashboard)"
             },
             {
               "key": "B",
-              "text": "EMR (cluster) → Redshift (warehouse) → QuickSight"
+              "text": "EMR (cluster) → Redshift (warehouse) → QuickSight, tudo serverless"
             },
             {
               "key": "C",
-              "text": "RDS → Lambda → CloudFront"
+              "text": "RDS (catálogo) → Lambda (consulta SQL) → CloudFront (dashboard)"
             },
             {
               "key": "D",
-              "text": "DynamoDB → DAX → S3"
+              "text": "Glue (catálogo) → Athena (consulta SQL) → QuickSight (dashboard)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): a palavra-chave é 'serverless de ponta a ponta, sem cluster'. Glue cataloga, Athena consulta o S3, QuickSight mostra — nenhum servidor pra gerenciar.",
@@ -6689,9 +6689,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pipeline analítico serverless clássico: Glue (Crawler + Data Catalog) cataloga os dados crus no S3 → Athena consulta com SQL in-place → QuickSight exibe em dashboards. Tudo gerenciado, sem subir cluster — barato e de baixa operação.",
           "whyNots": {
+            "A": "DynamoDB/DAX/S3 é acesso transacional/cache — não consulta analítica com SQL nem dashboard.",
             "B": "EMR e Redshift provisionado envolvem cluster a gerenciar — não é o caminho 'sem servidor' pedido.",
-            "C": "RDS/Lambda/CloudFront é stack de aplicação web, não pipeline analítico sobre dados no S3.",
-            "D": "DynamoDB/DAX/S3 é acesso transacional/cache — não consulta analítica com SQL nem dashboard."
+            "C": "RDS/Lambda/CloudFront é stack de aplicação web, não pipeline analítico sobre dados no S3."
           }
         },
         {
@@ -6717,15 +6717,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Aumentar o tamanho do bucket S3"
+              "text": "Trocar o Athena por mais consultas menores, cada uma lendo tudo de novo"
             },
             {
               "key": "C",
-              "text": "Trocar o Athena por mais consultas, cada uma lendo tudo"
+              "text": "Desligar a criptografia do S3 — sem cifrar, o scan fica mais leve e barato"
             },
             {
               "key": "D",
-              "text": "Desligar a criptografia do S3"
+              "text": "Aumentar o tamanho do bucket S3, diluindo o custo por query escaneada"
             }
           ],
           "answers": [
@@ -6737,9 +6737,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Como o Athena cobra por dado escaneado, converter pra formato colunar (Parquet/ORC), comprimir e particionar os dados reduz drasticamente o volume lido por consulta — menos escaneamento, menor custo e mais velocidade.",
           "whyNots": {
-            "B": "O tamanho do bucket não muda o quanto a query escaneia; o que importa é o layout dos dados.",
-            "C": "Mais queries lendo tudo aumenta o custo, não reduz.",
-            "D": "Desligar criptografia não afeta o volume escaneado e piora a segurança — irrelevante pro custo."
+            "B": "Mais queries lendo tudo aumenta o custo, não reduz.",
+            "C": "Desligar criptografia não afeta o volume escaneado e piora a segurança — irrelevante pro custo.",
+            "D": "O tamanho do bucket não muda o quanto a query escaneia; o que importa é o layout dos dados."
           }
         },
         {
@@ -6763,23 +6763,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Athena → Redshift → EMR → Glue"
+              "text": "Glue → EMR → Redshift → Athena"
             },
             {
               "key": "B",
-              "text": "Redshift → Athena → Glue → EMR"
+              "text": "Athena → Redshift → EMR → Glue"
             },
             {
               "key": "C",
-              "text": "EMR → Glue → Athena → Redshift"
+              "text": "Redshift → Athena → Glue → EMR"
             },
             {
               "key": "D",
-              "text": "Glue → EMR → Redshift → Athena"
+              "text": "EMR → Glue → Athena → Redshift"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): separa por função. SQL ad-hoc no S3 = Athena. Warehouse/joins = Redshift. Spark/Hadoop = EMR. ETL+catálogo = Glue.",
@@ -6787,9 +6787,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem sua especialidade: Athena (SQL ad-hoc serverless no S3), Redshift (data warehouse de BI com joins pesados), EMR (Spark/Hadoop distribuído com código próprio), Glue (ETL serverless + Data Catalog/Crawler). A opção A respeita as quatro funções.",
           "whyNots": {
-            "B": "Troca Athena com Redshift e Glue com EMR — fora da especialidade de cada um.",
-            "C": "Embaralha tudo: EMR não é SQL ad-hoc e Athena não é Spark distribuído.",
-            "D": "Também inverte os papéis; Glue não é SQL ad-hoc e Athena não é ETL com catálogo."
+            "A": "Também inverte os papéis; Glue não é SQL ad-hoc e Athena não é ETL com catálogo.",
+            "C": "Troca Athena com Redshift e Glue com EMR — fora da especialidade de cada um.",
+            "D": "Embaralha tudo: EMR não é SQL ad-hoc e Athena não é Spark distribuído."
           }
         }
       ]
@@ -6816,33 +6816,33 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Multi-AZ é pra alta disponibilidade; o standby é síncrono e NÃO serve leitura"
+              "text": "Multi-AZ só funciona com Aurora — os outros engines do RDS não têm standby"
             },
             {
               "key": "B",
-              "text": "O standby do Multi-AZ serve leitura e é a forma de escalar reads"
+              "text": "Multi-AZ replica de forma assíncrona pra outra região, como um DR global"
             },
             {
               "key": "C",
-              "text": "Multi-AZ replica de forma assíncrona pra outra região"
+              "text": "Multi-AZ é pra alta disponibilidade; o standby é síncrono e NÃO serve leitura"
             },
             {
               "key": "D",
-              "text": "Multi-AZ só funciona com Aurora"
+              "text": "O standby do Multi-AZ serve leitura e é a forma de escalar reads no RDS"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Multi-AZ = disponibilidade, não desempenho. O standby fica de prontidão (síncrono) e assume no failover — mas não atende leitura.",
             "💡 Rafael (dica 2): pra distribuir leitura você usa Read Replica, que é outra coisa. Não confunda os dois."
           ],
-          "explanation": "RDS Multi-AZ existe pra alta disponibilidade/durabilidade: mantém um standby síncrono em outra AZ e faz failover automático. O standby NÃO serve leitura — fica reservado pra resiliência. Pra escalar leitura é Read Replica.",
+          "explanation": "RDS Multi-AZ existe pra alta disponibilidade/durabilidade: mantém um standby síncrono em outra AZ e faz failover automático. Na implantação clássica (Multi-AZ DB instance, com um único standby), ele NÃO serve leitura — fica reservado pra resiliência. Pra escalar leitura é Read Replica. (Exceção: o Multi-AZ DB cluster, com dois readers, permite ler dos readers via reader endpoint — mas isso não substitui a Read Replica pra escalar leitura fora do cluster ou entre regiões.)",
           "whyNots": {
-            "B": "O standby do Multi-AZ não serve leitura; quem faz isso é a Read Replica.",
-            "C": "Multi-AZ é replicação síncrona dentro da região (entre AZs), não assíncrona cross-Region.",
-            "D": "Multi-AZ existe no RDS tradicional (MySQL, PostgreSQL, etc.), não só no Aurora."
+            "A": "Multi-AZ existe no RDS tradicional (MySQL, PostgreSQL, etc.), não só no Aurora.",
+            "B": "Multi-AZ é replicação síncrona dentro da região (entre AZs), não assíncrona cross-Region.",
+            "D": "Na implantação clássica de Multi-AZ (a descrita aqui, com um único standby), ele não serve leitura; quem escala leitura é a Read Replica. (O Multi-AZ DB cluster, com dois readers, é uma exceção mais recente — mas não é o cenário desta questão.)"
           }
         },
         {
@@ -6863,7 +6863,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Read Replicas (assíncronas, read-only)"
+              "text": "Aumentar o tamanho do backup"
             },
             {
               "key": "B",
@@ -6871,15 +6871,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Aumentar o tamanho do backup"
+              "text": "Habilitar Vault Lock"
             },
             {
               "key": "D",
-              "text": "Habilitar Vault Lock"
+              "text": "Read Replicas (assíncronas, read-only)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'muita leitura' = escalar reads = Read Replica. Os clientes leem das réplicas e o primário respira.",
@@ -6887,9 +6887,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Read Replicas são cópias assíncronas read-only que distribuem o tráfego de leitura, aumentando o throughput agregado de reads. Clientes leem das réplicas (escrita continua no primário). Podem ser cross-Region. É o mecanismo de escalar leitura — complementar ao Multi-AZ (disponibilidade).",
           "whyNots": {
+            "A": "Backup não distribui carga de leitura em produção.",
             "B": "O standby do Multi-AZ é pra failover, não atende leitura.",
-            "C": "Backup não distribui carga de leitura em produção.",
-            "D": "Vault Lock é imutabilidade de backup (AWS Backup) — nada a ver com escalar leitura."
+            "C": "Vault Lock é imutabilidade de backup (AWS Backup) — nada a ver com escalar leitura."
           }
         },
         {
@@ -6918,11 +6918,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Redshift"
+              "text": "Amazon ElastiCache"
             },
             {
               "key": "D",
-              "text": "Amazon ElastiCache"
+              "text": "Amazon Redshift"
             }
           ],
           "answers": [
@@ -6935,8 +6935,8 @@ window.AWS_BANK = {
           "explanation": "Aurora é o banco relacional gerenciado da AWS, compatível com MySQL e PostgreSQL. O armazenamento replica os dados em 6 cópias por 3 AZs (tolerante a falha, auto-recupera) e suporta até 15 réplicas de leitura de baixa latência — tudo gerenciado.",
           "whyNots": {
             "B": "DynamoDB é NoSQL chave-valor, não compatível com MySQL/PostgreSQL.",
-            "C": "Redshift é data warehouse analítico (OLAP), não banco transacional compatível com MySQL/PostgreSQL.",
-            "D": "ElastiCache é cache in-memory, não um banco relacional durável."
+            "C": "ElastiCache é cache in-memory, não um banco relacional durável.",
+            "D": "Redshift é data warehouse analítico (OLAP), não banco transacional compatível com MySQL/PostgreSQL."
           }
         },
         {
@@ -6957,33 +6957,33 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Aurora Global Database (multi-Region)"
-            },
-            {
-              "key": "B",
-              "text": "Aurora Replicas na mesma região"
-            },
-            {
-              "key": "C",
               "text": "Multi-AZ dentro de uma região"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "Aurora Global Database (multi-Region)"
+            },
+            {
+              "key": "C",
               "text": "DynamoDB Streams"
+            },
+            {
+              "key": "D",
+              "text": "Aurora Replicas na mesma região"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'vários continentes' + 'cair a região inteira' = precisa de MÚLTIPLAS regiões. No Aurora, isso é o Global Database.",
-            "💡 Rafael (dica 2): ele dá leitura global de baixa latência e DR cross-region com RTO em minutos."
+            "💡 Rafael (dica 2): ele dá leitura global de baixa latência e DR cross-region com RTO tipicamente abaixo de 1 minuto."
           ],
-          "explanation": "Aurora Global Database abrange múltiplas regiões (até 5): leitura global de baixa latência nas regiões secundárias e DR cross-region com RTO em minutos se a região primária cair. Réplicas na mesma região ou Multi-AZ não protegem contra perder a região inteira.",
+          "explanation": "Aurora Global Database abrange múltiplas regiões (até 10 regiões secundárias): leitura global de baixa latência nas regiões secundárias e DR cross-region com RTO tipicamente abaixo de 1 minuto se a região primária cair. Réplicas na mesma região ou Multi-AZ não protegem contra perder a região inteira.",
           "whyNots": {
-            "B": "Aurora Replicas na mesma região escalam leitura local, mas não dão presença global nem DR de região.",
-            "C": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região toda.",
-            "D": "DynamoDB Streams é captura de eventos do DynamoDB — não tem a ver com Aurora multi-região."
+            "A": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região toda.",
+            "C": "DynamoDB Streams é captura de eventos do DynamoDB — não tem a ver com Aurora multi-região.",
+            "D": "Aurora Replicas na mesma região escalam leitura local, mas não dão presença global nem DR de região."
           }
         },
         {
@@ -7004,7 +7004,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon ElastiCache"
+              "text": "Amazon Athena"
             },
             {
               "key": "B",
@@ -7012,15 +7012,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon S3"
+              "text": "Amazon ElastiCache"
             },
             {
               "key": "D",
-              "text": "Amazon Athena"
+              "text": "Amazon S3"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): cache in-memory de microssegundos, pra sessão e resultados de query = ElastiCache (Redis/Valkey ou Memcached).",
@@ -7028,9 +7028,9 @@ window.AWS_BANK = {
           ],
           "explanation": "ElastiCache é o cache in-memory gerenciado (engines Redis OSS/Valkey ou Memcached), com latência de microssegundos. Fica na frente do banco pra guardar sessões e resultados de consulta frequentes, aliviando o RDS e acelerando a aplicação.",
           "whyNots": {
+            "A": "Athena é consulta SQL analítica no S3 — nada a ver com cache de sessão.",
             "B": "RDS é o banco relacional que se quer ALIVIAR — não é o cache in-memory.",
-            "C": "S3 é armazenamento de objetos, não cache de microssegundos pra sessão/query.",
-            "D": "Athena é consulta SQL analítica no S3 — nada a ver com cache de sessão."
+            "D": "S3 é armazenamento de objetos, não cache de microssegundos pra sessão/query."
           }
         },
         {
@@ -7051,7 +7051,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Redis OSS (ou Valkey)"
+              "text": "Qualquer um, são idênticos"
             },
             {
               "key": "B",
@@ -7059,15 +7059,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Qualquer um, são idênticos"
+              "text": "Nenhum; precisa de DynamoDB"
             },
             {
               "key": "D",
-              "text": "Nenhum; precisa de DynamoDB"
+              "text": "Redis OSS (ou Valkey)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): réplica, Multi-AZ, persistência e sorted sets (ranking) são recursos avançados — isso é Redis (ou Valkey), não Memcached.",
@@ -7075,9 +7075,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Redis OSS (ou Valkey) é o engine rico: réplicas de leitura, Multi-AZ/HA, persistência (AOF), pub/sub e estruturas como sorted sets (ideais pra leaderboard). Memcached é o simples, sem persistência nem replicação. Pra os requisitos do enunciado, é Redis/Valkey.",
           "whyNots": {
+            "A": "Não são idênticos — Memcached é simples; Redis/Valkey têm os recursos avançados.",
             "B": "Memcached não tem replicação, Multi-AZ, persistência nem sorted sets.",
-            "C": "Não são idênticos — Memcached é simples; Redis/Valkey têm os recursos avançados.",
-            "D": "DynamoDB é banco NoSQL, não o cache in-memory pedido; o ElastiCache Redis atende."
+            "C": "DynamoDB é banco NoSQL, não o cache in-memory pedido; o ElastiCache Redis atende."
           }
         },
         {
@@ -7102,15 +7102,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "DynamoDB Streams"
+              "text": "Aumentar o backup"
             },
             {
               "key": "C",
-              "text": "Global Tables"
+              "text": "DynamoDB Streams"
             },
             {
               "key": "D",
-              "text": "Aumentar o backup"
+              "text": "Global Tables"
             }
           ],
           "answers": [
@@ -7122,9 +7122,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DAX (DynamoDB Accelerator) é um cache in-memory gerenciado pra DynamoDB que leva a latência de leitura de milissegundos pra microssegundos (até 10x), ideal pra cargas read-intensive como leilão/gaming. Não serve pra write-heavy, e leituras strongly consistent bypassam o cache.",
           "whyNots": {
-            "B": "Streams captura eventos de mudança — não acelera leitura.",
-            "C": "Global Tables replica entre regiões — resolve presença global, não a latência de leitura local.",
-            "D": "Backup não tem efeito sobre latência de leitura em produção."
+            "B": "Backup não tem efeito sobre latência de leitura em produção.",
+            "C": "Streams captura eventos de mudança — não acelera leitura.",
+            "D": "Global Tables replica entre regiões — resolve presença global, não a latência de leitura local."
           }
         },
         {
@@ -7145,23 +7145,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Global Tables"
-            },
-            {
-              "key": "B",
-              "text": "DAX"
-            },
-            {
-              "key": "C",
               "text": "DynamoDB Streams sozinho"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "Global Tables"
+            },
+            {
+              "key": "C",
               "text": "Read Replica do RDS"
+            },
+            {
+              "key": "D",
+              "text": "DAX"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'mesma tabela em duas regiões, ativo-ativo, replicação automática' = DynamoDB Global Tables.",
@@ -7169,9 +7169,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Global Tables replica a tabela DynamoDB entre regiões em modelo ativo-ativo: escrita numa região é propagada automaticamente às outras réplicas, dando leitura/escrita local de baixa latência em cada região. É o recurso multi-Region nativo do DynamoDB.",
           "whyNots": {
-            "B": "DAX é cache de leitura local — não replica a tabela entre regiões.",
-            "C": "Streams captura mudanças, mas sozinho não é a solução de replicação multi-Region gerenciada (Global Tables usa Streams por baixo, mas o recurso é o Global Tables).",
-            "D": "Read Replica do RDS é de banco relacional, não do DynamoDB."
+            "A": "Streams captura mudanças, mas sozinho não é a solução de replicação multi-Region gerenciada (Global Tables usa Streams por baixo, mas o recurso é o Global Tables).",
+            "C": "Read Replica do RDS é de banco relacional, não do DynamoDB.",
+            "D": "DAX é cache de leitura local — não replica a tabela entre regiões."
           }
         },
         {
@@ -7193,7 +7193,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DynamoDB Streams (acionando Lambda)"
+              "text": "Global Tables"
             },
             {
               "key": "B",
@@ -7201,7 +7201,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Global Tables"
+              "text": "DynamoDB Streams (acionando Lambda)"
             },
             {
               "key": "D",
@@ -7209,7 +7209,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'reagir a cada insert/update em tempo real' = DynamoDB Streams, que entrega o log de mudanças e aciona Lambda.",
@@ -7217,8 +7217,8 @@ window.AWS_BANK = {
           ],
           "explanation": "DynamoDB Streams captura, em ordem, os eventos de mudança (insert/update/delete) da tabela e aciona consumidores em tempo real, tipicamente uma função Lambda. É o jeito orientado a eventos de reagir às mudanças (atualizar índice, notificar) sem fazer scan periódico.",
           "whyNots": {
+            "A": "Global Tables replica entre regiões — não é o gatilho de evento por mudança.",
             "B": "DAX acelera leitura — não entrega fluxo de mudanças.",
-            "C": "Global Tables replica entre regiões — não é o gatilho de evento por mudança.",
             "D": "Scan periódico é caro, lento e não é tempo real — o oposto da solução orientada a evento."
           }
         },
@@ -7242,23 +7242,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Read Replica → Multi-AZ → DAX → Global Tables"
-            },
-            {
-              "key": "B",
               "text": "Multi-AZ → Read Replica → Global Tables → DAX"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "DAX → Global Tables → Read Replica → Multi-AZ"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Global Tables → DAX → Multi-AZ → Read Replica"
+            },
+            {
+              "key": "D",
+              "text": "Read Replica → Multi-AZ → DAX → Global Tables"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): separa por função. Escalar leitura RDS = Read Replica. HA do RDS = Multi-AZ. Acelerar leitura DynamoDB = DAX. Multi-Region DynamoDB = Global Tables.",
@@ -7266,9 +7266,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada recurso resolve uma coisa: Read Replica escala leitura no RDS; Multi-AZ dá alta disponibilidade/failover no RDS; DAX acelera leitura do DynamoDB pra microssegundos; Global Tables replica a tabela DynamoDB ativo-ativo entre regiões. A opção A respeita os quatro papéis.",
           "whyNots": {
-            "B": "Inverte Read Replica com Multi-AZ e DAX com Global Tables.",
-            "C": "Embaralha tudo — DAX não escala RDS e Global Tables não é HA de RDS.",
-            "D": "Também troca os papéis; nenhuma posição bate com a função certa."
+            "A": "Inverte Read Replica com Multi-AZ e DAX com Global Tables.",
+            "B": "Embaralha tudo — DAX não escala RDS e Global Tables não é HA de RDS.",
+            "C": "Também troca os papéis; nenhuma posição bate com a função certa."
           }
         }
       ]
@@ -7299,15 +7299,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS DataSync"
-            },
-            {
-              "key": "C",
               "text": "AWS Snowball Edge"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Amazon S3 Transfer Acceleration"
+            },
+            {
+              "key": "D",
+              "text": "AWS DataSync"
             }
           ],
           "answers": [
@@ -7319,9 +7319,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DMS migra bancos pra AWS com mínimo downtime: a fonte continua operacional e o DMS replica também as mudanças contínuas (CDC) até o cutover. É a ferramenta certa pra migração de banco de dados.",
           "whyNots": {
-            "B": "DataSync transfere arquivos/objetos pra S3/EFS/FSx — não migra um banco relacional vivo.",
-            "C": "Snowball é transporte físico offline de dados em massa — não migra banco com replicação contínua.",
-            "D": "S3 Transfer Acceleration acelera upload pro S3 — não tem a ver com migração de banco."
+            "B": "Snowball é transporte físico offline de dados em massa — não migra banco com replicação contínua.",
+            "C": "S3 Transfer Acceleration acelera upload pro S3 — não tem a ver com migração de banco.",
+            "D": "DataSync transfere arquivos/objetos pra S3/EFS/FSx — não migra um banco relacional vivo."
           }
         },
         {
@@ -7342,23 +7342,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Converter o esquema/código com AWS SCT (ou DMS Schema Conversion) e depois migrar os dados com o DMS"
+              "text": "Só rodar o DMS direto, sem converter nada — ele traduz o esquema e o código PL/SQL sozinho"
             },
             {
               "key": "B",
-              "text": "Só rodar o DMS direto, sem converter nada"
+              "text": "Converter o esquema/código com AWS SCT (ou DMS Schema Conversion) e depois migrar os dados com o DMS"
             },
             {
               "key": "C",
-              "text": "Usar DataSync pra converter o esquema"
+              "text": "Usar o DataSync pra converter o esquema e as procedures, e depois copiar os dados com o SCT"
             },
             {
               "key": "D",
-              "text": "Exportar pra CSV e importar na mão, é o único jeito"
+              "text": "Exportar tudo pra CSV e importar na mão, único jeito suportado em migrações heterogêneas"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): engines diferentes = migração heterogênea = DOIS passos. Primeiro converter o esquema (SCT), depois mover os dados (DMS).",
@@ -7366,7 +7366,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Migração heterogênea (engines diferentes, como Oracle→PostgreSQL) é em dois passos: (1) AWS SCT (Schema Conversion Tool) ou DMS Schema Conversion converte esquema e a maioria do código pro formato do destino, marcando o que precisa de ajuste manual; (2) o DMS migra os dados. Homogênea (mesmo engine) seria um passo só.",
           "whyNots": {
-            "B": "Sem converter o esquema, o DMS não tem destino compatível pra um par de engines diferentes.",
+            "A": "Sem converter o esquema, o DMS não tem destino compatível pra um par de engines diferentes.",
             "C": "DataSync transfere arquivos — não converte esquema de banco.",
             "D": "Exportar/importar manual é frágil e desnecessário; SCT + DMS automatizam a maior parte."
           }
@@ -7389,7 +7389,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS DataSync"
+              "text": "Amazon Kinesis Data Streams"
             },
             {
               "key": "B",
@@ -7397,15 +7397,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "AWS DMS"
+              "text": "AWS DataSync"
             },
             {
               "key": "D",
-              "text": "Amazon Kinesis Data Streams"
+              "text": "AWS DMS"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'há boa rede' + 'arquivos pro S3, incremental, agendado' = DataSync (online). Ele copia só o que mudou e comprime.",
@@ -7413,9 +7413,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DataSync é o serviço de transferência ONLINE de arquivos/objetos pra AWS (S3, EFS, FSx): incremental (só o que mudou), comprime, agenda e se recupera de quedas de rede. É a primeira escolha quando há conectividade disponível.",
           "whyNots": {
+            "A": "Kinesis Data Streams é ingestão de streaming em tempo real, não cópia de arquivos pro S3.",
             "B": "Snowball é offline (dispositivo físico) — indicado quando falta banda, não é o caso aqui.",
-            "C": "DMS migra bancos, não milhões de arquivos de um NAS.",
-            "D": "Kinesis Data Streams é ingestão de streaming em tempo real, não cópia de arquivos pro S3."
+            "D": "DMS migra bancos, não milhões de arquivos de um NAS."
           }
         },
         {
@@ -7436,7 +7436,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Snowball Edge (transferência offline)"
+              "text": "Upload direto pro S3 pelo console"
             },
             {
               "key": "B",
@@ -7444,15 +7444,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Upload direto pro S3 pelo console"
+              "text": "AWS Storage Gateway em modo cache"
             },
             {
               "key": "D",
-              "text": "AWS Storage Gateway em modo cache"
+              "text": "AWS Snowball Edge (transferência offline)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'volume enorme + sem banda decente' é o cenário clássico do Snowball — você copia no dispositivo físico e manda pela transportadora.",
@@ -7460,9 +7460,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Snowball Edge (Snow Family) faz transferência OFFLINE: você copia os dados num dispositivo físico e o envia pra AWS — ideal pra terabytes/petabytes quando falta banda ou ela é cara. (Nota: desde nov/2025 o Snowball é só pra clientes existentes; novos clientes vão pra DataSync, AWS Data Transfer Terminal ou parceiros — mas o conceito 'offline pra alto volume sem banda' segue sendo cobrado.)",
           "whyNots": {
+            "A": "Upload manual pelo console é inviável pra 80 TB numa conexão ruim.",
             "B": "DataSync depende de banda — com satélite lento/caro, levaria meses, justamente o que se quer evitar.",
-            "C": "Upload manual pelo console é inviável pra 80 TB numa conexão ruim.",
-            "D": "Storage Gateway é acesso híbrido contínuo, não migração em massa de um backlog offline."
+            "C": "Storage Gateway é acesso híbrido contínuo, não migração em massa de um backlog offline."
           }
         },
         {
@@ -7487,11 +7487,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Snowball Edge"
+              "text": "AWS DMS"
             },
             {
               "key": "C",
-              "text": "AWS DMS"
+              "text": "AWS Snowball Edge"
             },
             {
               "key": "D",
@@ -7507,8 +7507,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Storage Gateway é o appliance híbrido que conecta apps on-premises ao armazenamento na AWS, com cache local de baixa latência, mandando só o dado alterado. Serve pra backup/arquivo na nuvem, file share cloud-backed e acesso de baixa latência — uma ponte contínua, não uma migração pontual.",
           "whyNots": {
-            "B": "Snowball é transferência offline pontual, não acesso híbrido contínuo.",
-            "C": "DMS migra bancos uma vez — não é a ponte de armazenamento do dia a dia.",
+            "B": "DMS migra bancos uma vez — não é a ponte de armazenamento do dia a dia.",
+            "C": "Snowball é transferência offline pontual, não acesso híbrido contínuo.",
             "D": "CloudFront é CDN de conteúdo na borda — não integra storage on-premises com a nuvem."
           }
         },
@@ -7530,11 +7530,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Tape Gateway (VTL)"
+              "text": "Volume Gateway"
             },
             {
               "key": "B",
-              "text": "Volume Gateway"
+              "text": "Tape Gateway (VTL)"
             },
             {
               "key": "C",
@@ -7546,7 +7546,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'fita' = Tape. O Tape Gateway é uma fitoteca VIRTUAL (VTL): o software de backup acha que está gravando em fita, mas vai pra S3/Glacier.",
@@ -7554,7 +7554,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Tape Gateway apresenta uma fitoteca virtual (VTL) pro seu software de backup: ele continua 'gravando em fita', mas os dados vão pra S3 e podem arquivar em Glacier — elimina o robô de fita física mantendo o fluxo de backup.",
           "whyNots": {
-            "B": "Volume Gateway oferece volumes em bloco iSCSI com backup na nuvem — não emula fita.",
+            "A": "Volume Gateway oferece volumes em bloco iSCSI com backup na nuvem — não emula fita.",
             "C": "S3 File Gateway expõe arquivos via NFS/SMB pro S3 — não é substituto de fita.",
             "D": "FSx File Gateway dá acesso local a FSx for Windows — não tem a ver com fita de backup."
           }
@@ -7577,23 +7577,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Application Migration Service (MGN)"
+              "text": "AWS DMS (migra a VM inteira com SO)"
             },
             {
               "key": "B",
-              "text": "AWS DMS"
+              "text": "AWS DataSync (replica servidores)"
             },
             {
               "key": "C",
-              "text": "AWS DataSync"
+              "text": "AWS Application Migration Service (MGN)"
             },
             {
               "key": "D",
-              "text": "AWS Storage Gateway"
+              "text": "AWS Storage Gateway (faz o rehost)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): migrar o SERVIDOR inteiro 'como está' (lift-and-shift / rehost) pra EC2 = Application Migration Service (MGN).",
@@ -7601,8 +7601,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Application Migration Service (MGN) faz lift-and-shift (rehost): replica os servidores em nível de bloco e os converte pra rodar nativamente em EC2, com mínimo downtime no cutover. É o sucessor do antigo Server Migration Service. DMS é pra bancos; MGN é pra servidores inteiros.",
           "whyNots": {
-            "B": "DMS migra bancos de dados, não o servidor/VM completo com SO e aplicação.",
-            "C": "DataSync transfere arquivos/objetos — não rehospeda servidores em EC2.",
+            "A": "DMS migra bancos de dados, não o servidor/VM completo com SO e aplicação.",
+            "B": "DataSync transfere arquivos/objetos — não rehospeda servidores em EC2.",
             "D": "Storage Gateway é acesso híbrido de armazenamento, não migração de servidor."
           }
         },
@@ -7625,23 +7625,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) DMS (+SCT); (2) Application Migration Service (MGN)"
+              "text": "(1) Application Migration Service (MGN); (2) DMS (+SCT)"
             },
             {
               "key": "B",
-              "text": "(1) MGN; (2) DMS"
+              "text": "(1) Storage Gateway; (2) DMS (Database Migration Service)"
             },
             {
               "key": "C",
-              "text": "(1) DataSync; (2) Snowball"
+              "text": "(1) DataSync (arquivos); (2) Snowball (transfer offline)"
             },
             {
               "key": "D",
-              "text": "(1) Storage Gateway; (2) DMS"
+              "text": "(1) DMS (+SCT); (2) Application Migration Service (MGN)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): banco = DMS (e como é heterogêneo, SCT antes). Servidor/VM inteiro = MGN. Cada ferramenta no seu alvo.",
@@ -7649,9 +7649,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Banco de dados, ainda mais heterogêneo (Oracle→Aurora PostgreSQL), é DMS com conversão de esquema via SCT. Servidor/aplicação inteiro pra EC2 é Application Migration Service (MGN), o lift-and-shift. A opção A acerta os dois alvos.",
           "whyNots": {
-            "B": "Inverte: MGN é pra servidor, DMS é pra banco.",
-            "C": "DataSync (arquivos) e Snowball (offline) não migram nem o banco vivo nem rehospedam o servidor.",
-            "D": "Storage Gateway é acesso híbrido; nenhum dos dois itens é o caso dele."
+            "A": "Inverte: MGN é pra servidor, DMS é pra banco.",
+            "B": "Storage Gateway é acesso híbrido; nenhum dos dois itens é o caso dele.",
+            "C": "DataSync (arquivos) e Snowball (offline) não migram nem o banco vivo nem rehospedam o servidor."
           }
         },
         {
@@ -7676,15 +7676,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Heterogênea — precisa converter o esquema com SCT antes"
+              "text": "Heterogênea — precisa converter o esquema com SCT antes de o DMS poder atuar"
             },
             {
               "key": "C",
-              "text": "Impossível sem Snowball"
+              "text": "Exige reescrever toda a aplicação, porque o Aurora muda a sintaxe do MySQL"
             },
             {
               "key": "D",
-              "text": "Exige reescrever toda a aplicação"
+              "text": "Impossível sem Snowball — banco só sai do on-premises em transferência offline"
             }
           ],
           "answers": [
@@ -7697,8 +7697,8 @@ window.AWS_BANK = {
           "explanation": "MySQL → Aurora MySQL é migração homogênea: como o engine é o mesmo, o esquema e o código já são compatíveis e o DMS migra os dados em um passo, sem precisar de conversão de esquema (SCT). A conversão só é necessária em migrações heterogêneas.",
           "whyNots": {
             "B": "Heterogênea seria com engines diferentes; aqui é o mesmo (MySQL).",
-            "C": "Snowball é transferência offline de dados — não é requisito pra essa migração de banco.",
-            "D": "Não há reescrita de aplicação numa migração homogênea de banco."
+            "C": "Não há reescrita de aplicação numa migração homogênea de banco.",
+            "D": "Snowball é transferência offline de dados — não é requisito pra essa migração de banco."
           }
         },
         {
@@ -7722,11 +7722,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DMS → DataSync → Snowball → Storage Gateway"
+              "text": "DataSync → DMS → Storage Gateway → Snowball"
             },
             {
               "key": "B",
-              "text": "DataSync → DMS → Storage Gateway → Snowball"
+              "text": "DMS → DataSync → Snowball → Storage Gateway"
             },
             {
               "key": "C",
@@ -7738,7 +7738,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): banco vivo = DMS. Arquivos com banda = DataSync. Sem banda/volume enorme = Snowball. Híbrido contínuo = Storage Gateway.",
@@ -7746,7 +7746,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço resolve um caso: DMS (banco vivo, mínimo downtime), DataSync (arquivos online quando há banda), Snowball (offline pra alto volume sem conectividade), Storage Gateway (acesso híbrido contínuo com cache local). A opção A respeita os quatro papéis.",
           "whyNots": {
-            "B": "Troca DMS com DataSync e Snowball com Storage Gateway.",
+            "A": "Troca DMS com DataSync e Snowball com Storage Gateway.",
             "C": "Embaralha tudo — Snowball não migra banco vivo e DMS não é offline em massa.",
             "D": "Também inverte os papéis; nenhuma posição bate com a função certa."
           }
@@ -7775,23 +7775,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Weighted (ponderada)"
-            },
-            {
-              "key": "B",
-              "text": "Failover"
-            },
-            {
-              "key": "C",
               "text": "Latency"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Geolocation"
+            },
+            {
+              "key": "C",
+              "text": "Weighted (ponderada)"
+            },
+            {
+              "key": "D",
+              "text": "Failover"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'dividir tráfego por porcentagem' = peso = Weighted. Você dá um peso pra cada destino (ex.: 10 e 90).",
@@ -7799,9 +7799,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A política Weighted (ponderada) distribui o tráfego entre vários recursos nas proporções que você definir (ex.: 10% / 90%). É ideal pra lançamentos canary, testes A/B e balanceamento simples via DNS.",
           "whyNots": {
-            "B": "Failover é ativo-passivo (primário saudável ou secundário) — não divide por porcentagem.",
-            "C": "Latency manda pro região de menor latência — não controla porcentagem.",
-            "D": "Geolocation roteia pela localização do usuário — não faz split percentual."
+            "A": "Latency manda pro região de menor latência — não controla porcentagem.",
+            "B": "Geolocation roteia pela localização do usuário — não faz split percentual.",
+            "D": "Failover é ativo-passivo (primário saudável ou secundário) — não divide por porcentagem."
           }
         },
         {
@@ -7822,7 +7822,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Latency-based"
+              "text": "Multivalue answer"
             },
             {
               "key": "B",
@@ -7834,11 +7834,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Multivalue answer"
+              "text": "Latency-based"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o nome é literal — Latency. Recursos em várias regiões, cada usuário vai pra de menor latência.",
@@ -7846,9 +7846,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A política Latency-based roteia o usuário pra região AWS que oferece a menor latência pra ele, quando você tem recursos em múltiplas regiões. Otimiza desempenho percebido.",
           "whyNots": {
+            "A": "Multivalue retorna vários registros saudáveis aleatórios — não escolhe pela menor latência.",
             "B": "Weighted divide por porcentagem, não por latência.",
-            "C": "Simple aponta pra um recurso único, sem escolher por desempenho.",
-            "D": "Multivalue retorna vários registros saudáveis aleatórios — não escolhe pela menor latência."
+            "C": "Simple aponta pra um recurso único, sem escolher por desempenho."
           }
         },
         {
@@ -7873,11 +7873,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Weighted"
+              "text": "Geoproximity"
             },
             {
               "key": "C",
-              "text": "Geoproximity"
+              "text": "Weighted"
             },
             {
               "key": "D",
@@ -7893,8 +7893,8 @@ window.AWS_BANK = {
           ],
           "explanation": "A política Failover implementa o padrão ativo-passivo: o Route 53 manda o tráfego pro recurso primário enquanto o health check indica que ele está saudável; se falhar, redireciona pro secundário. É o roteamento típico de DR.",
           "whyNots": {
-            "B": "Weighted divide tráfego por proporção — não é primário/secundário por saúde.",
-            "C": "Geoproximity roteia pela localização do recurso com bias — não é failover por health check.",
+            "B": "Geoproximity roteia pela localização do recurso com bias — não é failover por health check.",
+            "C": "Weighted divide tráfego por proporção — não é primário/secundário por saúde.",
             "D": "Simple não tem health check nem secundário de reserva."
           }
         },
@@ -7916,23 +7916,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Geolocation; (2) Geoproximity (com bias)"
-            },
-            {
-              "key": "B",
-              "text": "(1) Geoproximity; (2) Geolocation"
-            },
-            {
-              "key": "C",
               "text": "(1) Latency; (2) Weighted"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "(1) Geolocation; (2) Geoproximity (com bias)"
+            },
+            {
+              "key": "C",
               "text": "(1) Failover; (2) Simple"
+            },
+            {
+              "key": "D",
+              "text": "(1) Geoproximity; (2) Geolocation"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): geolocation olha onde o USUÁRIO está (país/continente) — bom pra idioma/conformidade. Geoproximity olha onde o RECURSO está, e o BIAS desloca o tráfego.",
@@ -7940,9 +7940,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Geolocation roteia pela localização do USUÁRIO (país/continente) — ideal pra idioma e conformidade por país. Geoproximity roteia pela localização do RECURSO e permite o bias, que expande/encolhe a área pra deslocar tráfego entre regiões. São coisas distintas que a prova adora confundir.",
           "whyNots": {
-            "B": "Inverte: idioma por país é geolocation; bias é geoproximity.",
-            "C": "Latency é por desempenho e Weighted por porcentagem — nenhum trata localização do usuário/recurso como pedido.",
-            "D": "Failover é ativo-passivo e Simple é recurso único — não atendem os cenários geográficos."
+            "A": "Latency é por desempenho e Weighted por porcentagem — nenhum trata localização do usuário/recurso como pedido.",
+            "C": "Failover é ativo-passivo e Simple é recurso único — não atendem os cenários geográficos.",
+            "D": "Inverte: idioma por país é geolocation; bias é geoproximity."
           }
         },
         {
@@ -7964,23 +7964,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Gateway Endpoint"
+              "text": "Internet Gateway"
             },
             {
               "key": "B",
-              "text": "Interface Endpoint (PrivateLink)"
-            },
-            {
-              "key": "C",
               "text": "NAT Gateway"
             },
             {
+              "key": "C",
+              "text": "Gateway Endpoint"
+            },
+            {
               "key": "D",
-              "text": "Internet Gateway"
+              "text": "Interface Endpoint (PrivateLink)"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): pra S3 e DynamoDB tem um endpoint especial e GRÁTIS, que entra como rota (prefix list) na route table: o Gateway Endpoint.",
@@ -7988,9 +7988,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Gateway Endpoint dá acesso privado a S3 e DynamoDB sem internet nem NAT, é gratuito e funciona via prefix list na route table. É a escolha certa (e barata) pra esses dois serviços a partir de sub-rede privada.",
           "whyNots": {
-            "B": "Interface Endpoint (PrivateLink) serve a muitos serviços, mas TEM custo por hora + dado; pra S3/DynamoDB de graça, é o Gateway.",
-            "C": "NAT Gateway daria acesso via internet (com custo), não acesso privado pela rede da AWS.",
-            "D": "Internet Gateway expõe à internet — o oposto de manter privado."
+            "A": "Internet Gateway expõe à internet — o oposto de manter privado.",
+            "B": "NAT Gateway daria acesso via internet (com custo), não acesso privado pela rede da AWS.",
+            "D": "Interface Endpoint (PrivateLink) serve a muitos serviços, mas TEM custo por hora + dado; pra S3/DynamoDB de graça, é o Gateway."
           }
         },
         {
@@ -8012,23 +8012,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Interface Endpoint (AWS PrivateLink) — uma ENI privada na sub-rede"
+              "text": "Internet Gateway da VPC, que também roteia o tráfego privado"
             },
             {
               "key": "B",
-              "text": "Gateway Endpoint"
+              "text": "Egress-only Internet Gateway — saída privada pra qualquer serviço AWS"
             },
             {
               "key": "C",
-              "text": "Internet Gateway"
+              "text": "Gateway Endpoint, que atende qualquer serviço e o on-premises também"
             },
             {
               "key": "D",
-              "text": "Egress-only Internet Gateway"
+              "text": "Interface Endpoint (AWS PrivateLink) — uma ENI privada na sub-rede"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pra outros serviços (além de S3/DynamoDB) e com acesso de on-premises, é o Interface Endpoint via PrivateLink — ele cria uma ENI com IP privado na sua sub-rede.",
@@ -8036,9 +8036,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Interface Endpoint (AWS PrivateLink) provisiona uma ENI com IP privado na sub-rede pra acessar serviços da AWS (e de terceiros/próprios) de forma privada — e é acessível de on-premises (VPN/Direct Connect) e de VPCs peered. É o caminho pra serviços fora do par S3/DynamoDB.",
           "whyNots": {
-            "B": "Gateway Endpoint só serve S3/DynamoDB e não é acessível de on-premises.",
-            "C": "Internet Gateway expõe à internet pública — não é acesso privado.",
-            "D": "Egress-only IGW é pra saída IPv6 — não dá acesso privado a serviços AWS."
+            "A": "Internet Gateway expõe à internet pública — não é acesso privado.",
+            "B": "Egress-only IGW é pra saída IPv6 — não dá acesso privado a serviços AWS.",
+            "C": "Gateway Endpoint só serve S3/DynamoDB e não é acessível de on-premises."
           }
         },
         {
@@ -8067,11 +8067,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Ambos são stateful e idênticos"
+              "text": "Ambos atuam só na sub-rede, filtrando o tráfego da AZ inteira"
             },
             {
               "key": "D",
-              "text": "Ambos atuam só na sub-rede"
+              "text": "Ambos são stateful e idênticos — só muda o nome no console"
             }
           ],
           "answers": [
@@ -8084,8 +8084,8 @@ window.AWS_BANK = {
           "explanation": "Security Group atua no nível da instância (ENI), é stateful (a resposta ao tráfego permitido é liberada automaticamente) e só tem regras de allow. NACL atua no nível da sub-rede, é stateless (precisa de regra de inbound E outbound) e tem allow e deny.",
           "whyNots": {
             "B": "Inverte os dois — SG é stateful/instância; NACL é stateless/sub-rede.",
-            "C": "Não são idênticos: diferem em estado, nível e em ter ou não regra de deny.",
-            "D": "O Security Group atua na instância, não na sub-rede."
+            "C": "O Security Group atua na instância, não na sub-rede.",
+            "D": "Não são idênticos: diferem em estado, nível e em ter ou não regra de deny."
           }
         },
         {
@@ -8106,23 +8106,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Network ACL (NACL)"
+              "text": "IAM policy"
             },
             {
               "key": "B",
-              "text": "Security Group"
+              "text": "Network ACL (NACL)"
             },
             {
               "key": "C",
-              "text": "Route table"
+              "text": "Security Group"
             },
             {
               "key": "D",
-              "text": "IAM policy"
+              "text": "Route table"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): Security Group SÓ tem allow (nega por omissão, mas não tem regra de deny). Pra BLOQUEAR um IP específico, é a NACL, que tem deny.",
@@ -8130,9 +8130,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Só a NACL tem regras de deny explícitas, então é o recurso certo pra bloquear um IP/range específico na entrada da sub-rede. O Security Group só tem regras de allow (não consegue negar um IP individual).",
           "whyNots": {
-            "B": "Security Group não tem regra de deny — não consegue bloquear um IP específico.",
-            "C": "Route table direciona tráfego, não filtra/bloqueia por IP de origem.",
-            "D": "IAM policy controla permissões de API, não tráfego de rede."
+            "A": "IAM policy controla permissões de API, não tráfego de rede.",
+            "C": "Security Group não tem regra de deny — não consegue bloquear um IP específico.",
+            "D": "Route table direciona tráfego, não filtra/bloqueia por IP de origem."
           }
         },
         {
@@ -8154,7 +8154,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "NAT Gateway"
+              "text": "VPC Peering"
             },
             {
               "key": "B",
@@ -8162,7 +8162,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "VPC Peering"
+              "text": "NAT Gateway"
             },
             {
               "key": "D",
@@ -8170,7 +8170,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): NAT = saída sim, entrada não. As instâncias privadas saem pra internet (updates/APIs) pelo NAT, mas ninguém de fora inicia conexão com elas.",
@@ -8178,8 +8178,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O NAT Gateway permite que instâncias em sub-rede privada iniciem conexões de SAÍDA pra internet (atualizações, APIs externas) sem ficarem acessíveis de fora. É gerenciado, escalável, fica em sub-rede pública e precisa de rota.",
           "whyNots": {
+            "A": "VPC Peering conecta VPCs entre si, não dá saída pra internet.",
             "B": "Colocar as instâncias atrás de Internet Gateway as tornaria acessíveis da internet — o que se quer evitar.",
-            "C": "VPC Peering conecta VPCs entre si, não dá saída pra internet.",
             "D": "Gateway Endpoint dá acesso privado a S3/DynamoDB, não acesso geral de saída à internet."
           }
         },
@@ -8202,23 +8202,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "VPC Flow Logs"
-            },
-            {
-              "key": "B",
               "text": "CloudTrail"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "AWS Config"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "X-Ray"
+            },
+            {
+              "key": "D",
+              "text": "VPC Flow Logs"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'fluxo de rede aceito/rejeitado, sem o conteúdo' = VPC Flow Logs. Ele grava os metadados (IPs, portas, ação) em CloudWatch Logs ou S3.",
@@ -8226,9 +8226,9 @@ window.AWS_BANK = {
           ],
           "explanation": "VPC Flow Logs capturam os metadados do tráfego IP (origem/destino, portas, aceito/rejeitado) das ENIs/sub-redes/VPC e gravam em CloudWatch Logs ou S3 — pra auditoria e troubleshooting de conectividade/segurança. Não capturam o payload.",
           "whyNots": {
-            "B": "CloudTrail registra chamadas de API, não tráfego de rede pacote a pacote.",
-            "C": "Config avalia configuração de recursos — não registra fluxo de rede.",
-            "D": "X-Ray rastreia requisições dentro da aplicação, não o tráfego IP da VPC."
+            "A": "CloudTrail registra chamadas de API, não tráfego de rede pacote a pacote.",
+            "B": "Config avalia configuração de recursos — não registra fluxo de rede.",
+            "C": "X-Ray rastreia requisições dentro da aplicação, não o tráfego IP da VPC."
           }
         }
       ]
@@ -8259,15 +8259,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon Inspector"
-            },
-            {
-              "key": "C",
               "text": "Amazon Macie"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "AWS Config"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Inspector"
             }
           ],
           "answers": [
@@ -8279,9 +8279,9 @@ window.AWS_BANK = {
           ],
           "explanation": "GuardDuty é o serviço de detecção de ameaças: analisa VPC Flow Logs, CloudTrail e DNS logs com ML pra identificar atividade maliciosa (recon, instância/conta/bucket/EKS comprometido, malware), sem agente. Foca em comportamento/ameaça.",
           "whyNots": {
-            "B": "Inspector busca vulnerabilidades de software (CVEs), não comportamento malicioso em tempo real.",
-            "C": "Macie acha dados sensíveis no S3 — não detecta ameaça comportamental.",
-            "D": "Config avalia conformidade de configuração — não é detecção de ameaça."
+            "B": "Macie acha dados sensíveis no S3 — não detecta ameaça comportamental.",
+            "C": "Config avalia conformidade de configuração — não é detecção de ameaça.",
+            "D": "Inspector busca vulnerabilidades de software (CVEs), não comportamento malicioso em tempo real."
           }
         },
         {
@@ -8302,11 +8302,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Inspector"
+              "text": "Amazon Macie"
             },
             {
               "key": "B",
-              "text": "Amazon GuardDuty"
+              "text": "Amazon Inspector"
             },
             {
               "key": "C",
@@ -8314,11 +8314,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Macie"
+              "text": "Amazon GuardDuty"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'inspecionar' o software em busca de buracos conhecidos (CVE) = Inspector. Escaneia EC2, Lambda e imagens de container.",
@@ -8326,9 +8326,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Inspector é o serviço de gestão de vulnerabilidades: escaneia continuamente EC2, funções Lambda e imagens de container (ECR) em busca de vulnerabilidades de software (CVEs) e exposição de rede não intencional.",
           "whyNots": {
-            "B": "GuardDuty detecta ameaça/comportamento malicioso, não faz varredura de CVE.",
+            "A": "Macie procura dados sensíveis no S3 — não é varredura de CVE.",
             "C": "Shield protege contra DDoS — não escaneia vulnerabilidade de software.",
-            "D": "Macie procura dados sensíveis no S3 — não é varredura de CVE."
+            "D": "GuardDuty detecta ameaça/comportamento malicioso, não faz varredura de CVE."
           }
         },
         {
@@ -8350,23 +8350,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Macie"
-            },
-            {
-              "key": "B",
-              "text": "Amazon Inspector"
-            },
-            {
-              "key": "C",
               "text": "AWS KMS"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Amazon GuardDuty"
+            },
+            {
+              "key": "C",
+              "text": "Amazon Macie"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Inspector"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Macie é o 'farejador' de PII no S3 — usa ML e padrões pra achar dado sensível (CPF, cartão, etc.).",
@@ -8374,9 +8374,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Macie é o serviço de descoberta de dados sensíveis: usa ML e correspondência de padrões pra identificar e classificar PII/PHI e segredos dentro dos buckets S3 — exatamente o que o compliance pediu.",
           "whyNots": {
-            "B": "Inspector busca vulnerabilidades de software, não dado sensível.",
-            "C": "KMS gerencia chaves de criptografia — não descobre PII.",
-            "D": "GuardDuty detecta ameaça comportamental, não classifica conteúdo de dados."
+            "A": "KMS gerencia chaves de criptografia — não descobre PII.",
+            "B": "GuardDuty detecta ameaça comportamental, não classifica conteúdo de dados.",
+            "D": "Inspector busca vulnerabilidades de software, não dado sensível."
           }
         },
         {
@@ -8397,7 +8397,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Security Hub"
+              "text": "Amazon CloudWatch"
             },
             {
               "key": "B",
@@ -8409,11 +8409,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon CloudWatch"
+              "text": "AWS Security Hub"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o 'hub' é o ponto central — Security Hub agrega os achados de GuardDuty, Inspector e Macie num painel só e checa postura/compliance.",
@@ -8421,9 +8421,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Security Hub é o painel central de postura de segurança: agrega e correlaciona achados de GuardDuty, Inspector e Macie, e faz checagem de conformidade (CSPM) contra padrões como CIS, PCI DSS e AWS FSBP. É a visão única que faltava.",
           "whyNots": {
+            "A": "CloudWatch é métricas/logs operacionais — não é o hub de postura de segurança.",
             "B": "GuardDuty é uma das FONTES de achado, não o agregador central.",
-            "C": "CloudTrail audita chamadas de API — não correlaciona achados de segurança.",
-            "D": "CloudWatch é métricas/logs operacionais — não é o hub de postura de segurança."
+            "C": "CloudTrail audita chamadas de API — não correlaciona achados de segurança."
           }
         },
         {
@@ -8494,11 +8494,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Shield Standard"
+              "text": "AWS Shield Advanced"
             },
             {
               "key": "B",
-              "text": "AWS Shield Advanced"
+              "text": "AWS Shield Standard"
             },
             {
               "key": "C",
@@ -8510,7 +8510,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'automático, grátis, DDoS de rede (L3/L4)' = Shield Standard, que já vem ligado pra todo mundo.",
@@ -8518,7 +8518,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Shield Standard é incluído automaticamente e sem custo extra pra todos os clientes AWS, protegendo contra os ataques DDoS de infraestrutura mais comuns (camadas 3 e 4), como SYN/UDP floods e reflection.",
           "whyNots": {
-            "B": "Shield Advanced é pago (assinatura), com proteção expandida e SRT — não é o 'gratuito automático'.",
+            "A": "Shield Advanced é pago (assinatura), com proteção expandida e SRT — não é o 'gratuito automático'.",
             "C": "WAF é firewall de aplicação (L7) pago por uso — não é a proteção DDoS automática de rede.",
             "D": "GuardDuty detecta ameaça, não mitiga DDoS."
           }
@@ -8542,23 +8542,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Shield Advanced"
-            },
-            {
-              "key": "B",
-              "text": "AWS Shield Standard"
-            },
-            {
-              "key": "C",
               "text": "Amazon Inspector"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "AWS Config"
+            },
+            {
+              "key": "C",
+              "text": "AWS Shield Advanced"
+            },
+            {
+              "key": "D",
+              "text": "AWS Shield Standard"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'mitigação L7 automática + Shield Response Team + proteção de custo' são marcas registradas do Shield Advanced (pago).",
@@ -8566,9 +8566,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Shield Advanced é a assinatura paga com proteção DDoS expandida pra EC2, ELB, CloudFront, Route 53 e Global Accelerator, mitigação automática na camada 7, visibilidade avançada, acesso ao Shield Response Team (SRT) e proteção de custo contra picos por DDoS. Usa o WAF nas proteções L7.",
           "whyNots": {
-            "B": "Shield Standard é o básico gratuito (L3/L4), sem SRT nem proteção de custo.",
-            "C": "Inspector é vulnerabilidade de software — não é proteção DDoS.",
-            "D": "Config é conformidade de configuração — nada a ver com mitigação de DDoS."
+            "A": "Inspector é vulnerabilidade de software — não é proteção DDoS.",
+            "B": "Config é conformidade de configuração — nada a ver com mitigação de DDoS.",
+            "D": "Shield Standard é o básico gratuito (L3/L4), sem SRT nem proteção de custo."
           }
         },
         {
@@ -8589,11 +8589,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS WAF"
+              "text": "AWS Shield Standard"
             },
             {
               "key": "B",
-              "text": "AWS Shield Standard"
+              "text": "Amazon Macie"
             },
             {
               "key": "C",
@@ -8601,11 +8601,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Macie"
+              "text": "AWS WAF"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): WAF = Web Application Firewall (camada 7). Ele inspeciona requisições HTTP e bloqueia SQLi/XSS, faz rate limit e regras por IP/geo.",
@@ -8613,9 +8613,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS WAF é o firewall de aplicação web (camada 7): inspeciona requisições HTTP(S) e bloqueia ataques como SQL injection e XSS, aplica rate limiting e regras por IP/geo. Anexa a CloudFront, ALB, API Gateway e AppSync.",
           "whyNots": {
-            "B": "Shield Standard protege contra DDoS de rede (L3/L4), não filtra SQLi/XSS na aplicação.",
-            "C": "Security Group filtra por IP/porta (L3/L4), não entende conteúdo HTTP nem bloqueia SQLi/XSS.",
-            "D": "Macie acha dado sensível no S3 — não filtra requisições web."
+            "A": "Shield Standard protege contra DDoS de rede (L3/L4), não filtra SQLi/XSS na aplicação.",
+            "B": "Macie acha dado sensível no S3 — não filtra requisições web.",
+            "C": "Security Group filtra por IP/porta (L3/L4), não entende conteúdo HTTP nem bloqueia SQLi/XSS."
           }
         },
         {
@@ -8641,15 +8641,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS KMS (multi-tenant gerenciado)"
-            },
-            {
-              "key": "C",
               "text": "AWS Secrets Manager"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "AWS Certificate Manager"
+            },
+            {
+              "key": "D",
+              "text": "AWS KMS (multi-tenant gerenciado)"
             }
           ],
           "answers": [
@@ -8661,9 +8661,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudHSM oferece HSM dedicado single-tenant sob controle exclusivo do cliente, validado em FIPS 140-3 Nível 3, com interfaces PKCS#11/JCE/KSP — exatamente o que a regulação exige. KMS é o caso geral (multi-tenant, gerenciado, mais barato e fácil).",
           "whyNots": {
-            "B": "KMS usa HSM multi-tenant gerenciado; não atende o requisito de HSM dedicado single-tenant sob controle exclusivo.",
-            "C": "Secrets Manager guarda/rotaciona segredos — não é um HSM.",
-            "D": "Certificate Manager gerencia certificados TLS — não é HSM dedicado."
+            "B": "Secrets Manager guarda/rotaciona segredos — não é um HSM.",
+            "C": "Certificate Manager gerencia certificados TLS — não é HSM dedicado.",
+            "D": "KMS usa HSM multi-tenant gerenciado; não atende o requisito de HSM dedicado single-tenant sob controle exclusivo."
           }
         },
         {
@@ -8684,23 +8684,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS KMS"
+              "text": "Amazon Inspector"
             },
             {
               "key": "B",
-              "text": "AWS CloudHSM"
+              "text": "AWS KMS"
             },
             {
               "key": "C",
-              "text": "AWS Shield"
+              "text": "AWS CloudHSM"
             },
             {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "AWS Shield"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): caso geral, integrado e barato = KMS. Ele gerencia as chaves e se integra com S3, EBS, RDS, etc., com controle por IAM.",
@@ -8708,9 +8708,9 @@ window.AWS_BANK = {
           ],
           "explanation": "KMS é o serviço de criptografia padrão da AWS: gerenciado, HSM multi-tenant (FIPS 140-3 Nível 3), integrado nativamente a S3, EBS, RDS e a maioria dos serviços, com controle por IAM, baixo custo e pouca gestão. Atende o caso geral.",
           "whyNots": {
-            "B": "CloudHSM é dedicado/single-tenant, mais caro e trabalhoso — só quando a conformidade exige.",
-            "C": "Shield é proteção DDoS — não criptografa dados.",
-            "D": "Inspector é vulnerabilidade de software — não é serviço de chaves/criptografia."
+            "A": "Inspector é vulnerabilidade de software — não é serviço de chaves/criptografia.",
+            "C": "CloudHSM é dedicado/single-tenant, mais caro e trabalhoso — só quando a conformidade exige.",
+            "D": "Shield é proteção DDoS — não criptografa dados."
           }
         }
       ]
@@ -8737,7 +8737,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Application Load Balancer (ALB)"
+              "text": "Gateway Load Balancer (GWLB)"
             },
             {
               "key": "B",
@@ -8745,7 +8745,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Gateway Load Balancer (GWLB)"
+              "text": "Application Load Balancer (ALB)"
             },
             {
               "key": "D",
@@ -8753,7 +8753,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'rotear por path/host da URL' é decisão de camada 7 (aplicação) = ALB. Ele lê o HTTP e decide pra onde mandar.",
@@ -8761,8 +8761,8 @@ window.AWS_BANK = {
           ],
           "explanation": "ALB opera na camada 7 (HTTP/HTTPS) e roteia por conteúdo: path-based, host-based, headers, com SSL termination. É a escolha pra web, microsserviços e contêineres com regras de roteamento por URL.",
           "whyNots": {
+            "A": "GWLB serve pra inserir appliances virtuais de terceiros, não pra roteamento HTTP por path.",
             "B": "NLB é camada 4 (TCP/UDP) — não enxerga o path da URL pra rotear por conteúdo.",
-            "C": "GWLB serve pra inserir appliances virtuais de terceiros, não pra roteamento HTTP por path.",
             "D": "CLB é legado e não tem o roteamento avançado por conteúdo do ALB."
           }
         },
@@ -8784,23 +8784,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Network Load Balancer (NLB)"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "B",
-              "text": "Application Load Balancer (ALB)"
-            },
-            {
-              "key": "C",
               "text": "Gateway Load Balancer (GWLB)"
             },
             {
+              "key": "C",
+              "text": "Application Load Balancer (ALB)"
+            },
+            {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "Network Load Balancer (NLB)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'latência mínima + milhões de conexões TCP + IP estático' = NLB (camada 4). Ele é o mais rápido e oferece IP fixo por AZ.",
@@ -8808,9 +8808,9 @@ window.AWS_BANK = {
           ],
           "explanation": "NLB opera na camada 4 (TCP/UDP/TLS) com altíssimo desempenho e baixa latência, escala pra milhões de requisições por segundo e oferece IP estático/Elastic IP por AZ — ideal pra trading, gaming, streaming e IoT.",
           "whyNots": {
-            "B": "ALB é camada 7 (HTTP) — não entrega o throughput TCP extremo nem o IP estático nativo do NLB.",
-            "C": "GWLB é pra appliances de inspeção de terceiros, não pra balancear tráfego de trading de baixa latência.",
-            "D": "CloudFront é CDN de conteúdo na borda — não é load balancer L4 com IP estático."
+            "A": "CloudFront é CDN de conteúdo na borda — não é load balancer L4 com IP estático.",
+            "B": "GWLB é pra appliances de inspeção de terceiros, não pra balancear tráfego de trading de baixa latência.",
+            "C": "ALB é camada 7 (HTTP) — não entrega o throughput TCP extremo nem o IP estático nativo do NLB."
           }
         },
         {
@@ -8879,23 +8879,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Fargate (serverless para contêineres)"
-            },
-            {
-              "key": "B",
-              "text": "ECS no launch type EC2"
-            },
-            {
-              "key": "C",
               "text": "EC2 puro com Docker instalado na mão"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "AWS Fargate (serverless para contêineres)"
+            },
+            {
+              "key": "C",
               "text": "AWS Batch em EC2 dedicado"
+            },
+            {
+              "key": "D",
+              "text": "ECS no launch type EC2"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'não quero gerenciar servidor, só dizer CPU/memória da task' = Fargate, o motor serverless pra contêineres (funciona com ECS e EKS).",
@@ -8903,9 +8903,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Fargate é o motor de computação serverless pra contêineres (funciona com ECS e EKS): você só especifica CPU/memória por task e paga por isso, sem provisionar nem gerenciar servidores. Resolve exatamente o pedido da Júlia.",
           "whyNots": {
-            "B": "No launch type EC2, você gerencia a frota de instâncias (patch, tipo, escala) — o oposto do pedido.",
-            "C": "EC2 puro com Docker na mão é o máximo de gestão manual.",
-            "D": "Batch em EC2 dedicado ainda envolve gerenciar a infra de compute."
+            "A": "EC2 puro com Docker na mão é o máximo de gestão manual.",
+            "C": "Batch em EC2 dedicado ainda envolve gerenciar a infra de compute.",
+            "D": "No launch type EC2, você gerencia a frota de instâncias (patch, tipo, escala) — o oposto do pedido."
           }
         },
         {
@@ -8927,23 +8927,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EKS (Kubernetes gerenciado)"
+              "text": "Elastic Beanstalk com Helm nativo"
             },
             {
               "key": "B",
-              "text": "Amazon ECS"
+              "text": "Amazon ECS, que lê manifests e Helm"
             },
             {
               "key": "C",
-              "text": "AWS Lambda"
+              "text": "Amazon EKS (Kubernetes gerenciado)"
             },
             {
               "key": "D",
-              "text": "Elastic Beanstalk"
+              "text": "AWS Lambda, o Kubernetes serverless"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): já usa Kubernetes (manifests, Helm) e quer manter as APIs do K8s = EKS, o Kubernetes gerenciado da AWS.",
@@ -8951,9 +8951,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EKS é o Kubernetes gerenciado da AWS — mantém as APIs open source do Kubernetes e o ecossistema (Helm, operators), com a AWS cuidando do heavy lifting do control plane. É a escolha pra quem já vive de Kubernetes.",
           "whyNots": {
+            "A": "Elastic Beanstalk é PaaS pra apps web, não um cluster Kubernetes.",
             "B": "ECS é o orquestrador AWS-opinativo (mais simples), mas NÃO é Kubernetes — não roda os manifests/Helm do time.",
-            "C": "Lambda é funções serverless por evento, não orquestração de contêineres Kubernetes.",
-            "D": "Elastic Beanstalk é PaaS pra apps web, não um cluster Kubernetes."
+            "D": "Lambda é funções serverless por evento, não orquestração de contêineres Kubernetes."
           }
         },
         {
@@ -8976,7 +8976,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Launch type EC2"
+              "text": "Nenhum suporta GPU"
             },
             {
               "key": "B",
@@ -8988,11 +8988,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Nenhum suporta GPU"
+              "text": "Launch type EC2"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'GPU específica + acesso ao host + topa gerenciar a frota' = launch type EC2, que dá controle total da instância.",
@@ -9000,9 +9000,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O launch type EC2 do ECS dá controle total da frota: você escolhe instâncias (incluindo GPU), acessa o host e customiza o ambiente — em troca de gerenciar patch, tipo e escala. Fargate abstrai o servidor e não oferece esse nível de controle.",
           "whyNots": {
+            "A": "Errado — o launch type EC2 suporta instâncias com GPU.",
             "B": "Fargate é serverless e abstrai o host — não permite escolher instância GPU específica nem mexer no SO host do jeito pedido.",
-            "C": "Lambda não é o modelo pra contêineres de longa duração com GPU e acesso ao host.",
-            "D": "Errado — o launch type EC2 suporta instâncias com GPU."
+            "C": "Lambda não é o modelo pra contêineres de longa duração com GPU e acesso ao host."
           }
         },
         {
@@ -9070,15 +9070,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Scheduled scaling (por agenda)"
+              "text": "Aumentar manualmente todo dia na mão"
             },
             {
               "key": "B",
-              "text": "Target Tracking apenas"
+              "text": "Scheduled scaling (por agenda)"
             },
             {
               "key": "C",
-              "text": "Aumentar manualmente todo dia na mão"
+              "text": "Target Tracking apenas"
             },
             {
               "key": "D",
@@ -9086,7 +9086,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'horário previsível, definido' = Scheduled scaling. Você agenda o aumento/redução de capacidade (tipo cron).",
@@ -9094,8 +9094,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Scheduled scaling ajusta a capacidade da Auto Scaling Group em horários previsíveis (ex.: subir segunda 8h, descer à noite), antecipando picos conhecidos e economizando fora deles. É a política certa pra padrões de tempo definidos.",
           "whyNots": {
-            "B": "Target Tracking reage à métrica em tempo real, mas não antecipa pelo relógio um pico previsível como o scheduled.",
-            "C": "Fazer na mão todo dia é trabalhoso e sujeito a erro — o ponto do scheduled é automatizar isso.",
+            "A": "Fazer na mão todo dia é trabalhoso e sujeito a erro — o ponto do scheduled é automatizar isso.",
+            "C": "Target Tracking reage à métrica em tempo real, mas não antecipa pelo relógio um pico previsível como o scheduled.",
             "D": "Reserved Instances são um modelo de compra/desconto, não uma política de escalonamento."
           }
         },
@@ -9118,7 +9118,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) AWS Lambda; (2) AWS Fargate"
+              "text": "(1) EC2; (2) Lambda"
             },
             {
               "key": "B",
@@ -9126,7 +9126,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "(1) EC2; (2) Lambda"
+              "text": "(1) AWS Lambda; (2) AWS Fargate"
             },
             {
               "key": "D",
@@ -9134,7 +9134,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): função curta por evento = Lambda. Contêiner de longa duração sem servidor = Fargate.",
@@ -9142,8 +9142,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Lambda é ideal pra funções curtas orientadas a evento (processar o objeto recém-criado no S3), efêmeras, pagas por invocação. Fargate roda contêineres de longa duração (API web/microsserviço) sem gerenciar servidor. A opção A casa cada caso com o serviço certo.",
           "whyNots": {
+            "A": "EC2 exigiria gerenciar servidor; e Lambda não é o ideal pra uma API web contínua em contêiner.",
             "B": "Inverte: Lambda é a função por evento; Fargate é o contêiner de longa duração.",
-            "C": "EC2 exigiria gerenciar servidor; e Lambda não é o ideal pra uma API web contínua em contêiner.",
             "D": "EC2 puro contraria o 'sem gerenciar servidor' pedido no item 2."
           }
         },
@@ -9165,7 +9165,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ALB → NLB → GWLB"
+              "text": "GWLB → NLB → ALB"
             },
             {
               "key": "B",
@@ -9173,15 +9173,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "GWLB → NLB → ALB"
+              "text": "ALB → GWLB → NLB"
             },
             {
               "key": "D",
-              "text": "ALB → GWLB → NLB"
+              "text": "ALB → NLB → GWLB"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): HTTP por path = ALB (L7). TCP rápido + IP estático = NLB (L4). Appliance de segurança de terceiro = GWLB.",
@@ -9189,9 +9189,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada LB tem seu papel: ALB (L7, roteamento HTTP por path/host pra microsserviços), NLB (L4, TCP de baixa latência e IP estático) e GWLB (gateway pra appliances virtuais de terceiros). A opção A respeita os três.",
           "whyNots": {
+            "A": "Embaralha tudo — GWLB não faz roteamento HTTP por path.",
             "B": "Troca ALB com NLB — roteamento por path é L7 (ALB), não NLB.",
-            "C": "Embaralha tudo — GWLB não faz roteamento HTTP por path.",
-            "D": "Troca NLB com GWLB; IP estático/TCP rápido é NLB, não GWLB."
+            "C": "Troca NLB com GWLB; IP estático/TCP rápido é NLB, não GWLB."
           }
         }
       ]
@@ -9226,11 +9226,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "S3 Standard"
+              "text": "S3 Intelligent-Tiering"
             },
             {
               "key": "D",
-              "text": "S3 Intelligent-Tiering"
+              "text": "S3 Standard"
             }
           ],
           "answers": [
@@ -9243,8 +9243,8 @@ window.AWS_BANK = {
           "explanation": "S3 Standard-IA é pra dado acessado com pouca frequência, mas que precisa de acesso em milissegundos quando solicitado: storage mais barato que o Standard, em troca de uma taxa de recuperação. Multi-AZ, 11 noves.",
           "whyNots": {
             "B": "Deep Archive tem recuperação em 12–48h — não atende o 'na hora, em ms'.",
-            "C": "Standard não reduz o custo de armazenamento pra dado raramente acessado.",
-            "D": "Intelligent-Tiering serve quando o padrão é DESCONHECIDO; aqui o padrão (acesso raro) já é conhecido, então IA é mais direto/barato."
+            "C": "Intelligent-Tiering serve quando o padrão é DESCONHECIDO; aqui o padrão (acesso raro) já é conhecido, então IA é mais direto/barato.",
+            "D": "Standard não reduz o custo de armazenamento pra dado raramente acessado."
           }
         },
         {
@@ -9265,23 +9265,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 One Zone-IA"
+              "text": "S3 Glacier Instant Retrieval"
             },
             {
               "key": "B",
-              "text": "S3 Standard-IA"
+              "text": "S3 One Zone-IA"
             },
             {
               "key": "C",
-              "text": "S3 Standard"
+              "text": "S3 Standard-IA"
             },
             {
               "key": "D",
-              "text": "S3 Glacier Instant Retrieval"
+              "text": "S3 Standard"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'dá pra recriar + topa uma única AZ + mais barato' = One Zone-IA, que guarda em uma AZ só (mais barato que o IA multi-AZ).",
@@ -9289,9 +9289,9 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 One Zone-IA guarda o dado em uma única AZ, ~20% mais barato que o Standard-IA, com acesso em ms. Tem 11 noves de durabilidade, mas perde o objeto se a AZ for destruída — ideal pra dado infrequente e facilmente recriável (como thumbnails).",
           "whyNots": {
-            "B": "Standard-IA é multi-AZ e mais caro; pra dado recriável, One Zone-IA economiza mais.",
-            "C": "Standard é o mais caro pra acesso infrequente.",
-            "D": "Glacier Instant é archive; pra dado que ainda é lido às vezes e recriável, One Zone-IA é mais adequado e barato no caso."
+            "A": "Glacier Instant é archive; pra dado que ainda é lido às vezes e recriável, One Zone-IA é mais adequado e barato no caso.",
+            "C": "Standard-IA é multi-AZ e mais caro; pra dado recriável, One Zone-IA economiza mais.",
+            "D": "Standard é o mais caro pra acesso infrequente."
           }
         },
         {
@@ -9312,7 +9312,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Intelligent-Tiering"
+              "text": "S3 One Zone-IA"
             },
             {
               "key": "B",
@@ -9320,7 +9320,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "S3 One Zone-IA"
+              "text": "S3 Intelligent-Tiering"
             },
             {
               "key": "D",
@@ -9328,7 +9328,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'padrão imprevisível + não quero adivinhar + sem taxa de recuperação' = Intelligent-Tiering, que move o objeto entre tiers sozinho.",
@@ -9336,8 +9336,8 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 Intelligent-Tiering move cada objeto automaticamente pro tier mais econômico conforme o acesso, sem taxa de recuperação e sem impacto de performance (só uma pequena taxa de monitoramento). É a classe ideal pra padrões de acesso desconhecidos ou variáveis.",
           "whyNots": {
+            "A": "One Zone-IA tem o mesmo problema de IA, mais o risco de AZ única.",
             "B": "Standard-IA assume que o acesso é raro e cobra taxa de recuperação — ruim se o objeto virar quente de novo.",
-            "C": "One Zone-IA tem o mesmo problema de IA, mais o risco de AZ única.",
             "D": "Glacier Flexible é archive com recuperação em minutos/horas — não serve pra dado que pode virar quente a qualquer hora."
           }
         },
@@ -9359,23 +9359,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Glacier Instant Retrieval → Glacier Flexible Retrieval → Glacier Deep Archive"
+              "text": "Glacier Deep Archive → Glacier Instant Retrieval → Glacier Flexible Retrieval"
             },
             {
               "key": "B",
-              "text": "Glacier Deep Archive → Glacier Instant → Glacier Flexible"
+              "text": "S3 Standard → S3 Standard-IA → S3 One Zone-IA (as classes de archive do S3)"
             },
             {
               "key": "C",
-              "text": "Glacier Flexible → Glacier Deep Archive → Glacier Instant"
+              "text": "Glacier Flexible Retrieval → Glacier Deep Archive → Glacier Instant Retrieval"
             },
             {
               "key": "D",
-              "text": "Standard → Standard-IA → One Zone-IA"
+              "text": "Glacier Instant Retrieval → Glacier Flexible Retrieval → Glacier Deep Archive"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): ms imediato = Instant; minutos/horas = Flexible; mais barato e 12–48h = Deep Archive.",
@@ -9383,9 +9383,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Glacier Instant Retrieval entrega archive com acesso em ms (imagem médica). Glacier Flexible Retrieval recupera em minutos ou bulk grátis em 5–12h (backup/DR). Glacier Deep Archive é o mais barato, recuperação em 12–48h (compliance de longo prazo). A opção A mapeia certo.",
           "whyNots": {
-            "B": "Inverte: Deep Archive não abre em ms.",
-            "C": "Embaralha os tempos de recuperação.",
-            "D": "Essas não são classes de archive Glacier; o cenário pede archive de longo prazo."
+            "A": "Inverte: Deep Archive não abre em ms.",
+            "B": "Essas não são classes de archive Glacier; o cenário pede archive de longo prazo.",
+            "C": "Embaralha os tempos de recuperação."
           }
         },
         {
@@ -9410,15 +9410,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Versionamento"
+              "text": "Replicação cross-region com TTL por idade"
             },
             {
               "key": "C",
-              "text": "Replicação cross-region"
+              "text": "Bucket policy movendo objeto por idade"
             },
             {
               "key": "D",
-              "text": "Bucket policy"
+              "text": "Versionamento, que expira e move classes"
             }
           ],
           "answers": [
@@ -9430,9 +9430,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A Lifecycle policy do S3 aplica regras automáticas por idade do objeto: transição entre classes (Standard → IA → Glacier) e expiração (exclusão). Otimiza custo sem intervenção manual.",
           "whyNots": {
-            "B": "Versionamento mantém versões antigas — não move de classe nem expira por idade.",
-            "C": "Replicação copia pra outra região — não gerencia transição de classe por idade.",
-            "D": "Bucket policy controla permissões de acesso — não automatiza ciclo de vida."
+            "B": "Replicação copia pra outra região — não gerencia transição de classe por idade.",
+            "C": "Bucket policy controla permissões de acesso — não automatiza ciclo de vida.",
+            "D": "Versionamento mantém versões antigas — não move de classe nem expira por idade."
           }
         },
         {
@@ -9453,11 +9453,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "gp3 (General Purpose SSD)"
+              "text": "io2 Block Express"
             },
             {
               "key": "B",
-              "text": "sc1 (Cold HDD)"
+              "text": "gp3 (General Purpose SSD)"
             },
             {
               "key": "C",
@@ -9465,11 +9465,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "io2 Block Express"
+              "text": "sc1 (Cold HDD)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): uso geral, baseline garantido, IOPS/throughput ajustáveis e mais barato que gp2 = gp3, o SSD de propósito geral atual.",
@@ -9477,9 +9477,9 @@ window.AWS_BANK = {
           ],
           "explanation": "gp3 é o SSD de propósito geral recomendado: baseline de 3.000 IOPS e 125 MiB/s independente do tamanho, com IOPS e throughput configuráveis separadamente, e ~20% mais barato que o gp2. É a escolha padrão pra maioria dos workloads.",
           "whyNots": {
-            "B": "sc1 é HDD frio de menor custo, pra dado raramente acessado — não é uso geral com bom IOPS.",
+            "A": "io2 Block Express é pra apps críticos de IOPS altíssimo — exagero (e mais caro) pra uso geral.",
             "C": "st1 é HDD de throughput pra big data sequencial — não é volume de propósito geral (nem serve de boot).",
-            "D": "io2 Block Express é pra apps críticos de IOPS altíssimo — exagero (e mais caro) pra uso geral."
+            "D": "sc1 é HDD frio de menor custo, pra dado raramente acessado — não é uso geral com bom IOPS."
           }
         },
         {
@@ -9500,23 +9500,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"
+              "text": "st1 (Throughput Optimized HDD), o topo em IOPS"
             },
             {
               "key": "B",
-              "text": "gp2"
+              "text": "gp2, que garante IOPS fixos pra banco crítico"
             },
             {
               "key": "C",
-              "text": "st1 (Throughput Optimized HDD)"
+              "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"
             },
             {
               "key": "D",
-              "text": "sc1 (Cold HDD)"
+              "text": "sc1 (Cold HDD), ideal pra latência mínima"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'IOPS altíssimos, consistentes, baixa latência, durabilidade reforçada' = Provisioned IOPS SSD (io1/io2). O io2 Block Express é o topo.",
@@ -9524,8 +9524,8 @@ window.AWS_BANK = {
           ],
           "explanation": "io2 (e io2 Block Express) é o SSD de IOPS provisionados: alto desempenho consistente, baixa latência e durabilidade reforçada (até 99,999% no Block Express) — feito pra bancos críticos que exigem IOPS previsíveis e altos.",
           "whyNots": {
+            "A": "st1 é HDD de throughput — não entrega IOPS altos de baixa latência pra banco.",
             "B": "gp2 é de propósito geral; não garante o IOPS altíssimo e consistente de um io2.",
-            "C": "st1 é HDD de throughput — não entrega IOPS altos de baixa latência pra banco.",
             "D": "sc1 é HDD frio de baixo custo — o oposto de alto desempenho."
           }
         },
@@ -9547,7 +9547,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "st1 (Throughput Optimized HDD)"
+              "text": "Instance Store efêmero"
             },
             {
               "key": "B",
@@ -9559,11 +9559,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Instance Store efêmero"
+              "text": "st1 (Throughput Optimized HDD)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'grandes arquivos sequenciais + throughput (MB/s) + custo baixo' = st1, o HDD otimizado pra throughput.",
@@ -9571,9 +9571,9 @@ window.AWS_BANK = {
           ],
           "explanation": "st1 (Throughput Optimized HDD) é otimizado pra throughput (MB/s) em workloads sequenciais frequentes e grandes — big data, MapReduce, log e data warehouse — a um custo menor que SSD. É o caso clássico do enunciado.",
           "whyNots": {
+            "A": "Instance Store é efêmero (perde dados) — arriscado pra um pipeline persistente.",
             "B": "io2 é caro e focado em IOPS de acesso aleatório — não é o melhor custo pra throughput sequencial.",
-            "C": "gp3 (SSD) funciona, mas pra grandes leituras sequenciais o st1 entrega throughput a menor custo.",
-            "D": "Instance Store é efêmero (perde dados) — arriscado pra um pipeline persistente."
+            "C": "gp3 (SSD) funciona, mas pra grandes leituras sequenciais o st1 entrega throughput a menor custo."
           }
         },
         {
@@ -9603,11 +9603,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon S3 Standard"
+              "text": "Amazon EFS"
             },
             {
               "key": "D",
-              "text": "Amazon EFS"
+              "text": "Amazon S3 Standard"
             }
           ],
           "answers": [
@@ -9620,8 +9620,8 @@ window.AWS_BANK = {
           "explanation": "Instance Store é o disco físico anexado ao host: altíssimo IOPS e baixa latência, mas EFÊMERO — perde os dados quando a instância para/termina. É perfeito pra cache, scratch e buffer temporário com dados reconstruíveis.",
           "whyNots": {
             "B": "io2 é persistente e mais caro — desnecessário pra dado descartável.",
-            "C": "S3 é object storage, não disco local de baixa latência pra cache.",
-            "D": "EFS é file system compartilhado em rede — não é o scratch local de altíssimo IOPS."
+            "C": "EFS é file system compartilhado em rede — não é o scratch local de altíssimo IOPS.",
+            "D": "S3 é object storage, não disco local de baixa latência pra cache."
           }
         },
         {
@@ -9643,11 +9643,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "EFS → FSx for Windows File Server → FSx for Lustre"
+              "text": "EFS → FSx for Lustre → FSx for Windows"
             },
             {
               "key": "B",
-              "text": "FSx for Lustre → EFS → FSx for Windows"
+              "text": "EFS → FSx for Windows File Server → FSx for Lustre"
             },
             {
               "key": "C",
@@ -9655,11 +9655,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "EFS → FSx for Lustre → FSx for Windows"
+              "text": "FSx for Lustre → EFS → FSx for Windows"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): Linux/NFS compartilhado = EFS. Windows/SMB/AD = FSx for Windows. HPC/ML alto throughput = FSx for Lustre.",
@@ -9667,9 +9667,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EFS é o NFS elástico pra Linux compartilhado entre muitos EC2. FSx for Windows File Server entrega SMB nativo pra apps Windows/Active Directory. FSx for Lustre é o file system de altíssimo throughput pra HPC e treino de ML. A opção A respeita os três casos.",
           "whyNots": {
-            "B": "Troca os papéis — NFS Linux é EFS, não Lustre.",
+            "A": "Troca Lustre com Windows — SMB/AD é FSx for Windows, HPC é Lustre.",
             "C": "Embaralha tudo; EFS não é o de HPC nem o de Windows.",
-            "D": "Troca Lustre com Windows — SMB/AD é FSx for Windows, HPC é Lustre."
+            "D": "Troca os papéis — NFS Linux é EFS, não Lustre."
           }
         },
         {
@@ -9692,15 +9692,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "EBS → EFS → S3"
-            },
-            {
-              "key": "B",
               "text": "S3 → EBS → EFS"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "EFS → S3 → EBS"
+            },
+            {
+              "key": "C",
+              "text": "EBS → EFS → S3"
             },
             {
               "key": "D",
@@ -9708,7 +9708,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): bloco pra uma instância = EBS. Arquivo compartilhado entre várias = EFS. Objetos via HTTP = S3.",
@@ -9716,8 +9716,8 @@ window.AWS_BANK = {
           ],
           "explanation": "EBS é armazenamento em bloco anexado tipicamente a uma instância (volume de SO/banco). EFS é file system compartilhado por várias instâncias Linux ao mesmo tempo. S3 é object storage pra arquivos/estáticos acessíveis via HTTP/API. A opção A mapeia os três corretamente.",
           "whyNots": {
-            "B": "Começa com S3 pra disco em bloco — errado; bloco é EBS.",
-            "C": "Coloca EFS como bloco de instância única — EFS é compartilhado, não bloco.",
+            "A": "Começa com S3 pra disco em bloco — errado; bloco é EBS.",
+            "B": "Coloca EFS como bloco de instância única — EFS é compartilhado, não bloco.",
             "D": "Troca EFS com S3 — compartilhado entre instâncias é EFS, objetos é S3."
           }
         }
@@ -9745,23 +9745,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "On-Demand"
-            },
-            {
-              "key": "B",
-              "text": "Reserved Instances de 3 anos"
-            },
-            {
-              "key": "C",
               "text": "Spot Instances"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Dedicated Hosts"
+            },
+            {
+              "key": "C",
+              "text": "Reserved Instances de 3 anos"
+            },
+            {
+              "key": "D",
+              "text": "On-Demand"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'imprevisível, curto, sem compromisso' = On-Demand. Paga por segundo e larga quando quiser.",
@@ -9769,9 +9769,9 @@ window.AWS_BANK = {
           ],
           "explanation": "On-Demand cobra por segundo, sem compromisso de longo prazo — ideal pra cargas imprevisíveis, curtas, ou pra fazer benchmark antes de se comprometer com RI/Savings Plans. É o ponto de partida natural.",
           "whyNots": {
-            "B": "RI de 3 anos exige compromisso longo com config específica — arriscado antes de conhecer o padrão.",
-            "C": "Spot pode ser interrompido — ruim pra testar uma carga que você ainda precisa observar com estabilidade.",
-            "D": "Dedicated Hosts é caro e voltado a licença/compliance, não a um teste inicial barato."
+            "A": "Spot pode ser interrompido — ruim pra testar uma carga que você ainda precisa observar com estabilidade.",
+            "B": "Dedicated Hosts é caro e voltado a licença/compliance, não a um teste inicial barato.",
+            "C": "RI de 3 anos exige compromisso longo com config específica — arriscado antes de conhecer o padrão."
           }
         },
         {
@@ -9797,15 +9797,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "On-Demand"
-            },
-            {
-              "key": "C",
               "text": "Reserved Instances Standard"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Dedicated Hosts"
+            },
+            {
+              "key": "D",
+              "text": "On-Demand"
             }
           ],
           "answers": [
@@ -9817,9 +9817,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Spot Instances usam capacidade ociosa com até 90% de desconto vs On-Demand, podendo ser interrompidas com aviso de 2 minutos. São perfeitas pra cargas tolerantes a falha e flexíveis no tempo, como batch noturno stateless, CI/CD e big data.",
           "whyNots": {
-            "B": "On-Demand não dá o desconto agressivo do Spot pra uma carga que aceita interrupção.",
-            "C": "RI dá bom desconto, mas exige compromisso de 1-3 anos — desnecessário pra um batch interrompível.",
-            "D": "Dedicated Hosts é o mais caro, voltado a licença/compliance — o oposto de 'menor custo'."
+            "B": "RI dá bom desconto, mas exige compromisso de 1-3 anos — desnecessário pra um batch interrompível.",
+            "C": "Dedicated Hosts é o mais caro, voltado a licença/compliance — o oposto de 'menor custo'.",
+            "D": "On-Demand não dá o desconto agressivo do Spot pra uma carga que aceita interrupção."
           }
         },
         {
@@ -9840,23 +9840,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Reserved Instances (ou Savings Plans)"
-            },
-            {
-              "key": "B",
               "text": "On-Demand"
             },
             {
+              "key": "B",
+              "text": "Reserved Instances (ou Savings Plans)"
+            },
+            {
               "key": "C",
-              "text": "Spot Instances"
+              "text": "Pagar por transferência de dados"
             },
             {
               "key": "D",
-              "text": "Pagar por transferência de dados"
+              "text": "Spot Instances"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'estável, 24/7, topa compromisso de 1-3 anos' = Reserved Instances (ou Savings Plans). Desconto grande em troca do compromisso.",
@@ -9864,9 +9864,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra carga estável 24/7 com compromisso de 1 ou 3 anos, Reserved Instances (até ~72% de desconto) ou Savings Plans são o caminho. RI fixa uma configuração específica (e pode reservar capacidade); Savings Plans dão a mesma economia com mais flexibilidade de instância.",
           "whyNots": {
-            "B": "On-Demand é o mais caro por hora — desperdício pra carga estável de longo prazo.",
-            "C": "Spot pode ser interrompido — inadequado pra produção 24/7 que precisa estar sempre no ar.",
-            "D": "Transferência de dados é outra dimensão de custo, não um modelo de compra de instância."
+            "A": "On-Demand é o mais caro por hora — desperdício pra carga estável de longo prazo.",
+            "C": "Transferência de dados é outra dimensão de custo, não um modelo de compra de instância.",
+            "D": "Spot pode ser interrompido — inadequado pra produção 24/7 que precisa estar sempre no ar."
           }
         },
         {
@@ -9888,23 +9888,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Compute Savings Plans"
+              "text": "On-Demand puro"
             },
             {
               "key": "B",
-              "text": "Standard Reserved Instances"
-            },
-            {
-              "key": "C",
               "text": "Spot Instances"
             },
             {
+              "key": "C",
+              "text": "Compute Savings Plans"
+            },
+            {
               "key": "D",
-              "text": "On-Demand puro"
+              "text": "Standard Reserved Instances"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'comprometo com GASTO/hora, não com instância' + 'inclui Fargate/Lambda' = Compute Savings Plans, o mais flexível.",
@@ -9912,9 +9912,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Compute Savings Plans dão desconto (1 ou 3 anos) em troca de um compromisso de gasto em US$/hora, com flexibilidade total: qualquer região/família de instância e ainda Fargate e Lambda. É ideal pra quem muda de instância com frequência e não quer amarrar a configuração.",
           "whyNots": {
-            "B": "Standard RI amarra a uma configuração específica — o oposto da flexibilidade pedida.",
-            "C": "Spot é interrompível e não é um plano de compromisso de longo prazo com desconto estável.",
-            "D": "On-Demand não dá o desconto de longo prazo desejado."
+            "A": "On-Demand não dá o desconto de longo prazo desejado.",
+            "B": "Spot é interrompível e não é um plano de compromisso de longo prazo com desconto estável.",
+            "D": "Standard RI amarra a uma configuração específica — o oposto da flexibilidade pedida."
           }
         },
         {
@@ -9935,23 +9935,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Dedicated Hosts"
-            },
-            {
-              "key": "B",
-              "text": "Spot Instances"
-            },
-            {
-              "key": "C",
               "text": "Reserved Instances"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "On-Demand compartilhado"
+            },
+            {
+              "key": "C",
+              "text": "Spot Instances"
+            },
+            {
+              "key": "D",
+              "text": "Dedicated Hosts"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'licença por socket/core (BYOL) + host físico dedicado + visibilidade do host' = Dedicated Hosts.",
@@ -9959,9 +9959,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Dedicated Hosts entregam um servidor físico totalmente dedicado, com visibilidade do host (sockets/cores), permitindo trazer licenças amarradas ao hardware (BYOL) e atender compliance que exige isolamento físico. É o modelo certo pra esse requisito.",
           "whyNots": {
-            "B": "Spot é capacidade ociosa interrompível em hardware compartilhado — não atende compliance nem BYOL por socket.",
-            "C": "RI é um modelo de preço/compromisso, não garante host físico dedicado com visibilidade pra BYOL.",
-            "D": "On-Demand compartilhado roda em hardware multi-tenant — não atende isolamento físico nem BYOL por socket."
+            "A": "RI é um modelo de preço/compromisso, não garante host físico dedicado com visibilidade pra BYOL.",
+            "B": "On-Demand compartilhado roda em hardware multi-tenant — não atende isolamento físico nem BYOL por socket.",
+            "C": "Spot é capacidade ociosa interrompível em hardware compartilhado — não atende compliance nem BYOL por socket."
           }
         },
         {
@@ -9988,15 +9988,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Spot → On-Demand → Dedicated Hosts → RI"
-            },
-            {
-              "key": "C",
               "text": "RI → Spot → On-Demand → Savings Plans"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Dedicated Hosts → Spot → RI → On-Demand"
+            },
+            {
+              "key": "D",
+              "text": "Spot → On-Demand → Dedicated Hosts → RI"
             }
           ],
           "answers": [
@@ -10008,9 +10008,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada carga tem seu modelo: pico imprevisível = On-Demand; base estável de longo prazo = Savings Plans ou Reserved Instances; workers stateless interrompíveis = Spot; licença por core em host físico = Dedicated Hosts. A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Usa Spot pra pico que precisa rodar e On-Demand pra base estável — desperdiça economia.",
-            "C": "Coloca RI pra pico imprevisível e Spot pra base estável — invertido.",
-            "D": "Embaralha tudo; nenhuma posição bate com a carga certa."
+            "B": "Coloca RI pra pico imprevisível e Spot pra base estável — invertido.",
+            "C": "Embaralha tudo; nenhuma posição bate com a carga certa.",
+            "D": "Usa Spot pra pico que precisa rodar e On-Demand pra base estável — desperdiça economia."
           }
         },
         {
@@ -10031,23 +10031,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cluster placement group"
-            },
-            {
-              "key": "B",
               "text": "Spread placement group"
             },
             {
+              "key": "B",
+              "text": "Cluster placement group"
+            },
+            {
               "key": "C",
-              "text": "Partition placement group"
+              "text": "Nenhum; placement group não afeta rede"
             },
             {
               "key": "D",
-              "text": "Nenhum; placement group não afeta rede"
+              "text": "Partition placement group"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'menor latência + maior throughput entre instâncias' = Cluster, que empacota tudo juntinho numa AZ.",
@@ -10055,9 +10055,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cluster placement group empacota as instâncias bem próximas dentro de uma única AZ, entregando baixa latência e alto throughput de rede entre elas — exatamente o que HPC e comunicação nó-a-nó intensa exigem.",
           "whyNots": {
-            "B": "Spread separa as instâncias em hardware distinto pra evitar falhas correlacionadas — o oposto de empacotar pra performance.",
-            "C": "Partition isola por partições pra big data distribuído — não foca em latência mínima nó-a-nó.",
-            "D": "Errado — o placement group afeta diretamente a topologia de rede e o desempenho."
+            "A": "Spread separa as instâncias em hardware distinto pra evitar falhas correlacionadas — o oposto de empacotar pra performance.",
+            "C": "Errado — o placement group afeta diretamente a topologia de rede e o desempenho.",
+            "D": "Partition isola por partições pra big data distribuído — não foca em latência mínima nó-a-nó."
           }
         },
         {
@@ -10078,23 +10078,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Spread placement group"
-            },
-            {
-              "key": "B",
               "text": "Cluster placement group"
             },
             {
+              "key": "B",
+              "text": "Auto Scaling group"
+            },
+            {
               "key": "C",
-              "text": "Partition placement group"
+              "text": "Spread placement group"
             },
             {
               "key": "D",
-              "text": "Auto Scaling group"
+              "text": "Partition placement group"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'poucas instâncias críticas, em hardware separado, pra não caírem juntas' = Spread.",
@@ -10102,9 +10102,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Spread placement group coloca um número pequeno de instâncias em hardware (racks) distinto, reduzindo o risco de falhas simultâneas. É a escolha pra poucas instâncias críticas que precisam ficar isoladas umas das outras.",
           "whyNots": {
-            "B": "Cluster empacota juntas (mesmo risco de rack) pra performance — o oposto do que se quer aqui.",
-            "C": "Partition é pra grandes workloads distribuídos com isolamento por partição, não pra poucas instâncias críticas.",
-            "D": "Auto Scaling group gerencia escala/quantidade, não a separação física por hardware como o spread."
+            "A": "Cluster empacota juntas (mesmo risco de rack) pra performance — o oposto do que se quer aqui.",
+            "B": "Auto Scaling group gerencia escala/quantidade, não a separação física por hardware como o spread.",
+            "D": "Partition é pra grandes workloads distribuídos com isolamento por partição, não pra poucas instâncias críticas."
           }
         },
         {
@@ -10125,11 +10125,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Partition placement group"
+              "text": "Cluster placement group"
             },
             {
               "key": "B",
-              "text": "Cluster placement group"
+              "text": "Single-AZ sem placement group"
             },
             {
               "key": "C",
@@ -10137,11 +10137,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Single-AZ sem placement group"
+              "text": "Partition placement group"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): big data distribuído e replicado (Hadoop/Cassandra/Kafka) com isolamento por bloco = Partition.",
@@ -10149,9 +10149,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Partition placement group divide as instâncias em partições lógicas, cada uma com seu rack, energia e rede; instâncias de partições diferentes não compartilham hardware. Isola o impacto de uma falha a uma partição — ideal pra Hadoop, Cassandra e Kafka em larga escala.",
           "whyNots": {
-            "B": "Cluster empacota tudo junto — uma falha de rack pode atingir muitas instâncias.",
-            "C": "Spread é pra um número PEQUENO de instâncias críticas, não pra dezenas de nós de big data.",
-            "D": "Sem placement group, você não tem o isolamento por partição que protege o cluster distribuído."
+            "A": "Cluster empacota tudo junto — uma falha de rack pode atingir muitas instâncias.",
+            "B": "Sem placement group, você não tem o isolamento por partição que protege o cluster distribuído.",
+            "C": "Spread é pra um número PEQUENO de instâncias críticas, não pra dezenas de nós de big data."
           }
         },
         {
@@ -10176,11 +10176,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Spread → Cluster → Partition"
+              "text": "Partition → Spread → Cluster"
             },
             {
               "key": "C",
-              "text": "Partition → Spread → Cluster"
+              "text": "Spread → Cluster → Partition"
             },
             {
               "key": "D",
@@ -10196,8 +10196,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cluster entrega latência mínima nó-a-nó (HPC); Spread separa poucas instâncias críticas em hardware distinto; Partition isola falha por partição em clusters distribuídos grandes (Cassandra, Hadoop, Kafka). A opção A mapeia os três corretamente.",
           "whyNots": {
-            "B": "Troca Cluster com Spread — latência mínima é Cluster, não Spread.",
-            "C": "Inverte Cluster e Partition.",
+            "B": "Inverte Cluster e Partition.",
+            "C": "Troca Cluster com Spread — latência mínima é Cluster, não Spread.",
             "D": "Troca Spread com Partition — poucos críticos é Spread; big data é Partition."
           }
         }
@@ -10226,11 +10226,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Anexar uma IAM Role à instância EC2 (instance profile)"
+              "text": "Usar a conta root da AWS"
             },
             {
               "key": "B",
-              "text": "Embutir a access key no código"
+              "text": "Anexar uma IAM Role à instância EC2 (instance profile)"
             },
             {
               "key": "C",
@@ -10238,11 +10238,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Usar a conta root da AWS"
+              "text": "Embutir a access key no código"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): nunca embuta access key. Anexe uma IAM Role na EC2 — ela recebe credenciais TEMPORÁRIAS automaticamente.",
@@ -10250,9 +10250,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A forma segura é anexar uma IAM Role à instância EC2 (via instance profile): a aplicação recebe credenciais temporárias automaticamente, sem chave de longa duração embutida. Elimina o risco de vazar access key no código.",
           "whyNots": {
-            "B": "Embutir access key no código é o anti-padrão clássico — vaza fácil (git, logs) e não rotaciona.",
+            "A": "Usar a conta root é proibido pra operação do dia a dia — é a credencial mais perigosa de todas.",
             "C": "Guardar secret key em arquivo na instância é igualmente inseguro.",
-            "D": "Usar a conta root é proibido pra operação do dia a dia — é a credencial mais perigosa de todas."
+            "D": "Embutir access key no código é o anti-padrão clássico — vaza fácil (git, logs) e não rotaciona."
           }
         },
         {
@@ -10273,23 +10273,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "IAM User = credencial de longa duração; IAM Role = credencial temporária (assumida)"
+              "text": "Os dois são iguais, muda só o nome — o tipo de credencial emitida é o mesmo nos dois"
             },
             {
               "key": "B",
-              "text": "IAM User = temporária; IAM Role = longa duração"
+              "text": "IAM User = credencial temporária (rotacionada); IAM Role = credencial de longa duração"
             },
             {
               "key": "C",
-              "text": "Os dois usam só credenciais temporárias"
+              "text": "IAM User = credencial de longa duração; IAM Role = credencial temporária (assumida)"
             },
             {
               "key": "D",
-              "text": "Os dois são iguais, muda só o nome"
+              "text": "Os dois usam só credenciais temporárias — a AWS aposentou as chaves de longa duração"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): User = pessoa/app fixo com chave de longa duração. Role = papel que se ASSUME e entrega credencial temporária via STS.",
@@ -10297,9 +10297,9 @@ window.AWS_BANK = {
           ],
           "explanation": "IAM User é identidade permanente com credenciais de longa duração (senha, access keys). IAM Role é identidade assumível que entrega credenciais temporárias via STS, usada por serviços AWS, contas externas e usuários federados. Preferir roles é boa prática.",
           "whyNots": {
+            "A": "São diferentes em natureza (permanente vs assumível) e tipo de credencial.",
             "B": "Inverte — user é longa duração; role é temporária.",
-            "C": "User usa credencial de longa duração, não temporária.",
-            "D": "São diferentes em natureza (permanente vs assumível) e tipo de credencial."
+            "D": "User usa credencial de longa duração, não temporária."
           }
         },
         {
@@ -10321,23 +10321,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "STS AssumeRole (assumir um role na conta B)"
-            },
-            {
-              "key": "B",
               "text": "Criar um IAM User na conta B e compartilhar a senha"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Usar a conta root da conta B"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Security Group cross-account"
+            },
+            {
+              "key": "D",
+              "text": "STS AssumeRole (assumir um role na conta B)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): acesso entre contas com credencial temporária = STS AssumeRole. A conta B cria um role e confia na conta A.",
@@ -10345,9 +10345,9 @@ window.AWS_BANK = {
           ],
           "explanation": "STS AssumeRole é o caminho pra acesso cross-account: a conta B cria um role com uma trust policy que confia na conta A; o usuário da conta A chama AssumeRole e recebe credenciais temporárias (access key + secret + session token) pra agir na conta B — sem criar usuário novo.",
           "whyNots": {
-            "B": "Criar usuário e compartilhar senha é inseguro e contrário à boa prática de credenciais temporárias.",
-            "C": "Usar a root da conta B é proibido pra esse tipo de acesso.",
-            "D": "Security Group filtra rede — não concede acesso de identidade entre contas."
+            "A": "Criar usuário e compartilhar senha é inseguro e contrário à boa prática de credenciais temporárias.",
+            "B": "Usar a root da conta B é proibido pra esse tipo de acesso.",
+            "C": "Security Group filtra rede — não concede acesso de identidade entre contas."
           }
         },
         {
@@ -10373,11 +10373,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Identity-based policy apenas no usuário"
+              "text": "Permissions boundary"
             },
             {
               "key": "C",
-              "text": "Permissions boundary"
+              "text": "Identity-based policy apenas no usuário"
             },
             {
               "key": "D",
@@ -10393,8 +10393,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma resource-based policy (como a bucket policy do S3) é anexada ao recurso e especifica QUEM (qual principal, inclusive de outra conta) pode acessá-lo. É o jeito de liberar acesso cross-account diretamente no bucket.",
           "whyNots": {
-            "B": "Identity-based policy diz o que a identidade pode fazer, mas pra cross-account o recurso também precisa permitir o principal externo (resource-based).",
-            "C": "Permissions boundary limita o máximo de um principal — não concede acesso a um bucket.",
+            "B": "Permissions boundary limita o máximo de um principal — não concede acesso a um bucket.",
+            "C": "Identity-based policy diz o que a identidade pode fazer, mas pra cross-account o recurso também precisa permitir o principal externo (resource-based).",
             "D": "SCP é teto de conta na Organizations — não é o que concede acesso a um bucket específico."
           }
         },
@@ -10416,11 +10416,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Permissions boundary"
+              "text": "Resource-based policy"
             },
             {
               "key": "B",
-              "text": "Resource-based policy"
+              "text": "Permissions boundary"
             },
             {
               "key": "C",
@@ -10432,7 +10432,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'teto máximo de permissões de um user/role, mesmo que a policy de identidade conceda mais' = permissions boundary.",
@@ -10440,7 +10440,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Permissions boundary é uma managed policy que define o MÁXIMO de permissões que a policy de identidade pode conceder a um user/role. O efetivo é a interseção (boundary ∩ identity policy), o que permite delegar a criação de roles aos devs sem risco de escalonamento além do teto.",
           "whyNots": {
-            "B": "Resource-based policy controla acesso a um recurso, não o teto de permissões de uma identidade.",
+            "A": "Resource-based policy controla acesso a um recurso, não o teto de permissões de uma identidade.",
             "C": "Rotação de chave é higiene de credencial — não impõe teto de permissão.",
             "D": "MFA adiciona um fator de autenticação — não limita o escopo de permissões."
           }
@@ -10464,23 +10464,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Só quando a identity policy, a SCP E a permissions boundary permitem (todas)"
+              "text": "Quando só a identity policy permite — SCP e boundary são apenas informativas"
             },
             {
               "key": "B",
-              "text": "Quando pelo menos uma das três permite"
+              "text": "Quando pelo menos uma das três permite — o IAM soma permissões (união)"
             },
             {
               "key": "C",
-              "text": "Quando só a identity policy permite, ignorando SCP e boundary"
+              "text": "Só quando a identity policy, a SCP E a permissions boundary permitem (todas)"
             },
             {
               "key": "D",
-              "text": "Quando a SCP permite, ignorando o resto"
+              "text": "Quando a SCP permite, ignorando o resto — ela é a camada final e decide"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): pensa em camadas de teto. Pra valer, TODAS têm que permitir (interseção): identity policy ∩ SCP ∩ boundary.",
@@ -10488,8 +10488,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Quando há identity policy + SCP + permissions boundary, a ação só é permitida se TODAS permitirem (interseção). Cada uma é um teto independente; basta uma não permitir (ou um deny explícito em qualquer lugar) pra bloquear.",
           "whyNots": {
+            "A": "SCP e boundary não podem ser ignoradas; elas limitam o efetivo.",
             "B": "Não basta uma permitir — é interseção; todas precisam permitir.",
-            "C": "SCP e boundary não podem ser ignoradas; elas limitam o efetivo.",
             "D": "A SCP sozinha não basta; a identity policy e a boundary também precisam permitir."
           }
         },
@@ -10511,7 +10511,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS IAM Identity Center"
+              "text": "Uma access key compartilhada"
             },
             {
               "key": "B",
@@ -10519,15 +10519,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Uma access key compartilhada"
+              "text": "Security Group central"
             },
             {
               "key": "D",
-              "text": "Security Group central"
+              "text": "AWS IAM Identity Center"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): SSO central pra muitas contas, com MFA e permission sets = IAM Identity Center (sucessor do AWS SSO).",
@@ -10535,9 +10535,9 @@ window.AWS_BANK = {
           ],
           "explanation": "IAM Identity Center (sucessor do AWS SSO) gerencia centralmente o acesso a múltiplas contas AWS, com SSO protegido por MFA e permission sets, conectando-se a um IdP externo (SAML 2.0/SCIM) ou a um diretório próprio. É o serviço recomendado pra acesso da força de trabalho.",
           "whyNots": {
+            "A": "Access key compartilhada é insegura e não oferece SSO/MFA gerenciado.",
             "B": "IAM Users por conta multiplica a gestão e não dá SSO central — o oposto do pedido.",
-            "C": "Access key compartilhada é insegura e não oferece SSO/MFA gerenciado.",
-            "D": "Security Group é firewall de rede — não tem a ver com SSO de identidade."
+            "C": "Security Group é firewall de rede — não tem a ver com SSO de identidade."
           }
         },
         {
@@ -10563,15 +10563,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Criar um IAM User pra cada funcionário"
+              "text": "Bucket policy no S3 liberando o domínio corporativo do provedor de identidade"
             },
             {
               "key": "C",
-              "text": "Compartilhar a conta root"
+              "text": "Compartilhar a conta root com o time, protegida por MFA e senha rotacionada"
             },
             {
               "key": "D",
-              "text": "Bucket policy no S3"
+              "text": "Criar um IAM User pra cada funcionário, sincronizando as senhas manualmente"
             }
           ],
           "answers": [
@@ -10583,9 +10583,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A federação de identidade SAML 2.0 estabelece confiança entre o IdP corporativo (ex.: AD) e a AWS: o IdP autentica o usuário, que assume um role via AssumeRoleWithSAML e recebe credenciais temporárias — sem criar IAM Users. (Pra muitas contas com SSO central, o IAM Identity Center é ainda mais recomendado.)",
           "whyNots": {
-            "B": "Criar IAM User por funcionário é justamente o que a federação evita — duplica identidades.",
+            "B": "Bucket policy controla acesso a um bucket, não autenticação federada de funcionários.",
             "C": "Compartilhar root é proibido e perigosíssimo.",
-            "D": "Bucket policy controla acesso a um bucket, não autenticação federada de funcionários."
+            "D": "Criar IAM User por funcionário é justamente o que a federação evita — duplica identidades."
           }
         },
         {
@@ -10606,23 +10606,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Ativar MFA na root, não usá-la no dia a dia e operar com IAM/identidades de menor privilégio"
+              "text": "Compartilhar a senha da root com a equipe, pra ninguém travar o trabalho esperando acesso"
             },
             {
               "key": "B",
-              "text": "Usar a root pra todas as tarefas administrativas diárias"
+              "text": "Ativar MFA na root, não usá-la no dia a dia e operar com IAM/identidades de menor privilégio"
             },
             {
               "key": "C",
-              "text": "Compartilhar a senha da root com a equipe"
+              "text": "Usar a root pra todas as tarefas administrativas diárias, já que ela nunca esbarra em permissão"
             },
             {
               "key": "D",
-              "text": "Criar várias access keys da root pra automação"
+              "text": "Criar várias access keys da root pra automação, com uma chave separada pra cada script"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): a root é a chave-mestra. Ative MFA, guarde-a e use identidades de menor privilégio no dia a dia.",
@@ -10630,8 +10630,8 @@ window.AWS_BANK = {
           ],
           "explanation": "A boa prática é proteger a conta root com MFA, evitar usá-la no dia a dia e operar com identidades IAM de menor privilégio (roles/usuários com só o necessário). Não se deve criar access keys da root nem compartilhar suas credenciais.",
           "whyNots": {
-            "B": "Usar a root pra tarefas diárias amplia o risco — ela tem poder irrestrito.",
-            "C": "Compartilhar a senha da root é uma falha grave de segurança.",
+            "A": "Compartilhar a senha da root é uma falha grave de segurança.",
+            "C": "Usar a root pra tarefas diárias amplia o risco — ela tem poder irrestrito.",
             "D": "Criar access keys da root pra automação é desaconselhado — use roles em vez disso."
           }
         },
@@ -10654,23 +10654,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Identity-based policy → Resource-based policy → Permissions boundary → SCP"
-            },
-            {
-              "key": "B",
               "text": "Resource-based → Identity-based → SCP → Permissions boundary"
             },
             {
+              "key": "B",
+              "text": "Permissions boundary → SCP → Resource-based → Identity-based"
+            },
+            {
               "key": "C",
-              "text": "SCP → Permissions boundary → Identity-based → Resource-based"
+              "text": "Identity-based policy → Resource-based policy → Permissions boundary → SCP"
             },
             {
               "key": "D",
-              "text": "Permissions boundary → SCP → Resource-based → Identity-based"
+              "text": "SCP → Permissions boundary → Identity-based → Resource-based"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): o que a identidade pode = identity-based; quem acessa o recurso = resource-based; teto de um principal = boundary; teto da conta = SCP.",
@@ -10678,9 +10678,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Identity-based policy diz o que a identidade pode fazer; resource-based policy diz quem pode acessar o recurso; permissions boundary é o teto de um user/role; SCP é o teto da conta inteira na Organization. A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca identity com resource-based e SCP com boundary.",
-            "C": "Inverte a ordem — SCP é teto de conta, não 'o que a identidade pode'.",
-            "D": "Embaralha tudo; nenhuma posição bate com a função certa."
+            "A": "Troca identity com resource-based e SCP com boundary.",
+            "B": "Embaralha tudo; nenhuma posição bate com a função certa.",
+            "D": "Inverte a ordem — SCP é teto de conta, não 'o que a identidade pode'."
           }
         }
       ]
@@ -10707,23 +10707,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SQS"
-            },
-            {
-              "key": "B",
               "text": "Amazon CloudFront"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Amazon RDS"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "AWS Config"
+            },
+            {
+              "key": "D",
+              "text": "Amazon SQS"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): fila entre produtor e consumidor = SQS. O front empilha pedidos, o back consome no seu ritmo.",
@@ -10731,9 +10731,9 @@ window.AWS_BANK = {
           ],
           "explanation": "SQS coloca uma fila entre o produtor e o consumidor: o front-end empilha os pedidos e o back-end consome (pull) no próprio ritmo. Absorve picos e desacopla os componentes, sem perder mensagens se o consumidor estiver lento.",
           "whyNots": {
-            "B": "CloudFront é CDN de conteúdo — não enfileira pedidos pra processamento assíncrono.",
-            "C": "RDS é banco relacional — não é fila de desacoplamento.",
-            "D": "Config avalia conformidade — nada a ver com fila de mensagens."
+            "A": "CloudFront é CDN de conteúdo — não enfileira pedidos pra processamento assíncrono.",
+            "B": "RDS é banco relacional — não é fila de desacoplamento.",
+            "C": "Config avalia conformidade — nada a ver com fila de mensagens."
           }
         },
         {
@@ -10801,15 +10801,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Visibility timeout"
+              "text": "Long polling"
             },
             {
               "key": "B",
-              "text": "Dead-letter queue"
+              "text": "Visibility timeout"
             },
             {
               "key": "C",
-              "text": "Long polling"
+              "text": "Dead-letter queue"
             },
             {
               "key": "D",
@@ -10817,7 +10817,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): ao ser recebida, a mensagem fica INVISÍVEL pros outros por um tempo — o visibility timeout. Se não for deletada nesse prazo, reaparece.",
@@ -10825,8 +10825,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O visibility timeout torna a mensagem invisível pros demais consumidores assim que um a recebe, evitando processamento duplicado simultâneo. Se o consumidor processar e deletar dentro do prazo, ótimo; se falhar (não deletar), a mensagem volta a ficar visível pra nova tentativa.",
           "whyNots": {
-            "B": "DLQ é pra onde vai a mensagem que falhou repetidas vezes — não é o que esconde temporariamente durante o processamento.",
-            "C": "Long polling reduz chamadas vazias ao buscar mensagens — não controla a invisibilidade durante o processamento.",
+            "A": "Long polling reduz chamadas vazias ao buscar mensagens — não controla a invisibilidade durante o processamento.",
+            "C": "DLQ é pra onde vai a mensagem que falhou repetidas vezes — não é o que esconde temporariamente durante o processamento.",
             "D": "Message group ID ordena mensagens em FIFO — não trata a visibilidade durante o processamento."
           }
         },
@@ -10848,7 +10848,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Dead-letter queue (DLQ)"
+              "text": "Fila FIFO"
             },
             {
               "key": "B",
@@ -10856,7 +10856,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Fila FIFO"
+              "text": "Dead-letter queue (DLQ)"
             },
             {
               "key": "D",
@@ -10864,7 +10864,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): mensagem que falha N vezes (excede o maxReceiveCount) é movida pra uma fila separada — a DLQ — pra você investigar sem travar a principal.",
@@ -10872,8 +10872,8 @@ window.AWS_BANK = {
           ],
           "explanation": "A Dead-Letter Queue recebe as mensagens que excedem o maxReceiveCount (falham repetidamente), tirando-as da fila principal pra análise. Evita o loop infinito de reprocessamento e o travamento do fluxo. A DLQ é do mesmo tipo da fila de origem.",
           "whyNots": {
+            "A": "FIFO trata ordem/duplicação, não o isolamento de mensagens que falham sempre.",
             "B": "Aumentar o visibility timeout só adia o reprocessamento — não isola a mensagem problemática.",
-            "C": "FIFO trata ordem/duplicação, não o isolamento de mensagens que falham sempre.",
             "D": "Mais consumidores não resolve uma mensagem que falha por natureza — só espalha o problema."
           }
         },
@@ -10896,23 +10896,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "SNS publicando pra várias filas SQS inscritas (pub/sub + fila por consumidor)"
+              "text": "Step Functions sem nenhuma fila — a máquina de estados já entrega desacoplado"
             },
             {
               "key": "B",
-              "text": "Uma única fila SQS lida por todos"
+              "text": "API Gateway chamando cada sistema em sequência, entregando simultâneo a todos"
             },
             {
               "key": "C",
-              "text": "API Gateway chamando cada sistema em sequência"
+              "text": "Uma única fila SQS lida por todos, onde cada sistema recebe sua cópia do evento"
             },
             {
               "key": "D",
-              "text": "Step Functions sem nenhuma fila"
+              "text": "SNS publicando pra várias filas SQS inscritas (pub/sub + fila por consumidor)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'um evento → muitos sistemas, cada um no seu ritmo' = SNS (pub/sub) fazendo fan-out pra uma fila SQS por consumidor.",
@@ -10920,9 +10920,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O padrão fan-out usa um tópico SNS (pub/sub, push) publicando pra várias filas SQS inscritas, uma por consumidor. Cada sistema processa no próprio ritmo, desacoplado — se um ficar lento, os outros seguem. SNS distribui; SQS desacopla.",
           "whyNots": {
-            "B": "Uma fila única faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento.",
-            "C": "Chamadas em sequência via API Gateway acoplam os sistemas — um lento derruba a cadeia.",
-            "D": "Step Functions orquestra passos, mas o cenário pede entrega simultânea desacoplada (fan-out), que é SNS+SQS."
+            "A": "Step Functions orquestra passos, mas o cenário pede entrega simultânea desacoplada (fan-out), que é SNS+SQS.",
+            "B": "Chamadas em sequência via API Gateway acoplam os sistemas — um lento derruba a cadeia.",
+            "C": "Uma fila única faz os consumidores competirem pelas mesmas mensagens — cada um não recebe sua cópia do evento."
           }
         },
         {
@@ -10952,11 +10952,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon SQS sozinho"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "Amazon SQS sozinho"
             }
           ],
           "answers": [
@@ -10969,8 +10969,8 @@ window.AWS_BANK = {
           "explanation": "Step Functions orquestra fluxos como máquina de estados serverless: passos sequenciais/paralelos, branching, retry e catch de erro, timeouts — sem você escrever a lógica de cola nem gerenciar o estado. Coordena Lambda, ECS, SNS, SQS e mais.",
           "whyNots": {
             "B": "Encadear Lambda chamando Lambda na mão é frágil, difícil de tratar erro/retry e de visualizar o estado.",
-            "C": "SQS é fila de mensagens, não orquestrador de passos com branching e retry.",
-            "D": "CloudFront é CDN — nada a ver com orquestração de workflow."
+            "C": "CloudFront é CDN — nada a ver com orquestração de workflow.",
+            "D": "SQS é fila de mensagens, não orquestrador de passos com branching e retry."
           }
         },
         {
@@ -10991,23 +10991,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "WebSocket API"
-            },
-            {
-              "key": "B",
-              "text": "REST API"
-            },
-            {
-              "key": "C",
               "text": "HTTP API"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "WebSocket API"
+            },
+            {
+              "key": "C",
               "text": "Nenhum; API Gateway não suporta tempo real"
+            },
+            {
+              "key": "D",
+              "text": "REST API"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): conexão bidirecional persistente pra tempo real (chat, push) = WebSocket API.",
@@ -11015,9 +11015,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A WebSocket API do API Gateway mantém uma conexão bidirecional persistente, ideal pra tempo real: chat ao vivo, notificações push, dashboards que atualizam sozinhos. REST e HTTP API são request/response, não mantêm o canal aberto pra empurrar dados.",
           "whyNots": {
-            "B": "REST API é request/response com muitos recursos (API keys, usage plans), mas não mantém canal bidirecional persistente.",
-            "C": "HTTP API é request/response simples e barato — também não é bidirecional persistente.",
-            "D": "Errado — o API Gateway suporta tempo real via WebSocket API."
+            "A": "HTTP API é request/response simples e barato — também não é bidirecional persistente.",
+            "C": "Errado — o API Gateway suporta tempo real via WebSocket API.",
+            "D": "REST API é request/response com muitos recursos (API keys, usage plans), mas não mantém canal bidirecional persistente."
           }
         },
         {
@@ -11038,23 +11038,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "HTTP API"
-            },
-            {
-              "key": "B",
               "text": "REST API"
             },
             {
+              "key": "B",
+              "text": "Não há diferença de custo entre os tipos"
+            },
+            {
               "key": "C",
-              "text": "WebSocket API"
+              "text": "HTTP API"
             },
             {
               "key": "D",
-              "text": "Não há diferença de custo entre os tipos"
+              "text": "WebSocket API"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'simples, barato, baixa latência, proxy pra Lambda' = HTTP API. A REST API é mais completa (e mais cara).",
@@ -11062,9 +11062,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A HTTP API é mais simples, barata e de baixa latência, ideal como proxy pra Lambda/HTTP quando você não precisa dos recursos avançados (API keys, usage plans, validação de request, cache) da REST API. Pra esse caso enxuto, é a melhor escolha.",
           "whyNots": {
-            "B": "REST API tem mais recursos (e custo) — exagero quando você só quer um proxy simples e barato.",
-            "C": "WebSocket é pra conexão bidirecional persistente, não pra um proxy request/response simples.",
-            "D": "Há diferença sim — HTTP API costuma ser mais barata e de menor latência que a REST API."
+            "A": "REST API tem mais recursos (e custo) — exagero quando você só quer um proxy simples e barato.",
+            "B": "Há diferença sim — HTTP API costuma ser mais barata e de menor latência que a REST API.",
+            "D": "WebSocket é pra conexão bidirecional persistente, não pra um proxy request/response simples."
           }
         },
         {
@@ -11085,7 +11085,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon MQ"
+              "text": "Amazon Kinesis Data Streams"
             },
             {
               "key": "B",
@@ -11097,11 +11097,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Kinesis Data Streams"
+              "text": "Amazon MQ"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'migrar broker tradicional com JMS/AMQP sem reescrever' = Amazon MQ (ActiveMQ/RabbitMQ gerenciado), compatível com os protocolos padrão.",
@@ -11109,9 +11109,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon MQ é o message broker gerenciado (Apache ActiveMQ e RabbitMQ) compatível com protocolos padrão (JMS, AMQP, MQTT, STOMP, OpenWire). É a escolha pra migrar aplicações existentes que dependem desses protocolos, sem reescrever o código de mensageria. Apps novas se beneficiam mais de SQS/SNS.",
           "whyNots": {
+            "A": "Kinesis é streaming de dados — não é message broker compatível com JMS/AMQP.",
             "B": "SQS é ótimo pra apps novas, mas tem API própria — exigiria reescrever o código que usa JMS/AMQP.",
-            "C": "SNS é pub/sub com API própria — também não mantém compatibilidade com os protocolos do broker legado.",
-            "D": "Kinesis é streaming de dados — não é message broker compatível com JMS/AMQP."
+            "C": "SNS é pub/sub com API própria — também não mantém compatibilidade com os protocolos do broker legado."
           }
         },
         {
@@ -11143,11 +11143,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Step Functions → Amazon MQ → SQS → SNS"
+              "text": "Amazon MQ → Step Functions → SNS → SQS"
             },
             {
               "key": "D",
-              "text": "Amazon MQ → Step Functions → SNS → SQS"
+              "text": "Step Functions → Amazon MQ → SQS → SNS"
             }
           ],
           "answers": [
@@ -11160,8 +11160,8 @@ window.AWS_BANK = {
           "explanation": "Cada serviço tem seu papel: SQS (fila/desacoplamento, pull), SNS (pub/sub, fan-out), Step Functions (orquestração de passos com retry/erro) e Amazon MQ (broker gerenciado pra migrar apps com AMQP/JMS). A opção A respeita os quatro.",
           "whyNots": {
             "B": "Troca SQS com SNS e Amazon MQ com Step Functions.",
-            "C": "Embaralha tudo — Step Functions não é fila e Amazon MQ não é fan-out.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "C": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Embaralha tudo — Step Functions não é fila e Amazon MQ não é fan-out."
           }
         }
       ]
@@ -11189,23 +11189,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Origin Access Control (OAC)"
-            },
-            {
-              "key": "B",
-              "text": "Bucket público com ACL aberta"
-            },
-            {
-              "key": "C",
               "text": "Signed cookies"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "Origin Access Control (OAC)"
+            },
+            {
+              "key": "C",
               "text": "Security Group no bucket"
+            },
+            {
+              "key": "D",
+              "text": "Bucket público com ACL aberta"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'só via CloudFront, não direto pelo S3' = Origin Access Control (OAC), o sucessor do OAI.",
@@ -11213,9 +11213,9 @@ window.AWS_BANK = {
           ],
           "explanation": "OAC (Origin Access Control) é a forma atual de permitir que o bucket S3 seja acessado apenas pela distribuição CloudFront, bloqueando acesso direto pela URL do S3. Suporta todas as regiões, SSE-KMS e usa credenciais de curta duração — substitui o legado OAI.",
           "whyNots": {
-            "B": "Bucket público é o oposto do que se quer — expõe os arquivos direto.",
-            "C": "Signed cookies controlam quem acessa o conteúdo distribuído, não restringem a ORIGEM S3 ao CloudFront.",
-            "D": "Security Group é firewall de instância/ENI — não se aplica a bucket S3."
+            "A": "Signed cookies controlam quem acessa o conteúdo distribuído, não restringem a ORIGEM S3 ao CloudFront.",
+            "C": "Security Group é firewall de instância/ENI — não se aplica a bucket S3.",
+            "D": "Bucket público é o oposto do que se quer — expõe os arquivos direto."
           }
         },
         {
@@ -11236,23 +11236,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Signed URL"
-            },
-            {
-              "key": "B",
               "text": "Signed cookies"
             },
             {
+              "key": "B",
+              "text": "Geo restriction"
+            },
+            {
               "key": "C",
-              "text": "OAC"
+              "text": "Signed URL"
             },
             {
               "key": "D",
-              "text": "Geo restriction"
+              "text": "OAC"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): acesso a UM arquivo específico com link temporário = Signed URL (uma URL assinada por item, com expiração).",
@@ -11260,9 +11260,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Signed URL controla o acesso a um arquivo individual: você gera uma URL assinada com expiração (e opcionalmente IP), perfeita pra liberar um download específico (o e-book) por tempo limitado a cada comprador.",
           "whyNots": {
-            "B": "Signed cookies são pra liberar VÁRIOS arquivos de uma vez sem alterar as URLs — exagero pra um único item.",
-            "C": "OAC restringe a origem S3 ao CloudFront — não emite link temporário por arquivo pro usuário.",
-            "D": "Geo restriction bloqueia por país — não controla acesso temporário a um arquivo específico."
+            "A": "Signed cookies são pra liberar VÁRIOS arquivos de uma vez sem alterar as URLs — exagero pra um único item.",
+            "B": "Geo restriction bloqueia por país — não controla acesso temporário a um arquivo específico.",
+            "D": "OAC restringe a origem S3 ao CloudFront — não emite link temporário por arquivo pro usuário."
           }
         },
         {
@@ -11283,23 +11283,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Signed cookies"
-            },
-            {
-              "key": "B",
-              "text": "Signed URL por vídeo"
-            },
-            {
-              "key": "C",
               "text": "OAC"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Cache TTL longo"
+            },
+            {
+              "key": "C",
+              "text": "Signed URL por vídeo"
+            },
+            {
+              "key": "D",
+              "text": "Signed cookies"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'liberar MUITOS arquivos sem assinar URL de cada um' = Signed cookies. Um cookie assinado dá acesso ao conjunto.",
@@ -11307,9 +11307,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Signed cookies liberam acesso a vários arquivos restritos sem precisar mudar/assinar cada URL — ideal pra streaming, onde o assinante autenticado recebe um cookie assinado (com expiração) que dá acesso ao catálogo inteiro.",
           "whyNots": {
-            "B": "Signed URL por vídeo exigiria gerar e gerenciar uma URL assinada pra cada arquivo — trabalhoso pra um catálogo grande.",
-            "C": "OAC protege a origem S3 — não é o mecanismo de liberar conteúdo pro usuário final.",
-            "D": "Cache TTL afeta cache, não controle de acesso ao conteúdo privado."
+            "A": "OAC protege a origem S3 — não é o mecanismo de liberar conteúdo pro usuário final.",
+            "B": "Cache TTL afeta cache, não controle de acesso ao conteúdo privado.",
+            "C": "Signed URL por vídeo exigiria gerar e gerenciar uma URL assinada pra cada arquivo — trabalhoso pra um catálogo grande."
           }
         },
         {
@@ -11334,15 +11334,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Signed URL"
+              "text": "Signed URL com o país embutido no token"
             },
             {
               "key": "C",
-              "text": "Cache policy"
+              "text": "OAC, que valida o país de cada request"
             },
             {
               "key": "D",
-              "text": "OAC"
+              "text": "Cache policy com regra de país no TTL"
             }
           ],
           "answers": [
@@ -11355,8 +11355,8 @@ window.AWS_BANK = {
           "explanation": "A restrição geográfica (geo restriction) do CloudFront permite bloquear ou liberar o acesso por país (allowlist/blocklist), aplicada a toda a distribuição. É o recurso certo pra requisitos de licenciamento/conformidade por região.",
           "whyNots": {
             "B": "Signed URL controla acesso temporário a arquivo — não filtra por país.",
-            "C": "Cache policy define a chave/TTL de cache — não restringe geografia.",
-            "D": "OAC protege a origem S3 — não bloqueia por país."
+            "C": "OAC protege a origem S3 — não bloqueia por país.",
+            "D": "Cache policy define a chave/TTL de cache — não restringe geografia."
           }
         },
         {
@@ -11377,11 +11377,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "TTL (minimum, default e maximum)"
+              "text": "Visibility timeout"
             },
             {
               "key": "B",
-              "text": "Visibility timeout"
+              "text": "TTL (minimum, default e maximum)"
             },
             {
               "key": "C",
@@ -11393,7 +11393,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): tempo de vida do objeto em cache = TTL. Há minimum, default (padrão de 1 dia) e maximum.",
@@ -11401,7 +11401,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Os TTLs (minimum, default e maximum) controlam por quanto tempo o CloudFront mantém o objeto em cache antes de checar a origem por atualização. O Default TTL padrão é 86400s (1 dia). Ajustar o TTL equilibra frescor do conteúdo vs. carga na origem/custo.",
           "whyNots": {
-            "B": "Visibility timeout é do SQS — nada a ver com cache do CloudFront.",
+            "A": "Visibility timeout é do SQS — nada a ver com cache do CloudFront.",
             "C": "Permissions boundary é IAM — não controla cache.",
             "D": "Multi-AZ é resiliência de banco/infra — não é TTL de CDN."
           }
@@ -11424,15 +11424,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudFront Functions"
-            },
-            {
-              "key": "B",
               "text": "Lambda@Edge"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Amazon EC2 na borda"
+            },
+            {
+              "key": "C",
+              "text": "CloudFront Functions"
             },
             {
               "key": "D",
@@ -11440,7 +11440,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'leve, baratíssimo, header/URL no viewer, sub-ms, escala enorme, sem rede externa' = CloudFront Functions (JavaScript).",
@@ -11448,8 +11448,8 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFront Functions roda JavaScript leve em eventos do viewer (request/response), com startup sub-ms, escala a milhões de req/s e custa ~1/6 do Lambda@Edge. É ideal pra manipular headers, reescrever/redirecionar URL e normalizar cache key — mas não faz chamadas de rede externas.",
           "whyNots": {
-            "B": "Lambda@Edge tem mais poder e permite rede externa, mas é mais caro/lento — exagero pra uma reescrita de URL/header simples.",
-            "C": "Não existe 'EC2 na borda' como esse recurso — a borda do CloudFront usa edge functions.",
+            "A": "Lambda@Edge tem mais poder e permite rede externa, mas é mais caro/lento — exagero pra uma reescrita de URL/header simples.",
+            "B": "Não existe 'EC2 na borda' como esse recurso — a borda do CloudFront usa edge functions.",
             "D": "Step Functions orquestra workflows — não roda na borda do CloudFront por requisição."
           }
         },
@@ -11472,23 +11472,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lambda@Edge"
-            },
-            {
-              "key": "B",
-              "text": "CloudFront Functions"
-            },
-            {
-              "key": "C",
               "text": "Geo restriction"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Signed cookies"
+            },
+            {
+              "key": "C",
+              "text": "CloudFront Functions"
+            },
+            {
+              "key": "D",
+              "text": "Lambda@Edge"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'chamada de rede externa + evento de origem + lógica mais pesada' = Lambda@Edge (Node/Python). CloudFront Functions não faz rede externa.",
@@ -11496,9 +11496,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Lambda@Edge roda Node.js/Python na borda, em eventos de viewer E de origin, com mais poder de computação e capacidade de chamadas de rede externas — ideal pra gerar/manipular conteúdo (inclusive antes de cachear). CloudFront Functions é leve e não faz rede externa nem roda em eventos de origem.",
           "whyNots": {
-            "B": "CloudFront Functions é leve, só no viewer e SEM chamada de rede externa — não atende o requisito.",
-            "C": "Geo restriction bloqueia por país — não executa lógica/chamada externa.",
-            "D": "Signed cookies controlam acesso — não geram conteúdo dinâmico na borda."
+            "A": "Geo restriction bloqueia por país — não executa lógica/chamada externa.",
+            "B": "Signed cookies controlam acesso — não geram conteúdo dinâmico na borda.",
+            "C": "CloudFront Functions é leve, só no viewer e SEM chamada de rede externa — não atende o requisito."
           }
         },
         {
@@ -11525,15 +11525,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "S3 público sem CloudFront"
-            },
-            {
-              "key": "C",
               "text": "EC2 único numa região servindo o site"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "S3 + acesso direto pela URL do bucket"
+            },
+            {
+              "key": "D",
+              "text": "S3 público sem CloudFront"
             }
           ],
           "answers": [
@@ -11545,9 +11545,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O padrão clássico de site estático seguro e global: S3 privado como origem, CloudFront na frente com OAC (bucket só acessível via CloudFront), e AWS WAF anexado à distribuição pra filtrar SQLi/XSS na camada 7. Acelera, protege e mantém a origem privada.",
           "whyNots": {
-            "B": "S3 público sem CloudFront não dá baixa latência global nem o filtro do WAF, e expõe o bucket.",
-            "C": "Um EC2 único numa região não entrega baixa latência global nem a escala/caching do CloudFront.",
-            "D": "Acesso direto pela URL do bucket expõe a origem e não tem CDN nem WAF."
+            "B": "Um EC2 único numa região não entrega baixa latência global nem a escala/caching do CloudFront.",
+            "C": "Acesso direto pela URL do bucket expõe a origem e não tem CDN nem WAF.",
+            "D": "S3 público sem CloudFront não dá baixa latência global nem o filtro do WAF, e expõe o bucket."
           }
         },
         {
@@ -11568,11 +11568,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon CloudFront"
+              "text": "Amazon SQS"
             },
             {
               "key": "B",
-              "text": "Amazon SQS"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "C",
@@ -11584,7 +11584,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): conteúdo estático repetido + usuários globais + aliviar a origem = CDN = CloudFront, que cacheia nas edge locations.",
@@ -11592,7 +11592,7 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFront é a CDN da AWS: cacheia o conteúdo (estático e dinâmico) nas edge locations perto dos usuários, reduzindo latência global e aliviando a carga no servidor de origem. É o caso de uso clássico pra imagens/vídeos estáticos acessados mundialmente.",
           "whyNots": {
-            "B": "SQS é fila de mensagens — não é CDN nem cacheia conteúdo.",
+            "A": "SQS é fila de mensagens — não é CDN nem cacheia conteúdo.",
             "C": "Direct Connect é link híbrido on-premises↔AWS — não distribui conteúdo a usuários globais.",
             "D": "EBS é disco em bloco de uma instância — não é distribuição de conteúdo na borda."
           }
@@ -11615,23 +11615,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "OAC → Signed URL → Signed cookies → Geo restriction"
-            },
-            {
-              "key": "B",
-              "text": "Signed URL → OAC → Geo restriction → Signed cookies"
-            },
-            {
-              "key": "C",
               "text": "Geo restriction → Signed cookies → OAC → Signed URL"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "OAC → Signed cookies → Signed URL → Geo restriction"
+            },
+            {
+              "key": "C",
+              "text": "OAC → Signed URL → Signed cookies → Geo restriction"
+            },
+            {
+              "key": "D",
+              "text": "Signed URL → OAC → Geo restriction → Signed cookies"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): origem privada = OAC; um arquivo = Signed URL; vários arquivos = Signed cookies; por país = Geo restriction.",
@@ -11639,9 +11639,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada recurso tem seu papel: OAC restringe a origem S3 ao CloudFront; Signed URL libera um arquivo individual por tempo limitado; Signed cookies liberam vários arquivos sem mudar URLs; Geo restriction bloqueia/permite por país. A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca OAC com Signed URL e Geo restriction com Signed cookies.",
-            "C": "Inverte a ordem — geo restriction não é origem privada.",
-            "D": "Troca Signed URL com Signed cookies — um arquivo é Signed URL; vários é cookies."
+            "A": "Inverte a ordem — geo restriction não é origem privada.",
+            "B": "Troca Signed URL com Signed cookies — um arquivo é Signed URL; vários é cookies.",
+            "D": "Troca OAC com Signed URL e Geo restriction com Signed cookies."
           }
         }
       ]
@@ -11668,23 +11668,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon CloudWatch"
-            },
-            {
-              "key": "B",
               "text": "AWS CloudTrail"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "AWS Config"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "AWS X-Ray"
+            },
+            {
+              "key": "D",
+              "text": "Amazon CloudWatch"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): métricas + logs + alarmes em tempo real = CloudWatch, o serviço de observabilidade da AWS.",
@@ -11692,9 +11692,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudWatch é o serviço de monitoramento/observabilidade: coleta métricas, centraliza logs e dispara alarmes (com ações), dando visão de saúde e desempenho dos recursos e aplicações em tempo real.",
           "whyNots": {
-            "B": "CloudTrail audita chamadas de API (quem fez o quê) — não é o painel de métricas/alarmes.",
-            "C": "Config avalia conformidade de configuração — não coleta métricas operacionais.",
-            "D": "X-Ray faz tracing distribuído de requisições — não é o serviço de métricas/logs/alarmes."
+            "A": "CloudTrail audita chamadas de API (quem fez o quê) — não é o painel de métricas/alarmes.",
+            "B": "Config avalia conformidade de configuração — não coleta métricas operacionais.",
+            "C": "X-Ray faz tracing distribuído de requisições — não é o serviço de métricas/logs/alarmes."
           }
         },
         {
@@ -11720,15 +11720,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Basic monitoring"
+              "text": "VPC Flow Logs (métricas de 1 em 1 minuto)"
             },
             {
               "key": "C",
-              "text": "CloudTrail data events"
+              "text": "CloudTrail data events (telemetria do EC2)"
             },
             {
               "key": "D",
-              "text": "VPC Flow Logs"
+              "text": "Basic monitoring (o modo mais granular)"
             }
           ],
           "answers": [
@@ -11740,9 +11740,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Detailed monitoring publica as métricas do EC2 a cada 1 minuto (vs. 5 minutos do basic), com custo adicional. A granularidade menor permite que o Auto Scaling e os alarmes reajam mais rápido a variações de carga.",
           "whyNots": {
-            "B": "Basic monitoring é o padrão de 5 minutos — não dá a granularidade de 1 minuto pedida.",
+            "B": "VPC Flow Logs capturam metadados de rede — não a frequência de métricas do EC2.",
             "C": "CloudTrail data events registram chamadas de API em recursos — não são métricas de desempenho do EC2.",
-            "D": "VPC Flow Logs capturam metadados de rede — não a frequência de métricas do EC2."
+            "D": "Basic monitoring é o padrão de 5 minutos — não dá a granularidade de 1 minuto pedida."
           }
         },
         {
@@ -11764,23 +11764,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Instalar o unified CloudWatch agent (enviar como custom metrics)"
+              "text": "Apenas habilitar detailed monitoring, que já traz memória e disco"
             },
             {
               "key": "B",
-              "text": "Apenas habilitar detailed monitoring"
+              "text": "Instalar o unified CloudWatch agent (enviar como custom metrics)"
             },
             {
               "key": "C",
-              "text": "Ativar o CloudTrail"
+              "text": "Elas já vêm por padrão, basta abrir o console na aba de métricas"
             },
             {
               "key": "D",
-              "text": "Elas já vêm por padrão, basta abrir o console"
+              "text": "Ativar o CloudTrail, que coleta métricas do sistema operacional"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): pegadinha clássica — o EC2 NÃO publica memória nem disco por padrão (são métricas do SO). Instale o CloudWatch agent.",
@@ -11788,9 +11788,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O EC2 não publica métricas de memória (RAM) nem de disco por padrão — são métricas no nível do SO/in-guest. Pra tê-las no CloudWatch, instale o unified CloudWatch agent, que coleta e envia essas métricas como custom metrics.",
           "whyNots": {
-            "B": "Detailed monitoring só muda a frequência (1 min) das métricas existentes — não adiciona memória/disco.",
-            "C": "CloudTrail audita API — não coleta métricas de SO.",
-            "D": "Errado — memória e disco NÃO vêm por padrão; precisa do agent."
+            "A": "Detailed monitoring só muda a frequência (1 min) das métricas existentes — não adiciona memória/disco.",
+            "C": "Errado — memória e disco NÃO vêm por padrão; precisa do agent.",
+            "D": "CloudTrail audita API — não coleta métricas de SO."
           }
         },
         {
@@ -11812,23 +11812,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Um alarme do CloudWatch com ação de notificação via SNS"
+              "text": "Uma regra de NACL que dispara e-mail quando a CPU sobe"
             },
             {
               "key": "B",
-              "text": "Um VPC Flow Log"
+              "text": "Um VPC Flow Log com alerta de CPU embutido nos logs"
             },
             {
               "key": "C",
-              "text": "Uma bucket policy no S3"
+              "text": "Um alarme do CloudWatch com ação de notificação via SNS"
             },
             {
               "key": "D",
-              "text": "Uma regra de NACL"
+              "text": "Uma bucket policy no S3 configurada pra enviar o SMS"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): alarme na métrica de CPU + ação SNS (que manda e-mail/SMS pros inscritos).",
@@ -11836,9 +11836,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Você cria um alarme do CloudWatch na métrica de CPU (limite de 80% por N períodos) com ação de notificação via SNS. Quando o alarme entra em ALARM, ele publica no tópico SNS, que envia e-mail/SMS aos inscritos.",
           "whyNots": {
+            "A": "NACL é firewall de sub-rede — não dispara notificação por métrica.",
             "B": "Flow Log captura tráfego de rede — não alerta sobre CPU.",
-            "C": "Bucket policy é permissão de acesso ao S3 — nada a ver com alerta de CPU.",
-            "D": "NACL é firewall de sub-rede — não dispara notificação por métrica."
+            "D": "Bucket policy é permissão de acesso ao S3 — nada a ver com alerta de CPU."
           }
         },
         {
@@ -11859,11 +11859,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Composite alarm (alarme composto)"
+              "text": "Detailed monitoring"
             },
             {
               "key": "B",
-              "text": "Detailed monitoring"
+              "text": "Logs Insights"
             },
             {
               "key": "C",
@@ -11871,11 +11871,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Logs Insights"
+              "text": "Composite alarm (alarme composto)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): combinar vários alarmes com lógica E/OU num indicador único = composite alarm. Notifica no agregado, não a cada alarme.",
@@ -11883,9 +11883,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O composite alarm combina vários alarmes usando lógica booleana (AND/OR) num indicador agregado de saúde. Ele notifica no nível do conjunto, reduzindo o ruído (alarm fatigue) em vez de disparar uma notificação por alarme individual.",
           "whyNots": {
-            "B": "Detailed monitoring muda a frequência das métricas — não agrega alarmes.",
-            "C": "Mais alarmes individuais pioram o ruído — o oposto do pedido.",
-            "D": "Logs Insights consulta logs — não combina alarmes."
+            "A": "Detailed monitoring muda a frequência das métricas — não agrega alarmes.",
+            "B": "Logs Insights consulta logs — não combina alarmes.",
+            "C": "Mais alarmes individuais pioram o ruído — o oposto do pedido."
           }
         },
         {
@@ -11910,15 +11910,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CloudWatch Alarms"
+              "text": "Amazon Athena no EC2"
             },
             {
               "key": "C",
-              "text": "AWS CloudTrail"
+              "text": "CloudWatch Alarms"
             },
             {
               "key": "D",
-              "text": "Amazon Athena no EC2"
+              "text": "AWS CloudTrail"
             }
           ],
           "answers": [
@@ -11930,9 +11930,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudWatch Logs Insights é o serviço interativo pra consultar, filtrar, analisar e visualizar logs (com linguagem de query) direto nos log groups do CloudWatch — ideal pra investigar incidentes sem montar infraestrutura de análise própria.",
           "whyNots": {
-            "B": "Alarms disparam em cima de métricas — não fazem consulta interativa de logs.",
-            "C": "CloudTrail registra chamadas de API — não é a ferramenta de query dos logs da aplicação.",
-            "D": "Athena consulta dados no S3; aqui o caminho nativo e direto pros logs do CloudWatch é o Logs Insights."
+            "B": "Athena consulta dados no S3; aqui o caminho nativo e direto pros logs do CloudWatch é o Logs Insights.",
+            "C": "Alarms disparam em cima de métricas — não fazem consulta interativa de logs.",
+            "D": "CloudTrail registra chamadas de API — não é a ferramenta de query dos logs da aplicação."
           }
         },
         {
@@ -11954,23 +11954,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Um alarme do CloudWatch com ação de Auto Scaling"
+              "text": "Um signed URL que autoriza o ASG a escalar"
             },
             {
               "key": "B",
-              "text": "Um signed URL"
+              "text": "Um alarme do CloudWatch com ação de Auto Scaling"
             },
             {
               "key": "C",
-              "text": "Um Gateway Endpoint"
+              "text": "Uma permissions boundary com gatilho de CPU"
             },
             {
               "key": "D",
-              "text": "Uma permissions boundary"
+              "text": "Um Gateway Endpoint ligando métrica ao ASG"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): alarme na métrica de CPU + ação de Auto Scaling = a frota cresce quando o limite é cruzado.",
@@ -11978,9 +11978,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Um alarme do CloudWatch monitora a métrica (CPU > 70%) e, ao disparar, executa uma ação de Auto Scaling que adiciona instâncias. É a ponte entre a métrica e o escalonamento dinâmico da frota.",
           "whyNots": {
-            "B": "Signed URL é acesso a conteúdo no CloudFront — nada a ver com escalar frota.",
-            "C": "Gateway Endpoint é acesso privado a S3/DynamoDB — não escala instâncias.",
-            "D": "Permissions boundary é teto de IAM — não dispara escalonamento por métrica."
+            "A": "Signed URL é acesso a conteúdo no CloudFront — nada a ver com escalar frota.",
+            "C": "Permissions boundary é teto de IAM — não dispara escalonamento por métrica.",
+            "D": "Gateway Endpoint é acesso privado a S3/DynamoDB — não escala instâncias."
           }
         },
         {
@@ -12002,23 +12002,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EventBridge (eventos de mudança de estado do alarme)"
+              "text": "Amazon Route 53, usando health checks pra disparar a Lambda"
             },
             {
               "key": "B",
-              "text": "Amazon S3"
+              "text": "AWS Direct Connect, que entrega o evento pela rede dedicada"
             },
             {
               "key": "C",
-              "text": "AWS Direct Connect"
+              "text": "Amazon EventBridge (eventos de mudança de estado do alarme)"
             },
             {
               "key": "D",
-              "text": "Amazon Route 53"
+              "text": "Amazon S3, com event notifications de mudança do alarme"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): o alarme emite evento de mudança de estado pro EventBridge, que tem regras pra acionar Lambda, SSM Automation, SQS, Step Functions...",
@@ -12026,9 +12026,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudWatch envia eventos ao EventBridge quando um alarme muda de estado. Você cria regras no EventBridge pra acionar alvos como Lambda, SSM Automation, SQS ou Step Functions — implementando auto-remediação orientada a evento sem intervenção humana.",
           "whyNots": {
-            "B": "S3 é armazenamento de objetos — não roteia eventos de alarme pra ações.",
-            "C": "Direct Connect é conectividade híbrida — nada a ver com automação por alarme.",
-            "D": "Route 53 é DNS — não orquestra ações a partir de mudança de estado de alarme."
+            "A": "Route 53 é DNS — não orquestra ações a partir de mudança de estado de alarme.",
+            "B": "Direct Connect é conectividade híbrida — nada a ver com automação por alarme.",
+            "D": "S3 é armazenamento de objetos — não roteia eventos de alarme pra ações."
           }
         },
         {
@@ -12049,11 +12049,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Unified CloudWatch agent"
+              "text": "VPC Flow Logs"
             },
             {
               "key": "B",
-              "text": "VPC Flow Logs"
+              "text": "Amazon Inspector"
             },
             {
               "key": "C",
@@ -12061,11 +12061,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "Unified CloudWatch agent"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o mesmo agente que coleta memória/disco também roda em on-premises — o unified CloudWatch agent.",
@@ -12073,9 +12073,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O unified CloudWatch agent coleta logs e métricas in-guest (CPU, memória, disco, etc.) de instâncias EC2 E de servidores on-premises, enviando tudo pro CloudWatch — centralizando a observabilidade de ambientes híbridos.",
           "whyNots": {
-            "B": "Flow Logs capturam metadados de rede da VPC — não logs/métricas in-guest de servidores on-premises.",
-            "C": "Config avalia configuração de recursos AWS — não coleta logs in-guest.",
-            "D": "Inspector escaneia vulnerabilidades — não é coletor de logs/métricas de SO."
+            "A": "Flow Logs capturam metadados de rede da VPC — não logs/métricas in-guest de servidores on-premises.",
+            "B": "Inspector escaneia vulnerabilidades — não é coletor de logs/métricas de SO.",
+            "C": "Config avalia configuração de recursos AWS — não coleta logs in-guest."
           }
         },
         {
@@ -12102,7 +12102,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CloudTrail → X-Ray → CloudWatch"
+              "text": "CloudWatch → X-Ray → CloudTrail"
             },
             {
               "key": "C",
@@ -12110,7 +12110,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "CloudWatch → X-Ray → CloudTrail"
+              "text": "CloudTrail → X-Ray → CloudWatch"
             }
           ],
           "answers": [
@@ -12122,9 +12122,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudWatch responde métricas/logs/erros (CPU, 5xx ao longo do tempo); CloudTrail responde quem chamou qual API e quando; X-Ray mostra onde a requisição gasta tempo entre os microsserviços. A opção A respeita os três.",
           "whyNots": {
-            "B": "Começa com CloudTrail pra métricas — errado; métrica/erro é CloudWatch.",
+            "B": "Troca X-Ray com CloudTrail — quem chamou a API é CloudTrail, não X-Ray.",
             "C": "Coloca X-Ray pra métricas e CloudWatch pra auditoria de API — embaralhado.",
-            "D": "Troca X-Ray com CloudTrail — quem chamou a API é CloudTrail, não X-Ray."
+            "D": "Começa com CloudTrail pra métricas — errado; métrica/erro é CloudWatch."
           }
         }
       ]
@@ -12154,11 +12154,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ALB + Auto Scaling (multi-AZ) + RDS Multi-AZ + ElastiCache"
+              "text": "NLB + uma única instância EC2 + RDS Single-AZ"
             },
             {
               "key": "B",
-              "text": "NLB + uma única instância EC2 + RDS Single-AZ"
+              "text": "ALB + Auto Scaling (multi-AZ) + RDS Multi-AZ + ElastiCache"
             },
             {
               "key": "C",
@@ -12170,7 +12170,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): destrincha — distribuir HTTP = ALB; escalar = Auto Scaling em várias AZs; sobreviver à queda de AZ no banco = RDS Multi-AZ; aliviar leitura = ElastiCache.",
@@ -12178,7 +12178,7 @@ window.AWS_BANK = {
           ],
           "explanation": "ALB distribui o tráfego HTTP (camada 7); Auto Scaling em múltiplas AZs ajusta a frota e dá resiliência; RDS Multi-AZ mantém um standby síncrono pra failover automático se uma AZ cair; ElastiCache cacheia leituras repetidas aliviando o banco. É o desenho clássico de 3 camadas resiliente.",
           "whyNots": {
-            "B": "Uma instância única e RDS Single-AZ não sobrevivem à queda de AZ nem escalam.",
+            "A": "Uma instância única e RDS Single-AZ não sobrevivem à queda de AZ nem escalam.",
             "C": "Spot única é interrompível e não dá resiliência; o cenário é uma app web de 3 camadas relacional.",
             "D": "Instance Store é efêmero e o stack não cobre o banco relacional resiliente pedido."
           }
@@ -12204,23 +12204,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "API Gateway → SQS → Lambda (consumindo a fila) → DynamoDB"
+              "text": "CloudFront → S3 estático processando as requisições"
             },
             {
               "key": "B",
-              "text": "API Gateway → Lambda síncrono direto, sem fila"
+              "text": "API Gateway → Lambda síncrono direto, sem fila nem limite"
             },
             {
               "key": "C",
-              "text": "EC2 único processando tudo na hora"
+              "text": "API Gateway → SQS → Lambda (consumindo a fila) → DynamoDB"
             },
             {
               "key": "D",
-              "text": "CloudFront → S3 estático"
+              "text": "EC2 único processando tudo na hora, serverless e elástico"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'absorver pico sem perder + serverless + desacoplado' pede uma FILA no meio. API Gateway põe na SQS, Lambda consome no ritmo, grava no DynamoDB.",
@@ -12228,9 +12228,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Colocar uma fila SQS entre a entrada (API Gateway) e o processamento (Lambda) absorve as rajadas sem perder requisições e desacopla os componentes. O Lambda consome no próprio ritmo e grava no DynamoDB — tudo serverless e resiliente, com DLQ pra mensagens problemáticas.",
           "whyNots": {
+            "A": "CloudFront + S3 serve conteúdo estático — não processa as requisições dinâmicas.",
             "B": "Lambda síncrono direto sem fila pode estourar limites de concorrência na rajada e perder requisições — falta o amortecedor.",
-            "C": "EC2 único não absorve pico nem é serverless/resiliente.",
-            "D": "CloudFront + S3 serve conteúdo estático — não processa as requisições dinâmicas."
+            "D": "EC2 único não absorve pico nem é serverless/resiliente."
           }
         },
         {
@@ -12254,23 +12254,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 privado + CloudFront com OAC + WAF na distribuição + Route 53 pro domínio"
+              "text": "S3 + acesso direto pela URL do bucket, que já vem com filtro SQLi/XSS embutido"
             },
             {
               "key": "B",
-              "text": "S3 público + Route 53, sem CloudFront"
+              "text": "S3 público + Route 53, sem CloudFront — o S3 já faz cache global na borda"
             },
             {
               "key": "C",
-              "text": "EC2 com Nginx numa região só + Security Group"
+              "text": "EC2 com Nginx numa região só, sem CDN nem WAF"
             },
             {
               "key": "D",
-              "text": "S3 + acesso direto pela URL do bucket"
+              "text": "S3 privado + CloudFront com OAC + WAF na distribuição + Route 53 pro domínio"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): estático global = CloudFront; origem privada = OAC; SQLi/XSS na borda = WAF; domínio = Route 53. Empilhe os quatro.",
@@ -12278,9 +12278,9 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 privado como origem, CloudFront na frente com OAC (bucket só acessível via CloudFront), AWS WAF anexado à distribuição pra filtrar SQLi/XSS na camada 7, e Route 53 apontando o domínio pra distribuição. É o padrão de site estático seguro e global.",
           "whyNots": {
+            "A": "Acesso direto pela URL do bucket expõe a origem e não tem proteção de borda.",
             "B": "S3 público sem CloudFront expõe a origem e não tem CDN nem WAF.",
-            "C": "Um EC2 numa região não dá baixa latência global nem a escala/cache do CloudFront.",
-            "D": "Acesso direto pela URL do bucket expõe a origem e não tem proteção de borda."
+            "C": "Um EC2 numa região não dá baixa latência global nem a escala/cache do CloudFront."
           }
         },
         {
@@ -12306,15 +12306,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "RDS Single-AZ + snapshots diários"
+              "text": "Aurora numa região só com Multi-AZ — a réplica síncrona cobre queda de região"
             },
             {
               "key": "C",
-              "text": "Aurora numa região só com Multi-AZ"
+              "text": "DynamoDB local com backup contínuo — ele fala PostgreSQL nativo via PartiQL"
             },
             {
               "key": "D",
-              "text": "DynamoDB local com backup"
+              "text": "RDS Single-AZ + snapshots diários replicados, garantindo RPO perto de zero"
             }
           ],
           "answers": [
@@ -12326,9 +12326,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Aurora Global Database abrange múltiplas regiões com leitura global de baixa latência e DR cross-region (RTO em minutos, replicação rápida), compatível com PostgreSQL. Route 53 com health checks faz o failover de DNS entre regiões. É o desenho pra RPO/RTO mínimos em escala global.",
           "whyNots": {
-            "B": "Single-AZ + snapshots diários tem RPO/RTO em horas e não protege a região — longe de 'perto de zero'.",
-            "C": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região inteira.",
-            "D": "DynamoDB não é compatível com PostgreSQL (é NoSQL) — não atende o requisito relacional."
+            "B": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região inteira.",
+            "C": "DynamoDB não é compatível com PostgreSQL (é NoSQL) — não atende o requisito relacional.",
+            "D": "Single-AZ + snapshots diários tem RPO/RTO em horas e não protege a região — longe de 'perto de zero'."
           }
         },
         {
@@ -12351,23 +12351,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Instâncias Spot pro processamento + dados no S3 + Athena pra consultar"
+              "text": "Reserved Instances de 3 anos pro batch noturno — RI é o mais barato"
             },
             {
               "key": "B",
-              "text": "Instâncias On-Demand 24/7 + Redshift provisionado sempre ligado"
+              "text": "Instâncias Spot pro processamento + dados no S3 + Athena pra consultar"
             },
             {
               "key": "C",
-              "text": "Dedicated Hosts + EMR sempre ligado"
+              "text": "Dedicated Hosts + EMR sempre ligado — hardware dedicado sai mais em conta"
             },
             {
               "key": "D",
-              "text": "Reserved Instances de 3 anos pro batch noturno"
+              "text": "Instâncias On-Demand 24/7 + Redshift provisionado sempre ligado e barato"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): batch interrompível = Spot (até 90% off); dados em S3; SQL ad-hoc serverless = Athena (paga por dado escaneado).",
@@ -12375,9 +12375,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Spot entrega até 90% de desconto pra um batch noturno stateless e interrompível; os dados ficam no S3; o Athena consulta com SQL ad-hoc de forma serverless (paga só pelo dado escaneado). Nada fica provisionado ocioso — custo mínimo de ponta a ponta.",
           "whyNots": {
-            "B": "On-Demand 24/7 e Redshift sempre ligado custam caro pra um uso noturno/pontual.",
+            "A": "RI de 3 anos pressupõe uso constante; um batch noturno interrompível se beneficia mais do Spot.",
             "C": "Dedicated Hosts e EMR sempre ligado são o oposto de menor custo aqui.",
-            "D": "RI de 3 anos pressupõe uso constante; um batch noturno interrompível se beneficia mais do Spot."
+            "D": "On-Demand 24/7 e Redshift sempre ligado custam caro pra um uso noturno/pontual."
           }
         },
         {
@@ -12400,23 +12400,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"
+              "text": "CloudFront + Global Accelerator, que já entregam link dedicado até o data center"
             },
             {
               "key": "B",
-              "text": "Só Site-to-Site VPN, sem hub"
+              "text": "Só Site-to-Site VPN, sem hub — a VPN pela internet já garante banda dedicada"
             },
             {
               "key": "C",
-              "text": "VPC Peering entre cada par + Internet Gateway"
+              "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"
             },
             {
               "key": "D",
-              "text": "CloudFront + Global Accelerator"
+              "text": "VPC Peering entre cada par + Internet Gateway fechando o link com o data center"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): banda dedicada = Direct Connect; backup barato automático = VPN; hub pra várias VPCs/on-prem = Transit Gateway.",
@@ -12424,9 +12424,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Direct Connect dá o link dedicado de baixa latência; Site-to-Site VPN serve de backup automático (failover via BGP) mais barato que um segundo DX; Transit Gateway centraliza a conectividade entre as várias VPCs e o on-premises num hub. É a arquitetura híbrida resiliente típica.",
           "whyNots": {
+            "A": "CloudFront e Global Accelerator são pra usuários finais/conteúdo, não conectividade híbrida do data center.",
             "B": "Só VPN não dá a banda dedicada/baixa latência do DX nem o hub central.",
-            "C": "VPC Peering ponto-a-ponto não escala (malha) e Internet Gateway expõe à internet — não liga o data center privado.",
-            "D": "CloudFront e Global Accelerator são pra usuários finais/conteúdo, não conectividade híbrida do data center."
+            "D": "VPC Peering ponto-a-ponto não escala (malha) e Internet Gateway expõe à internet — não liga o data center privado."
           }
         },
         {
@@ -12450,23 +12450,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Evento do S3 → Lambda (gera thumbnail) → grava no DynamoDB → publica no SNS (fan-out)"
+              "text": "API Gateway WebSocket + RDS, com o app avisando o servidor a cada thumbnail gerado"
             },
             {
               "key": "B",
-              "text": "Cron num EC2 que varre o bucket de hora em hora"
+              "text": "Kinesis Data Streams + Redshift, processando os uploads como um stream analítico"
             },
             {
               "key": "C",
-              "text": "API Gateway WebSocket + RDS"
+              "text": "Um cron num EC2 que varre o bucket de hora em hora procurando imagens novas pra processar"
             },
             {
               "key": "D",
-              "text": "Kinesis Data Streams + Redshift"
+              "text": "Evento do S3 → Lambda (gera thumbnail) → grava no DynamoDB → publica no SNS (fan-out)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'a cada upload no S3' = evento do S3 acionando Lambda. Metadados NoSQL = DynamoDB. Notificar vários = SNS fan-out.",
@@ -12474,9 +12474,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O evento de criação de objeto no S3 aciona uma função Lambda que gera a miniatura, grava os metadados no DynamoDB e publica num tópico SNS pra notificar vários sistemas (fan-out). É a arquitetura orientada a evento, serverless e desacoplada — sem varredura periódica.",
           "whyNots": {
-            "B": "Cron varrendo o bucket é ineficiente, com atraso e custo, e não é orientado a evento.",
-            "C": "WebSocket + RDS não é o padrão pra processar uploads no S3 de forma orientada a evento.",
-            "D": "Kinesis/Redshift é pra streaming/analytics, não pra reagir a cada upload com geração de thumbnail."
+            "A": "WebSocket + RDS não é o padrão pra processar uploads no S3 de forma orientada a evento.",
+            "B": "Kinesis/Redshift é pra streaming/analytics, não pra reagir a cada upload com geração de thumbnail.",
+            "C": "Cron varrendo o bucket é ineficiente, com atraso e custo, e não é orientado a evento."
           }
         },
         {
@@ -12550,23 +12550,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Kinesis Data Streams (processamento em tempo real) + Data Firehose (entrega no S3) + Athena (consulta)"
+              "text": "CloudFront + S3 com site estático, que já entregam análise de streaming em tempo real"
             },
             {
               "key": "B",
-              "text": "SQS + EC2 + MySQL"
+              "text": "Kinesis Data Streams (processamento em tempo real) + Data Firehose (entrega no S3) + Athena (consulta)"
             },
             {
               "key": "C",
-              "text": "SNS + Lambda + EBS"
+              "text": "SNS pra ingerir o streaming + Lambda de entrega contínua + EBS como camada de consulta SQL"
             },
             {
               "key": "D",
-              "text": "CloudFront + S3 estático"
+              "text": "SQS pra ingerir o stream + um único consumidor em EC2 + MySQL pra consultas ad hoc"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): tempo real com lógica própria = Kinesis Data Streams; entregar bruto no S3 sem código = Data Firehose; SQL no data lake = Athena.",
@@ -12574,9 +12574,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Kinesis Data Streams processa o clickstream em tempo real com consumidores próprios; Amazon Data Firehose entrega o fluxo bruto no S3 (gerenciado, sem código), formando o data lake; Athena consulta esses dados com SQL ad-hoc. É o pipeline de streaming/analytics serverless clássico.",
           "whyNots": {
-            "B": "SQS + EC2 + MySQL não é streaming em tempo real escalável nem data lake consultável por SQL serverless.",
+            "A": "CloudFront + S3 estático serve conteúdo — não processa clickstream em tempo real.",
             "C": "SNS + Lambda + EBS não forma o pipeline de streaming + data lake + consulta SQL pedido.",
-            "D": "CloudFront + S3 estático serve conteúdo — não processa clickstream em tempo real."
+            "D": "SQS + EC2 + MySQL não é streaming em tempo real escalável nem data lake consultável por SQL serverless."
           }
         },
         {
@@ -12600,23 +12600,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "RDS Read Replicas + ElastiCache (cache de consultas) + CloudFront pra os estáticos no S3"
+              "text": "Aumentar a janela e o tamanho do backup do RDS, o que acelera as consultas de leitura"
             },
             {
               "key": "B",
-              "text": "RDS Multi-AZ standby servindo as leituras"
+              "text": "RDS Multi-AZ com o standby síncrono servindo as leituras dos relatórios pesados"
             },
             {
               "key": "C",
-              "text": "Aumentar o tamanho do backup do RDS"
+              "text": "RDS Read Replicas + ElastiCache (cache de consultas) + CloudFront pra os estáticos no S3"
             },
             {
               "key": "D",
-              "text": "Mover tudo pra uma instância EC2 maior"
+              "text": "Mover banco e aplicação pra uma única instância EC2 maior, eliminando a latência de rede"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): escalar leitura do banco = Read Replicas; cachear consultas repetidas = ElastiCache; acelerar imagens globais = CloudFront (sobre o S3).",
@@ -12624,8 +12624,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Read Replicas distribuem a carga de leitura do RDS; o ElastiCache cacheia as consultas mais repetidas, aliviando ainda mais o banco; o CloudFront cacheia as imagens estáticas (no S3) perto dos usuários, reduzindo a latência global. Cada peça ataca uma parte do gargalo.",
           "whyNots": {
+            "A": "Backup não tem efeito sobre a carga de leitura em produção.",
             "B": "O standby do Multi-AZ é só pra failover — NÃO serve tráfego de leitura.",
-            "C": "Backup não tem efeito sobre a carga de leitura em produção.",
             "D": "Uma EC2 maior (scale up) não resolve a leitura distribuída nem a latência global das imagens."
           }
         }
@@ -12653,23 +12653,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Versionamento"
-            },
-            {
-              "key": "B",
               "text": "Transfer Acceleration"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Storage class One Zone-IA"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Presigned URL"
+            },
+            {
+              "key": "D",
+              "text": "Versionamento"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): guardar VERSÕES antigas do objeto = versionamento. Sobrescrever cria nova versão; apagar cria um delete marker (dá pra reverter).",
@@ -12677,9 +12677,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O versionamento mantém múltiplas versões do mesmo objeto: sobrescrever gera uma nova versão e apagar cria um delete marker, então você consegue restaurar o estado anterior. Protege contra erros acidentais e é pré-requisito pra Replication e Object Lock.",
           "whyNots": {
-            "B": "Transfer Acceleration acelera upload de longa distância — não preserva versões.",
-            "C": "One Zone-IA é classe de armazenamento (custo) — não guarda versões antigas.",
-            "D": "Presigned URL dá acesso temporário a um objeto — não versiona."
+            "A": "Transfer Acceleration acelera upload de longa distância — não preserva versões.",
+            "B": "One Zone-IA é classe de armazenamento (custo) — não guarda versões antigas.",
+            "C": "Presigned URL dá acesso temporário a um objeto — não versiona."
           }
         },
         {
@@ -12704,15 +12704,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Same-Region Replication (SRR)"
-            },
-            {
-              "key": "C",
               "text": "Transfer Acceleration"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Lifecycle policy"
+            },
+            {
+              "key": "D",
+              "text": "Same-Region Replication (SRR)"
             }
           ],
           "answers": [
@@ -12724,9 +12724,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CRR replica os objetos automaticamente pra um bucket em outra região — ideal pra DR, conformidade geográfica e menor latência de acesso em outra região. Requer versionamento na origem e no destino, e incorre custo de transferência inter-região.",
           "whyNots": {
-            "B": "SRR replica na MESMA região — não atende o requisito de outra região.",
-            "C": "Transfer Acceleration acelera upload — não cria cópia replicada em outra região.",
-            "D": "Lifecycle policy muda classe/expira objetos — não replica entre regiões."
+            "B": "Transfer Acceleration acelera upload — não cria cópia replicada em outra região.",
+            "C": "Lifecycle policy muda classe/expira objetos — não replica entre regiões.",
+            "D": "SRR replica na MESMA região — não atende o requisito de outra região."
           }
         },
         {
@@ -12747,15 +12747,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Same-Region Replication (SRR)"
+              "text": "Object Lock"
             },
             {
               "key": "B",
-              "text": "Cross-Region Replication (CRR)"
+              "text": "Same-Region Replication (SRR)"
             },
             {
               "key": "C",
-              "text": "Object Lock"
+              "text": "Cross-Region Replication (CRR)"
             },
             {
               "key": "D",
@@ -12763,7 +12763,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): mesma região + agregar logs + sem custo inter-região = SRR (Same-Region Replication).",
@@ -12771,8 +12771,8 @@ window.AWS_BANK = {
           ],
           "explanation": "SRR replica objetos pra um bucket na mesma região, sem custo de transferência inter-região — perfeito pra agregar logs de vários buckets num central, replicar prod→test ou atender residência de dados na mesma região.",
           "whyNots": {
-            "B": "CRR é entre regiões e cobraria transferência inter-região desnecessária aqui.",
-            "C": "Object Lock é WORM/imutabilidade — não agrega/replica logs.",
+            "A": "Object Lock é WORM/imutabilidade — não agrega/replica logs.",
+            "C": "CRR é entre regiões e cobraria transferência inter-região desnecessária aqui.",
             "D": "Presigned URL é acesso temporário a objeto — não replica buckets."
           }
         },
@@ -12794,23 +12794,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Versionamento ligado na origem E no destino"
-            },
-            {
-              "key": "B",
               "text": "Os buckets serem públicos"
             },
             {
+              "key": "B",
+              "text": "Transfer Acceleration ativado"
+            },
+            {
               "key": "C",
-              "text": "Usar a classe Glacier Deep Archive"
+              "text": "Versionamento ligado na origem E no destino"
             },
             {
               "key": "D",
-              "text": "Transfer Acceleration ativado"
+              "text": "Usar a classe Glacier Deep Archive"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): replicação só funciona com VERSIONAMENTO ligado nos dois buckets (origem e destino).",
@@ -12818,9 +12818,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A replicação do S3 (CRR ou SRR) exige versionamento habilitado tanto na origem quanto no destino. É o pré-requisito básico — sem ele, a replicação não pode ser configurada.",
           "whyNots": {
-            "B": "Buckets públicos não são requisito de replicação (e seriam um risco de segurança).",
-            "C": "A classe de armazenamento não é pré-requisito pra replicar.",
-            "D": "Transfer Acceleration é independente — não habilita replicação."
+            "A": "Buckets públicos não são requisito de replicação (e seriam um risco de segurança).",
+            "B": "Transfer Acceleration é independente — não habilita replicação.",
+            "D": "A classe de armazenamento não é pré-requisito pra replicar."
           }
         },
         {
@@ -12841,11 +12841,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Object Lock no modo Compliance (WORM)"
+              "text": "Bucket policy de leitura"
             },
             {
               "key": "B",
-              "text": "Bucket policy de leitura"
+              "text": "Storage class Standard-IA"
             },
             {
               "key": "C",
@@ -12853,11 +12853,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Storage class Standard-IA"
+              "text": "Object Lock no modo Compliance (WORM)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'ninguém, nem a root, apaga durante o período' = Object Lock no modo Compliance (WORM).",
@@ -12865,9 +12865,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Object Lock aplica o modelo WORM. No modo Compliance, nenhuma identidade — nem a conta root — pode alterar ou apagar a versão do objeto até o período de retenção expirar. É o controle de imutabilidade pra compliance regulatório. (Exige versionamento.)",
           "whyNots": {
-            "B": "Bucket policy de leitura controla acesso, mas não impede que um admin com permissão apague o objeto.",
-            "C": "Versionamento ajuda a reverter, mas não impede a exclusão definitiva por quem tem permissão — não é WORM.",
-            "D": "Standard-IA é classe de custo — não garante imutabilidade."
+            "A": "Bucket policy de leitura controla acesso, mas não impede que um admin com permissão apague o objeto.",
+            "B": "Standard-IA é classe de custo — não garante imutabilidade.",
+            "C": "Versionamento ajuda a reverter, mas não impede a exclusão definitiva por quem tem permissão — não é WORM."
           }
         },
         {
@@ -12892,7 +12892,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "(1) Legal hold; (2) Retention period"
+              "text": "(1) Versionamento; (2) Lifecycle"
             },
             {
               "key": "C",
@@ -12900,7 +12900,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "(1) Versionamento; (2) Lifecycle"
+              "text": "(1) Legal hold; (2) Retention period"
             }
           ],
           "answers": [
@@ -12912,9 +12912,9 @@ window.AWS_BANK = {
           ],
           "explanation": "No Object Lock, o retention period trava a versão por um período fixo de tempo; o legal hold trava sem prazo definido, valendo até ser removido manualmente (útil em litígios/investigações). Um objeto pode ter um, outro ou ambos.",
           "whyNots": {
-            "B": "Inverte: prazo fixo é retention period; sem prazo é legal hold.",
+            "B": "Versionamento e lifecycle não são os mecanismos de travamento do Object Lock.",
             "C": "Governance/Compliance são MODOS de retenção (quem pode burlar), não os mecanismos de prazo fixo vs. indefinido.",
-            "D": "Versionamento e lifecycle não são os mecanismos de travamento do Object Lock."
+            "D": "Inverte: prazo fixo é retention period; sem prazo é legal hold."
           }
         },
         {
@@ -12935,23 +12935,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 Transfer Acceleration"
-            },
-            {
-              "key": "B",
               "text": "Versionamento"
             },
             {
+              "key": "B",
+              "text": "S3 Transfer Acceleration"
+            },
+            {
               "key": "C",
-              "text": "Object Lock"
+              "text": "Standard-IA"
             },
             {
               "key": "D",
-              "text": "Standard-IA"
+              "text": "Object Lock"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): upload global lento pra bucket distante = Transfer Acceleration, que usa edge locations + backbone da AWS.",
@@ -12959,9 +12959,9 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 Transfer Acceleration roteia o upload pela edge location mais próxima e pela backbone da AWS (em vez da internet pública variável), acelerando transferências de longa distância de objetos grandes em 50–500%. É a solução pra usuários globais enviando pra um bucket distante.",
           "whyNots": {
-            "B": "Versionamento preserva versões — não acelera transferência.",
-            "C": "Object Lock é imutabilidade WORM — não tem efeito na velocidade de upload.",
-            "D": "Standard-IA é classe de custo — não acelera upload."
+            "A": "Versionamento preserva versões — não acelera transferência.",
+            "C": "Standard-IA é classe de custo — não acelera upload.",
+            "D": "Object Lock é imutabilidade WORM — não tem efeito na velocidade de upload."
           }
         },
         {
@@ -12982,7 +12982,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Presigned URL"
+              "text": "Criar um IAM User pra ele"
             },
             {
               "key": "B",
@@ -12990,7 +12990,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Criar um IAM User pra ele"
+              "text": "Presigned URL"
             },
             {
               "key": "D",
@@ -12998,7 +12998,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'upload de um arquivo, por tempo limitado, sem dar credencial' = presigned URL.",
@@ -13006,8 +13006,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma presigned URL concede permissão temporária pra baixar ou enviar um objeto específico, sem que o terceiro tenha credenciais/permissões da AWS. Quem gera assina com as próprias credenciais; a URL expira (1 min–12h no console, até 7 dias via SDK/CLI).",
           "whyNots": {
+            "A": "Criar IAM User pra um upload pontual é excessivo e contra a boa prática de credenciais temporárias.",
             "B": "Tornar o bucket público é um risco de segurança e não limita ao arquivo/tempo desejado.",
-            "C": "Criar IAM User pra um upload pontual é excessivo e contra a boa prática de credenciais temporárias.",
             "D": "Object Lock é imutabilidade — não concede acesso de upload temporário."
           }
         },
@@ -13031,33 +13031,33 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "S3 event notifications NÃO suportam SQS FIFO como destino (só SQS standard, SNS ou Lambda)"
+              "text": "Faltou habilitar o Transfer Acceleration no bucket, pré-requisito pra eventos de notificação"
             },
             {
               "key": "B",
-              "text": "S3 não envia eventos pra SQS de jeito nenhum"
+              "text": "S3 não envia eventos pra SQS de jeito nenhum — notificações só funcionam com SNS e Lambda"
             },
             {
               "key": "C",
-              "text": "Eventos do S3 só vão pra EC2"
+              "text": "Eventos do S3 só vão pra instâncias EC2 registradas como consumidoras no próprio bucket"
             },
             {
               "key": "D",
-              "text": "Faltou habilitar Transfer Acceleration"
+              "text": "S3 event notifications NÃO suportam SQS FIFO como destino direto (SQS standard, SNS, Lambda ou EventBridge)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
-            "💡 Rafael (dica): pegadinha — destino de event notification pode ser SQS standard, SNS ou Lambda; FIFO NÃO é suportado.",
-            "💡 Rafael (dica 2): troque a fila pra standard que funciona."
+            "💡 Rafael (dica): pegadinha — destino de event notification pode ser SQS standard, SNS, Lambda ou EventBridge; SQS FIFO direto NÃO é suportado.",
+            "💡 Rafael (dica 2): troque a fila pra standard que funciona (ou roteie via EventBridge se precisar mesmo de uma FIFO no fim do caminho)."
           ],
-          "explanation": "S3 event notifications publicam pra Lambda, SNS e SQS — mas filas SQS FIFO NÃO são suportadas como destino, apenas SQS standard. Por isso a configuração com FIFO falha; basta usar uma fila standard.",
+          "explanation": "S3 event notifications publicam pra Lambda, SNS, SQS e Amazon EventBridge — mas filas SQS FIFO NÃO são suportadas como destino direto, apenas SQS standard. Por isso a configuração com FIFO falha; a solução é usar uma fila standard, ou rotear via EventBridge se precisar mesmo de uma fila FIFO no final do caminho.",
           "whyNots": {
+            "A": "Transfer Acceleration é sobre upload — nada a ver com o destino de event notification.",
             "B": "O S3 envia, sim, pra SQS — desde que seja standard.",
-            "C": "Eventos do S3 vão pra Lambda/SNS/SQS/EventBridge, não 'só pra EC2'.",
-            "D": "Transfer Acceleration é sobre upload — nada a ver com o destino de event notification."
+            "C": "Eventos do S3 vão pra Lambda/SNS/SQS/EventBridge, não 'só pra EC2'."
           }
         },
         {
@@ -13082,11 +13082,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CRR → Versionamento → Transfer Acceleration → Object Lock"
+              "text": "Object Lock → Transfer Acceleration → Versionamento → CRR"
             },
             {
               "key": "C",
-              "text": "Object Lock → Transfer Acceleration → Versionamento → CRR"
+              "text": "CRR → Versionamento → Transfer Acceleration → Object Lock"
             },
             {
               "key": "D",
@@ -13102,8 +13102,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada recurso resolve um caso: versionamento (restaurar objeto apagado), CRR (cópia automática em outra região pra DR), Object Lock (imutabilidade WORM por exigência legal) e Transfer Acceleration (upload global rápido pra bucket distante). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca versionamento com CRR e Object Lock com Transfer Acceleration.",
-            "C": "Embaralha tudo — Object Lock não restaura objeto apagado.",
+            "B": "Embaralha tudo — Object Lock não restaura objeto apagado.",
+            "C": "Troca versionamento com CRR e Object Lock com Transfer Acceleration.",
             "D": "Inverte completamente; nenhuma posição bate com a função certa."
           }
         }
@@ -13131,23 +13131,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon DocumentDB (compatível com MongoDB)"
+              "text": "Amazon Neptune, o banco de JSON da AWS"
             },
             {
               "key": "B",
-              "text": "Amazon Neptune"
+              "text": "Amazon DocumentDB (compatível com MongoDB)"
             },
             {
               "key": "C",
-              "text": "Amazon RDS for MySQL"
+              "text": "Amazon Redshift, compatível com MongoDB"
             },
             {
               "key": "D",
-              "text": "Amazon Redshift"
+              "text": "Amazon RDS for MySQL guardando os JSON"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): documentos JSON + compatível com MongoDB + gerenciado = DocumentDB.",
@@ -13155,9 +13155,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DocumentDB é o banco de documentos gerenciado da AWS, compatível com MongoDB (JSON/BSON). É a escolha pra migrar workloads MongoDB e armazenar documentos flexíveis (perfis, preferências, catálogos) sem gerenciar a infraestrutura.",
           "whyNots": {
-            "B": "Neptune é banco de grafo (relações), não de documentos.",
-            "C": "RDS for MySQL é relacional — não é compatível com MongoDB nem com documentos flexíveis.",
-            "D": "Redshift é data warehouse analítico — não é banco de documentos transacional."
+            "A": "Neptune é banco de grafo (relações), não de documentos.",
+            "C": "Redshift é data warehouse analítico — não é banco de documentos transacional.",
+            "D": "RDS for MySQL é relacional — não é compatível com MongoDB nem com documentos flexíveis."
           }
         },
         {
@@ -13178,7 +13178,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Neptune"
+              "text": "Amazon Timestream"
             },
             {
               "key": "B",
@@ -13186,7 +13186,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Timestream"
+              "text": "Amazon Neptune"
             },
             {
               "key": "D",
@@ -13194,7 +13194,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'relações complexas, amigos de amigos, recomendação' = grafo = Neptune (nós + arestas).",
@@ -13202,8 +13202,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Neptune é o banco de grafo gerenciado: modela entidades como nós e relações como arestas, consultando relações altamente conectadas em segundos. É ideal pra redes sociais, motores de recomendação, detecção de fraude e knowledge graphs.",
           "whyNots": {
+            "A": "Timestream é de séries temporais — não modela relações.",
             "B": "DocumentDB é de documentos — não é otimizado pra atravessar relações de grafo.",
-            "C": "Timestream é de séries temporais — não modela relações.",
             "D": "RDS relacional faria muitos JOINs caros pra consultas de grafo profundas; o grafo nativo é o Neptune."
           }
         },
@@ -13225,23 +13225,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Keyspaces (para Apache Cassandra)"
+              "text": "Amazon Neptune (roda CQL nativamente)"
             },
             {
               "key": "B",
-              "text": "Amazon Neptune"
+              "text": "Amazon Aurora (modo Cassandra serverless)"
             },
             {
               "key": "C",
-              "text": "Amazon DocumentDB"
+              "text": "Amazon DocumentDB (compatível com CQL)"
             },
             {
               "key": "D",
-              "text": "Amazon Aurora"
+              "text": "Amazon Keyspaces (para Apache Cassandra)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): Cassandra/CQL gerenciado e serverless = Amazon Keyspaces.",
@@ -13249,9 +13249,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Keyspaces é o serviço gerenciado e serverless compatível com Apache Cassandra (CQL), com escala automática e throughput praticamente ilimitado. É a escolha pra migrar workloads Cassandra sem gerenciar clusters.",
           "whyNots": {
-            "B": "Neptune é grafo — não é Cassandra/wide-column.",
-            "C": "DocumentDB é de documentos (MongoDB), não Cassandra.",
-            "D": "Aurora é relacional (MySQL/PostgreSQL) — não compatível com CQL/Cassandra."
+            "A": "Neptune é grafo — não é Cassandra/wide-column.",
+            "B": "Aurora é relacional (MySQL/PostgreSQL) — não compatível com CQL/Cassandra.",
+            "C": "DocumentDB é de documentos (MongoDB), não Cassandra."
           }
         },
         {
@@ -13280,11 +13280,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon DocumentDB"
+              "text": "Amazon RDS for PostgreSQL"
             },
             {
               "key": "D",
-              "text": "Amazon RDS for PostgreSQL"
+              "text": "Amazon DocumentDB"
             }
           ],
           "answers": [
@@ -13297,8 +13297,8 @@ window.AWS_BANK = {
           "explanation": "Timestream é o banco de séries temporais serverless da AWS, otimizado pra armazenar e analisar dados indexados por tempo (sensores IoT, telemetria, métricas de app, monitoramento) — até ~1000x mais rápido que relacional pra esse padrão.",
           "whyNots": {
             "B": "Neptune é grafo — não é série temporal.",
-            "C": "DocumentDB é de documentos — não otimizado pra consultas por intervalo de tempo em larga escala.",
-            "D": "RDS PostgreSQL relacional não tem a eficiência do Timestream pra trilhões de eventos por tempo."
+            "C": "RDS PostgreSQL relacional não tem a eficiência do Timestream pra trilhões de eventos por tempo.",
+            "D": "DocumentDB é de documentos — não otimizado pra consultas por intervalo de tempo em larga escala."
           }
         },
         {
@@ -13319,23 +13319,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon MemoryDB (Redis durável)"
-            },
-            {
-              "key": "B",
-              "text": "Amazon ElastiCache (apenas cache)"
-            },
-            {
-              "key": "C",
               "text": "Amazon S3"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "Amazon MemoryDB (Redis durável)"
+            },
+            {
+              "key": "C",
               "text": "Amazon RDS"
+            },
+            {
+              "key": "D",
+              "text": "Amazon ElastiCache (apenas cache)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): in-memory + durável + compatível com Redis + BANCO PRIMÁRIO = MemoryDB.",
@@ -13343,9 +13343,9 @@ window.AWS_BANK = {
           ],
           "explanation": "MemoryDB é um banco in-memory durável, compatível com Redis, com leitura em microssegundos, escrita sub-ms e durabilidade Multi-AZ. Pode atuar como banco PRIMÁRIO, eliminando a necessidade de manter um cache e um banco durável separados.",
           "whyNots": {
-            "B": "ElastiCache é cache — os dados podem ser perdidos; não serve de banco primário durável.",
-            "C": "S3 é object storage, não banco in-memory de baixa latência.",
-            "D": "RDS é relacional em disco — não entrega microssegundos in-memory."
+            "A": "S3 é object storage, não banco in-memory de baixa latência.",
+            "C": "RDS é relacional em disco — não entrega microssegundos in-memory.",
+            "D": "ElastiCache é cache — os dados podem ser perdidos; não serve de banco primário durável."
           }
         },
         {
@@ -13367,7 +13367,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) ElastiCache; (2) MemoryDB"
+              "text": "(1) ElastiCache; (2) DynamoDB"
             },
             {
               "key": "B",
@@ -13375,7 +13375,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "(1) ElastiCache; (2) DynamoDB"
+              "text": "(1) ElastiCache; (2) MemoryDB"
             },
             {
               "key": "D",
@@ -13383,7 +13383,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): cache descartável na frente do banco = ElastiCache; banco in-memory durável e primário = MemoryDB.",
@@ -13391,8 +13391,8 @@ window.AWS_BANK = {
           ],
           "explanation": "ElastiCache é o cache in-memory (aceita perder os dados, fica na frente do banco pra acelerar leituras). MemoryDB é o banco in-memory DURÁVEL (Multi-AZ), usado como fonte primária que não pode perder dados. A distinção 'cache vs durável' é o ponto.",
           "whyNots": {
+            "A": "DynamoDB não é in-memory; o caso (2) pede in-memory durável (MemoryDB).",
             "B": "Inverte: o durável/primário é o MemoryDB, não o ElastiCache.",
-            "C": "DynamoDB não é in-memory; o caso (2) pede in-memory durável (MemoryDB).",
             "D": "RDS é em disco, não o banco in-memory durável pedido em (2)."
           }
         },
@@ -13414,23 +13414,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Neptune (grafo)"
-            },
-            {
-              "key": "B",
-              "text": "Amazon Timestream"
-            },
-            {
-              "key": "C",
               "text": "Amazon Keyspaces"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Amazon Redshift"
+            },
+            {
+              "key": "C",
+              "text": "Amazon Timestream"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Neptune (grafo)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'padrões de conexão / anéis de fraude' = relações = grafo = Neptune.",
@@ -13438,9 +13438,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Detecção de fraude baseada em relações (anéis de fraude entre contas, dispositivos e transações) é um caso clássico de banco de grafo. Neptune modela essas conexões como nós/arestas e as percorre rapidamente.",
           "whyNots": {
-            "B": "Timestream é série temporal — não modela relações de grafo.",
-            "C": "Keyspaces é wide-column (Cassandra) — não é grafo.",
-            "D": "Redshift é data warehouse analítico — não percorre relações de grafo em tempo quase real."
+            "A": "Keyspaces é wide-column (Cassandra) — não é grafo.",
+            "B": "Redshift é data warehouse analítico — não percorre relações de grafo em tempo quase real.",
+            "C": "Timestream é série temporal — não modela relações de grafo."
           }
         },
         {
@@ -13466,15 +13466,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Compatível com MongoDB = DynamoDB; propósito geral = DocumentDB"
+              "text": "DynamoDB e DocumentDB são ambos compatíveis com a API do MongoDB, mudando apenas o preço"
             },
             {
               "key": "C",
-              "text": "Ambos são compatíveis com MongoDB"
+              "text": "DynamoDB e DocumentDB são bancos relacionais gerenciados, com SQL e transações ACID completas"
             },
             {
               "key": "D",
-              "text": "Ambos são bancos relacionais"
+              "text": "Compatível com MongoDB = DynamoDB; chave-valor serverless de propósito geral = DocumentDB"
             }
           ],
           "answers": [
@@ -13486,9 +13486,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DynamoDB é o NoSQL chave-valor/documento serverless de propósito geral da AWS (com API própria, escala massiva). DocumentDB é o banco de documentos compatível com a API do MongoDB. A escolha depende de precisar ou não de compatibilidade com MongoDB.",
           "whyNots": {
-            "B": "Inverte — quem é compatível com MongoDB é o DocumentDB, não o DynamoDB.",
-            "C": "DynamoDB não é compatível com MongoDB; tem API própria.",
-            "D": "Ambos são NoSQL, não relacionais."
+            "B": "DynamoDB não é compatível com MongoDB; tem API própria.",
+            "C": "Ambos são NoSQL, não relacionais.",
+            "D": "Inverte — quem é compatível com MongoDB é o DocumentDB, não o DynamoDB."
           }
         },
         {
@@ -13509,23 +13509,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Timestream"
+              "text": "Amazon Keyspaces"
             },
             {
               "key": "B",
-              "text": "Amazon DocumentDB"
+              "text": "Amazon Timestream"
             },
             {
               "key": "C",
-              "text": "Amazon Neptune"
+              "text": "Amazon DocumentDB"
             },
             {
               "key": "D",
-              "text": "Amazon Keyspaces"
+              "text": "Amazon Neptune"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): métricas 'ao longo do tempo' (por minuto/hora) = séries temporais = Timestream.",
@@ -13533,9 +13533,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Métricas indexadas por tempo (latência por minuto, erros por hora) são dados de série temporal. Timestream é o banco purpose-built pra isso, com armazenamento e consulta eficientes por intervalos de tempo — ideal pra monitoramento de aplicações e dashboards temporais.",
           "whyNots": {
-            "B": "DocumentDB é de documentos — não otimizado pra séries temporais.",
-            "C": "Neptune é grafo — não é série temporal.",
-            "D": "Keyspaces é wide-column de propósito mais geral; o purpose-built pra tempo é o Timestream."
+            "A": "Keyspaces é wide-column de propósito mais geral; o purpose-built pra tempo é o Timestream.",
+            "C": "DocumentDB é de documentos — não otimizado pra séries temporais.",
+            "D": "Neptune é grafo — não é série temporal."
           }
         },
         {
@@ -13559,23 +13559,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DocumentDB → Neptune → Timestream → MemoryDB"
-            },
-            {
-              "key": "B",
               "text": "Neptune → DocumentDB → MemoryDB → Timestream"
             },
             {
+              "key": "B",
+              "text": "MemoryDB → Timestream → Neptune → DocumentDB"
+            },
+            {
               "key": "C",
-              "text": "Timestream → MemoryDB → DocumentDB → Neptune"
+              "text": "DocumentDB → Neptune → Timestream → MemoryDB"
             },
             {
               "key": "D",
-              "text": "MemoryDB → Timestream → Neptune → DocumentDB"
+              "text": "Timestream → MemoryDB → DocumentDB → Neptune"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): documento = DocumentDB; grafo = Neptune; tempo = Timestream; in-memory durável = MemoryDB.",
@@ -13583,9 +13583,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada banco serve um modelo: DocumentDB (documentos JSON/MongoDB), Neptune (grafo/relações), Timestream (séries temporais/IoT) e MemoryDB (in-memory durável compatível com Redis). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca DocumentDB com Neptune e Timestream com MemoryDB.",
-            "C": "Embaralha tudo — Timestream não é documento.",
-            "D": "Inverte completamente; nenhuma posição bate com o modelo certo."
+            "A": "Troca DocumentDB com Neptune e Timestream com MemoryDB.",
+            "B": "Inverte completamente; nenhuma posição bate com o modelo certo.",
+            "D": "Embaralha tudo — Timestream não é documento."
           }
         }
       ]
@@ -13610,23 +13610,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Região = área geográfica; Availability Zone (AZ) = um ou mais data centers isolados dentro da região"
+              "text": "Região e AZ são a mesma coisa na prática: dois nomes pro mesmo conjunto físico de data centers"
             },
             {
               "key": "B",
-              "text": "Região = um data center; AZ = um continente"
+              "text": "Região = um único data center específico; AZ = um continente inteiro com várias regiões dentro"
             },
             {
               "key": "C",
-              "text": "Região e AZ são a mesma coisa"
+              "text": "AZ = a área geográfica ampla; Região = um rack de servidores isolado dentro do data center"
             },
             {
               "key": "D",
-              "text": "AZ = área geográfica; Região = um rack"
+              "text": "Região = área geográfica; Availability Zone (AZ) = um ou mais data centers isolados dentro da região"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): Região é o 'lugar no mapa' (São Paulo); a AZ é um (ou mais) data center isolado dentro daquela região.",
@@ -13634,9 +13634,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma Região é uma área geográfica isolada (ex.: sa-east-1, São Paulo). Cada Região tem várias Availability Zones (AZs), que são um ou mais data centers isolados (energia/rede próprias). Distribuir entre AZs dá resiliência dentro da região.",
           "whyNots": {
+            "A": "São conceitos diferentes — região contém várias AZs.",
             "B": "Região não é um único data center, e AZ não é um continente.",
-            "C": "São conceitos diferentes — região contém várias AZs.",
-            "D": "Inverte tudo — a área geográfica é a região, não a AZ."
+            "C": "Inverte tudo — a área geográfica é a região, não a AZ."
           }
         },
         {
@@ -13661,15 +13661,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Colocar tudo numa única AZ"
+              "text": "Colocar tudo numa edge location — elas hospedam a app pertinho do usuário"
             },
             {
               "key": "C",
-              "text": "Colocar tudo numa edge location"
+              "text": "Colocar tudo numa única AZ — a própria AZ já replica tudo internamente"
             },
             {
               "key": "D",
-              "text": "Usar uma região só com uma instância"
+              "text": "Usar uma região só com uma instância grande — a AWS cuida do failover dela"
             }
           ],
           "answers": [
@@ -13681,8 +13681,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Distribuir os recursos por múltiplas AZs (multi-AZ) na mesma região é a prática de alta disponibilidade: se uma AZ (data center) cair, as outras seguem servindo, e a latência entre AZs é baixa. É a base de designs resilientes como RDS Multi-AZ e ASG multi-AZ.",
           "whyNots": {
-            "B": "Tudo numa AZ só cria ponto único de falha — se ela cair, a app cai.",
-            "C": "Edge locations são pontos de CDN/cache, não onde se hospeda a aplicação resiliente.",
+            "B": "Edge locations são pontos de CDN/cache, não onde se hospeda a aplicação resiliente.",
+            "C": "Tudo numa AZ só cria ponto único de falha — se ela cair, a app cai.",
             "D": "Uma instância numa região não tem redundância nenhuma."
           }
         },
@@ -13702,23 +13702,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Local Zones"
+              "text": "Uma bucket policy"
             },
             {
               "key": "B",
-              "text": "Uma segunda região do outro lado do mundo"
+              "text": "AWS Local Zones"
             },
             {
               "key": "C",
-              "text": "Mais Availability Zones na mesma região distante"
+              "text": "Uma segunda região do outro lado do mundo"
             },
             {
               "key": "D",
-              "text": "Uma bucket policy"
+              "text": "Mais Availability Zones na mesma região distante"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'estender a AWS pra perto de uma grande cidade, latência de poucos ms' = Local Zones.",
@@ -13726,9 +13726,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Local Zones estendem uma região da AWS pra perto de grandes centros urbanos, entregando compute e armazenamento com latência de poucos milissegundos pros usuários locais — útil pra jogos, streaming e workloads sensíveis a latência.",
           "whyNots": {
-            "B": "Uma região distante aumentaria a latência, não reduziria.",
-            "C": "Mais AZs numa região distante não aproxima a infraestrutura dos usuários locais.",
-            "D": "Bucket policy é permissão de S3 — nada a ver com latência geográfica."
+            "A": "Bucket policy é permissão de S3 — nada a ver com latência geográfica.",
+            "C": "Uma região distante aumentaria a latência, não reduziria.",
+            "D": "Mais AZs numa região distante não aproxima a infraestrutura dos usuários locais."
           }
         },
         {
@@ -13747,23 +13747,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Proteger a infraestrutura física: hardware, software base, rede e instalações"
+              "text": "Configurar as permissões IAM do cliente — a AWS define quem acessa o quê"
             },
             {
               "key": "B",
-              "text": "Configurar as permissões IAM do cliente"
+              "text": "Aplicar patches no sistema operacional convidado do EC2 do cliente todo mês"
             },
             {
               "key": "C",
-              "text": "Criptografar os dados da aplicação do cliente"
+              "text": "Proteger a infraestrutura física: hardware, software base, rede e instalações"
             },
             {
               "key": "D",
-              "text": "Aplicar patches no sistema operacional convidado do EC2 do cliente"
+              "text": "Criptografar os dados da aplicação do cliente, automaticamente e por padrão"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): AWS cuida da segurança DA nuvem (a base física: hardware, instalações, rede). O cliente cuida da segurança NA nuvem.",
@@ -13771,9 +13771,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A AWS é responsável pela 'segurança DA nuvem': a infraestrutura física que roda os serviços — hardware, software base, rede e instalações (data centers). O cliente cuida da 'segurança NA nuvem' (dados, IAM, criptografia, e, em IaaS, o SO convidado).",
           "whyNots": {
-            "B": "Configurar IAM é responsabilidade do CLIENTE.",
-            "C": "Criptografar os dados da aplicação é do CLIENTE.",
-            "D": "Patch do SO convidado do EC2 é do CLIENTE (em IaaS)."
+            "A": "Configurar IAM é responsabilidade do CLIENTE.",
+            "B": "Patch do SO convidado do EC2 é do CLIENTE (em IaaS).",
+            "D": "Criptografar os dados da aplicação é do CLIENTE."
           }
         },
         {
@@ -13794,23 +13794,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Do cliente (segurança NA nuvem, em IaaS)"
-            },
-            {
-              "key": "B",
-              "text": "Da AWS, sempre"
-            },
-            {
-              "key": "C",
               "text": "De ninguém; o EC2 se atualiza sozinho"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Do provedor de internet"
+            },
+            {
+              "key": "C",
+              "text": "Da AWS, sempre"
+            },
+            {
+              "key": "D",
+              "text": "Do cliente (segurança NA nuvem, em IaaS)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): em IaaS (EC2), o SO convidado é do CLIENTE — patch, hardening e firewall (security group) são responsabilidade sua.",
@@ -13818,9 +13818,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Em serviços IaaS como o EC2, aplicar patches no sistema operacional convidado é responsabilidade do CLIENTE (segurança NA nuvem), junto com a aplicação, dados e configuração de security group. A AWS cuida da camada física/hipervisor abaixo disso.",
           "whyNots": {
-            "B": "A AWS não aplica patch no SO convidado de EC2 do cliente — isso é do cliente.",
-            "C": "O EC2 não atualiza o SO convidado sozinho.",
-            "D": "O provedor de internet não tem nada a ver com patch de SO."
+            "A": "O EC2 não atualiza o SO convidado sozinho.",
+            "B": "O provedor de internet não tem nada a ver com patch de SO.",
+            "C": "A AWS não aplica patch no SO convidado de EC2 do cliente — isso é do cliente."
           }
         },
         {
@@ -13845,15 +13845,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Aplicar patch no sistema operacional dos servidores do S3"
+              "text": "Operar a rede física entre os data centers da AWS, incluindo os enlaces entre as AZs"
             },
             {
               "key": "C",
-              "text": "Manter o hardware dos data centers do S3"
+              "text": "Manter e trocar o hardware de armazenamento físico dos data centers onde o S3 roda"
             },
             {
               "key": "D",
-              "text": "Operar a rede física entre os data centers"
+              "text": "Aplicar os patches de segurança no sistema operacional dos servidores que rodam o S3"
             }
           ],
           "answers": [
@@ -13865,9 +13865,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Em serviços abstraídos como o S3, a AWS opera a infraestrutura e o sistema operacional. O cliente continua responsável por gerenciar seus DADOS: classificar, escolher opções de criptografia e controlar o acesso com IAM e políticas de bucket. A divisão de responsabilidade varia conforme o tipo de serviço.",
           "whyNots": {
-            "B": "No S3, o patch do SO dos servidores é da AWS — não do cliente.",
+            "B": "A rede física é responsabilidade da AWS.",
             "C": "Hardware dos data centers é responsabilidade da AWS.",
-            "D": "A rede física é responsabilidade da AWS."
+            "D": "No S3, o patch do SO dos servidores é da AWS — não do cliente."
           }
         },
         {
@@ -13886,23 +13886,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Sustentabilidade"
-            },
-            {
-              "key": "B",
               "text": "Marketing"
             },
             {
+              "key": "B",
+              "text": "Sustentabilidade"
+            },
+            {
               "key": "C",
-              "text": "Gamificação"
+              "text": "Contabilidade"
             },
             {
               "key": "D",
-              "text": "Contabilidade"
+              "text": "Gamificação"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): os 6 pilares são excelência operacional, segurança, confiabilidade, eficiência de desempenho, otimização de custos e sustentabilidade.",
@@ -13910,9 +13910,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Os seis pilares do Well-Architected Framework são: excelência operacional, segurança, confiabilidade, eficiência de desempenho, otimização de custos e sustentabilidade. Sustentabilidade é o sexto, adicionado em 2021.",
           "whyNots": {
-            "B": "Marketing não é um pilar do framework.",
-            "C": "Gamificação não é um pilar (é só o tema deste jogo!).",
-            "D": "Contabilidade não é um pilar; o relacionado a finanças é 'otimização de custos'."
+            "A": "Marketing não é um pilar do framework.",
+            "C": "Contabilidade não é um pilar; o relacionado a finanças é 'otimização de custos'.",
+            "D": "Gamificação não é um pilar (é só o tema deste jogo!)."
           }
         },
         {
@@ -13933,23 +13933,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Consolidated billing (cobrança consolidada) do AWS Organizations"
+              "text": "Trusted Advisor, que unifica a fatura das contas na Organization"
             },
             {
               "key": "B",
-              "text": "Criar uma conta gigante única e migrar tudo"
+              "text": "Cost Explorer apenas, que já rateia os descontos entre as contas"
             },
             {
               "key": "C",
-              "text": "Trusted Advisor"
+              "text": "Consolidated billing (cobrança consolidada) do AWS Organizations"
             },
             {
               "key": "D",
-              "text": "Cost Explorer apenas"
+              "text": "Criar uma conta gigante única e migrar tudo, como a AWS recomenda"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): fatura única + compartilhar descontos de volume/RI/Savings entre contas = consolidated billing (Organizations).",
@@ -13957,9 +13957,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O consolidated billing do AWS Organizations dá uma fatura única (a management account paga) e combina o uso de todas as contas, compartilhando descontos por volume, Reserved Instances e Savings Plans — geralmente reduzindo o custo total. É oferecido sem custo adicional.",
           "whyNots": {
-            "B": "Migrar tudo pra uma conta gigante é arriscado e perde o isolamento entre contas — não é a solução.",
-            "C": "Trusted Advisor dá recomendações — não consolida a fatura nem compartilha descontos.",
-            "D": "Cost Explorer analisa/visualiza custos — não é o mecanismo de cobrança consolidada com partilha de descontos."
+            "A": "Trusted Advisor dá recomendações — não consolida a fatura nem compartilha descontos.",
+            "B": "Cost Explorer analisa/visualiza custos — não é o mecanismo de cobrança consolidada com partilha de descontos.",
+            "D": "Migrar tudo pra uma conta gigante é arriscado e perde o isolamento entre contas — não é a solução."
           }
         },
         {
@@ -13980,23 +13980,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Pontos da rede da AWS, perto dos usuários, usados por serviços como CloudFront e Global Accelerator"
+              "text": "Tipos de instância EC2 otimizados pra entrega de conteúdo perto dos usuários finais"
             },
             {
               "key": "B",
-              "text": "Data centers onde você hospeda seus bancos relacionais primários"
+              "text": "Data centers regionais onde você hospeda seus bancos relacionais primários e cargas críticas"
             },
             {
               "key": "C",
-              "text": "Sub-redes privadas dentro de uma VPC"
+              "text": "Sub-redes privadas dentro de uma VPC, replicadas pela AWS em cada ponto de presença global"
             },
             {
               "key": "D",
-              "text": "Tipos de instância EC2"
+              "text": "Pontos da rede da AWS, perto dos usuários, usados por serviços como CloudFront e Global Accelerator"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): edge location = ponto de presença (PoP) perto do usuário, usado por CDN (CloudFront) e Global Accelerator.",
@@ -14004,9 +14004,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Edge locations (pontos de presença/PoPs) são locais da rede global da AWS, próximos dos usuários, usados por serviços de borda como CloudFront (cache de conteúdo) e Global Accelerator (entrada de tráfego). São muito mais numerosas que as regiões.",
           "whyNots": {
+            "A": "Edge locations não são tipos de instância.",
             "B": "Você não hospeda bancos primários nas edge locations — isso é nas regiões/AZs.",
-            "C": "Sub-redes ficam dentro da VPC numa região — não são edge locations.",
-            "D": "Edge locations não são tipos de instância."
+            "C": "Sub-redes ficam dentro da VPC numa região — não são edge locations."
           }
         },
         {
@@ -14029,15 +14029,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Availability Zone → Região → Segurança DA nuvem → Edge location"
-            },
-            {
-              "key": "C",
               "text": "Edge location → Região → Availability Zone → Segurança NA nuvem"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Região → Edge location → Availability Zone → Segurança NA nuvem"
+            },
+            {
+              "key": "D",
+              "text": "Availability Zone → Região → Segurança DA nuvem → Edge location"
             }
           ],
           "answers": [
@@ -14049,9 +14049,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Região é a área geográfica; Availability Zone é o(s) data center(s) isolado(s) dentro dela; Edge location é o ponto de presença perto do usuário; e 'segurança DA nuvem' (infraestrutura física) é a responsabilidade da AWS no modelo compartilhado. A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca Região com AZ e bagunça o resto.",
-            "C": "Começa com edge location como área geográfica — errado.",
-            "D": "Troca AZ com Edge location e atribui ao cliente o que é da AWS."
+            "B": "Começa com edge location como área geográfica — errado.",
+            "C": "Troca AZ com Edge location e atribui ao cliente o que é da AWS.",
+            "D": "Troca Região com AZ e bagunça o resto."
           }
         }
       ]
@@ -14079,23 +14079,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lambda tem timeout máximo de 15 minutos; pra 40 min use Fargate/ECS, Step Functions ou Batch"
+              "text": "Basta aumentar a memória da função: acima de 10 GB o limite de timeout deixa de existir"
             },
             {
               "key": "B",
-              "text": "Lambda roda por tempo ilimitado, então serve"
+              "text": "Lambda tem timeout máximo de 15 minutos; pra 40 min use Fargate/ECS, Step Functions ou Batch"
             },
             {
               "key": "C",
-              "text": "Basta aumentar a memória que o timeout some"
+              "text": "Lambda só roda por 1 minuto no máximo, então nem tarefas de 5 minutos são possíveis"
             },
             {
               "key": "D",
-              "text": "Lambda só roda por 1 minuto"
+              "text": "Lambda roda por tempo ilimitado desde que a concorrência reservada esteja configurada"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): Lambda tem teto de 15 minutos por invocação. 40 min não cabe — vai pra contêiner (Fargate/ECS) ou orquestração (Step Functions).",
@@ -14103,9 +14103,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O timeout máximo de uma invocação Lambda é 15 minutos (900s). Um processamento de 40 minutos não cabe — a alternativa é um contêiner de longa duração (Fargate/ECS), AWS Batch, ou quebrar em passos com Step Functions.",
           "whyNots": {
-            "B": "Lambda NÃO roda por tempo ilimitado — o teto é 15 minutos.",
-            "C": "Aumentar memória melhora CPU, mas não remove o limite de 15 minutos.",
-            "D": "Não é 1 minuto — o máximo é 15 minutos."
+            "A": "Aumentar memória melhora CPU, mas não remove o limite de 15 minutos.",
+            "C": "Não é 1 minuto — o máximo é 15 minutos.",
+            "D": "Lambda NÃO roda por tempo ilimitado — o teto é 15 minutos."
           }
         },
         {
@@ -14126,7 +14126,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Provisioned concurrency"
+              "text": "Diminuir a memória"
             },
             {
               "key": "B",
@@ -14134,15 +14134,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Aumentar o timeout"
+              "text": "Provisioned concurrency"
             },
             {
               "key": "D",
-              "text": "Diminuir a memória"
+              "text": "Aumentar o timeout"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'eliminar cold start, ambientes pré-inicializados' = provisioned concurrency (resposta em dezenas de ms).",
@@ -14150,9 +14150,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Provisioned concurrency pré-inicializa um número definido de ambientes de execução, mantendo-os prontos antes da invocação — elimina o cold start e entrega resposta em dezenas de ms. É ideal pra workloads interativos sensíveis a latência (APIs web/mobile).",
           "whyNots": {
+            "A": "Reduzir memória até piora o desempenho; não resolve cold start.",
             "B": "Reserved concurrency reserva/limita capacidade concorrente, mas não pré-aquece ambientes — o cold start continua.",
-            "C": "Timeout é o tempo máximo de execução — não tem a ver com cold start.",
-            "D": "Reduzir memória até piora o desempenho; não resolve cold start."
+            "D": "Timeout é o tempo máximo de execução — não tem a ver com cold start."
           }
         },
         {
@@ -14173,7 +14173,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Reserved concurrency"
+              "text": "Aumentar o /tmp"
             },
             {
               "key": "B",
@@ -14181,15 +14181,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Aumentar o /tmp"
+              "text": "Lambda Layers"
             },
             {
               "key": "D",
-              "text": "Lambda Layers"
+              "text": "Reserved concurrency"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): reservar um teto de concorrência só pra aquela função (que ninguém mais usa) = reserved concurrency.",
@@ -14197,9 +14197,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Reserved concurrency reserva um pool de execuções concorrentes exclusivo pra uma função — garantindo que ela sempre tenha capacidade, e que outras funções não consumam esse pool. Também pode ser usada pra limitar (throttle) uma função e proteger a cota da conta.",
           "whyNots": {
+            "A": "/tmp é storage efêmero — não tem a ver com concorrência garantida.",
             "B": "Provisioned concurrency pré-aquece ambientes (latência), mas o que GARANTE/isola o pool de concorrência é a reserved (podem ser combinadas).",
-            "C": "/tmp é storage efêmero — não tem a ver com concorrência garantida.",
-            "D": "Layers empacotam dependências — não gerenciam concorrência."
+            "C": "Layers empacotam dependências — não gerenciam concorrência."
           }
         },
         {
@@ -14226,15 +14226,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Provisioned concurrency"
-            },
-            {
-              "key": "C",
               "text": "Aumentar o timeout"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Multi-AZ"
+            },
+            {
+              "key": "D",
+              "text": "Provisioned concurrency"
             }
           ],
           "answers": [
@@ -14246,9 +14246,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Em invocações assíncronas (S3, SNS, EventBridge), o Lambda faz retries automáticos e, se ainda falhar, pode enviar o evento pra uma Dead-Letter Queue (SQS ou SNS) — capturando o que falhou pra análise/reprocessamento, sem perder o evento. (Lambda Destinations também roteiam sucesso/falha.)",
           "whyNots": {
-            "B": "Provisioned concurrency reduz cold start — não captura falhas.",
-            "C": "Aumentar timeout não evita perder eventos que falharam.",
-            "D": "Multi-AZ é resiliência de infra — não captura eventos de Lambda que falharam."
+            "B": "Aumentar timeout não evita perder eventos que falharam.",
+            "C": "Multi-AZ é resiliência de infra — não captura eventos de Lambda que falharam.",
+            "D": "Provisioned concurrency reduz cold start — não captura falhas."
           }
         },
         {
@@ -14270,23 +14270,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Event source mapping (o Lambda faz polling da fila em lotes)"
+              "text": "Um signed URL apontando a fila SQS direto pra função"
             },
             {
               "key": "B",
-              "text": "Uma invocação síncrona via API Gateway"
+              "text": "Event source mapping (o Lambda faz polling da fila em lotes)"
             },
             {
               "key": "C",
-              "text": "Um signed URL"
+              "text": "Provisioned concurrency, que já vem com o polling da fila"
             },
             {
               "key": "D",
-              "text": "Provisioned concurrency"
+              "text": "Uma invocação síncrona via API Gateway lendo a fila em lotes"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): pra SQS, Kinesis e DynamoDB Streams, o Lambda usa event source mapping — ele faz POLLING e invoca com lotes.",
@@ -14294,9 +14294,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra fontes baseadas em polling (SQS, Kinesis Data Streams, DynamoDB Streams), o Lambda usa um event source mapping: ele faz polling da fonte automaticamente e invoca a função com lotes (batches) de registros. É o modelo poll-based de integração.",
           "whyNots": {
-            "B": "API Gateway é invocação síncrona (request/response) — não é o polling de uma fila SQS.",
-            "C": "Signed URL é acesso a objeto no S3/CloudFront — nada a ver com consumir fila.",
-            "D": "Provisioned concurrency trata latência/cold start — não conecta a fila ao Lambda."
+            "A": "Signed URL é acesso a objeto no S3/CloudFront — nada a ver com consumir fila.",
+            "C": "Provisioned concurrency trata latência/cold start — não conecta a fila ao Lambda.",
+            "D": "API Gateway é invocação síncrona (request/response) — não é o polling de uma fila SQS."
           }
         },
         {
@@ -14317,23 +14317,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lambda Layers"
-            },
-            {
-              "key": "B",
               "text": "Reserved concurrency"
             },
             {
+              "key": "B",
+              "text": "S3 Transfer Acceleration"
+            },
+            {
               "key": "C",
-              "text": "Dead-Letter Queue"
+              "text": "Lambda Layers"
             },
             {
               "key": "D",
-              "text": "S3 Transfer Acceleration"
+              "text": "Dead-Letter Queue"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): empacotar bibliotecas/dependências separadas e compartilhar entre funções = Lambda Layers.",
@@ -14341,9 +14341,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Lambda Layers empacotam bibliotecas, dependências ou runtimes customizados separados do código da função, podendo ser compartilhados entre várias funções. Reduzem o tamanho do pacote de deploy e centralizam dependências comuns.",
           "whyNots": {
-            "B": "Reserved concurrency gerencia concorrência — não compartilha dependências.",
-            "C": "DLQ captura falhas — não tem a ver com pacote/dependências.",
-            "D": "Transfer Acceleration acelera upload pro S3 — não é recurso de Lambda."
+            "A": "Reserved concurrency gerencia concorrência — não compartilha dependências.",
+            "B": "Transfer Acceleration acelera upload pro S3 — não é recurso de Lambda.",
+            "D": "DLQ captura falhas — não tem a ver com pacote/dependências."
           }
         },
         {
@@ -14364,23 +14364,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Aumentar a memória configurada (CPU escala junto com a memória)"
+              "text": "Reduzir o número de layers — cada layer reserva uma fatia da CPU"
             },
             {
               "key": "B",
-              "text": "Aumentar o timeout"
+              "text": "Adicionar uma DLQ, que libera CPU ao tirar as falhas do caminho"
             },
             {
               "key": "C",
-              "text": "Adicionar uma DLQ"
+              "text": "Aumentar o timeout — a CPU é alocada proporcional ao tempo limite"
             },
             {
               "key": "D",
-              "text": "Reduzir o número de layers"
+              "text": "Aumentar a memória configurada (CPU escala junto com a memória)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): no Lambda, você não escolhe vCPU direto — a CPU (e rede) cresce proporcional à MEMÓRIA que você configura.",
@@ -14388,9 +14388,9 @@ window.AWS_BANK = {
           ],
           "explanation": "No Lambda, a CPU e a largura de banda de rede são alocadas proporcionalmente à memória configurada (até 10.240 MB). Pra ter mais CPU, aumenta-se a memória — o que muitas vezes reduz o tempo de execução e até o custo total.",
           "whyNots": {
-            "B": "Timeout é o tempo máximo permitido — não muda a CPU alocada.",
-            "C": "DLQ trata falhas — não afeta a CPU.",
-            "D": "Reduzir layers não aumenta a CPU disponível."
+            "A": "Reduzir layers não aumenta a CPU disponível.",
+            "B": "DLQ trata falhas — não afeta a CPU.",
+            "C": "Timeout é o tempo máximo permitido — não muda a CPU alocada."
           }
         },
         {
@@ -14417,15 +14417,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Tornar o RDS público na internet"
+              "text": "Gerar um signed URL do CloudFront apontando direto pro endpoint privado do RDS"
             },
             {
               "key": "C",
-              "text": "Usar um signed URL pro RDS"
+              "text": "Tornar o RDS público na internet, liberando 0.0.0.0/0 no security group do banco"
             },
             {
               "key": "D",
-              "text": "Não é possível Lambda acessar VPC"
+              "text": "Não é possível uma função Lambda acessar recursos dentro de VPC; use EC2 no lugar"
             }
           ],
           "answers": [
@@ -14437,8 +14437,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra acessar recursos privados como um RDS numa sub-rede privada, configura-se a função Lambda na VPC (informando sub-redes e security group). A função passa a ter ENIs nessas sub-redes e alcança o banco pela rede privada, sem expor o RDS à internet.",
           "whyNots": {
-            "B": "Tornar o RDS público é um risco de segurança e desnecessário.",
-            "C": "Signed URL é do S3/CloudFront — não se aplica a acesso ao RDS.",
+            "B": "Signed URL é do S3/CloudFront — não se aplica a acesso ao RDS.",
+            "C": "Tornar o RDS público é um risco de segurança e desnecessário.",
             "D": "É possível, sim — basta configurar a função na VPC."
           }
         },
@@ -14460,23 +14460,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Provisioned concurrency pra a base semanal + reserved concurrency pra isolar/absorver o pico"
+              "text": "Só aumentar o timeout da função, o que já elimina cold starts e absorve qualquer pico"
             },
             {
               "key": "B",
-              "text": "Só aumentar o timeout"
+              "text": "Provisioned concurrency pra a base semanal + reserved concurrency pra isolar/absorver o pico"
             },
             {
               "key": "C",
-              "text": "Só Lambda Layers"
+              "text": "Só adicionar Lambda Layers, que aceleram a inicialização e controlam a concorrência"
             },
             {
               "key": "D",
-              "text": "Desligar a função no fim de semana"
+              "text": "Desligar a função no fim de semana e religar na segunda, evitando o custo do pico"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): dá pra usar as duas juntas — provisioned (sem cold start na base) + reserved (garante/isola o pool pro pico).",
@@ -14484,7 +14484,7 @@ window.AWS_BANK = {
           ],
           "explanation": "As duas se combinam: provisioned concurrency mantém ambientes pré-aquecidos pra a base semanal (sem cold start, baixa latência), e reserved concurrency garante/isola um pool de concorrência pra absorver os picos de fim de semana sem competir com outras funções da conta.",
           "whyNots": {
-            "B": "Timeout não trata latência de cold start nem concorrência.",
+            "A": "Timeout não trata latência de cold start nem concorrência.",
             "C": "Layers tratam dependências — não latência/concorrência.",
             "D": "Desligar no fim de semana é justamente quando há pico — o oposto do necessário."
           }
@@ -14507,23 +14507,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Provisioned concurrency → Reserved concurrency → Layers → DLQ"
-            },
-            {
-              "key": "B",
               "text": "Reserved concurrency → Provisioned concurrency → DLQ → Layers"
             },
             {
+              "key": "B",
+              "text": "DLQ → Layers → Reserved concurrency → Provisioned concurrency"
+            },
+            {
               "key": "C",
-              "text": "Layers → DLQ → Provisioned concurrency → Reserved concurrency"
+              "text": "Provisioned concurrency → Reserved concurrency → Layers → DLQ"
             },
             {
               "key": "D",
-              "text": "DLQ → Layers → Reserved concurrency → Provisioned concurrency"
+              "text": "Layers → DLQ → Provisioned concurrency → Reserved concurrency"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): cold start = provisioned; garantir/limitar concorrência = reserved; compartilhar libs = layers; capturar falha assíncrona = DLQ.",
@@ -14531,9 +14531,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada recurso resolve um problema: provisioned concurrency (elimina cold start), reserved concurrency (garante/limita o pool de concorrência), Layers (compartilham bibliotecas) e DLQ (captura eventos assíncronos que falharam). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca provisioned com reserved e DLQ com Layers.",
-            "C": "Embaralha tudo — Layers não eliminam cold start.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "A": "Troca provisioned com reserved e DLQ com Layers.",
+            "B": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Embaralha tudo — Layers não eliminam cold start."
           }
         }
       ]
@@ -14560,23 +14560,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "A route table da sub-rede tem uma rota 0.0.0.0/0 apontando pra um Internet Gateway"
+              "text": "A sub-rede tem um atributo 'pública' marcado no console, independente de rotas"
             },
             {
               "key": "B",
-              "text": "A sub-rede tem um atributo 'pública' marcado, independente de rotas"
+              "text": "A sub-rede está numa região, não numa AZ — e é isso que a torna pública"
             },
             {
               "key": "C",
-              "text": "Basta a instância ter um IP público"
+              "text": "Basta a instância ter um IP público — com ele o tráfego já sai pra internet"
             },
             {
               "key": "D",
-              "text": "A sub-rede está numa região, não numa AZ"
+              "text": "A route table da sub-rede tem uma rota 0.0.0.0/0 apontando pra um Internet Gateway"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): o que faz a sub-rede ser pública é a ROTA pro Internet Gateway na route table — não um botão mágico.",
@@ -14584,9 +14584,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma sub-rede é pública quando sua route table contém uma rota (0.0.0.0/0) apontando pra um Internet Gateway. É a rota pro IGW que define a sub-rede como pública — não um atributo isolado nem só o IP público da instância.",
           "whyNots": {
-            "B": "Não existe um 'atributo pública' que ignore as rotas — é a rota pro IGW que conta.",
-            "C": "Sem rota pro IGW, mesmo com IP público a instância não acessa a internet.",
-            "D": "Sub-rede fica numa AZ; isso não tem a ver com ser pública ou privada."
+            "A": "Não existe um 'atributo pública' que ignore as rotas — é a rota pro IGW que conta.",
+            "B": "Sub-rede fica numa AZ; isso não tem a ver com ser pública ou privada.",
+            "C": "Sem rota pro IGW, mesmo com IP público a instância não acessa a internet."
           }
         },
         {
@@ -14611,15 +14611,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Dar um IP público a cada instância"
+              "text": "Adicionar uma rota 0.0.0.0/0 pro IGW, que isola a sub-rede"
             },
             {
               "key": "C",
-              "text": "Adicionar uma rota 0.0.0.0/0 pro IGW"
+              "text": "Colocar a sub-rede em outra região, longe da internet"
             },
             {
               "key": "D",
-              "text": "Colocar a sub-rede em outra região"
+              "text": "Dar um IP público a cada instância, só pra uso interno"
             }
           ],
           "answers": [
@@ -14631,9 +14631,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma sub-rede é privada quando sua route table NÃO tem rota pro Internet Gateway. Sem esse caminho, as instâncias não se comunicam diretamente com a internet (mesmo com IP público). Pra acesso de saída controlado, usa-se um NAT Gateway.",
           "whyNots": {
-            "B": "IP público sem rota pro IGW não dá acesso à internet — e o objetivo é justamente NÃO expor.",
-            "C": "Adicionar rota pro IGW tornaria a sub-rede pública — o oposto do pedido.",
-            "D": "Mudar de região não torna a sub-rede privada; o que importa é a ausência de rota pro IGW."
+            "B": "Adicionar rota pro IGW tornaria a sub-rede pública — o oposto do pedido.",
+            "C": "Mudar de região não torna a sub-rede privada; o que importa é a ausência de rota pro IGW.",
+            "D": "IP público sem rota pro IGW não dá acesso à internet — e o objetivo é justamente NÃO expor."
           }
         },
         {
@@ -14654,11 +14654,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Internet Gateway (IGW)"
+              "text": "Security Group"
             },
             {
               "key": "B",
-              "text": "NAT Gateway"
+              "text": "Internet Gateway (IGW)"
             },
             {
               "key": "C",
@@ -14666,11 +14666,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Security Group"
+              "text": "NAT Gateway"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): o portão pra internet da VPC é o Internet Gateway. Ele é o alvo da rota 0.0.0.0/0 nas sub-redes públicas.",
@@ -14678,9 +14678,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Internet Gateway (IGW) dá às sub-redes públicas o caminho pra internet e faz a tradução de endereço (NAT) pro IPv4 público das instâncias. É o alvo da rota 0.0.0.0/0 numa route table pública. Há um IGW por VPC.",
           "whyNots": {
-            "B": "NAT Gateway dá saída pra instâncias PRIVADas; ele mesmo depende de um IGW na sub-rede pública.",
+            "A": "Security Group é firewall de instância — não é o gateway de internet.",
             "C": "VPC Peering conecta duas VPCs entre si — não dá acesso à internet.",
-            "D": "Security Group é firewall de instância — não é o gateway de internet."
+            "D": "NAT Gateway dá saída pra instâncias PRIVADas; ele mesmo depende de um IGW na sub-rede pública."
           }
         },
         {
@@ -14701,23 +14701,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "A rota mais específica (longest prefix match) vence"
+              "text": "A primeira rota da lista vence (ordem de criação)"
             },
             {
               "key": "B",
-              "text": "A primeira rota da lista vence"
+              "text": "A rota menos específica vence (shortest prefix)"
             },
             {
               "key": "C",
-              "text": "A rota menos específica vence"
+              "text": "A rota mais específica (longest prefix match) vence"
             },
             {
               "key": "D",
-              "text": "Escolhe aleatoriamente"
+              "text": "Escolhe aleatoriamente, balanceando o tráfego"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): roteamento usa 'longest prefix match' — a rota com o prefixo mais específico (mais longo) ganha.",
@@ -14725,8 +14725,8 @@ window.AWS_BANK = {
           ],
           "explanation": "A VPC roteia pelo destino usando longest prefix match: entre as rotas que casam, a mais específica (prefixo mais longo) é escolhida. Por isso uma rota /24 vence uma 0.0.0.0/0 pra um IP que cabe na /24. A rota 'local' da VPC sempre existe pro tráfego interno.",
           "whyNots": {
-            "B": "Não é por ordem na lista — é pela especificidade do prefixo.",
-            "C": "É o contrário — vence a MAIS específica, não a menos.",
+            "A": "Não é por ordem na lista — é pela especificidade do prefixo.",
+            "B": "É o contrário — vence a MAIS específica, não a menos.",
             "D": "Não é aleatório; segue a regra determinística do longest prefix match."
           }
         },
@@ -14749,23 +14749,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Um bastion host (jump server) numa sub-rede pública, usado como ponte"
+              "text": "Mover as instâncias pra uma sub-rede pública, protegidas só pelo SG"
             },
             {
               "key": "B",
-              "text": "Dar IP público às instâncias privadas"
+              "text": "Dar IP público às instâncias privadas — o SSH por chave já protege tudo"
             },
             {
               "key": "C",
-              "text": "Abrir a porta 22 pra 0.0.0.0/0 nas instâncias privadas"
+              "text": "Abrir a porta 22 pra 0.0.0.0/0 nas instâncias privadas, a chave basta"
             },
             {
               "key": "D",
-              "text": "Mover as instâncias pra uma sub-rede pública"
+              "text": "Um bastion host (jump server) numa sub-rede pública, usado como ponte"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): bastion host = uma instância na sub-rede pública que serve de PONTE; o admin entra nele e dali alcança as privadas.",
@@ -14773,9 +14773,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O bastion host (jump server) é uma instância numa sub-rede pública que funciona como ponte segura: o administrador conecta nele (SSH/RDP) e, a partir dele, alcança as instâncias da sub-rede privada — sem expor essas instâncias diretamente à internet. Uma alternativa moderna sem abrir porta é o SSM Session Manager.",
           "whyNots": {
+            "A": "Mover pra sub-rede pública expõe as instâncias — contraria o objetivo.",
             "B": "Dar IP público às privadas e expô-las é justamente o que se quer evitar.",
-            "C": "Abrir a porta 22 pra todo mundo nas instâncias privadas é uma falha grave de segurança.",
-            "D": "Mover pra sub-rede pública expõe as instâncias — contraria o objetivo."
+            "C": "Abrir a porta 22 pra todo mundo nas instâncias privadas é uma falha grave de segurança."
           }
         },
         {
@@ -14844,23 +14844,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Errada: VPC Peering NÃO é transitivo; B precisa de peering direto com C (ou usar Transit Gateway)"
+              "text": "Certa, desde que a VPC A tenha um NAT Gateway roteando o tráfego transitivo entre B e C"
             },
             {
               "key": "B",
-              "text": "Certa: o tráfego de B chega em C automaticamente via A"
+              "text": "Errada: VPC Peering NÃO é transitivo; B precisa de peering direto com C (ou usar Transit Gateway)"
             },
             {
               "key": "C",
-              "text": "Certa, desde que A tenha um NAT Gateway"
+              "text": "Errada, porque peering não existe entre VPCs; a única conexão possível é VPN site-to-site"
             },
             {
               "key": "D",
-              "text": "Errada, porque peering não existe entre VPCs"
+              "text": "Certa: o tráfego de B chega em C automaticamente via A, pois o peering é transitivo por padrão"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): peering NÃO é transitivo — A↔B e A↔C não fazem B falar com C. Precisa de B↔C direto.",
@@ -14868,9 +14868,9 @@ window.AWS_BANK = {
           ],
           "explanation": "VPC Peering não é transitivo: ter A↔B e A↔C não permite que B converse com C através de A. Pra B falar com C, é preciso um peering direto B↔C. Quando há muitas VPCs, o Transit Gateway (hub) resolve sem a malha de peerings.",
           "whyNots": {
-            "B": "Não há transitividade — o tráfego de B não chega em C via A automaticamente.",
-            "C": "NAT Gateway não habilita transitividade de peering; ele dá saída à internet.",
-            "D": "Peering existe entre VPCs, sim; o ponto é que não é transitivo."
+            "A": "NAT Gateway não habilita transitividade de peering; ele dá saída à internet.",
+            "C": "Peering existe entre VPCs, sim; o ponto é que não é transitivo.",
+            "D": "Não há transitividade — o tráfego de B não chega em C via A automaticamente."
           }
         },
         {
@@ -14891,7 +14891,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "VPC Peering não permite blocos CIDR que se sobrepõem"
+              "text": "Faltou um Internet Gateway"
             },
             {
               "key": "B",
@@ -14899,7 +14899,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Faltou um Internet Gateway"
+              "text": "VPC Peering não permite blocos CIDR que se sobrepõem"
             },
             {
               "key": "D",
@@ -14907,7 +14907,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): CIDR sobreposto = peering impossível. As VPCs precisam de faixas de IP que não se sobrepõem.",
@@ -14915,8 +14915,8 @@ window.AWS_BANK = {
           ],
           "explanation": "VPC Peering não pode ser criado entre VPCs cujos blocos CIDR se sobrepõem — é um requisito estrito. Com ambas usando 10.0.0.0/16, há sobreposição total e a conexão falha. Planejar faixas de IP distintas evita o problema.",
           "whyNots": {
+            "A": "Peering não depende de Internet Gateway.",
             "B": "Peering não exige mesma AZ (nem mesma região/conta) — a questão é o CIDR.",
-            "C": "Peering não depende de Internet Gateway.",
             "D": "Peering funciona com IPv4; o impedimento aqui é o CIDR sobreposto."
           }
         },
@@ -14939,23 +14939,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "0.0.0.0/0 apontando pra um NAT Gateway (que fica numa sub-rede pública)"
+              "text": "Nenhuma rota de saída; impossível atualizar sem tornar a sub-rede pública"
             },
             {
               "key": "B",
-              "text": "0.0.0.0/0 apontando pro Internet Gateway"
+              "text": "0.0.0.0/0 apontando pro Internet Gateway, que só deixa a saída passar"
             },
             {
               "key": "C",
-              "text": "Nenhuma rota de saída; impossível atualizar"
+              "text": "0.0.0.0/0 apontando pra um bastion host, que faz o proxy das atualizações"
             },
             {
               "key": "D",
-              "text": "0.0.0.0/0 apontando pra um bastion host"
+              "text": "0.0.0.0/0 apontando pra um NAT Gateway (que fica numa sub-rede pública)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): saída sim, entrada não = NAT. A rota da privada manda 0.0.0.0/0 pro NAT Gateway.",
@@ -14963,9 +14963,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra dar saída sem expor a entrada, a route table da sub-rede privada deve mandar 0.0.0.0/0 pra um NAT Gateway (localizado numa sub-rede pública). O NAT permite conexões de saída (updates) e bloqueia conexões iniciadas de fora.",
           "whyNots": {
+            "A": "É possível, sim, dar saída via NAT — não é impossível atualizar.",
             "B": "Apontar a privada direto pro IGW a tornaria pública e exporia as instâncias à entrada.",
-            "C": "É possível, sim, dar saída via NAT — não é impossível atualizar.",
-            "D": "Bastion host é pra acesso administrativo SSH/RDP — não é rota de saída pra internet."
+            "C": "Bastion host é pra acesso administrativo SSH/RDP — não é rota de saída pra internet."
           }
         },
         {
@@ -14990,7 +14990,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "NAT Gateway → Internet Gateway → VPC Peering → Bastion host"
+              "text": "Internet Gateway → Bastion host → NAT Gateway → VPC Peering"
             },
             {
               "key": "C",
@@ -14998,7 +14998,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Internet Gateway → Bastion host → NAT Gateway → VPC Peering"
+              "text": "NAT Gateway → Internet Gateway → VPC Peering → Bastion host"
             }
           ],
           "answers": [
@@ -15010,9 +15010,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada componente tem seu papel: Internet Gateway (acesso à internet da sub-rede pública), NAT Gateway (saída da sub-rede privada sem expor entrada), Bastion host (ponte de administração SSH/RDP pras instâncias privadas) e VPC Peering (conectar duas VPCs com IP privado). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca IGW com NAT e bastion com peering.",
+            "B": "Troca NAT com bastion; saída da privada é NAT, não bastion.",
             "C": "Embaralha tudo — bastion não dá acesso à internet pra sub-rede pública.",
-            "D": "Troca NAT com bastion; saída da privada é NAT, não bastion."
+            "D": "Troca IGW com NAT e bastion com peering."
           }
         }
       ]
@@ -15039,15 +15039,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Rekognition"
+              "text": "Amazon Comprehend"
             },
             {
               "key": "B",
-              "text": "Amazon Textract"
+              "text": "Amazon Rekognition"
             },
             {
               "key": "C",
-              "text": "Amazon Comprehend"
+              "text": "Amazon Textract"
             },
             {
               "key": "D",
@@ -15055,7 +15055,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): análise de IMAGEM e vídeo (objetos, rostos, moderação) = Rekognition.",
@@ -15063,8 +15063,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Rekognition analisa imagens e vídeos: detecção de objetos/cenas, rostos, moderação de conteúdo impróprio e mais. É o serviço certo pra processar fotos enviadas por usuários.",
           "whyNots": {
-            "B": "Textract é OCR/extração de documentos escaneados (formulários, tabelas) — não análise de fotos genéricas.",
-            "C": "Comprehend é NLP de TEXTO — não analisa imagens.",
+            "A": "Comprehend é NLP de TEXTO — não analisa imagens.",
+            "C": "Textract é OCR/extração de documentos escaneados (formulários, tabelas) — não análise de fotos genéricas.",
             "D": "Polly converte texto em fala — nada a ver com imagem."
           }
         },
@@ -15086,23 +15086,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Textract"
-            },
-            {
-              "key": "B",
-              "text": "Amazon Rekognition"
-            },
-            {
-              "key": "C",
               "text": "Amazon Translate"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Amazon Lex"
+            },
+            {
+              "key": "C",
+              "text": "Amazon Textract"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Rekognition"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): OCR + extrair campos de FORMULÁRIO e TABELAS de documentos = Textract (vai além do OCR simples).",
@@ -15110,9 +15110,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Textract usa OCR e ML pra extrair texto, manuscrito e, principalmente, dados estruturados de campos de formulário e tabelas em documentos escaneados/PDF. É o serviço pra digitalizar faturas, formulários e contratos.",
           "whyNots": {
-            "B": "Rekognition analisa imagens/vídeos genéricos; pra documentos com formulários/tabelas, Textract é o especializado.",
-            "C": "Translate traduz idiomas — não extrai dados de documentos.",
-            "D": "Lex é chatbot — não faz OCR de documentos."
+            "A": "Translate traduz idiomas — não extrai dados de documentos.",
+            "B": "Lex é chatbot — não faz OCR de documentos.",
+            "D": "Rekognition analisa imagens/vídeos genéricos; pra documentos com formulários/tabelas, Textract é o especializado."
           }
         },
         {
@@ -15133,23 +15133,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Comprehend"
+              "text": "Amazon Polly"
             },
             {
               "key": "B",
-              "text": "Amazon Transcribe"
-            },
-            {
-              "key": "C",
               "text": "Amazon Rekognition"
             },
             {
+              "key": "C",
+              "text": "Amazon Transcribe"
+            },
+            {
               "key": "D",
-              "text": "Amazon Polly"
+              "text": "Amazon Comprehend"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): sentimento, entidades, frases-chave de TEXTO = NLP = Comprehend.",
@@ -15157,9 +15157,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Comprehend é o serviço de NLP: analisa sentimento, entidades, frases-chave, idioma e tópicos de texto não estruturado. É ideal pra minerar insights de avaliações de clientes em escala.",
           "whyNots": {
-            "B": "Transcribe converte fala em texto — não analisa o sentimento do texto.",
-            "C": "Rekognition é visão computacional — não analisa texto.",
-            "D": "Polly converte texto em fala — não faz análise de sentimento."
+            "A": "Polly converte texto em fala — não faz análise de sentimento.",
+            "B": "Rekognition é visão computacional — não analisa texto.",
+            "C": "Transcribe converte fala em texto — não analisa o sentimento do texto."
           }
         },
         {
@@ -15227,11 +15227,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Polly"
+              "text": "Amazon Transcribe"
             },
             {
               "key": "B",
-              "text": "Amazon Transcribe"
+              "text": "Amazon Polly"
             },
             {
               "key": "C",
@@ -15243,7 +15243,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): texto → fala (text-to-speech), vozes realistas = Polly.",
@@ -15251,7 +15251,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Polly converte texto em fala realista (text-to-speech), com dezenas de vozes e idiomas. É ideal pra leitores de conteúdo, acessibilidade e aplicações por voz.",
           "whyNots": {
-            "B": "Transcribe é o inverso: fala → texto.",
+            "A": "Transcribe é o inverso: fala → texto.",
             "C": "Lex é chatbot (conversa) — embora possa usar Polly pra falar, o serviço de TTS em si é o Polly.",
             "D": "Textract extrai texto de documentos — não gera fala."
           }
@@ -15274,23 +15274,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Lex"
-            },
-            {
-              "key": "B",
               "text": "Amazon Comprehend"
             },
             {
+              "key": "B",
+              "text": "Amazon SageMaker"
+            },
+            {
               "key": "C",
-              "text": "Amazon Polly"
+              "text": "Amazon Lex"
             },
             {
               "key": "D",
-              "text": "Amazon SageMaker"
+              "text": "Amazon Polly"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): construir CHATBOT / interface de conversa (voz e texto) = Lex (motor da Alexa).",
@@ -15298,9 +15298,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Lex constrói interfaces conversacionais (chatbots) por voz e texto, com reconhecimento de fala e entendimento de linguagem natural — o mesmo motor da Alexa. Combina-se com o Polly pra responder falando.",
           "whyNots": {
-            "B": "Comprehend analisa texto (sentimento/entidades) — não constrói o fluxo de conversa do chatbot.",
-            "C": "Polly só converte texto em fala — não entende a intenção do usuário.",
-            "D": "SageMaker é pra construir modelos próprios — exagero quando o Lex já entrega o chatbot pronto."
+            "A": "Comprehend analisa texto (sentimento/entidades) — não constrói o fluxo de conversa do chatbot.",
+            "B": "SageMaker é pra construir modelos próprios — exagero quando o Lex já entrega o chatbot pronto.",
+            "D": "Polly só converte texto em fala — não entende a intenção do usuário."
           }
         },
         {
@@ -15321,23 +15321,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SageMaker"
+              "text": "Amazon Lex"
             },
             {
               "key": "B",
-              "text": "Amazon Rekognition"
-            },
-            {
-              "key": "C",
               "text": "Amazon Comprehend"
             },
             {
+              "key": "C",
+              "text": "Amazon Rekognition"
+            },
+            {
               "key": "D",
-              "text": "Amazon Lex"
+              "text": "Amazon SageMaker"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): construir/treinar/implantar modelo PRÓPRIO = SageMaker (a plataforma de ML).",
@@ -15345,9 +15345,9 @@ window.AWS_BANK = {
           ],
           "explanation": "SageMaker é a plataforma pra construir, treinar e implantar modelos de ML customizados. É a escolha quando os serviços de IA prontos (Rekognition, Comprehend, etc.) não atendem e você precisa de um modelo sob medida.",
           "whyNots": {
-            "B": "Rekognition é visão pronta — não é pra treinar um modelo próprio genérico.",
-            "C": "Comprehend é NLP pronto — não é a plataforma de ML customizado.",
-            "D": "Lex é chatbot pronto — não treina modelos arbitrários."
+            "A": "Lex é chatbot pronto — não treina modelos arbitrários.",
+            "B": "Comprehend é NLP pronto — não é a plataforma de ML customizado.",
+            "C": "Rekognition é visão pronta — não é pra treinar um modelo próprio genérico."
           }
         },
         {
@@ -15374,15 +15374,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Polly → Translate → Transcribe"
+              "text": "Comprehend (fala→texto) → Lex (PT→EN) → Rekognition (voz)"
             },
             {
               "key": "C",
-              "text": "Comprehend → Lex → Rekognition"
+              "text": "Polly (fala→texto) → Translate (PT→EN) → Transcribe (voz)"
             },
             {
               "key": "D",
-              "text": "Textract → Translate → Transcribe"
+              "text": "Textract (áudio→texto) → Translate (PT→EN) → Transcribe (fala)"
             }
           ],
           "answers": [
@@ -15394,8 +15394,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O pipeline de tradução de voz combina três serviços: Transcribe converte a fala em texto, Translate traduz o texto pro idioma alvo, e Polly gera a narração no novo idioma. É a sequência fala→texto→tradução→fala.",
           "whyNots": {
-            "B": "Inverte a ordem — começar pelo Polly (texto→fala) não faz sentido pra um áudio de entrada.",
-            "C": "Comprehend/Lex/Rekognition não formam o pipeline de tradução de voz.",
+            "B": "Comprehend/Lex/Rekognition não formam o pipeline de tradução de voz.",
+            "C": "Inverte a ordem — começar pelo Polly (texto→fala) não faz sentido pra um áudio de entrada.",
             "D": "Textract é pra documentos; o ponto de partida aqui é áudio (Transcribe)."
           }
         },
@@ -15418,23 +15418,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Textract; (2) Comprehend"
-            },
-            {
-              "key": "B",
-              "text": "(1) Comprehend; (2) Textract"
-            },
-            {
-              "key": "C",
               "text": "(1) Rekognition; (2) Polly"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "(1) Textract; (2) Comprehend"
+            },
+            {
+              "key": "C",
               "text": "(1) Transcribe; (2) Translate"
+            },
+            {
+              "key": "D",
+              "text": "(1) Comprehend; (2) Textract"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): extrair texto/campos do PDF = Textract; analisar entidades/sentimento do texto = Comprehend.",
@@ -15442,9 +15442,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Primeiro o Textract extrai o texto e os campos do documento escaneado; depois o Comprehend faz a análise de NLP (entidades, sentimento, frases-chave) sobre esse texto. É o pipeline clássico documento → insight.",
           "whyNots": {
-            "B": "Inverte — quem extrai do PDF é o Textract; quem analisa o texto é o Comprehend.",
-            "C": "Rekognition/Polly são visão/voz — não extraem campos de documento nem fazem NLP.",
-            "D": "Transcribe/Translate são voz/idioma — não é o caso de documentos escaneados."
+            "A": "Rekognition/Polly são visão/voz — não extraem campos de documento nem fazem NLP.",
+            "C": "Transcribe/Translate são voz/idioma — não é o caso de documentos escaneados.",
+            "D": "Inverte — quem extrai do PDF é o Textract; quem analisa o texto é o Comprehend."
           }
         },
         {
@@ -15468,23 +15468,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Rekognition → Textract → Comprehend → Polly"
+              "text": "Polly → Comprehend → Textract → Rekognition"
             },
             {
               "key": "B",
-              "text": "Textract → Rekognition → Polly → Comprehend"
-            },
-            {
-              "key": "C",
               "text": "Comprehend → Polly → Rekognition → Textract"
             },
             {
+              "key": "C",
+              "text": "Rekognition → Textract → Comprehend → Polly"
+            },
+            {
               "key": "D",
-              "text": "Polly → Comprehend → Textract → Rekognition"
+              "text": "Textract → Rekognition → Polly → Comprehend"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): imagem = Rekognition; documento/formulário = Textract; sentimento de texto = Comprehend; texto em voz = Polly.",
@@ -15492,9 +15492,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu domínio: Rekognition (imagem/moderação), Textract (OCR/formulários), Comprehend (NLP/sentimento) e Polly (texto→fala). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca Rekognition com Textract e Comprehend com Polly.",
-            "C": "Embaralha tudo — Comprehend não modera imagem.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "A": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "B": "Embaralha tudo — Comprehend não modera imagem.",
+            "D": "Troca Rekognition com Textract e Comprehend com Polly."
           }
         }
       ]
@@ -15521,11 +15521,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Organizational Units (OUs)"
+              "text": "Security Groups"
             },
             {
               "key": "B",
-              "text": "Security Groups"
+              "text": "Route tables"
             },
             {
               "key": "C",
@@ -15533,11 +15533,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Route tables"
+              "text": "Organizational Units (OUs)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): agrupar CONTAS em unidades lógicas = Organizational Units (OUs).",
@@ -15545,9 +15545,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Organizational Units (OUs) agrupam contas do AWS Organizations em unidades lógicas (Prod, Dev, Sandbox). Você aplica SCPs por OU, dando a cada grupo de contas as políticas/guardrails apropriados.",
           "whyNots": {
-            "B": "Security Groups são firewall de instância — não agrupam contas.",
-            "C": "Availability Zones são data centers numa região — não organizam contas.",
-            "D": "Route tables roteiam tráfego de rede — não agrupam contas."
+            "A": "Security Groups são firewall de instância — não agrupam contas.",
+            "B": "Route tables roteiam tráfego de rede — não agrupam contas.",
+            "C": "Availability Zones são data centers numa região — não organizam contas."
           }
         },
         {
@@ -15573,15 +15573,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Organizations sozinho"
-            },
-            {
-              "key": "C",
               "text": "Amazon CloudFront"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "AWS Resource Access Manager"
+            },
+            {
+              "key": "D",
+              "text": "AWS Organizations sozinho"
             }
           ],
           "answers": [
@@ -15593,9 +15593,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Control Tower cria e governa uma landing zone (ambiente multi-conta bem-arquitetado) automaticamente, orquestrando Organizations, Service Catalog e IAM Identity Center. É a camada de automação/governança em cima do Organizations.",
           "whyNots": {
-            "B": "Organizations é a fundação (contas/OUs/SCPs), mas montar a landing zone automática com boas práticas é o papel do Control Tower.",
-            "C": "CloudFront é CDN — nada a ver com governança multi-conta.",
-            "D": "RAM compartilha recursos entre contas — não monta a landing zone."
+            "B": "CloudFront é CDN — nada a ver com governança multi-conta.",
+            "C": "RAM compartilha recursos entre contas — não monta a landing zone.",
+            "D": "Organizations é a fundação (contas/OUs/SCPs), mas montar a landing zone automática com boas práticas é o papel do Control Tower."
           }
         },
         {
@@ -15616,23 +15616,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Preventivo (via SCP); (2) Detectivo (via AWS Config)"
+              "text": "(1) Reativo (via SCP); (2) Proativo (via AWS Config)"
             },
             {
               "key": "B",
-              "text": "(1) Detectivo (via Config); (2) Preventivo (via SCP)"
+              "text": "(1) Preventivo (via SCP); (2) Detectivo (via AWS Config)"
             },
             {
               "key": "C",
-              "text": "(1) Reativo; (2) Proativo"
+              "text": "Os dois usam apenas SCPs, inclusive o de detecção"
             },
             {
               "key": "D",
-              "text": "Os dois usam apenas SCPs"
+              "text": "(1) Detectivo (via Config); (2) Preventivo (via SCP)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): preventivo PROÍBE (usa SCP, herda pela OU); detectivo só REPORTA (usa Config rules).",
@@ -15640,9 +15640,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Os guardrails preventivos usam SCPs pra proibir ações que violam a política (e herdam pela hierarquia de OUs). Os detectivos usam AWS Config rules pra detectar e reportar não-conformidade, sem bloquear. A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — proibir é preventivo (SCP); detectar é detectivo (Config).",
-            "C": "Os nomes corretos são preventivo e detectivo, não 'reativo/proativo'.",
-            "D": "Os detectivos usam Config rules, não SCPs."
+            "A": "Os nomes corretos são preventivo e detectivo, não 'reativo/proativo'.",
+            "C": "Os detectivos usam Config rules, não SCPs.",
+            "D": "Inverte — proibir é preventivo (SCP); detectar é detectivo (Config)."
           }
         },
         {
@@ -15664,23 +15664,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Resource Access Manager (RAM)"
-            },
-            {
-              "key": "B",
               "text": "VPC Peering"
             },
             {
+              "key": "B",
+              "text": "CloudFront"
+            },
+            {
               "key": "C",
-              "text": "AWS Service Catalog"
+              "text": "AWS Resource Access Manager (RAM)"
             },
             {
               "key": "D",
-              "text": "CloudFront"
+              "text": "AWS Service Catalog"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): COMPARTILHAR um recurso (sub-rede de VPC, Transit Gateway...) entre contas, sem duplicar = RAM.",
@@ -15688,9 +15688,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Resource Access Manager (RAM) compartilha recursos com segurança entre contas (e OUs), como sub-redes de VPC, Transit Gateway e regras do Route 53 Resolver. Cria-se o recurso uma vez e compartilha, evitando duplicação em cada conta.",
           "whyNots": {
-            "B": "VPC Peering conecta duas VPCs pra se comunicarem — não compartilha a MESMA sub-rede entre contas.",
-            "C": "Service Catalog cura produtos pra autosserviço — não compartilha um recurso existente entre contas.",
-            "D": "CloudFront é CDN — não compartilha recursos entre contas."
+            "A": "VPC Peering conecta duas VPCs pra se comunicarem — não compartilha a MESMA sub-rede entre contas.",
+            "B": "CloudFront é CDN — não compartilha recursos entre contas.",
+            "D": "Service Catalog cura produtos pra autosserviço — não compartilha um recurso existente entre contas."
           }
         },
         {
@@ -15711,11 +15711,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Service Catalog"
+              "text": "AWS Resource Access Manager"
             },
             {
               "key": "B",
-              "text": "AWS Resource Access Manager"
+              "text": "AWS Config"
             },
             {
               "key": "C",
@@ -15723,11 +15723,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "AWS Service Catalog"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): catálogo de produtos (templates IaC) APROVADOS pra autosserviço = Service Catalog.",
@@ -15735,9 +15735,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Service Catalog cria um catálogo curado de produtos aprovados (templates IaC, geralmente CloudFormation) que os usuários finais podem implantar em autosserviço, dentro das permissões definidas. Padroniza ambientes e garante governança/compliance.",
           "whyNots": {
-            "B": "RAM compartilha recursos entre contas — não é um catálogo de produtos pra lançar.",
-            "C": "Inspector escaneia vulnerabilidades — não cura produtos de infraestrutura.",
-            "D": "Config avalia conformidade — não é o catálogo de autosserviço."
+            "A": "RAM compartilha recursos entre contas — não é um catálogo de produtos pra lançar.",
+            "B": "Config avalia conformidade — não é o catálogo de autosserviço.",
+            "C": "Inspector escaneia vulnerabilidades — não cura produtos de infraestrutura."
           }
         },
         {
@@ -15763,15 +15763,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Fundação = Control Tower; automação = Organizations"
+              "text": "Os dois são o mesmo serviço — Control Tower é o nome novo do Organizations"
             },
             {
               "key": "C",
-              "text": "Os dois são o mesmo serviço"
+              "text": "Fundação = AWS Control Tower; automação/landing zone = AWS Organizations"
             },
             {
               "key": "D",
-              "text": "Fundação = RAM; automação = Service Catalog"
+              "text": "Fundação = AWS RAM; automação/landing zone = AWS Service Catalog"
             }
           ],
           "answers": [
@@ -15783,8 +15783,8 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Organizations é a fundação da gestão multi-conta (contas, OUs, SCPs, consolidated billing). Control Tower é a camada de automação/governança em cima, que monta a landing zone e aplica guardrails usando o Organizations por baixo.",
           "whyNots": {
-            "B": "Inverte — a fundação é o Organizations; a automação é o Control Tower.",
-            "C": "São serviços distintos (relacionados, mas não iguais).",
+            "B": "São serviços distintos (relacionados, mas não iguais).",
+            "C": "Inverte — a fundação é o Organizations; a automação é o Control Tower.",
             "D": "RAM e Service Catalog não são a fundação/automação de gestão multi-conta."
           }
         },
@@ -15806,23 +15806,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Compartilhar via AWS RAM (criar uma vez e compartilhar)"
+              "text": "Usar signed URLs dando acesso temporário ao gateway"
             },
             {
               "key": "B",
-              "text": "Recriar o Transit Gateway em cada conta"
+              "text": "Compartilhar via AWS RAM (criar uma vez e compartilhar)"
             },
             {
               "key": "C",
-              "text": "Usar signed URLs"
+              "text": "Recriar o Transit Gateway em cada conta, por segurança"
             },
             {
               "key": "D",
-              "text": "Usar uma bucket policy"
+              "text": "Usar uma bucket policy liberando o gateway pras contas"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): criar o recurso UMA vez e compartilhar entre contas = RAM. Evita duplicar (e pagar) o mesmo recurso várias vezes.",
@@ -15830,8 +15830,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Com o AWS RAM, você cria o Transit Gateway uma vez e o compartilha com as outras contas (ou OUs), evitando provisionar e pagar por recursos duplicados em cada conta. Reduz custo e overhead operacional, mantendo consistência.",
           "whyNots": {
-            "B": "Recriar em cada conta é exatamente a duplicação que se quer evitar.",
-            "C": "Signed URLs são do S3/CloudFront — não compartilham um Transit Gateway.",
+            "A": "Signed URLs são do S3/CloudFront — não compartilham um Transit Gateway.",
+            "C": "Recriar em cada conta é exatamente a duplicação que se quer evitar.",
             "D": "Bucket policy é permissão de S3 — não compartilha recurso de rede entre contas."
           }
         },
@@ -15853,23 +15853,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Guardrail preventivo, implementado via SCP"
+              "text": "Uma regra de NACL"
             },
             {
               "key": "B",
-              "text": "Guardrail detectivo, via AWS Config"
-            },
-            {
-              "key": "C",
               "text": "Um alarme do CloudWatch"
             },
             {
+              "key": "C",
+              "text": "Guardrail preventivo, implementado via SCP"
+            },
+            {
               "key": "D",
-              "text": "Uma regra de NACL"
+              "text": "Guardrail detectivo, via AWS Config"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'IMPEDIR/bloquear a ação' = guardrail preventivo, que usa SCP por baixo e herda pela OU.",
@@ -15877,9 +15877,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra bloquear de fato a ação (criar recurso em região proibida) em toda a OU, usa-se um guardrail PREVENTIVO do Control Tower, implementado via SCP — que proíbe a ação e é herdado pela hierarquia de OUs. Detectivo apenas reportaria.",
           "whyNots": {
-            "B": "Detectivo (Config) apenas detecta/reporta — não bloqueia a ação.",
-            "C": "Alarme do CloudWatch avisa sobre métricas — não impede a criação de recursos.",
-            "D": "NACL filtra tráfego de rede — não bloqueia ações de API por região."
+            "A": "NACL filtra tráfego de rede — não bloqueia ações de API por região.",
+            "B": "Alarme do CloudWatch avisa sobre métricas — não impede a criação de recursos.",
+            "D": "Detectivo (Config) apenas detecta/reporta — não bloqueia a ação."
           }
         },
         {
@@ -15900,7 +15900,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Service Control Policies (SCPs)"
+              "text": "Security Group"
             },
             {
               "key": "B",
@@ -15912,11 +15912,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Security Group"
+              "text": "Service Control Policies (SCPs)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): teto de permissões da conta (guardrail), mesmo que o IAM permita = SCP.",
@@ -15924,9 +15924,9 @@ window.AWS_BANK = {
           ],
           "explanation": "SCPs (Service Control Policies) do AWS Organizations definem o teto de permissões das contas/OUs: nenhuma identidade pode ultrapassar o que a SCP permite, mesmo com o IAM local liberando. SCP não concede acesso — apenas restringe o máximo.",
           "whyNots": {
+            "A": "Security Group é firewall de rede — não limita permissões de API entre contas.",
             "B": "RAM compartilha recursos entre contas — não impõe teto de permissões.",
-            "C": "Service Catalog cura produtos de autosserviço — não é o guardrail de permissões.",
-            "D": "Security Group é firewall de rede — não limita permissões de API entre contas."
+            "C": "Service Catalog cura produtos de autosserviço — não é o guardrail de permissões."
           }
         },
         {
@@ -15958,11 +15958,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "RAM → Service Catalog → Organizations → Control Tower"
+              "text": "Service Catalog → RAM → Control Tower → Organizations"
             },
             {
               "key": "D",
-              "text": "Service Catalog → RAM → Control Tower → Organizations"
+              "text": "RAM → Service Catalog → Organizations → Control Tower"
             }
           ],
           "answers": [
@@ -15975,8 +15975,8 @@ window.AWS_BANK = {
           "explanation": "Cada serviço tem seu papel: Organizations/OUs (agrupar contas + políticas por grupo), Control Tower (landing zone governada automaticamente), RAM (compartilhar recursos entre contas) e Service Catalog (catálogo de produtos aprovados pra autosserviço). A opção A respeita os quatro.",
           "whyNots": {
             "B": "Troca Organizations com Control Tower e RAM com Service Catalog.",
-            "C": "Embaralha tudo — RAM não agrupa contas.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "C": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Embaralha tudo — RAM não agrupa contas."
           }
         }
       ]
@@ -16003,23 +16003,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Cost Anomaly Detection"
+              "text": "AWS Trusted Advisor"
             },
             {
               "key": "B",
-              "text": "AWS Budgets com limite fixo"
+              "text": "AWS Cost Anomaly Detection"
             },
             {
               "key": "C",
-              "text": "AWS Pricing Calculator"
+              "text": "AWS Budgets com limite fixo"
             },
             {
               "key": "D",
-              "text": "AWS Trusted Advisor"
+              "text": "AWS Pricing Calculator"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'pico anômalo, sem limite fixo, com base no histórico' = Cost Anomaly Detection (usa ML).",
@@ -16027,9 +16027,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cost Anomaly Detection usa machine learning pra aprender o padrão histórico de gasto e detectar anomalias (picos fora do esperado), com análise de causa raiz e alertas — sem você precisar definir um valor-limite fixo.",
           "whyNots": {
-            "B": "Budgets dispara em cima de um limite que VOCÊ define — não aprende o padrão nem detecta anomalia automaticamente.",
-            "C": "Pricing Calculator estima custo de algo a criar — não monitora gasto real.",
-            "D": "Trusted Advisor dá recomendações por categorias — não é detecção de anomalia de gasto por ML."
+            "A": "Trusted Advisor dá recomendações por categorias — não é detecção de anomalia de gasto por ML.",
+            "C": "Budgets dispara em cima de um limite que VOCÊ define — não aprende o padrão nem detecta anomalia automaticamente.",
+            "D": "Pricing Calculator estima custo de algo a criar — não monitora gasto real."
           }
         },
         {
@@ -16050,23 +16050,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cost Allocation Tags (ativadas e analisadas no Cost Explorer/CUR)"
+              "text": "Placement Groups organizados por equipe, projeto e ambiente"
             },
             {
               "key": "B",
-              "text": "Security Groups"
+              "text": "Route 53 health checks nomeados por equipe e por projeto"
             },
             {
               "key": "C",
-              "text": "Placement Groups"
+              "text": "Cost Allocation Tags (ativadas e analisadas no Cost Explorer/CUR)"
             },
             {
               "key": "D",
-              "text": "Route 53 health checks"
+              "text": "Security Groups nomeados por projeto, lidos no Cost Explorer"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): etiquetar recursos (ex.: time=marketing, ambiente=prod) e ATIVAR as tags pra ver o custo por elas = Cost Allocation Tags.",
@@ -16074,9 +16074,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cost Allocation Tags são tags (chave-valor) aplicadas aos recursos e ativadas no console de Billing. Uma vez ativas, aparecem no Cost Explorer e no CUR, permitindo quebrar o custo por time, projeto ou ambiente.",
           "whyNots": {
-            "B": "Security Groups são firewall — não rastreiam custo.",
-            "C": "Placement Groups controlam posicionamento de instâncias — não custo por tag.",
-            "D": "Route 53 health checks monitoram saúde de endpoint — não custo."
+            "A": "Placement Groups controlam posicionamento de instâncias — não custo por tag.",
+            "B": "Route 53 health checks monitoram saúde de endpoint — não custo.",
+            "D": "Security Groups são firewall — não rastreiam custo."
           }
         },
         {
@@ -16097,23 +16097,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Budgets Actions (parar EC2/RDS, aplicar IAM/SCP)"
+              "text": "Pricing Calculator — estima e já desliga o que passar"
             },
             {
               "key": "B",
-              "text": "Cost Explorer"
+              "text": "Cost Explorer — tem botão de ação automática por gasto"
             },
             {
               "key": "C",
-              "text": "Cost Anomaly Detection"
+              "text": "Cost Anomaly Detection (para instâncias ao detectar)"
             },
             {
               "key": "D",
-              "text": "Pricing Calculator"
+              "text": "AWS Budgets Actions (parar EC2/RDS, aplicar IAM/SCP)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): orçamento estourou → AÇÃO automática (parar EC2/RDS, aplicar IAM policy ou SCP) = Budget Actions.",
@@ -16121,9 +16121,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Budgets Actions executam uma resposta automática (ou com aprovação) quando o orçamento ultrapassa o limite: aplicar uma IAM policy, aplicar uma SCP, ou parar instâncias EC2/RDS específicas. É o controle de custo ativo, além do simples alerta.",
           "whyNots": {
+            "A": "Pricing Calculator estima custos — não toma ação.",
             "B": "Cost Explorer analisa/visualiza custos — não executa ação ao estourar orçamento.",
-            "C": "Cost Anomaly Detection alerta sobre anomalias — não para instâncias por orçamento.",
-            "D": "Pricing Calculator estima custos — não toma ação."
+            "C": "Cost Anomaly Detection alerta sobre anomalias — não para instâncias por orçamento."
           }
         },
         {
@@ -16148,7 +16148,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Budgets"
+              "text": "AWS Config"
             },
             {
               "key": "C",
@@ -16156,7 +16156,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "AWS Budgets"
             }
           ],
           "answers": [
@@ -16168,9 +16168,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Compute Optimizer analisa o uso real (ML) e recomenda configurações de rightsizing pra EC2, Auto Scaling, EBS, ECS/Fargate, Lambda e RDS — identificando recursos superdimensionados (economia), subdimensionados (performance) e ociosos.",
           "whyNots": {
-            "B": "Budgets controla orçamento/limites — não recomenda tamanho de recurso.",
+            "B": "Config avalia conformidade — não recomenda dimensionamento.",
             "C": "Inspector escaneia vulnerabilidades — não faz rightsizing.",
-            "D": "Config avalia conformidade — não recomenda dimensionamento."
+            "D": "Budgets controla orçamento/limites — não recomenda tamanho de recurso."
           }
         },
         {
@@ -16192,15 +16192,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon S3 Storage Lens"
+              "text": "AWS Config"
             },
             {
               "key": "B",
-              "text": "Amazon CloudWatch Logs"
+              "text": "Amazon S3 Storage Lens"
             },
             {
               "key": "C",
-              "text": "AWS Config"
+              "text": "Amazon CloudWatch Logs"
             },
             {
               "key": "D",
@@ -16208,7 +16208,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): visão org-wide do USO do S3 + recomendações de custo = S3 Storage Lens (dashboard).",
@@ -16216,8 +16216,8 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 Storage Lens dá visibilidade de toda a organização sobre o armazenamento S3 (uso, tendências de atividade) com recomendações acionáveis pra otimizar custo, performance e proteção. Apresenta tudo num dashboard, com métricas grátis e avançadas.",
           "whyNots": {
-            "B": "CloudWatch Logs guarda logs — não dá a visão agregada de uso/custo do S3.",
-            "C": "Config avalia conformidade de configuração — não é o painel de uso/otimização do S3.",
+            "A": "Config avalia conformidade de configuração — não é o painel de uso/otimização do S3.",
+            "C": "CloudWatch Logs guarda logs — não dá a visão agregada de uso/custo do S3.",
             "D": "Athena consulta dados — não é o dashboard pronto de visibilidade do S3 org-wide."
           }
         },
@@ -16240,7 +16240,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Cost Explorer; (2) Cost and Usage Report (CUR)"
+              "text": "(1) Budgets; (2) Pricing Calculator"
             },
             {
               "key": "B",
@@ -16248,7 +16248,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "(1) Budgets; (2) Pricing Calculator"
+              "text": "(1) Cost Explorer; (2) Cost and Usage Report (CUR)"
             },
             {
               "key": "D",
@@ -16256,7 +16256,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): análise visual rápida + previsão = Cost Explorer; dado bruto detalhado no S3 pra Athena = CUR.",
@@ -16264,8 +16264,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cost Explorer é a ferramenta visual pra analisar e prever custos (gráficos, histórico, forecast). O Cost and Usage Report (CUR) é o dado bruto mais detalhado, entregue no S3, ideal pra análise profunda e integração com Athena/Redshift/QuickSight.",
           "whyNots": {
+            "A": "Budgets/Pricing Calculator não são análise visual de gasto real nem o dado bruto.",
             "B": "Inverte — análise visual é Cost Explorer; dado bruto granular é CUR.",
-            "C": "Budgets/Pricing Calculator não são análise visual de gasto real nem o dado bruto.",
             "D": "Storage Lens/Compute Optimizer não são a análise visual de custo geral nem o dado bruto de faturamento."
           }
         },
@@ -16288,23 +16288,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) AWS Budgets; (2) Cost Anomaly Detection"
+              "text": "(1) Compute Optimizer; (2) Storage Lens"
             },
             {
               "key": "B",
-              "text": "(1) Cost Anomaly Detection; (2) AWS Budgets"
-            },
-            {
-              "key": "C",
               "text": "(1) Cost Explorer; (2) CUR"
             },
             {
+              "key": "C",
+              "text": "(1) Cost Anomaly Detection; (2) AWS Budgets"
+            },
+            {
               "key": "D",
-              "text": "(1) Compute Optimizer; (2) Storage Lens"
+              "text": "(1) AWS Budgets; (2) Cost Anomaly Detection"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): limite que VOCÊ define = Budgets; padrão aprendido por ML, sem alvo fixo = Cost Anomaly Detection.",
@@ -16312,9 +16312,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Budgets avisa quando o gasto ultrapassa um limite que VOCÊ define (alvo fixo). Cost Anomaly Detection usa ML pra avisar quando o gasto foge do padrão histórico aprendido, sem precisar de alvo fixo. São complementares.",
           "whyNots": {
-            "B": "Inverte — o limite definido é Budgets; o padrão aprendido é Anomaly Detection.",
-            "C": "Cost Explorer/CUR são análise/dado bruto — não são alertas por limite vs anomalia.",
-            "D": "Compute Optimizer/Storage Lens não são alertas de gasto por limite/anomalia."
+            "A": "Compute Optimizer/Storage Lens não são alertas de gasto por limite/anomalia.",
+            "B": "Cost Explorer/CUR são análise/dado bruto — não são alertas por limite vs anomalia.",
+            "C": "Inverte — o limite definido é Budgets; o padrão aprendido é Anomaly Detection."
           }
         },
         {
@@ -16339,15 +16339,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS WAF"
+              "text": "AWS WAF (inspeciona o tráfego e aponta instâncias paradas)"
             },
             {
               "key": "C",
-              "text": "Amazon Macie"
+              "text": "AWS Shield (o Advanced inclui relatório de recurso ocioso)"
             },
             {
               "key": "D",
-              "text": "AWS Shield"
+              "text": "Amazon Macie (varre a conta e recomenda desligar o ocioso)"
             }
           ],
           "answers": [
@@ -16360,8 +16360,8 @@ window.AWS_BANK = {
           "explanation": "Compute Optimizer, além do rightsizing, faz detecção de recursos ociosos (idle) — identifica instâncias com uso muito baixo e recomenda ação, ajudando a cortar desperdício.",
           "whyNots": {
             "B": "WAF é firewall de aplicação — não analisa uso/custo de recursos.",
-            "C": "Macie acha dados sensíveis no S3 — não detecta recurso ocioso.",
-            "D": "Shield é proteção DDoS — nada a ver com recursos ociosos."
+            "C": "Shield é proteção DDoS — nada a ver com recursos ociosos.",
+            "D": "Macie acha dados sensíveis no S3 — não detecta recurso ocioso."
           }
         },
         {
@@ -16382,15 +16382,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Cost Explorer"
+              "text": "AWS CloudTrail"
             },
             {
               "key": "B",
-              "text": "Cost and Usage Report (CUR)"
+              "text": "AWS Cost Explorer"
             },
             {
               "key": "C",
-              "text": "AWS CloudTrail"
+              "text": "Cost and Usage Report (CUR)"
             },
             {
               "key": "D",
@@ -16398,7 +16398,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): painel visual de gasto por serviço + previsão = Cost Explorer.",
@@ -16406,8 +16406,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cost Explorer é a ferramenta visual pra analisar custos e uso: gráficos por serviço/conta/tag, histórico de até 13 meses e previsão pros próximos meses. Perfeita pra o painel que o gestor quer.",
           "whyNots": {
-            "B": "CUR é o dado bruto linha a linha no S3 — não a visão visual pronta.",
-            "C": "CloudTrail audita chamadas de API — não mostra gastos.",
+            "A": "CloudTrail audita chamadas de API — não mostra gastos.",
+            "C": "CUR é o dado bruto linha a linha no S3 — não a visão visual pronta.",
             "D": "Inspector é vulnerabilidades — não custos."
           }
         },
@@ -16432,23 +16432,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cost Anomaly Detection → Cost Allocation Tags → Compute Optimizer → S3 Storage Lens"
-            },
-            {
-              "key": "B",
               "text": "Cost Allocation Tags → Cost Anomaly Detection → Storage Lens → Compute Optimizer"
             },
             {
+              "key": "B",
+              "text": "S3 Storage Lens → Compute Optimizer → Cost Allocation Tags → Cost Anomaly Detection"
+            },
+            {
               "key": "C",
-              "text": "Compute Optimizer → Storage Lens → Cost Anomaly Detection → Cost Allocation Tags"
+              "text": "Cost Anomaly Detection → Cost Allocation Tags → Compute Optimizer → S3 Storage Lens"
             },
             {
               "key": "D",
-              "text": "S3 Storage Lens → Compute Optimizer → Cost Allocation Tags → Cost Anomaly Detection"
+              "text": "Compute Optimizer → Storage Lens → Cost Anomaly Detection → Cost Allocation Tags"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): anomalia por ML = Cost Anomaly Detection; custo por time = Cost Allocation Tags; tamanho ideal = Compute Optimizer; S3 org-wide = Storage Lens.",
@@ -16456,9 +16456,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada ferramenta tem seu papel: Cost Anomaly Detection (pico anômalo por ML), Cost Allocation Tags (custo por time/ambiente), Compute Optimizer (rightsizing/idle) e S3 Storage Lens (visibilidade/otimização do S3 org-wide). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca as duas primeiras e as duas últimas de lugar.",
-            "C": "Embaralha tudo — Compute Optimizer não detecta anomalia de gasto.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "A": "Troca as duas primeiras e as duas últimas de lugar.",
+            "B": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Embaralha tudo — Compute Optimizer não detecta anomalia de gasto."
           }
         }
       ]
@@ -16485,7 +16485,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS CodePipeline"
+              "text": "AWS CodeCommit"
             },
             {
               "key": "B",
@@ -16493,15 +16493,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "AWS CodeCommit"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "AWS CodePipeline"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'pipeline' está no nome — CodePipeline orquestra os estágios (source → build → test → deploy).",
@@ -16509,9 +16509,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CodePipeline modela e orquestra o fluxo de CI/CD de ponta a ponta em estágios (source, build, test, deploy), cada um com ações. Ele chama os outros serviços (CodeBuild pra buildar, CodeDeploy pra implantar) como parte do fluxo.",
           "whyNots": {
+            "A": "CodeCommit é o repositório de código — a fonte, não o orquestrador.",
             "B": "CodeBuild faz o build/test — é uma etapa, não o orquestrador.",
-            "C": "CodeCommit é o repositório de código — a fonte, não o orquestrador.",
-            "D": "CloudFront é CDN — nada a ver com pipeline de CI/CD."
+            "C": "CloudFront é CDN — nada a ver com pipeline de CI/CD."
           }
         },
         {
@@ -16536,7 +16536,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS CodeDeploy"
+              "text": "Amazon EC2 com Jenkins na mão"
             },
             {
               "key": "C",
@@ -16544,7 +16544,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon EC2 com Jenkins na mão"
+              "text": "AWS CodeDeploy"
             }
           ],
           "answers": [
@@ -16556,9 +16556,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CodeBuild é o serviço de build totalmente gerenciado: compila, testa e empacota o código sem você manter servidores de build, escalando a capacidade automaticamente conforme a carga.",
           "whyNots": {
-            "B": "CodeDeploy faz o deploy, não o build.",
+            "B": "Jenkins em EC2 na mão é justamente o servidor de build que o CodeBuild evita.",
             "C": "CodePipeline orquestra; o build em si é o CodeBuild.",
-            "D": "Jenkins em EC2 na mão é justamente o servidor de build que o CodeBuild evita."
+            "D": "CodeDeploy faz o deploy, não o build."
           }
         },
         {
@@ -16579,23 +16579,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS CodeDeploy"
-            },
-            {
-              "key": "B",
               "text": "AWS CodeBuild"
             },
             {
+              "key": "B",
+              "text": "AWS CodeDeploy"
+            },
+            {
               "key": "C",
-              "text": "AWS CodeCommit"
+              "text": "Amazon Inspector"
             },
             {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "AWS CodeCommit"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): automatizar o DEPLOY (EC2/Lambda/ECS) com in-place ou blue/green = CodeDeploy.",
@@ -16603,9 +16603,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CodeDeploy automatiza a implantação em EC2, on-premises, Lambda e ECS, com estratégias como in-place (atualiza as instâncias existentes) e blue/green (sobe um ambiente novo e troca o tráfego, facilitando o rollback).",
           "whyNots": {
-            "B": "CodeBuild faz build/test — não implanta.",
-            "C": "CodeCommit guarda o código — não faz deploy.",
-            "D": "Inspector escaneia vulnerabilidades — não implanta aplicação."
+            "A": "CodeBuild faz build/test — não implanta.",
+            "C": "Inspector escaneia vulnerabilidades — não implanta aplicação.",
+            "D": "CodeCommit guarda o código — não faz deploy."
           }
         },
         {
@@ -16626,7 +16626,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS CodeCommit"
+              "text": "AWS CodeDeploy"
             },
             {
               "key": "B",
@@ -16634,15 +16634,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon S3"
+              "text": "AWS CodeCommit"
             },
             {
               "key": "D",
-              "text": "AWS CodeDeploy"
+              "text": "Amazon S3"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): repositório Git gerenciado da AWS = CodeCommit (o 'commit' entrega).",
@@ -16650,9 +16650,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CodeCommit é o serviço de repositório Git privado e gerenciado da AWS, integrado ao IAM. (Status: foi fechado a novos clientes em jul/2024, mas retornou à disponibilidade geral em nov/2025.) É a fonte do código no pipeline.",
           "whyNots": {
+            "A": "CodeDeploy implanta — não armazena o código-fonte.",
             "B": "CodePipeline orquestra o fluxo — não é repositório de código.",
-            "C": "S3 é object storage — não é repositório Git.",
-            "D": "CodeDeploy implanta — não armazena o código-fonte."
+            "D": "S3 é object storage — não é repositório Git."
           }
         },
         {
@@ -16676,7 +16676,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CodeCommit → CodePipeline → CodeBuild → CodeDeploy"
+              "text": "CodeDeploy → CodeBuild → CodePipeline → CodeCommit"
             },
             {
               "key": "B",
@@ -16688,11 +16688,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "CodeDeploy → CodeBuild → CodePipeline → CodeCommit"
+              "text": "CodeCommit → CodePipeline → CodeBuild → CodeDeploy"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): código = CodeCommit; orquestra = CodePipeline; build/test = CodeBuild; deploy = CodeDeploy.",
@@ -16700,9 +16700,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: CodeCommit (repositório/código), CodePipeline (orquestra os estágios), CodeBuild (compila e testa) e CodeDeploy (implanta). A opção A respeita os quatro na ordem natural do pipeline.",
           "whyNots": {
+            "A": "Inverte completamente; nenhuma posição bate com a função certa.",
             "B": "Troca CodeCommit com CodePipeline e CodeBuild com CodeDeploy.",
-            "C": "Embaralha tudo — CodeBuild não guarda código.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "C": "Embaralha tudo — CodeBuild não guarda código."
           }
         },
         {
@@ -16728,11 +16728,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CloudFormation em YAML puro"
+              "text": "AWS CodeBuild"
             },
             {
               "key": "C",
-              "text": "AWS CodeBuild"
+              "text": "CloudFormation em YAML puro"
             },
             {
               "key": "D",
@@ -16748,8 +16748,8 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS CDK permite definir a infraestrutura em linguagens de programação (TypeScript, Python, Java, C#); ao rodar, o CDK compila tudo pra templates CloudFormation. É a escolha pra quem prefere código a YAML.",
           "whyNots": {
-            "B": "CloudFormation em YAML puro é o oposto do pedido (linguagem de programação).",
-            "C": "CodeBuild faz build — não é ferramenta de IaC.",
+            "B": "CodeBuild faz build — não é ferramenta de IaC.",
+            "C": "CloudFormation em YAML puro é o oposto do pedido (linguagem de programação).",
             "D": "QuickSight é BI — nada a ver com IaC."
           }
         },
@@ -16772,23 +16772,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS SAM (Serverless Application Model)"
+              "text": "Amazon Athena (IaC serverless em SQL)"
             },
             {
               "key": "B",
-              "text": "AWS CDK"
+              "text": "AWS SAM (Serverless Application Model)"
             },
             {
               "key": "C",
-              "text": "AWS CodeDeploy"
+              "text": "AWS CodeDeploy (IaC declarativo e CLI)"
             },
             {
               "key": "D",
-              "text": "Amazon Athena"
+              "text": "AWS CDK (o framework declarativo)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): IaC declarativa compacta FOCADA em serverless + CLI pra testar local = SAM.",
@@ -16796,9 +16796,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS SAM é o framework de IaC focado em serverless: sintaxe declarativa compacta (atalho do CloudFormation) pra Lambda, API Gateway e DynamoDB, com o SAM CLI pra testar e depurar funções localmente antes de implantar.",
           "whyNots": {
-            "B": "CDK usa linguagem de programação e é genérico; o pedido é o framework declarativo focado em serverless (SAM).",
+            "A": "Athena é consulta SQL — não é IaC.",
             "C": "CodeDeploy é deploy — não é framework de IaC declarativo serverless.",
-            "D": "Athena é consulta SQL — não é IaC."
+            "D": "CDK usa linguagem de programação e é genérico; o pedido é o framework declarativo focado em serverless (SAM)."
           }
         },
         {
@@ -16821,15 +16821,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudFormation → SAM → CDK"
-            },
-            {
-              "key": "B",
               "text": "SAM → CDK → CloudFormation"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "CDK → CloudFormation → SAM"
+            },
+            {
+              "key": "C",
+              "text": "CloudFormation → SAM → CDK"
             },
             {
               "key": "D",
@@ -16837,7 +16837,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): YAML genérico = CloudFormation; serverless declarativo = SAM; linguagem de programação = CDK.",
@@ -16845,8 +16845,8 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFormation é a IaC declarativa genérica (YAML/JSON); SAM é o framework declarativo focado em serverless; CDK define a infra em linguagem de programação. Tanto SAM quanto CDK compilam/expandem pra CloudFormation por baixo. A opção A respeita os três.",
           "whyNots": {
-            "B": "Começa com SAM como genérico — errado; o genérico é o CloudFormation.",
-            "C": "Coloca CDK como genérico e SAM como linguagem de programação — embaralhado.",
+            "A": "Começa com SAM como genérico — errado; o genérico é o CloudFormation.",
+            "B": "Coloca CDK como genérico e SAM como linguagem de programação — embaralhado.",
             "D": "Troca CDK com SAM — serverless é SAM, linguagem de programação é CDK."
           }
         },
@@ -16868,23 +16868,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) In-place; (2) Blue/Green"
+              "text": "(1) Rolling; (2) Spot"
             },
             {
               "key": "B",
-              "text": "(1) Blue/Green; (2) In-place"
-            },
-            {
-              "key": "C",
               "text": "(1) Canary; (2) All-at-once"
             },
             {
+              "key": "C",
+              "text": "(1) Blue/Green; (2) In-place"
+            },
+            {
               "key": "D",
-              "text": "(1) Rolling; (2) Spot"
+              "text": "(1) In-place; (2) Blue/Green"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): atualizar nas instâncias existentes = in-place; ambiente novo + troca de tráfego = blue/green.",
@@ -16892,9 +16892,9 @@ window.AWS_BANK = {
           ],
           "explanation": "In-place atualiza a aplicação nas instâncias existentes; blue/green cria um ambiente novo em paralelo e troca o tráfego pra ele, permitindo rollback rápido (voltar pro ambiente antigo). São as duas estratégias clássicas do CodeDeploy.",
           "whyNots": {
-            "B": "Inverte — atualizar nas existentes é in-place; ambiente novo é blue/green.",
-            "C": "Canary/all-at-once são modos de avanço do tráfego, não a distinção pedida entre existente vs ambiente novo.",
-            "D": "'Rolling/Spot' não são o par correto aqui (Spot é modelo de compra de EC2)."
+            "A": "'Rolling/Spot' não são o par correto aqui (Spot é modelo de compra de EC2).",
+            "B": "Canary/all-at-once são modos de avanço do tráfego, não a distinção pedida entre existente vs ambiente novo.",
+            "C": "Inverte — atualizar nas existentes é in-place; ambiente novo é blue/green."
           }
         },
         {
@@ -16920,15 +16920,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS CodeDeploy sozinho"
+              "text": "AWS Config, que escuta o push no repo e dispara o fluxo"
             },
             {
               "key": "C",
-              "text": "Amazon Route 53"
+              "text": "AWS CodeDeploy sozinho, que já escuta a fonte e conduz tudo"
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "Amazon Route 53, que roteia o push do repo pro pipeline"
             }
           ],
           "answers": [
@@ -16940,9 +16940,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CodePipeline tem um estágio de source que monitora a fonte (CodeCommit, GitHub, S3 ou ECR) e, a cada mudança, dispara o pipeline — encadeando build (CodeBuild) e deploy (CodeDeploy) automaticamente.",
           "whyNots": {
-            "B": "CodeDeploy é só a etapa de deploy — não orquestra o fluxo a partir da fonte.",
-            "C": "Route 53 é DNS — não dispara pipelines.",
-            "D": "Config avalia conformidade — não conduz CI/CD."
+            "B": "Config avalia conformidade — não conduz CI/CD.",
+            "C": "CodeDeploy é só a etapa de deploy — não orquestra o fluxo a partir da fonte.",
+            "D": "Route 53 é DNS — não dispara pipelines."
           }
         }
       ]
@@ -16969,11 +16969,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Lightsail"
+              "text": "AWS Batch"
             },
             {
               "key": "B",
-              "text": "AWS Batch"
+              "text": "Amazon Lightsail"
             },
             {
               "key": "C",
@@ -16985,7 +16985,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): site simples + setup rápido + preço mensal fixo = Lightsail (VPS pré-configurado).",
@@ -16993,7 +16993,7 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Lightsail oferece VPS pré-configurados (bundles) com preço mensal fixo e previsível, ideal pra sites e apps simples (WordPress, blogs) e quem prefere simplicidade — sem a complexidade/escala do EC2.",
           "whyNots": {
-            "B": "Batch é pra jobs em lote em larga escala — não pra hospedar um site simples.",
+            "A": "Batch é pra jobs em lote em larga escala — não pra hospedar um site simples.",
             "C": "EKS (Kubernetes) é o oposto de simples pra um site WordPress pequeno.",
             "D": "Outposts é hardware da AWS no seu data center — exagero pra um site simples."
           }
@@ -17016,23 +17016,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS App Runner"
-            },
-            {
-              "key": "B",
-              "text": "Amazon Lightsail"
-            },
-            {
-              "key": "C",
               "text": "AWS Batch"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Amazon EC2 puro"
+            },
+            {
+              "key": "C",
+              "text": "AWS App Runner"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Lightsail"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): contêiner de app web/API totalmente gerenciada (build/deploy/escala/balanceamento automáticos) = App Runner.",
@@ -17040,9 +17040,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS App Runner é totalmente gerenciado pra apps web e APIs em contêiner: você fornece a imagem (ou o código), e ele builda, implanta, balanceia e escala automaticamente — sem você configurar ECS, cluster ou load balancer.",
           "whyNots": {
-            "B": "Lightsail é VPS simples — não é o serviço gerenciado pra contêiner de API com auto scaling automático nesse modelo.",
-            "C": "Batch é pra jobs em lote — não pra uma API web request-response.",
-            "D": "EC2 puro exigiria configurar tudo na mão — o oposto do 'totalmente gerenciado'."
+            "A": "Batch é pra jobs em lote — não pra uma API web request-response.",
+            "B": "EC2 puro exigiria configurar tudo na mão — o oposto do 'totalmente gerenciado'.",
+            "D": "Lightsail é VPS simples — não é o serviço gerenciado pra contêiner de API com auto scaling automático nesse modelo."
           }
         },
         {
@@ -17063,11 +17063,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Batch"
+              "text": "AWS App Runner"
             },
             {
               "key": "B",
-              "text": "AWS App Runner"
+              "text": "Amazon API Gateway"
             },
             {
               "key": "C",
@@ -17075,11 +17075,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon API Gateway"
+              "text": "AWS Batch"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'centenas de milhares de JOBS em lote, provisiona compute ideal sozinho' = AWS Batch.",
@@ -17087,9 +17087,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Batch é o serviço gerenciado pra computação em lote em larga escala: provisiona dinamicamente o tipo e a quantidade ideal de compute (CPU/memória) conforme os jobs submetidos. É ideal pra genômica, simulações e ETL pesado.",
           "whyNots": {
-            "B": "App Runner é pra apps web/API request-response — não pra jobs em lote.",
-            "C": "Lightsail é VPS simples — não orquestra jobs em lote em escala.",
-            "D": "API Gateway é gateway de APIs — não executa batch."
+            "A": "App Runner é pra apps web/API request-response — não pra jobs em lote.",
+            "B": "API Gateway é gateway de APIs — não executa batch.",
+            "C": "Lightsail é VPS simples — não orquestra jobs em lote em escala."
           }
         },
         {
@@ -17114,15 +17114,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Local Zones"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "C",
-              "text": "AWS Wavelength"
+              "text": "AWS Local Zones"
             },
             {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "AWS Wavelength"
             }
           ],
           "answers": [
@@ -17134,9 +17134,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Outposts são racks de hardware da AWS instalados no seu próprio data center (ou colocation), rodando compute/storage da AWS on-premises e conectados de forma transparente aos serviços na nuvem. É a escolha pra residência de dados/latência local com integração à AWS.",
           "whyNots": {
-            "B": "Local Zones é infraestrutura da AWS perto da cidade — não fica dentro do seu data center.",
-            "C": "Wavelength fica dentro da rede 5G da operadora — não no seu data center.",
-            "D": "CloudFront é CDN — não roda compute on-premises."
+            "B": "CloudFront é CDN — não roda compute on-premises.",
+            "C": "Local Zones é infraestrutura da AWS perto da cidade — não fica dentro do seu data center.",
+            "D": "Wavelength fica dentro da rede 5G da operadora — não no seu data center."
           }
         },
         {
@@ -17157,23 +17157,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Wavelength"
-            },
-            {
-              "key": "B",
-              "text": "AWS Outposts"
-            },
-            {
-              "key": "C",
               "text": "Amazon Lightsail"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "AWS Wavelength"
+            },
+            {
+              "key": "C",
               "text": "AWS Batch"
+            },
+            {
+              "key": "D",
+              "text": "AWS Outposts"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): processamento DENTRO da rede 5G da operadora, latência de 1 dígito de ms pra usuário 5G = Wavelength.",
@@ -17181,9 +17181,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Wavelength embute compute/storage da AWS dentro da rede 5G das operadoras, entregando latência de 1 dígito de ms pra usuários 5G — ideal pra game streaming, AR/VR e veículos autônomos. O acesso é via a rede 5G da operadora parceira.",
           "whyNots": {
-            "B": "Outposts fica no data center do cliente — não dentro da rede 5G.",
-            "C": "Lightsail é VPS simples — não é edge 5G de ultrabaixa latência.",
-            "D": "Batch é jobs em lote — não atende latência interativa 5G."
+            "A": "Lightsail é VPS simples — não é edge 5G de ultrabaixa latência.",
+            "C": "Batch é jobs em lote — não atende latência interativa 5G.",
+            "D": "Outposts fica no data center do cliente — não dentro da rede 5G."
           }
         },
         {
@@ -17205,23 +17205,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Local Zones; (2) Wavelength"
-            },
-            {
-              "key": "B",
-              "text": "(1) Wavelength; (2) Local Zones"
-            },
-            {
-              "key": "C",
               "text": "(1) Outposts; (2) Local Zones"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "(1) Wavelength; (2) Outposts"
+            },
+            {
+              "key": "C",
+              "text": "(1) Local Zones; (2) Wavelength"
+            },
+            {
+              "key": "D",
+              "text": "(1) Wavelength; (2) Local Zones"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): perto da cidade, multi-acesso (5G/Wi-Fi) = Local Zones; só via 5G da operadora = Wavelength.",
@@ -17229,9 +17229,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Local Zones estendem a AWS pra perto de grandes cidades com acesso multi-rede (5G ou Wi-Fi, qualquer operadora). Wavelength fica dentro da rede 5G da operadora e é acessível apenas via essa rede 5G. A diferença está no padrão de acesso.",
           "whyNots": {
-            "B": "Inverte — multi-acesso é Local Zones; só 5G é Wavelength.",
-            "C": "Outposts fica no data center do cliente — não é 'perto da cidade, multi-acesso'.",
-            "D": "Troca os papéis e inclui Outposts indevidamente."
+            "A": "Outposts fica no data center do cliente — não é 'perto da cidade, multi-acesso'.",
+            "B": "Troca os papéis e inclui Outposts indevidamente.",
+            "D": "Inverte — multi-acesso é Local Zones; só 5G é Wavelength."
           }
         },
         {
@@ -17253,23 +17253,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Outposts; (2) Local Zones"
+              "text": "(1) Outposts; (2) Wavelength"
             },
             {
               "key": "B",
-              "text": "(1) Local Zones; (2) Outposts"
-            },
-            {
-              "key": "C",
               "text": "(1) Wavelength; (2) Outposts"
             },
             {
+              "key": "C",
+              "text": "(1) Local Zones; (2) Outposts"
+            },
+            {
               "key": "D",
-              "text": "(1) Outposts; (2) Wavelength"
+              "text": "(1) Outposts; (2) Local Zones"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): no SEU data center = Outposts; infra da AWS perto da cidade = Local Zones.",
@@ -17277,9 +17277,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Outposts é o hardware da AWS instalado no SEU data center (on-premises), gerenciado pela AWS. Local Zones é infraestrutura da AWS perto de grandes centros urbanos, operada pela própria AWS. A diferença é o LOCAL e quem hospeda.",
           "whyNots": {
-            "B": "Inverte — no seu DC é Outposts; perto da cidade (AWS) é Local Zones.",
-            "C": "Wavelength é dentro da rede 5G — não é 'no seu data center'.",
-            "D": "Wavelength não é 'perto da cidade, multi-acesso' — isso é Local Zones."
+            "A": "Wavelength não é 'perto da cidade, multi-acesso' — isso é Local Zones.",
+            "B": "Wavelength é dentro da rede 5G — não é 'no seu data center'.",
+            "C": "Inverte — no seu DC é Outposts; perto da cidade (AWS) é Local Zones."
           }
         },
         {
@@ -17305,15 +17305,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Lightsail escala melhor que o EC2 pra qualquer carga"
+              "text": "EC2 só serve pra hospedar sites estáticos simples; aplicações com escala e integrações profundas exigem o Lightsail"
             },
             {
               "key": "C",
-              "text": "EC2 só serve pra sites estáticos"
+              "text": "Lightsail escala melhor que o EC2 pra qualquer tipo de carga, inclusive picos imprevisíveis com Auto Scaling avançado"
             },
             {
               "key": "D",
-              "text": "Lightsail e EC2 são exatamente o mesmo serviço"
+              "text": "Lightsail e EC2 são exatamente o mesmo serviço por baixo, com o mesmo preço, os mesmos limites e a mesma integração"
             }
           ],
           "answers": [
@@ -17325,8 +17325,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Lightsail é ideal pra começar simples e barato (preço fixo); quando o projeto precisa de escala, instâncias variadas e integração profunda com o ecossistema AWS, o EC2 (e os demais serviços) é a escolha. Pode-se começar no Lightsail e migrar depois.",
           "whyNots": {
-            "B": "Lightsail é justamente o mais simples/limitado; pra escala alta, EC2 é melhor.",
-            "C": "EC2 roda qualquer workload, não só sites estáticos.",
+            "B": "EC2 roda qualquer workload, não só sites estáticos.",
+            "C": "Lightsail é justamente o mais simples/limitado; pra escala alta, EC2 é melhor.",
             "D": "Não são o mesmo — Lightsail é simplificado; EC2 é completo/flexível."
           }
         },
@@ -17349,23 +17349,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Mínimo de config = App Runner; controle fino de contêineres = ECS/Fargate"
+              "text": "App Runner é pra jobs em lote; fora isso os dois são idênticos, muda o preço"
             },
             {
               "key": "B",
-              "text": "Mínimo de config = ECS/Fargate; controle fino = App Runner"
+              "text": "Mínimo de config = App Runner; controle fino de contêineres = ECS/Fargate"
             },
             {
               "key": "C",
-              "text": "Ambos só rodam em Outposts"
+              "text": "Mínimo de config = ECS/Fargate; controle fino de tarefas e rede = App Runner"
             },
             {
               "key": "D",
-              "text": "App Runner é pra jobs em lote; os dois são idênticos"
+              "text": "Ambos só rodam em Outposts, o requisito de hardware dos contêineres"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): App Runner abstrai quase tudo (mínima config); ECS/Fargate dá mais controle sobre tasks/rede.",
@@ -17373,9 +17373,9 @@ window.AWS_BANK = {
           ],
           "explanation": "App Runner é o caminho de mínima configuração pra publicar uma app web/API em contêiner (build/deploy/escala automáticos). ECS/Fargate dá mais controle sobre tarefas, rede e orquestração de contêineres, ao custo de mais configuração.",
           "whyNots": {
-            "B": "Inverte — quem abstrai a config é o App Runner; quem dá controle é o ECS/Fargate.",
-            "C": "Nenhum dos dois exige Outposts.",
-            "D": "App Runner é pra web app/API (não jobs em lote, isso é Batch), e os dois NÃO são idênticos — diferem no grau de controle vs simplicidade."
+            "A": "App Runner é pra web app/API (não jobs em lote, isso é Batch), e os dois NÃO são idênticos — diferem no grau de controle vs simplicidade.",
+            "C": "Inverte — quem abstrai a config é o App Runner; quem dá controle é o ECS/Fargate.",
+            "D": "Nenhum dos dois exige Outposts."
           }
         },
         {
@@ -17399,23 +17399,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lightsail → App Runner → Batch → Outposts"
-            },
-            {
-              "key": "B",
               "text": "App Runner → Lightsail → Outposts → Batch"
             },
             {
+              "key": "B",
+              "text": "Outposts → Batch → App Runner → Lightsail"
+            },
+            {
               "key": "C",
-              "text": "Batch → Outposts → Lightsail → App Runner"
+              "text": "Lightsail → App Runner → Batch → Outposts"
             },
             {
               "key": "D",
-              "text": "Outposts → Batch → App Runner → Lightsail"
+              "text": "Batch → Outposts → Lightsail → App Runner"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): site simples = Lightsail; API contêiner gerenciada = App Runner; jobs em lote = Batch; AWS no seu DC = Outposts.",
@@ -17423,9 +17423,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: Lightsail (site simples, preço fixo), App Runner (API em contêiner totalmente gerenciada), Batch (jobs em lote em escala) e Outposts (compute da AWS on-premises). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca Lightsail com App Runner e Batch com Outposts.",
-            "C": "Embaralha tudo — Batch não é site simples.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "A": "Troca Lightsail com App Runner e Batch com Outposts.",
+            "B": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Embaralha tudo — Batch não é site simples."
           }
         }
       ]
@@ -17452,7 +17452,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Certificate Manager (ACM)"
+              "text": "AWS CloudHSM"
             },
             {
               "key": "B",
@@ -17464,11 +17464,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS CloudHSM"
+              "text": "AWS Certificate Manager (ACM)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): certificado SSL/TLS público GRÁTIS, com renovação automática, pra ELB/CloudFront = ACM.",
@@ -17476,9 +17476,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Certificate Manager (ACM) provisiona certificados SSL/TLS públicos gratuitos e os renova automaticamente (validação por DNS, ~45 dias antes de expirar, mantendo o mesmo ARN), implantando-os em ELB, CloudFront e API Gateway. Elimina a gestão manual de certificados.",
           "whyNots": {
+            "A": "CloudHSM é HSM dedicado pra chaves — não emite/renova certificados TLS públicos.",
             "B": "KMS gerencia CHAVES de criptografia — não emite certificados TLS.",
-            "C": "Secrets Manager guarda segredos (senhas/keys) — não é certificado TLS.",
-            "D": "CloudHSM é HSM dedicado pra chaves — não emite/renova certificados TLS públicos."
+            "C": "Secrets Manager guarda segredos (senhas/keys) — não é certificado TLS."
           }
         },
         {
@@ -17504,15 +17504,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS WAF"
+              "text": "Amazon Detective"
             },
             {
               "key": "C",
-              "text": "Security Group"
+              "text": "AWS WAF"
             },
             {
               "key": "D",
-              "text": "Amazon Detective"
+              "text": "Security Group"
             }
           ],
           "answers": [
@@ -17524,9 +17524,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Network Firewall é um firewall de rede gerenciado e stateful (com IDS/IPS) pra VPC, filtrando o tráfego no perímetro — de/para Internet Gateway, NAT, VPN ou Direct Connect. Vai além de IP/porta (pode filtrar domínio/protocolo/payload).",
           "whyNots": {
-            "B": "WAF é firewall de aplicação web (HTTP/S), anexado a CloudFront/ALB — não o perímetro de rede da VPC.",
-            "C": "Security Group é firewall de instância (L3/L4) — não inspeciona o perímetro da VPC com IDS/IPS.",
-            "D": "Detective investiga incidentes — não é firewall."
+            "B": "Detective investiga incidentes — não é firewall.",
+            "C": "WAF é firewall de aplicação web (HTTP/S), anexado a CloudFront/ALB — não o perímetro de rede da VPC.",
+            "D": "Security Group é firewall de instância (L3/L4) — não inspeciona o perímetro da VPC com IDS/IPS."
           }
         },
         {
@@ -17548,11 +17548,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) AWS WAF; (2) AWS Network Firewall"
+              "text": "(1) AWS Network Firewall; (2) AWS WAF"
             },
             {
               "key": "B",
-              "text": "(1) AWS Network Firewall; (2) AWS WAF"
+              "text": "(1) AWS WAF; (2) AWS Network Firewall"
             },
             {
               "key": "C",
@@ -17564,7 +17564,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): SQLi/XSS em app web = WAF (camada 7); tráfego de rede da VPC = Network Firewall.",
@@ -17572,7 +17572,7 @@ window.AWS_BANK = {
           ],
           "explanation": "WAF é o firewall de aplicação web (camada 7) que bloqueia SQLi/XSS nas requisições HTTP de um CloudFront/ALB. Network Firewall é o firewall de rede que filtra todo o tráfego do perímetro da VPC com IDS/IPS. A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — SQLi/XSS em app web é WAF; tráfego de rede da VPC é Network Firewall.",
+            "A": "Inverte — SQLi/XSS em app web é WAF; tráfego de rede da VPC é Network Firewall.",
             "C": "Security Group não inspeciona conteúdo HTTP (SQLi/XSS) — isso é WAF.",
             "D": "NACL é L3/L4 por sub-rede — não é o firewall de app web pedido em (1)."
           }
@@ -17596,7 +17596,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Firewall Manager"
+              "text": "AWS Certificate Manager"
             },
             {
               "key": "B",
@@ -17604,15 +17604,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Detective"
+              "text": "AWS Firewall Manager"
             },
             {
               "key": "D",
-              "text": "AWS Certificate Manager"
+              "text": "Amazon Detective"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): aplicar política de firewall (WAF/Shield/Network Firewall/SG) CENTRALMENTE em várias contas = Firewall Manager (via Organizations).",
@@ -17620,9 +17620,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Firewall Manager gerencia centralmente políticas de firewall (regras de WAF, Shield Advanced, Network Firewall e security groups) entre várias contas e VPCs via Organizations — com contas novas herdando a política automaticamente. Garante consistência em escala.",
           "whyNots": {
+            "A": "ACM é certificado TLS — não gerencia políticas de firewall.",
             "B": "Configurar WAF conta a conta não é central nem mantém consistência automática — o oposto do pedido.",
-            "C": "Detective investiga incidentes — não aplica políticas de firewall.",
-            "D": "ACM é certificado TLS — não gerencia políticas de firewall."
+            "D": "Detective investiga incidentes — não aplica políticas de firewall."
           }
         },
         {
@@ -17643,11 +17643,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Detective"
+              "text": "AWS Certificate Manager"
             },
             {
               "key": "B",
-              "text": "AWS Certificate Manager"
+              "text": "Amazon Lightsail"
             },
             {
               "key": "C",
@@ -17655,11 +17655,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Lightsail"
+              "text": "Amazon Detective"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): INVESTIGAR/achar a causa raiz, correlacionando logs com grafo e ML = Amazon Detective.",
@@ -17667,9 +17667,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Detective coleta logs automaticamente e usa ML, análise estatística e teoria de grafos pra montar uma visão ligada dos dados, ajudando a investigar incidentes, ver atividades históricas relacionadas e determinar a causa raiz e o alcance. Ingere achados de GuardDuty, Inspector e outros.",
           "whyNots": {
-            "B": "ACM é certificado TLS — não investiga incidentes.",
-            "C": "Budgets é custo — não é investigação de segurança.",
-            "D": "Lightsail é VPS simples — nada a ver com investigação."
+            "A": "ACM é certificado TLS — não investiga incidentes.",
+            "B": "Lightsail é VPS simples — nada a ver com investigação.",
+            "C": "Budgets é custo — não é investigação de segurança."
           }
         },
         {
@@ -17739,15 +17739,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Secrets Manager"
+              "text": "Parameter Store (String simples)"
             },
             {
               "key": "B",
-              "text": "AWS Certificate Manager"
+              "text": "AWS Secrets Manager"
             },
             {
               "key": "C",
-              "text": "Parameter Store (String simples)"
+              "text": "AWS Certificate Manager"
             },
             {
               "key": "D",
@@ -17755,7 +17755,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): segredo com ROTAÇÃO automática nativa = Secrets Manager.",
@@ -17763,8 +17763,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Secrets Manager armazena segredos (como a senha do RDS) com rotação automática nativa (via Lambda), em intervalos configuráveis, sem mexer no código — além de replicação entre regiões. É a escolha quando o requisito é rotação automática.",
           "whyNots": {
-            "B": "ACM gerencia certificados TLS — não senhas de banco.",
-            "C": "Parameter Store guarda o valor, mas não faz rotação automática de credencial.",
+            "A": "Parameter Store guarda o valor, mas não faz rotação automática de credencial.",
+            "C": "ACM gerencia certificados TLS — não senhas de banco.",
             "D": "Detective investiga incidentes — não armazena/rotaciona segredo."
           }
         },
@@ -17787,23 +17787,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Certificados TLS = ACM; chaves de criptografia = KMS"
-            },
-            {
-              "key": "B",
-              "text": "Certificados TLS = KMS; chaves = ACM"
-            },
-            {
-              "key": "C",
               "text": "Os dois fazem a mesma coisa"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Certificados = Secrets Manager; chaves = ACM"
+            },
+            {
+              "key": "C",
+              "text": "Certificados TLS = ACM; chaves de criptografia = KMS"
+            },
+            {
+              "key": "D",
+              "text": "Certificados TLS = KMS; chaves = ACM"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): ACM = certificado TLS (HTTPS); KMS = chaves de criptografia (S3/EBS/RDS).",
@@ -17811,9 +17811,9 @@ window.AWS_BANK = {
           ],
           "explanation": "ACM gerencia certificados SSL/TLS (identidade do site e criptografia em trânsito, HTTPS). KMS gerencia chaves de criptografia (dados em repouso em S3, EBS, RDS, etc.). São responsabilidades distintas e complementares.",
           "whyNots": {
-            "B": "Inverte — certificado é ACM; chave é KMS.",
-            "C": "Não fazem a mesma coisa — certificado TLS vs chave de criptografia.",
-            "D": "Certificado TLS é ACM, não Secrets Manager."
+            "A": "Não fazem a mesma coisa — certificado TLS vs chave de criptografia.",
+            "B": "Certificado TLS é ACM, não Secrets Manager.",
+            "D": "Inverte — certificado é ACM; chave é KMS."
           }
         },
         {
@@ -17835,23 +17835,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "No AWS Certificate Manager (ACM) e associa à distribuição CloudFront"
+              "text": "Gerando um certificado manual e subindo por FTP pra distribuição"
             },
             {
               "key": "B",
-              "text": "Gerando um certificado manual e subindo por FTP"
+              "text": "No Amazon S3 como objeto, que o CloudFront lê e renova sozinho"
             },
             {
               "key": "C",
-              "text": "No Amazon S3 como objeto"
+              "text": "No AWS Budgets, que gerencia certificados junto com os custos"
             },
             {
               "key": "D",
-              "text": "No AWS Budgets"
+              "text": "No AWS Certificate Manager (ACM) e associa à distribuição CloudFront"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): provisiona o certificado no ACM e associa ao CloudFront — renovação automática, sem dor de cabeça.",
@@ -17859,9 +17859,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Você provisiona o certificado TLS no ACM (grátis, com renovação automática) e o associa à distribuição CloudFront pra servir o site por HTTPS — sem precisar gerar e renovar certificado manualmente.",
           "whyNots": {
-            "B": "Certificado manual via FTP é justamente o trabalho/risco que o ACM elimina.",
-            "C": "S3 guarda objetos — não é onde se gerencia o certificado TLS do CloudFront.",
-            "D": "Budgets é custo — nada a ver com certificado."
+            "A": "Certificado manual via FTP é justamente o trabalho/risco que o ACM elimina.",
+            "B": "S3 guarda objetos — não é onde se gerencia o certificado TLS do CloudFront.",
+            "C": "Budgets é custo — nada a ver com certificado."
           }
         },
         {
@@ -17889,15 +17889,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Network Firewall → ACM → Detective → Firewall Manager"
-            },
-            {
-              "key": "C",
               "text": "Detective → Firewall Manager → ACM → Network Firewall"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Firewall Manager → Detective → Network Firewall → ACM"
+            },
+            {
+              "key": "D",
+              "text": "Network Firewall → ACM → Detective → Firewall Manager"
             }
           ],
           "answers": [
@@ -17909,9 +17909,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: ACM (certificado TLS com auto-renovação), Network Firewall (firewall de rede no perímetro da VPC), Firewall Manager (política de firewall central entre contas) e Detective (investigação/causa raiz). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca ACM com Network Firewall e Detective com Firewall Manager.",
-            "C": "Embaralha tudo — Detective não é certificado.",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "B": "Embaralha tudo — Detective não é certificado.",
+            "C": "Inverte completamente; nenhuma posição bate com a função certa.",
+            "D": "Troca ACM com Network Firewall e Detective com Firewall Manager."
           }
         }
       ]
@@ -17938,23 +17938,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Managed Microsoft AD"
+              "text": "Amazon Cognito"
             },
             {
               "key": "B",
-              "text": "Simple AD"
+              "text": "AWS Managed Microsoft AD"
             },
             {
               "key": "C",
-              "text": "AD Connector"
+              "text": "Simple AD"
             },
             {
               "key": "D",
-              "text": "Amazon Cognito"
+              "text": "AD Connector"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'AD real da Microsoft + trust + >5.000 usuários + workloads Windows' = AWS Managed Microsoft AD.",
@@ -17962,9 +17962,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Managed Microsoft AD é um Active Directory real da Microsoft gerenciado pela AWS (2 DCs em AZs distintas), com suporte a trusts com o AD on-premises e a workloads Windows (RDS SQL Server, FSx for Windows, join de EC2). É a escolha pra AD completo em escala.",
           "whyNots": {
-            "B": "Simple AD é baixo custo/escala (≤5.000) e NÃO suporta trust.",
-            "C": "AD Connector é um proxy pro AD on-prem existente — não é um AD gerenciado completo na AWS.",
-            "D": "Cognito é autenticação de usuários de app (web/mobile) — não é Active Directory corporativo."
+            "A": "Cognito é autenticação de usuários de app (web/mobile) — não é Active Directory corporativo.",
+            "C": "Simple AD é baixo custo/escala (≤5.000) e NÃO suporta trust.",
+            "D": "AD Connector é um proxy pro AD on-prem existente — não é um AD gerenciado completo na AWS."
           }
         },
         {
@@ -17985,7 +17985,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AD Connector"
+              "text": "IAM Identity Center"
             },
             {
               "key": "B",
@@ -17993,15 +17993,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Simple AD"
+              "text": "AD Connector"
             },
             {
               "key": "D",
-              "text": "IAM Identity Center"
+              "text": "Simple AD"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'usar o AD on-prem EXISTENTE, proxy, sem cachear na nuvem' = AD Connector (um gateway).",
@@ -18009,9 +18009,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AD Connector é um gateway de diretório que encaminha (proxy) as autenticações dos serviços AWS pro seu Active Directory on-premises existente, sem cachear informações na nuvem. É ideal pra reaproveitar o diretório on-prem com serviços AWS.",
           "whyNots": {
+            "A": "IAM Identity Center é SSO da força de trabalho — não é o gateway pro AD on-prem nesse sentido.",
             "B": "Managed Microsoft AD cria um AD novo gerenciado na AWS — o cenário pede usar o on-prem existente.",
-            "C": "Simple AD é um diretório próprio (Samba) na AWS — não faz proxy pro AD on-prem.",
-            "D": "IAM Identity Center é SSO da força de trabalho — não é o gateway pro AD on-prem nesse sentido."
+            "D": "Simple AD é um diretório próprio (Samba) na AWS — não faz proxy pro AD on-prem."
           }
         },
         {
@@ -18032,23 +18032,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Simple AD"
+              "text": "AWS CloudHSM"
             },
             {
               "key": "B",
-              "text": "AWS Managed Microsoft AD"
-            },
-            {
-              "key": "C",
               "text": "AD Connector"
             },
             {
+              "key": "C",
+              "text": "AWS Managed Microsoft AD"
+            },
+            {
               "key": "D",
-              "text": "AWS CloudHSM"
+              "text": "Simple AD"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pequeno, barato, compatível com AD, SEM trust = Simple AD (baseado em Samba 4).",
@@ -18056,9 +18056,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Simple AD é um diretório gerenciado baseado em Samba 4, de baixo custo e escala (≤5.000 usuários), com um subconjunto do AD (contas, grupos, join de EC2, Kerberos SSO, Group Policies). Não suporta relação de confiança — adequado quando trust não é necessário.",
           "whyNots": {
-            "B": "Managed Microsoft AD é mais robusto/caro — exagero pra esse caso pequeno sem trust.",
-            "C": "AD Connector é proxy pro AD on-prem — o cenário quer um diretório próprio simples na AWS.",
-            "D": "CloudHSM é HSM pra chaves — não é diretório."
+            "A": "CloudHSM é HSM pra chaves — não é diretório.",
+            "B": "AD Connector é proxy pro AD on-prem — o cenário quer um diretório próprio simples na AWS.",
+            "C": "Managed Microsoft AD é mais robusto/caro — exagero pra esse caso pequeno sem trust."
           }
         },
         {
@@ -18083,15 +18083,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Simple AD → Managed Microsoft AD → AD Connector"
+              "text": "Managed Microsoft AD → Simple AD → AD Connector"
             },
             {
               "key": "C",
-              "text": "AD Connector → Simple AD → Managed Microsoft AD"
+              "text": "Simple AD → Managed Microsoft AD → AD Connector"
             },
             {
               "key": "D",
-              "text": "Managed Microsoft AD → Simple AD → AD Connector"
+              "text": "AD Connector → Simple AD → Managed Microsoft AD"
             }
           ],
           "answers": [
@@ -18103,9 +18103,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Managed Microsoft AD (AD real com trust e workloads Windows); AD Connector (proxy pro AD on-prem existente, sem cache); Simple AD (diretório pequeno e barato, sem trust). A opção A respeita os três.",
           "whyNots": {
-            "B": "Começa com Simple AD pra o caso de trust — errado; trust é Managed Microsoft AD.",
-            "C": "Inverte a ordem — AD Connector não é o AD real com trust.",
-            "D": "Troca Simple AD com AD Connector nas duas últimas posições."
+            "B": "Troca Simple AD com AD Connector nas duas últimas posições.",
+            "C": "Começa com Simple AD pra o caso de trust — errado; trust é Managed Microsoft AD.",
+            "D": "Inverte a ordem — AD Connector não é o AD real com trust."
           }
         },
         {
@@ -18126,23 +18126,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon WorkSpaces"
+              "text": "Amazon Lightsail"
             },
             {
               "key": "B",
-              "text": "Amazon AppStream 2.0"
+              "text": "Amazon WorkSpaces"
             },
             {
               "key": "C",
-              "text": "AWS Lambda"
+              "text": "Amazon AppStream 2.0"
             },
             {
               "key": "D",
-              "text": "Amazon Lightsail"
+              "text": "AWS Lambda"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): DESKTOP virtual completo e persistente na nuvem (VDI) = Amazon WorkSpaces.",
@@ -18150,9 +18150,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon WorkSpaces fornece desktops virtuais (VDI) persistentes e gerenciados na nuvem — Windows ou Linux — acessíveis de qualquer lugar. É ideal pra trabalhadores remotos que precisam de uma área de trabalho completa e sempre disponível.",
           "whyNots": {
-            "B": "AppStream 2.0 transmite APLICATIVOS individuais, não o desktop inteiro persistente.",
-            "C": "Lambda é função serverless — não é desktop virtual.",
-            "D": "Lightsail é VPS — não é desktop de usuário final (VDI)."
+            "A": "Lightsail é VPS — não é desktop de usuário final (VDI).",
+            "C": "AppStream 2.0 transmite APLICATIVOS individuais, não o desktop inteiro persistente.",
+            "D": "Lambda é função serverless — não é desktop virtual."
           }
         },
         {
@@ -18173,7 +18173,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon AppStream 2.0"
+              "text": "AWS Batch"
             },
             {
               "key": "B",
@@ -18181,15 +18181,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon S3"
+              "text": "Amazon AppStream 2.0"
             },
             {
               "key": "D",
-              "text": "AWS Batch"
+              "text": "Amazon S3"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): transmitir UM APLICATIVO via navegador, sem instalar = AppStream 2.0 (application streaming).",
@@ -18197,9 +18197,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AppStream 2.0 é streaming de aplicações: entrega aplicativos individuais aos usuários via navegador, sem instalação local, tipicamente não-persistente. É perfeito pra dar acesso a um software a estudantes em qualquer computador, demos e treinamentos. (Foi reagrupado como WorkSpaces Applications.)",
           "whyNots": {
+            "A": "Batch roda jobs em lote — não transmite app interativo.",
             "B": "WorkSpaces entrega o DESKTOP inteiro persistente — exagero quando se quer só um app.",
-            "C": "S3 é object storage — não transmite aplicativos.",
-            "D": "Batch roda jobs em lote — não transmite app interativo."
+            "D": "S3 é object storage — não transmite aplicativos."
           }
         },
         {
@@ -18221,23 +18221,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) WorkSpaces; (2) AppStream 2.0"
+              "text": "(1) AppStream 2.0; (2) Lightsail"
             },
             {
               "key": "B",
-              "text": "(1) AppStream 2.0; (2) WorkSpaces"
-            },
-            {
-              "key": "C",
               "text": "(1) Lightsail; (2) WorkSpaces"
             },
             {
+              "key": "C",
+              "text": "(1) AppStream 2.0; (2) WorkSpaces"
+            },
+            {
               "key": "D",
-              "text": "(1) AppStream 2.0; (2) Lightsail"
+              "text": "(1) WorkSpaces; (2) AppStream 2.0"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): desktop inteiro persistente = WorkSpaces; um app transmitido sem persistência = AppStream 2.0.",
@@ -18245,9 +18245,9 @@ window.AWS_BANK = {
           ],
           "explanation": "WorkSpaces entrega o desktop virtual completo e persistente (VDI); AppStream 2.0 transmite apenas um aplicativo específico, geralmente sem persistência. A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — desktop inteiro é WorkSpaces; app transmitido é AppStream.",
-            "C": "Lightsail é VPS, não desktop virtual de usuário final.",
-            "D": "Troca os papéis e inclui Lightsail indevidamente."
+            "A": "Troca os papéis e inclui Lightsail indevidamente.",
+            "B": "Lightsail é VPS, não desktop virtual de usuário final.",
+            "C": "Inverte — desktop inteiro é WorkSpaces; app transmitido é AppStream."
           }
         },
         {
@@ -18273,15 +18273,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon Cognito"
+              "text": "Amazon Inspector, que gerencia o domínio AD"
             },
             {
               "key": "C",
-              "text": "AWS WAF"
+              "text": "Amazon Cognito, fazendo o domain join do EC2"
             },
             {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "AWS WAF, aplicando as Group Policies na EC2"
             }
           ],
           "answers": [
@@ -18293,9 +18293,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O AWS Directory Service (Managed Microsoft AD) fornece um Active Directory gerenciado pra fazer domain join de instâncias EC2 Windows, com autenticação centralizada, Group Policies e integração com workloads Windows. É a base de identidade corporativa na AWS.",
           "whyNots": {
-            "B": "Cognito autentica usuários de aplicações web/mobile — não é AD pra domain join de EC2 Windows.",
-            "C": "WAF é firewall de app web — nada a ver com Active Directory.",
-            "D": "Inspector escaneia vulnerabilidades — não é diretório."
+            "B": "Inspector escaneia vulnerabilidades — não é diretório.",
+            "C": "Cognito autentica usuários de aplicações web/mobile — não é AD pra domain join de EC2 Windows.",
+            "D": "WAF é firewall de app web — nada a ver com Active Directory."
           }
         },
         {
@@ -18316,11 +18316,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon AppStream 2.0"
+              "text": "Amazon Polly"
             },
             {
               "key": "B",
-              "text": "Amazon WorkSpaces"
+              "text": "Amazon AppStream 2.0"
             },
             {
               "key": "C",
@@ -18328,11 +18328,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Polly"
+              "text": "Amazon WorkSpaces"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): demo/trial de app sem instalar nada = AppStream 2.0 (streaming de aplicação).",
@@ -18340,9 +18340,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AppStream 2.0 permite transmitir aplicativos via navegador sem download/instalação — perfeito pra fornecedores oferecerem demos, trials e treinamentos do software, e pra dar acesso a apps em qualquer computador.",
           "whyNots": {
-            "B": "WorkSpaces entrega o desktop completo — desnecessário pra apenas demonstrar um app.",
+            "A": "Polly é texto-em-fala — nada a ver com streaming de aplicativo.",
             "C": "CodeDeploy automatiza deploy de software — não transmite app pro usuário final.",
-            "D": "Polly é texto-em-fala — nada a ver com streaming de aplicativo."
+            "D": "WorkSpaces entrega o desktop completo — desnecessário pra apenas demonstrar um app."
           }
         },
         {
@@ -18365,7 +18365,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Managed Microsoft AD → AD Connector → WorkSpaces → AppStream 2.0"
+              "text": "WorkSpaces → AppStream 2.0 → Managed Microsoft AD → AD Connector"
             },
             {
               "key": "B",
@@ -18373,7 +18373,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "WorkSpaces → AppStream 2.0 → Managed Microsoft AD → AD Connector"
+              "text": "Managed Microsoft AD → AD Connector → WorkSpaces → AppStream 2.0"
             },
             {
               "key": "D",
@@ -18381,7 +18381,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): AD com trust = Managed Microsoft AD; proxy on-prem = AD Connector; desktop = WorkSpaces; app streaming = AppStream.",
@@ -18389,8 +18389,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: Managed Microsoft AD (AD real com trust), AD Connector (proxy pro AD on-prem), WorkSpaces (desktop virtual persistente) e AppStream 2.0 (streaming de aplicativo). A opção A respeita os quatro.",
           "whyNots": {
+            "A": "Embaralha tudo — WorkSpaces não é AD com trust.",
             "B": "Troca Managed Microsoft AD com AD Connector e WorkSpaces com AppStream.",
-            "C": "Embaralha tudo — WorkSpaces não é AD com trust.",
             "D": "Troca AD Connector com WorkSpaces de posição."
           }
         }
@@ -18418,23 +18418,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SES (Simple Email Service)"
+              "text": "Amazon SQS (fila que envia e-mail)"
             },
             {
               "key": "B",
-              "text": "Amazon SNS"
+              "text": "Amazon SNS (e-mail rico via API)"
             },
             {
               "key": "C",
-              "text": "Amazon SQS"
+              "text": "Amazon CloudFront (SMTP na borda)"
             },
             {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "Amazon SES (Simple Email Service)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): 'Email Service' está no nome — SES é o serviço dedicado de e-mail (API e SMTP).",
@@ -18442,9 +18442,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SES (Simple Email Service) é o serviço dedicado de e-mail, com API e interface SMTP, ideal pra enviar e-mails transacionais (confirmações, resets) e em massa de forma escalável, cuidando também da deliverability.",
           "whyNots": {
+            "A": "SQS é fila de mensagens entre sistemas — não envia e-mail ao usuário.",
             "B": "SNS envia notificações pub/sub (SMS, push, e-mail simples) — não é o serviço de e-mail rico/transacional dedicado.",
-            "C": "SQS é fila de mensagens entre sistemas — não envia e-mail ao usuário.",
-            "D": "CloudFront é CDN — não envia e-mail."
+            "C": "CloudFront é CDN — não envia e-mail."
           }
         },
         {
@@ -18469,15 +18469,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon SES"
+              "text": "AWS Lambda sozinho"
             },
             {
               "key": "C",
-              "text": "Amazon SQS"
+              "text": "Amazon SES"
             },
             {
               "key": "D",
-              "text": "AWS Lambda sozinho"
+              "text": "Amazon SQS"
             }
           ],
           "answers": [
@@ -18489,9 +18489,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SNS pode enviar mensagens SMS diretamente pro celular dos usuários (além de push mobile, e-mail e HTTP). É a escolha pra alertas por SMS.",
           "whyNots": {
-            "B": "SES envia e-mail — não SMS.",
-            "C": "SQS é fila entre sistemas — não envia SMS ao usuário.",
-            "D": "Lambda executa código — precisaria de um serviço de mensageria (SNS) pra enviar o SMS."
+            "B": "Lambda executa código — precisaria de um serviço de mensageria (SNS) pra enviar o SMS.",
+            "C": "SES envia e-mail — não SMS.",
+            "D": "SQS é fila entre sistemas — não envia SMS ao usuário."
           }
         },
         {
@@ -18512,15 +18512,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SNS (mobile push)"
+              "text": "Amazon Athena"
             },
             {
               "key": "B",
-              "text": "Amazon SES"
+              "text": "Amazon SNS (mobile push)"
             },
             {
               "key": "C",
-              "text": "Amazon Athena"
+              "text": "Amazon SES"
             },
             {
               "key": "D",
@@ -18528,7 +18528,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): push pra app iOS/Android (APNs/FCM) = SNS mobile push.",
@@ -18536,8 +18536,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SNS suporta mobile push, integrando com APNs (Apple) e FCM (Google) pra entregar notificações push a apps iOS/Android. É o canal certo pra push notifications.",
           "whyNots": {
-            "B": "SES é e-mail — não push mobile.",
-            "C": "Athena é consulta SQL — não envia push.",
+            "A": "Athena é consulta SQL — não envia push.",
+            "C": "SES é e-mail — não push mobile.",
             "D": "EBS é disco em bloco — nada a ver com push."
           }
         },
@@ -18560,23 +18560,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Amazon SES; (2) Amazon SNS"
-            },
-            {
-              "key": "B",
               "text": "(1) Amazon SNS; (2) Amazon SES"
             },
             {
+              "key": "B",
+              "text": "(1) Amazon SES; (2) Amazon SQS"
+            },
+            {
               "key": "C",
-              "text": "(1) Amazon SQS; (2) Amazon SES"
+              "text": "(1) Amazon SES; (2) Amazon SNS"
             },
             {
               "key": "D",
-              "text": "(1) Amazon SES; (2) Amazon SQS"
+              "text": "(1) Amazon SQS; (2) Amazon SES"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): e-mail rico/em massa = SES; SMS/push/notificar inscritos = SNS.",
@@ -18584,9 +18584,9 @@ window.AWS_BANK = {
           ],
           "explanation": "SES é o serviço dedicado de e-mail (transacional/marketing, SMTP, deliverability). SNS é pub/sub de notificações multicanal (SMS, push, e-mail simples, HTTP, fan-out). A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — e-mail rico é SES; SMS/push é SNS.",
-            "C": "SQS é fila entre sistemas — não é o serviço de e-mail.",
-            "D": "SQS não envia SMS/push ao usuário; isso é SNS."
+            "A": "Inverte — e-mail rico é SES; SMS/push é SNS.",
+            "B": "SQS não envia SMS/push ao usuário; isso é SNS.",
+            "D": "SQS é fila entre sistemas — não é o serviço de e-mail."
           }
         },
         {
@@ -18608,23 +18608,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SNS (tópico com fan-out pra filas SQS)"
+              "text": "Amazon CloudWatch, o pub/sub nativo pra filas"
             },
             {
               "key": "B",
-              "text": "Amazon SES"
+              "text": "AWS Config, que publica pros inscritos"
             },
             {
               "key": "C",
-              "text": "Amazon CloudWatch"
+              "text": "Amazon SES, que faz fan-out pra filas SQS"
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "Amazon SNS (tópico com fan-out pra filas SQS)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): um evento → muitos inscritos (filas SQS) = SNS no padrão fan-out (pub/sub).",
@@ -18632,9 +18632,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SNS é pub/sub: um tópico publica o evento e cada inscrito (várias filas SQS, Lambda, etc.) recebe sua cópia — o padrão fan-out. Desacopla um produtor de muitos consumidores.",
           "whyNots": {
-            "B": "SES é e-mail — não faz fan-out pra filas SQS.",
-            "C": "CloudWatch é métricas/logs — não é o pub/sub de eventos pra filas.",
-            "D": "Config avalia conformidade — não publica eventos pra inscritos."
+            "A": "CloudWatch é métricas/logs — não é o pub/sub de eventos pra filas.",
+            "B": "Config avalia conformidade — não publica eventos pra inscritos.",
+            "C": "SES é e-mail — não faz fan-out pra filas SQS."
           }
         },
         {
@@ -18663,11 +18663,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Pinpoint (atual)"
+              "text": "Amazon SQS"
             },
             {
               "key": "D",
-              "text": "Amazon SQS"
+              "text": "Amazon Pinpoint (atual)"
             }
           ],
           "answers": [
@@ -18680,8 +18680,8 @@ window.AWS_BANK = {
           "explanation": "Amazon SES é o serviço de e-mail que monitora a deliverability — taxas de bounce e complaint — ajudando a manter a reputação de envio e evitar blacklists. É o serviço certo pra e-mail com esse controle.",
           "whyNots": {
             "B": "SNS é notificação multicanal — não é o serviço de e-mail com gestão de deliverability.",
-            "C": "Pinpoint usava o SES por baixo, mas está em FIM DE SUPORTE (30/out/2026) — não é a escolha atual.",
-            "D": "SQS é fila entre sistemas — não envia e-mail."
+            "C": "SQS é fila entre sistemas — não envia e-mail.",
+            "D": "Pinpoint usava o SES por baixo, mas está em FIM DE SUPORTE (30/out/2026) — não é a escolha atual."
           }
         },
         {
@@ -18704,23 +18704,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SES (recebimento de e-mail / inbound)"
+              "text": "Amazon SNS (assina o domínio via SMTP)"
             },
             {
               "key": "B",
-              "text": "Amazon SNS"
+              "text": "Amazon SES (recebimento de e-mail / inbound)"
             },
             {
               "key": "C",
-              "text": "Amazon Route 53"
+              "text": "Amazon EBS (guarda o e-mail no disco)"
             },
             {
               "key": "D",
-              "text": "Amazon EBS"
+              "text": "Amazon Route 53 (o MX já recebe tudo)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): SES não só ENVIA — também RECEBE e-mail (inbound) e pode acionar S3/Lambda/SNS ao receber.",
@@ -18728,9 +18728,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SES também recebe e-mails (inbound): ao receber uma mensagem no domínio configurado, pode salvar no S3, acionar uma função Lambda ou publicar num tópico SNS pra processamento. É e-mail nos dois sentidos.",
           "whyNots": {
-            "B": "SNS é notificação pub/sub — não recebe e-mail SMTP de entrada.",
-            "C": "Route 53 é DNS (ainda que aponte o registro MX) — quem recebe e processa o e-mail é o SES.",
-            "D": "EBS é disco — não recebe e-mail."
+            "A": "SNS é notificação pub/sub — não recebe e-mail SMTP de entrada.",
+            "C": "EBS é disco — não recebe e-mail.",
+            "D": "Route 53 é DNS (ainda que aponte o registro MX) — quem recebe e processa o e-mail é o SES."
           }
         },
         {
@@ -18751,15 +18751,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Tópico SNS FIFO"
-            },
-            {
-              "key": "B",
               "text": "Tópico SNS Standard"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "SES com SMTP"
+            },
+            {
+              "key": "C",
+              "text": "Tópico SNS FIFO"
             },
             {
               "key": "D",
@@ -18767,7 +18767,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): ordem estrita + sem duplicata no SNS = tópico FIFO (combina com filas SQS FIFO).",
@@ -18775,8 +18775,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O SNS tem tópicos FIFO que preservam a ordem e evitam duplicação, ideais pra fan-out ordenado pra filas SQS FIFO. O tópico Standard prioriza throughput, com ordem best-effort.",
           "whyNots": {
-            "B": "Standard é best-effort em ordem e pode duplicar — não garante o pedido.",
-            "C": "SES é e-mail — não é o mecanismo de ordenação de notificações.",
+            "A": "Standard é best-effort em ordem e pode duplicar — não garante o pedido.",
+            "B": "SES é e-mail — não é o mecanismo de ordenação de notificações.",
             "D": "S3 é armazenamento — não é tópico de notificação ordenado."
           }
         },
@@ -18798,23 +18798,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon SNS (assinatura por e-mail/SMS no tópico)"
+              "text": "AWS Batch, que dispara o e-mail em lote"
             },
             {
               "key": "B",
-              "text": "Amazon SES com campanha"
+              "text": "Amazon SES com campanha ligada direto ao alarme"
             },
             {
               "key": "C",
-              "text": "Amazon QuickSight"
+              "text": "Amazon QuickSight, que alerta os inscritos"
             },
             {
               "key": "D",
-              "text": "AWS Batch"
+              "text": "Amazon SNS (assinatura por e-mail/SMS no tópico)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): alarme → tópico SNS → inscritos recebem e-mail/SMS simples. É o caminho clássico de notificação operacional.",
@@ -18822,9 +18822,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon SNS permite que inscritos (e-mail, SMS) recebam notificações simples de um tópico — o padrão pra alertas operacionais, como um alarme do CloudWatch publicando no tópico SNS que notifica os administradores.",
           "whyNots": {
+            "A": "Batch roda jobs em lote — não notifica inscritos.",
             "B": "SES com campanha é exagero pra um alerta operacional simples; o caminho direto é o SNS.",
-            "C": "QuickSight é BI/dashboards — não envia notificação de alarme.",
-            "D": "Batch roda jobs em lote — não notifica inscritos."
+            "C": "QuickSight é BI/dashboards — não envia notificação de alarme."
           }
         },
         {
@@ -18850,15 +18850,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "SNS → SES → SQS"
-            },
-            {
-              "key": "C",
               "text": "SNS (push) → SES → SNS (SMS)"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "SQS → SES → SNS"
+            },
+            {
+              "key": "D",
+              "text": "SNS → SES → SQS"
             }
           ],
           "answers": [
@@ -18870,9 +18870,9 @@ window.AWS_BANK = {
           ],
           "explanation": "E-mail transacional rico de aplicação é o SES; SMS pro celular é o SNS; push pra app mobile também é o SNS (via APNs/FCM). A opção A respeita os três canais.",
           "whyNots": {
-            "B": "Começa com SNS pra e-mail rico — o e-mail de aplicação é SES; e SQS não notifica o usuário.",
-            "C": "Coloca SES no meio e troca a ordem dos canais do SNS de forma incoerente com o enunciado.",
-            "D": "SQS é fila entre sistemas — não envia e-mail/SMS/push ao usuário."
+            "B": "Coloca SES no meio e troca a ordem dos canais do SNS de forma incoerente com o enunciado.",
+            "C": "SQS é fila entre sistemas — não envia e-mail/SMS/push ao usuário.",
+            "D": "Começa com SNS pra e-mail rico — o e-mail de aplicação é SES; e SQS não notifica o usuário."
           }
         }
       ]
@@ -18899,23 +18899,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon ECR (Elastic Container Registry)"
+              "text": "Amazon ECS, que embute o registry"
             },
             {
               "key": "B",
-              "text": "Amazon S3"
+              "text": "Amazon ECR (Elastic Container Registry)"
             },
             {
               "key": "C",
-              "text": "AWS CodeCommit"
+              "text": "AWS CodeCommit (guarda imagens Docker)"
             },
             {
               "key": "D",
-              "text": "Amazon ECS"
+              "text": "Amazon S3, com scan de imagem nativo"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'registry' de imagens de contêiner = ECR (Elastic Container Registry).",
@@ -18923,9 +18923,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon ECR é o registro de imagens de contêiner gerenciado (Docker/OCI): armazena, versiona, escaneia vulnerabilidades e distribui as imagens, integrando com ECS, EKS e CI/CD. É de onde os orquestradores puxam a imagem pra rodar.",
           "whyNots": {
-            "B": "S3 guarda objetos genéricos — não é registry de imagens de contêiner com scan/versionamento.",
+            "A": "ECS executa contêineres — não é o registro das imagens (isso é o ECR).",
             "C": "CodeCommit é repositório Git de código-fonte — não de imagens de contêiner.",
-            "D": "ECS executa contêineres — não é o registro das imagens (isso é o ECR)."
+            "D": "S3 guarda objetos genéricos — não é registry de imagens de contêiner com scan/versionamento."
           }
         },
         {
@@ -18946,23 +18946,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Task definition"
+              "text": "Capacity provider"
             },
             {
               "key": "B",
-              "text": "Service"
-            },
-            {
-              "key": "C",
               "text": "Cluster"
             },
             {
+              "key": "C",
+              "text": "Task definition"
+            },
+            {
               "key": "D",
-              "text": "Capacity provider"
+              "text": "Service"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): o 'molde'/blueprint (imagem, CPU/memória, portas) = task definition.",
@@ -18970,9 +18970,9 @@ window.AWS_BANK = {
           ],
           "explanation": "A task definition é o blueprint (JSON) da aplicação no ECS: especifica a imagem, CPU/memória, portas, volumes e variáveis. É o molde a partir do qual as tasks (instâncias em execução) são criadas.",
           "whyNots": {
-            "B": "Service mantém N tasks rodando — não é o molde em si.",
-            "C": "Cluster é a infraestrutura/agrupamento — não o molde da aplicação.",
-            "D": "Capacity provider gerencia a capacidade (Fargate/EC2) — não é o blueprint."
+            "A": "Capacity provider gerencia a capacidade (Fargate/EC2) — não é o blueprint.",
+            "B": "Cluster é a infraestrutura/agrupamento — não o molde da aplicação.",
+            "D": "Service mantém N tasks rodando — não é o molde em si."
           }
         },
         {
@@ -18993,7 +18993,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Service (ECS Service)"
+              "text": "Cluster"
             },
             {
               "key": "B",
@@ -19001,15 +19001,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Cluster"
+              "text": "ECR"
             },
             {
               "key": "D",
-              "text": "ECR"
+              "text": "Service (ECS Service)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): manter N tasks rodando e substituir as que falham = ECS Service (o scheduler cuida disso).",
@@ -19017,9 +19017,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O ECS Service mantém o número desejado de tasks rodando simultaneamente: se uma task falha ou para, o scheduler do service sobe outra a partir da task definition pra manter o desejado. Também integra com ELB e suporta auto scaling.",
           "whyNots": {
+            "A": "Cluster é a infra/agrupamento — não gerencia o número desejado de tasks.",
             "B": "Task definition é o molde — não mantém tasks rodando.",
-            "C": "Cluster é a infra/agrupamento — não gerencia o número desejado de tasks.",
-            "D": "ECR é o registro de imagens — não orquestra a execução."
+            "C": "ECR é o registro de imagens — não orquestra a execução."
           }
         },
         {
@@ -19087,23 +19087,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Fargate Spot"
+              "text": "Reserved Instances de EC2"
             },
             {
               "key": "B",
-              "text": "Fargate on-demand"
+              "text": "Fargate Spot"
             },
             {
               "key": "C",
-              "text": "Dedicated Hosts"
+              "text": "Fargate on-demand"
             },
             {
               "key": "D",
-              "text": "Reserved Instances de EC2"
+              "text": "Dedicated Hosts"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): contêiner tolerante a interrupção + até 70% off + aviso de 2 min = Fargate Spot (capacidade ociosa).",
@@ -19111,9 +19111,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Fargate Spot roda tasks em capacidade ociosa com até 70% de desconto sobre o Fargate on-demand, mas as tasks são interrompíveis (aviso de 2 minutos). É ideal pra cargas tolerantes a interrupção, como batch e dev/staging.",
           "whyNots": {
-            "B": "Fargate on-demand é confiável, mas não dá o desconto agressivo do Spot pra uma carga que aceita interrupção.",
-            "C": "Dedicated Hosts é pra licença/compliance em EC2 — não é o modelo barato de contêiner interrompível.",
-            "D": "RI de EC2 é compromisso de longo prazo de instância — não é o caso do batch interrompível no Fargate."
+            "A": "RI de EC2 é compromisso de longo prazo de instância — não é o caso do batch interrompível no Fargate.",
+            "C": "Fargate on-demand é confiável, mas não dá o desconto agressivo do Spot pra uma carga que aceita interrupção.",
+            "D": "Dedicated Hosts é pra licença/compliance em EC2 — não é o modelo barato de contêiner interrompível."
           }
         },
         {
@@ -19134,15 +19134,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Fargate (on-demand); (2) Fargate Spot"
-            },
-            {
-              "key": "B",
               "text": "(1) Fargate Spot; (2) Fargate (on-demand)"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "(1) EC2 Spot; (2) Fargate on-demand"
+            },
+            {
+              "key": "C",
+              "text": "(1) Fargate (on-demand); (2) Fargate Spot"
             },
             {
               "key": "D",
@@ -19150,7 +19150,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): base confiável = Fargate on-demand; picos/batch baratos e interrompíveis = Fargate Spot.",
@@ -19158,8 +19158,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Fargate on-demand fornece capacidade confiável pra a base de produção; Fargate Spot fornece capacidade barata e interrompível pra picos/batch. Eles podem ser combinados (base estável on-demand + burst Spot a menor custo). A opção A está correta.",
           "whyNots": {
-            "B": "Inverte — confiável é on-demand; interrompível barato é Spot.",
-            "C": "Mistura EC2 Spot indevidamente; o contexto é Fargate.",
+            "A": "Inverte — confiável é on-demand; interrompível barato é Spot.",
+            "B": "Mistura EC2 Spot indevidamente; o contexto é Fargate.",
             "D": "Reserved Instances é compromisso de EC2, não a capacidade de burst interrompível do Fargate."
           }
         },
@@ -19181,23 +19181,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ECS Service Auto Scaling com target tracking (ex.: CPU média alvo)"
+              "text": "Usar o ECR, que escala as tasks conforme os pulls da imagem"
             },
             {
               "key": "B",
-              "text": "Editar a task definition manualmente"
+              "text": "Editar a task definition manualmente a cada variação de CPU"
             },
             {
               "key": "C",
-              "text": "Aumentar o tamanho do cluster na mão"
+              "text": "Aumentar o tamanho do cluster na mão sempre que a CPU subir"
             },
             {
               "key": "D",
-              "text": "Usar o ECR"
+              "text": "ECS Service Auto Scaling com target tracking (ex.: CPU média alvo)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): manter uma métrica num alvo (CPU 60%) ajustando o nº de tasks = ECS Service Auto Scaling, target tracking.",
@@ -19205,9 +19205,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O ECS Service Auto Scaling com target tracking mantém uma métrica num valor-alvo (ex.: CPU média em 60%, ou ALBRequestCountPerTarget) ajustando automaticamente o número de tasks do service — sem você definir alarmes manualmente.",
           "whyNots": {
+            "A": "ECR é registro de imagens — não escala o service.",
             "B": "Editar a task definition na mão não escala automaticamente o nº de tasks.",
-            "C": "Mexer no cluster na mão é o oposto de automático.",
-            "D": "ECR é registro de imagens — não escala o service."
+            "C": "Mexer no cluster na mão é o oposto de automático."
           }
         },
         {
@@ -19233,15 +19233,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Não é possível escalar ECS por fila"
+              "text": "Trocar o ECS por Lightsail, que já escala containers por fila automaticamente"
             },
             {
               "key": "C",
-              "text": "Trocar o ECS por Lightsail"
+              "text": "Não é possível escalar um service do ECS por fila; só CPU e memória servem de métrica"
             },
             {
               "key": "D",
-              "text": "Usar signed URLs"
+              "text": "Usar signed URLs do CloudFront pra controlar a vazão de mensagens da fila"
             }
           ],
           "answers": [
@@ -19253,8 +19253,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O ECS Service Auto Scaling aceita métricas custom (via Application Auto Scaling/CloudWatch), como o número de mensagens numa fila SQS. Quando CPU/memória não refletem a carga real, escalar pela profundidade da fila é mais adequado.",
           "whyNots": {
-            "B": "É possível, sim — métricas custom (tamanho da fila) são um caso clássico.",
-            "C": "Lightsail é VPS simples — não resolve o escalonamento por fila do ECS.",
+            "B": "Lightsail é VPS simples — não resolve o escalonamento por fila do ECS.",
+            "C": "É possível, sim — métricas custom (tamanho da fila) são um caso clássico.",
             "D": "Signed URLs são do S3/CloudFront — nada a ver com escalonamento."
           }
         },
@@ -19278,23 +19278,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Imagem no ECR → executada em ECS/Fargate"
-            },
-            {
-              "key": "B",
               "text": "Imagem no ECS → executada no ECR"
             },
             {
+              "key": "B",
+              "text": "Imagem no ECR → executada em ECS/Fargate"
+            },
+            {
               "key": "C",
-              "text": "Imagem no S3 → executada no CloudFront"
+              "text": "Imagem no Lightsail → executada no Athena"
             },
             {
               "key": "D",
-              "text": "Imagem no Lightsail → executada no Athena"
+              "text": "Imagem no S3 → executada no CloudFront"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): ECR guarda a imagem; ECS/Fargate a executa (serverless).",
@@ -19302,9 +19302,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O fluxo típico: a imagem é empacotada e guardada no ECR (registro), e então executada em contêineres pelo ECS com Fargate (serverless, sem gerenciar servidor). ECR armazena; ECS/Fargate roda.",
           "whyNots": {
-            "B": "Inverte — a imagem fica no ECR (registro), não no ECS; o ECS executa.",
-            "C": "S3/CloudFront são storage/CDN — não executam contêineres.",
-            "D": "Lightsail/Athena não são registro nem orquestrador de contêineres nesse fluxo."
+            "A": "Inverte — a imagem fica no ECR (registro), não no ECS; o ECS executa.",
+            "C": "Lightsail/Athena não são registro nem orquestrador de contêineres nesse fluxo.",
+            "D": "S3/CloudFront são storage/CDN — não executam contêineres."
           }
         },
         {
@@ -19327,7 +19327,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ECR → Task definition → Service → Fargate"
+              "text": "Service → Fargate → ECR → Task definition"
             },
             {
               "key": "B",
@@ -19335,7 +19335,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Service → Fargate → ECR → Task definition"
+              "text": "ECR → Task definition → Service → Fargate"
             },
             {
               "key": "D",
@@ -19343,7 +19343,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): registro = ECR; molde = task definition; mantém N = service; serverless on-demand = Fargate.",
@@ -19351,8 +19351,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada elemento tem seu papel: ECR (registro de imagens), task definition (molde da aplicação), service (mantém N tasks) e Fargate (capacidade de contêiner serverless on-demand). A opção A respeita os quatro.",
           "whyNots": {
+            "A": "Embaralha tudo — service não é registro de imagens.",
             "B": "Troca ECR com task definition e service com Fargate.",
-            "C": "Embaralha tudo — service não é registro de imagens.",
             "D": "Inverte completamente; nenhuma posição bate com a função certa."
           }
         }
@@ -19381,7 +19381,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Alias record"
+              "text": "TXT record"
             },
             {
               "key": "B",
@@ -19389,15 +19389,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "TXT record"
+              "text": "MX record"
             },
             {
               "key": "D",
-              "text": "MX record"
+              "text": "Alias record"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): apontar o APEX (domínio raiz) pra um recurso AWS (ELB/CloudFront/S3) = Alias record (CNAME não funciona no apex).",
@@ -19405,9 +19405,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Alias record é específico do Route 53 e funciona no zone apex (domínio raiz), apontando pra recursos AWS como ELB, CloudFront e S3. CNAME não é permitido no apex. Além disso, consultas alias a recursos AWS são gratuitas.",
           "whyNots": {
+            "A": "TXT guarda texto (ex.: verificação de domínio) — não roteia pro ALB.",
             "B": "CNAME não funciona no zone apex — só em subdomínios.",
-            "C": "TXT guarda texto (ex.: verificação de domínio) — não roteia pro ALB.",
-            "D": "MX é pra servidores de e-mail — não aponta o apex pro ALB."
+            "C": "MX é pra servidores de e-mail — não aponta o apex pro ALB."
           }
         },
         {
@@ -19432,11 +19432,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "(1) CNAME; (2) Alias"
+              "text": "(1) MX; (2) TXT"
             },
             {
               "key": "C",
-              "text": "(1) MX; (2) TXT"
+              "text": "(1) CNAME; (2) Alias"
             },
             {
               "key": "D",
@@ -19452,8 +19452,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Alias é o registro do Route 53 que funciona no apex, aponta pra recursos AWS e é grátis nessas consultas. CNAME aponta pra qualquer domínio, não funciona no apex e é cobrado. A opção A está correta.",
           "whyNots": {
-            "B": "Inverte — apex/grátis/AWS é Alias; o padrão cobrado é CNAME.",
-            "C": "MX/TXT são de e-mail/texto — não é a distinção pedida.",
+            "B": "MX/TXT são de e-mail/texto — não é a distinção pedida.",
+            "C": "Inverte — apex/grátis/AWS é Alias; o padrão cobrado é CNAME.",
             "D": "A/NS são outros tipos — não correspondem ao enunciado."
           }
         },
@@ -19476,23 +19476,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Private hosted zone"
-            },
-            {
-              "key": "B",
               "text": "Public hosted zone"
             },
             {
+              "key": "B",
+              "text": "Private hosted zone"
+            },
+            {
               "key": "C",
-              "text": "Health check"
+              "text": "Registro de domínio público"
             },
             {
               "key": "D",
-              "text": "Registro de domínio público"
+              "text": "Health check"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): DNS interno, só dentro da VPC, sem expor na internet = private hosted zone.",
@@ -19500,9 +19500,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma private hosted zone do Route 53 fornece DNS autoritativo apenas dentro das VPCs associadas, sem expor os registros (nomes e IPs) à internet. É ideal pra nomes internos de aplicações.",
           "whyNots": {
-            "B": "Public hosted zone expõe os registros na internet — o oposto do pedido.",
-            "C": "Health check monitora saúde de endpoint — não é zona de DNS interno.",
-            "D": "Registro de domínio público é pra domínio na internet — não DNS interno da VPC."
+            "A": "Public hosted zone expõe os registros na internet — o oposto do pedido.",
+            "C": "Registro de domínio público é pra domínio na internet — não DNS interno da VPC.",
+            "D": "Health check monitora saúde de endpoint — não é zona de DNS interno."
           }
         },
         {
@@ -19524,15 +19524,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Inbound endpoint"
-            },
-            {
-              "key": "B",
               "text": "Outbound endpoint"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Alias record"
+            },
+            {
+              "key": "C",
+              "text": "Inbound endpoint"
             },
             {
               "key": "D",
@@ -19540,7 +19540,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): consultas ENTRANDO (on-premises → DNS da AWS) = Inbound endpoint.",
@@ -19548,8 +19548,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O Inbound endpoint do Route 53 Resolver permite que recursos on-premises (ou outra VPC) enviem consultas DNS PRA DENTRO da VPC, resolvendo nomes hospedados na AWS (como uma private hosted zone), tipicamente sobre VPN/Direct Connect.",
           "whyNots": {
-            "B": "Outbound endpoint é o contrário: VPC consultando DNS on-premises.",
-            "C": "Alias record é tipo de registro — não é o endpoint de DNS híbrido.",
+            "A": "Outbound endpoint é o contrário: VPC consultando DNS on-premises.",
+            "B": "Alias record é tipo de registro — não é o endpoint de DNS híbrido.",
             "D": "Health check monitora saúde — não resolve DNS híbrido."
           }
         },
@@ -19572,23 +19572,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Inbound endpoint; (2) Outbound endpoint"
+              "text": "(1) Public zone; (2) Private zone"
             },
             {
               "key": "B",
-              "text": "(1) Outbound endpoint; (2) Inbound endpoint"
-            },
-            {
-              "key": "C",
               "text": "(1) Alias; (2) CNAME"
             },
             {
+              "key": "C",
+              "text": "(1) Outbound endpoint; (2) Inbound endpoint"
+            },
+            {
               "key": "D",
-              "text": "(1) Public zone; (2) Private zone"
+              "text": "(1) Inbound endpoint; (2) Outbound endpoint"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): on-prem → AWS = inbound (entrando); VPC → on-prem = outbound (saindo).",
@@ -19596,9 +19596,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Inbound endpoint = consultas entrando na VPC (on-premises resolve DNS da AWS). Outbound endpoint = consultas saindo da VPC (a VPC resolve DNS on-premises, via forwarding rules). A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — on-prem→AWS é inbound; VPC→on-prem é outbound.",
-            "C": "Alias/CNAME são tipos de registro, não endpoints de Resolver.",
-            "D": "Public/private hosted zone são tipos de zona, não os endpoints híbridos."
+            "A": "Public/private hosted zone são tipos de zona, não os endpoints híbridos.",
+            "B": "Alias/CNAME são tipos de registro, não endpoints de Resolver.",
+            "C": "Inverte — on-prem→AWS é inbound; VPC→on-prem é outbound."
           }
         },
         {
@@ -19623,15 +19623,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CNAME no apex"
+              "text": "Private hosted zone com failover interno"
             },
             {
               "key": "C",
-              "text": "Private hosted zone"
+              "text": "Outbound endpoint monitorando a saúde"
             },
             {
               "key": "D",
-              "text": "Outbound endpoint"
+              "text": "CNAME no apex trocando pro saudável"
             }
           ],
           "answers": [
@@ -19643,9 +19643,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Os health checks do Route 53 monitoram a saúde dos endpoints e, combinados com o roteamento de failover, redirecionam o tráfego de um recurso não-saudável pra um saudável. Podem também disparar alarmes do CloudWatch.",
           "whyNots": {
-            "B": "CNAME no apex nem é permitido — e não faz failover por saúde.",
-            "C": "Private hosted zone é DNS interno — não faz failover por saúde.",
-            "D": "Outbound endpoint é DNS híbrido — não é o mecanismo de failover por saúde."
+            "B": "Private hosted zone é DNS interno — não faz failover por saúde.",
+            "C": "Outbound endpoint é DNS híbrido — não é o mecanismo de failover por saúde.",
+            "D": "CNAME no apex nem é permitido — e não faz failover por saúde."
           }
         },
         {
@@ -19666,23 +19666,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Registrador de domínios e DNS autoritativo"
-            },
-            {
-              "key": "B",
               "text": "Apenas balanceador de carga"
             },
             {
+              "key": "B",
+              "text": "Registrador de domínios e DNS autoritativo"
+            },
+            {
               "key": "C",
-              "text": "Apenas cache de CDN"
+              "text": "Apenas firewall de aplicação"
             },
             {
               "key": "D",
-              "text": "Apenas firewall de aplicação"
+              "text": "Apenas cache de CDN"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): Route 53 é serviço de DNS — e também REGISTRADOR de domínios (compra/gerencia o domínio).",
@@ -19690,9 +19690,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O Route 53 é um serviço de DNS autoritativo e também um registrador de domínios — você pode comprar/gerenciar o domínio e hospedar sua zona DNS no mesmo lugar. Suporta DNSSEC pra assinar a zona.",
           "whyNots": {
-            "B": "Route 53 não é load balancer (isso é ELB), embora roteie por DNS.",
-            "C": "Cache de CDN é o CloudFront, não o Route 53.",
-            "D": "Firewall de aplicação é o WAF, não o Route 53."
+            "A": "Route 53 não é load balancer (isso é ELB), embora roteie por DNS.",
+            "C": "Firewall de aplicação é o WAF, não o Route 53.",
+            "D": "Cache de CDN é o CloudFront, não o Route 53."
           }
         },
         {
@@ -19715,23 +19715,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Alias record apontando pro CloudFront"
-            },
-            {
-              "key": "B",
-              "text": "CNAME no apex apontando pro CloudFront"
-            },
-            {
-              "key": "C",
               "text": "MX record"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Outbound endpoint"
+            },
+            {
+              "key": "C",
+              "text": "Alias record apontando pro CloudFront"
+            },
+            {
+              "key": "D",
+              "text": "CNAME no apex apontando pro CloudFront"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): apex → CloudFront, sem custo de consulta = Alias record.",
@@ -19739,9 +19739,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Um Alias record aponta o domínio raiz (apex) pra a distribuição CloudFront, funciona no apex (onde CNAME não funciona) e não cobra pelas consultas a recursos AWS. É o caminho certo pra o site estático S3+CloudFront.",
           "whyNots": {
-            "B": "CNAME não é permitido no apex — e seria cobrado.",
-            "C": "MX é pra e-mail — não aponta o site pro CloudFront.",
-            "D": "Outbound endpoint é DNS híbrido — não tem a ver com apontar o apex."
+            "A": "MX é pra e-mail — não aponta o site pro CloudFront.",
+            "B": "Outbound endpoint é DNS híbrido — não tem a ver com apontar o apex.",
+            "D": "CNAME não é permitido no apex — e seria cobrado."
           }
         },
         {
@@ -19762,7 +19762,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DNSSEC (assinatura da zona)"
+              "text": "Private hosted zone"
             },
             {
               "key": "B",
@@ -19770,15 +19770,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Private hosted zone"
+              "text": "Health check"
             },
             {
               "key": "D",
-              "text": "Health check"
+              "text": "DNSSEC (assinatura da zona)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): assinar criptograficamente o DNS contra spoofing/cache poisoning = DNSSEC.",
@@ -19786,9 +19786,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DNSSEC assina criptograficamente as respostas da zona DNS, protegendo contra spoofing e cache poisoning (respostas DNS forjadas). O Route 53 suporta DNSSEC signing pras hosted zones.",
           "whyNots": {
+            "A": "Private hosted zone limita à VPC — não é assinatura criptográfica.",
             "B": "Alias é tipo de registro de roteamento — não assina a zona.",
-            "C": "Private hosted zone limita à VPC — não é assinatura criptográfica.",
-            "D": "Health check monitora saúde — não protege contra spoofing de DNS."
+            "C": "Health check monitora saúde — não protege contra spoofing de DNS."
           }
         },
         {
@@ -19814,15 +19814,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CNAME → Public hosted zone → Outbound endpoint → Alias"
+              "text": "CNAME → Public hosted zone → Resolver outbound endpoint → Alias record"
             },
             {
               "key": "C",
-              "text": "Private hosted zone → Alias → Health check → Inbound endpoint"
+              "text": "Private hosted zone → Alias → Health check failover → Resolver inbound endpoint"
             },
             {
               "key": "D",
-              "text": "Health check → Inbound endpoint → Alias → Private hosted zone"
+              "text": "Health check failover → Resolver inbound endpoint → Alias → Private hosted zone"
             }
           ],
           "answers": [
@@ -19867,23 +19867,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudFront + S3 (estático) e API Gateway + Lambda + DynamoDB (dinâmico)"
+              "text": "Um único EC2 servindo estático e dinâmico — com Elastic IP vira serverless"
             },
             {
               "key": "B",
-              "text": "Um único EC2 servindo estático e dinâmico"
+              "text": "CloudFront + S3 (estático) e API Gateway + Lambda + DynamoDB (dinâmico)"
             },
             {
               "key": "C",
-              "text": "Só S3 com website estático, sem API"
+              "text": "Só S3 com website estático, sem API — o S3 executa a lógica dinâmica"
             },
             {
               "key": "D",
-              "text": "Só RDS exposto na internet"
+              "text": "Só RDS exposto na internet — o banco serve páginas e API direto ao cliente"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): estático global = CloudFront+S3; API dinâmica serverless = API Gateway + Lambda + DynamoDB.",
@@ -19891,7 +19891,7 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFront na frente do S3 entrega o estático com baixa latência global; API Gateway + Lambda + DynamoDB fornecem a parte dinâmica serverless. É o padrão de site moderno serverless, sem gerenciar servidores.",
           "whyNots": {
-            "B": "Um EC2 único não dá baixa latência global nem é serverless, e vira ponto único de falha.",
+            "A": "Um EC2 único não dá baixa latência global nem é serverless, e vira ponto único de falha.",
             "C": "Só S3 estático não atende a API dinâmica.",
             "D": "Expor RDS na internet é inseguro e não resolve o estático global."
           }
@@ -19916,23 +19916,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon EventBridge (regras por padrão de evento → Lambda/SNS/etc.)"
+              "text": "Um cron em EC2 checando os pedidos — polling frequente vira evento"
             },
             {
               "key": "B",
-              "text": "Uma fila SQS única lida por todos"
+              "text": "Uma fila SQS única lida por todos — cada consumidor filtra sua regra"
             },
             {
               "key": "C",
-              "text": "Chamadas síncronas encadeadas"
+              "text": "Amazon EventBridge (regras por padrão de evento → Lambda/SNS/etc.)"
             },
             {
               "key": "D",
-              "text": "Um cron em EC2"
+              "text": "Chamadas síncronas encadeadas — mais simples e desacoplam igual"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): 'rotear eventos por REGRA/padrão pra alvos diferentes' = EventBridge (barramento de eventos).",
@@ -19940,9 +19940,9 @@ window.AWS_BANK = {
           ],
           "explanation": "EventBridge é o barramento de eventos: regras casam padrões de evento e roteiam pra alvos (Lambda, SNS, SQS, Step Functions). É a base de arquiteturas orientadas a evento, desacoplando o produtor de muitos consumidores com lógicas diferentes.",
           "whyNots": {
+            "A": "Cron em EC2 não é orientado a evento (e tem servidor pra gerenciar).",
             "B": "Uma fila única não roteia por regra/padrão pra alvos distintos.",
-            "C": "Chamadas síncronas encadeadas acoplam os serviços — um lento derruba a cadeia.",
-            "D": "Cron em EC2 não é orientado a evento (e tem servidor pra gerenciar)."
+            "D": "Chamadas síncronas encadeadas acoplam os serviços — um lento derruba a cadeia."
           }
         },
         {
@@ -19964,23 +19964,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS SCT (converte o esquema) + AWS DMS (migra os dados com replicação contínua)"
+              "text": "Apenas um Snowball offline, que converte o esquema do banco durante o transporte"
             },
             {
               "key": "B",
-              "text": "Copiar arquivos com DataSync"
+              "text": "Recriar tabelas e dados manualmente sem ferramenta, único jeito entre engines"
             },
             {
               "key": "C",
-              "text": "Snowball offline apenas"
+              "text": "Copiar os arquivos do banco com o DataSync, que ajusta o dialeto SQL sozinho"
             },
             {
               "key": "D",
-              "text": "Recriar tudo manualmente sem ferramenta"
+              "text": "AWS SCT (converte o esquema) + AWS DMS (migra os dados com replicação contínua)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): engines diferentes = heterogênea = SCT pra converter o esquema + DMS pra migrar os dados (mínimo downtime).",
@@ -19988,9 +19988,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Migração heterogênea (Oracle → Aurora PostgreSQL): primeiro o AWS SCT converte o esquema e o código; depois o DMS migra os dados com replicação contínua (CDC), minimizando o downtime no cutover.",
           "whyNots": {
-            "B": "DataSync transfere arquivos — não migra um banco relacional vivo com conversão.",
-            "C": "Snowball é transporte offline de dados em massa — não converte esquema nem migra banco vivo.",
-            "D": "Recriar manualmente é frágil e demorado; SCT+DMS automatizam."
+            "A": "Snowball é transporte offline de dados em massa — não converte esquema nem migra banco vivo.",
+            "B": "Recriar manualmente é frágil e demorado; SCT+DMS automatizam.",
+            "C": "DataSync transfere arquivos — não migra um banco relacional vivo com conversão."
           }
         },
         {
@@ -20017,15 +20017,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Senha fixa embutida no código"
+              "text": "Bucket S3 público com a senha num arquivo — o versionamento já faz a rotação"
             },
             {
               "key": "C",
-              "text": "Bucket S3 público com a senha"
+              "text": "Senha fixa embutida no código, protegida pela criptografia do volume EBS"
             },
             {
               "key": "D",
-              "text": "Conta root compartilhada"
+              "text": "Conta root compartilhada entre as instâncias — ela já vem com rotação nativa"
             }
           ],
           "answers": [
@@ -20037,8 +20037,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma IAM Role na EC2 dá credenciais temporárias (sem chave embutida) pra a aplicação ler o segredo, e o Secrets Manager guarda e rotaciona automaticamente a senha do RDS (via Lambda). Cobre acesso seguro e rotação.",
           "whyNots": {
-            "B": "Senha embutida no código é o anti-padrão clássico — vaza e não rotaciona.",
-            "C": "Bucket público com a senha é uma falha grave de segurança.",
+            "B": "Bucket público com a senha é uma falha grave de segurança.",
+            "C": "Senha embutida no código é o anti-padrão clássico — vaza e não rotaciona.",
             "D": "Compartilhar a conta root é proibido e perigosíssimo."
           }
         },
@@ -20060,23 +20060,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lifecycle policy: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expirando aos 7 anos"
+              "text": "Apagar os logs aos 30 dias pra economizar, já que a exigência de retenção não vale pra logs antigos"
             },
             {
               "key": "B",
-              "text": "Manter tudo em S3 Standard pra sempre"
+              "text": "Lifecycle policy: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expirando aos 7 anos"
             },
             {
               "key": "C",
-              "text": "Apagar os logs aos 30 dias"
+              "text": "Manter tudo em S3 Standard pra sempre, porque classes de acesso infrequente não aceitam objetos de log"
             },
             {
               "key": "D",
-              "text": "Mover tudo pra EBS"
+              "text": "Mover tudo pra volumes EBS dedicados, que saem mais barato que o S3 pra arquivos raramente lidos"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): acesso decai com o tempo = lifecycle. Quente (Standard) → morno (IA) → arquivo barato (Deep Archive) → expira.",
@@ -20084,8 +20084,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma lifecycle policy automatiza a economia: Standard pros 30 dias quentes, transição pra Standard-IA aos 30 dias, pra Glacier Deep Archive aos 90 dias (arquivo de 7 anos, recuperação em horas aceitável), e expiração ao fim da retenção. Custo mínimo sem trabalho manual.",
           "whyNots": {
-            "B": "Standard pra sempre é o mais caro — desperdício pra dado que esfria.",
-            "C": "Apagar aos 30 dias viola a retenção de 7 anos exigida.",
+            "A": "Apagar aos 30 dias viola a retenção de 7 anos exigida.",
+            "C": "Standard pra sempre é o mais caro — desperdício pra dado que esfria.",
             "D": "EBS é disco de instância — caro e inadequado pra arquivar logs por anos."
           }
         },
@@ -20108,23 +20108,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon S3 File Gateway (Storage Gateway)"
+              "text": "Usar CloudFront pra os arquivos internos"
             },
             {
               "key": "B",
-              "text": "Copiar tudo pro S3 com presigned URLs"
-            },
-            {
-              "key": "C",
               "text": "Montar um EBS no on-premises"
             },
             {
+              "key": "C",
+              "text": "Amazon S3 File Gateway (Storage Gateway)"
+            },
+            {
               "key": "D",
-              "text": "Usar CloudFront pra os arquivos internos"
+              "text": "Copiar tudo pro S3 com presigned URLs"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): file share NFS/SMB local + cache + dados no S3 = S3 File Gateway (um tipo de Storage Gateway).",
@@ -20132,9 +20132,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O S3 File Gateway (Storage Gateway) expõe um file share NFS/SMB local com cache de baixa latência, enquanto persiste os arquivos como objetos no S3. É o acesso híbrido a arquivos clássico.",
           "whyNots": {
-            "B": "Presigned URLs dão acesso temporário a objetos — não é um file share local com cache.",
-            "C": "EBS é disco em bloco de uma instância EC2 — não se monta no on-premises desse jeito.",
-            "D": "CloudFront é CDN de conteúdo na borda — não é file share híbrido."
+            "A": "CloudFront é CDN de conteúdo na borda — não é file share híbrido.",
+            "B": "EBS é disco em bloco de uma instância EC2 — não se monta no on-premises desse jeito.",
+            "D": "Presigned URLs dão acesso temporário a objetos — não é um file share local com cache."
           }
         },
         {
@@ -20157,23 +20157,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Kinesis Data Streams → Lambda (processa) → DynamoDB"
+              "text": "S3 → Athena → QuickSight, tudo em tempo real"
             },
             {
               "key": "B",
-              "text": "S3 → Athena → QuickSight"
+              "text": "RDS → CloudFront, que faz cache da telemetria"
             },
             {
               "key": "C",
-              "text": "RDS → CloudFront"
+              "text": "SQS FIFO → SES, processando o stream por e-mail"
             },
             {
               "key": "D",
-              "text": "SQS FIFO → SES"
+              "text": "Kinesis Data Streams → Lambda (processa) → DynamoDB"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): ingestão em tempo real = Kinesis Data Streams; processar = Lambda; gravar NoSQL rápido = DynamoDB.",
@@ -20181,9 +20181,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Kinesis Data Streams ingere a telemetria em tempo real; uma função Lambda consome o stream (event source mapping) e processa; os resultados vão pro DynamoDB (NoSQL de baixa latência). É o pipeline de processamento em tempo real clássico.",
           "whyNots": {
-            "B": "S3→Athena→QuickSight é analytics em lote/visual — não é processamento em tempo real.",
-            "C": "RDS→CloudFront não é pipeline de ingestão de telemetria em tempo real.",
-            "D": "SQS FIFO→SES é fila + e-mail — não é ingestão de stream em tempo real."
+            "A": "S3→Athena→QuickSight é analytics em lote/visual — não é processamento em tempo real.",
+            "B": "RDS→CloudFront não é pipeline de ingestão de telemetria em tempo real.",
+            "C": "SQS FIFO→SES é fila + e-mail — não é ingestão de stream em tempo real."
           }
         },
         {
@@ -20209,15 +20209,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Configurar cada conta manualmente, uma a uma"
+              "text": "Configurar cada conta manualmente, uma a uma, repetindo o baseline de segurança e rede a cada conta nova"
             },
             {
               "key": "C",
-              "text": "Um único Security Group compartilhado"
+              "text": "Habilitar CloudFront em todas as contas, que já entrega landing zone com guardrails de forma automática"
             },
             {
               "key": "D",
-              "text": "CloudFront em todas as contas"
+              "text": "Um único Security Group compartilhado entre todas as contas, centralizando a governança preventiva e detectiva"
             }
           ],
           "answers": [
@@ -20230,8 +20230,8 @@ window.AWS_BANK = {
           "explanation": "Control Tower monta uma landing zone governada automaticamente sobre o AWS Organizations, aplicando guardrails preventivos (SCPs que bloqueiam ações proibidas, herdados pela OU) e detectivos (Config rules que reportam não-conformidade). Minimiza o esforço manual em escala.",
           "whyNots": {
             "B": "Configurar conta a conta é justamente o trabalho manual que o Control Tower evita.",
-            "C": "Security Group é firewall de instância — não é governança multi-conta.",
-            "D": "CloudFront é CDN — nada a ver com governança de contas."
+            "C": "CloudFront é CDN — nada a ver com governança de contas.",
+            "D": "Security Group é firewall de instância — não é governança multi-conta."
           }
         },
         {
@@ -20254,23 +20254,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudFront (estático) + Global Accelerator (API TCP, IP estático/failover) + Route 53 latency routing"
+              "text": "Só Route 53 com latency routing, sem CloudFront nem Global Accelerator, já resolve cache e IP fixo"
             },
             {
               "key": "B",
-              "text": "Só um ELB numa região"
+              "text": "CloudFront (estático) + Global Accelerator (API TCP, IP estático/failover) + Route 53 latency routing"
             },
             {
               "key": "C",
-              "text": "Só CloudFront pra tudo, inclusive a API TCP com IP estático"
+              "text": "Só CloudFront pra tudo, inclusive a API TCP com IP estático fixo, que ele fornece nativamente"
             },
             {
               "key": "D",
-              "text": "Só Route 53 sem CloudFront nem Global Accelerator"
+              "text": "Só um ELB numa única região, que já entrega failover global e baixa latência pros dois lados"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): estático cacheável = CloudFront; TCP com IP estático/failover = Global Accelerator; menor latência = Route 53 latency.",
@@ -20278,9 +20278,9 @@ window.AWS_BANK = {
           ],
           "explanation": "CloudFront cacheia o conteúdo estático na borda; Global Accelerator dá IP estático anycast e failover regional rápido pra a API TCP; Route 53 com latency routing manda o usuário pra a região de menor latência. Cada peça resolve uma parte.",
           "whyNots": {
-            "B": "Um ELB numa região não dá presença global nem IP estático/failover multi-região.",
+            "A": "Route 53 sozinho roteia DNS, mas não cacheia (CloudFront) nem acelera o transporte (Global Accelerator).",
             "C": "CloudFront é pra HTTP cacheável; a API TCP com IP estático é caso de Global Accelerator.",
-            "D": "Route 53 sozinho roteia DNS, mas não cacheia (CloudFront) nem acelera o transporte (Global Accelerator)."
+            "D": "Um ELB numa região não dá presença global nem IP estático/failover multi-região."
           }
         },
         {
@@ -20303,23 +20303,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Auto Scaling group (multi-AZ, health checks) + ELB + alarmes do CloudWatch"
+              "text": "Uma instância EC2 maior (scale up) apenas — vertical aguenta e se recupera só"
             },
             {
               "key": "B",
-              "text": "Uma instância EC2 maior (scale up) apenas"
+              "text": "Spot única sem balanceador — a AWS repõe a Spot na hora, sem custo extra"
             },
             {
               "key": "C",
-              "text": "Spot única sem balanceador"
+              "text": "Auto Scaling group (multi-AZ, health checks) + ELB + alarmes do CloudWatch"
             },
             {
               "key": "D",
-              "text": "Lambda atrás de CloudFront para tudo"
+              "text": "Lambda atrás de CloudFront para tudo — roda a camada EC2 sem mudar nada nela"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): substituir instância doente + escalar = Auto Scaling group; distribuir = ELB; disparar escala = alarme do CloudWatch.",
@@ -20327,8 +20327,8 @@ window.AWS_BANK = {
           ],
           "explanation": "O Auto Scaling group (em várias AZs, com health checks) substitui instâncias não-saudáveis e ajusta a capacidade; o ELB distribui o tráfego entre as instâncias saudáveis; alarmes do CloudWatch disparam as ações de escala. É o trio clássico de elasticidade e auto-recuperação.",
           "whyNots": {
-            "B": "Scale up de uma instância única não dá auto-recuperação nem distribuição — é ponto único de falha.",
-            "C": "Spot única sem balanceador é frágil e interrompível.",
+            "A": "Scale up de uma instância única não dá auto-recuperação nem distribuição — é ponto único de falha.",
+            "B": "Spot única sem balanceador é frágil e interrompível.",
             "D": "Lambda+CloudFront é serverless; o cenário é uma camada web em EC2 com ASG/ELB."
           }
         }
@@ -20356,11 +20356,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon OpenSearch Service"
+              "text": "Amazon RDS"
             },
             {
               "key": "B",
-              "text": "Amazon RDS"
+              "text": "AWS Budgets"
             },
             {
               "key": "C",
@@ -20368,11 +20368,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Budgets"
+              "text": "Amazon OpenSearch Service"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): análise de logs em tempo real + indexação + dashboards (Kibana) = OpenSearch Service.",
@@ -20380,9 +20380,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon OpenSearch Service é o motor gerenciado de busca e análise, muito usado pra log analytics em tempo real: indexa logs de várias fontes e oferece os OpenSearch Dashboards (ex-Kibana) pra monitorar, visualizar e fazer troubleshooting.",
           "whyNots": {
-            "B": "RDS é banco relacional transacional — não é motor de busca/análise de logs com dashboards.",
-            "C": "Glacier é arquivamento barato — não indexa nem analisa logs em tempo real.",
-            "D": "Budgets é custo — nada a ver com análise de logs."
+            "A": "RDS é banco relacional transacional — não é motor de busca/análise de logs com dashboards.",
+            "B": "Budgets é custo — nada a ver com análise de logs.",
+            "C": "Glacier é arquivamento barato — não indexa nem analisa logs em tempo real."
           }
         },
         {
@@ -20411,11 +20411,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Amazon Athena"
+              "text": "Amazon CloudFront"
             },
             {
               "key": "D",
-              "text": "Amazon CloudFront"
+              "text": "Amazon Athena"
             }
           ],
           "answers": [
@@ -20428,8 +20428,8 @@ window.AWS_BANK = {
           "explanation": "OpenSearch Service é otimizado pra busca full-text: indexa o catálogo e responde consultas por palavras com relevância, sugestões e filtros — o caso clássico de busca de e-commerce e de conteúdo/documentos.",
           "whyNots": {
             "B": "DynamoDB é NoSQL chave-valor de baixa latência — não faz busca textual por relevância.",
-            "C": "Athena é SQL ad-hoc sobre S3 (batch) — não é motor de busca full-text interativo.",
-            "D": "CloudFront é CDN — não indexa nem busca catálogo."
+            "C": "CloudFront é CDN — não indexa nem busca catálogo.",
+            "D": "Athena é SQL ad-hoc sobre S3 (batch) — não é motor de busca full-text interativo."
           }
         },
         {
@@ -20451,23 +20451,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Data Firehose (entrega no OpenSearch)"
+              "text": "Amazon Lightsail (VPS com pipeline nativo)"
             },
             {
               "key": "B",
-              "text": "Amazon SQS"
+              "text": "Amazon Data Firehose (entrega no OpenSearch)"
             },
             {
               "key": "C",
-              "text": "AWS Budgets"
+              "text": "Amazon SQS (fila que despeja no cluster)"
             },
             {
               "key": "D",
-              "text": "Amazon Lightsail"
+              "text": "AWS Budgets (monitora e entrega os logs)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): entregar streaming gerenciado, sem código, num destino (S3, Redshift, OpenSearch) = Data Firehose.",
@@ -20475,9 +20475,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Data Firehose entrega streaming de forma gerenciada e sem código pra destinos como S3, Redshift e OpenSearch. É o jeito comum de ingerir logs near-real-time num cluster OpenSearch.",
           "whyNots": {
-            "B": "SQS é fila de mensagens entre sistemas — não é o pipeline de entrega pro OpenSearch.",
-            "C": "Budgets é custo — não ingere dados.",
-            "D": "Lightsail é VPS — não é pipeline de ingestão."
+            "A": "Lightsail é VPS — não é pipeline de ingestão.",
+            "C": "SQS é fila de mensagens entre sistemas — não é o pipeline de entrega pro OpenSearch.",
+            "D": "Budgets é custo — não ingere dados."
           }
         },
         {
@@ -20500,23 +20500,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "OpenSearch → CloudWatch Logs Insights → Athena"
-            },
-            {
-              "key": "B",
               "text": "Athena → OpenSearch → CloudWatch Logs Insights"
             },
             {
+              "key": "B",
+              "text": "OpenSearch → Athena → CloudWatch Logs Insights"
+            },
+            {
               "key": "C",
-              "text": "CloudWatch Logs Insights → Athena → OpenSearch"
+              "text": "OpenSearch → CloudWatch Logs Insights → Athena"
             },
             {
               "key": "D",
-              "text": "OpenSearch → Athena → CloudWatch Logs Insights"
+              "text": "CloudWatch Logs Insights → Athena → OpenSearch"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): indexar/buscar/dashboards = OpenSearch; investigar logs do CloudWatch = Logs Insights; SQL no S3 = Athena.",
@@ -20524,9 +20524,9 @@ window.AWS_BANK = {
           ],
           "explanation": "OpenSearch indexa e visualiza logs em tempo real com dashboards; CloudWatch Logs Insights consulta interativamente os logs do CloudWatch; Athena roda SQL ad-hoc sobre logs no S3 (data lake). A opção A respeita os três.",
           "whyNots": {
-            "B": "Começa com Athena pra dashboards em tempo real — errado; isso é OpenSearch.",
-            "C": "Coloca Logs Insights pra dashboards de busca textual — não é o foco dele.",
-            "D": "Troca Athena com Logs Insights nas duas últimas posições."
+            "A": "Começa com Athena pra dashboards em tempo real — errado; isso é OpenSearch.",
+            "B": "Troca Athena com Logs Insights nas duas últimas posições.",
+            "D": "Coloca Logs Insights pra dashboards de busca textual — não é o foco dele."
           }
         },
         {
@@ -20547,11 +20547,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon AppFlow"
+              "text": "AWS Glue (escrevendo scripts)"
             },
             {
               "key": "B",
-              "text": "AWS Glue (escrevendo scripts)"
+              "text": "Amazon EC2 com um script próprio"
             },
             {
               "key": "C",
@@ -20559,11 +20559,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon EC2 com um script próprio"
+              "text": "Amazon AppFlow"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): mover dados de um SaaS (Salesforce) pra AWS, no-code, em cliques = Amazon AppFlow.",
@@ -20571,9 +20571,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon AppFlow é o serviço gerenciado no-code pra transferir dados com segurança entre apps SaaS (Salesforce, SAP, ServiceNow...) e serviços AWS (S3, Redshift), com agendamento, transformação e criptografia em trânsito — tudo em poucos cliques.",
           "whyNots": {
-            "B": "Glue é ETL serverless geral (com scripts) — o pedido é integração SaaS no-code, que é o AppFlow.",
-            "C": "SQS é fila de mensagens — não é conector SaaS.",
-            "D": "Script em EC2 é justamente o código/manutenção que o AppFlow evita."
+            "A": "Glue é ETL serverless geral (com scripts) — o pedido é integração SaaS no-code, que é o AppFlow.",
+            "B": "Script em EC2 é justamente o código/manutenção que o AppFlow evita.",
+            "C": "SQS é fila de mensagens — não é conector SaaS."
           }
         },
         {
@@ -20599,11 +20599,11 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "(1) AWS Glue; (2) Amazon AppFlow"
+              "text": "(1) Amazon Athena; (2) Amazon AppFlow"
             },
             {
               "key": "C",
-              "text": "(1) Amazon Athena; (2) Amazon AppFlow"
+              "text": "(1) AWS Glue; (2) Amazon AppFlow"
             },
             {
               "key": "D",
@@ -20619,8 +20619,8 @@ window.AWS_BANK = {
           ],
           "explanation": "AppFlow é especializado em integração SaaS no-code (Salesforce → AWS). Glue é o ETL serverless geral (Apache Spark) com Data Catalog, pra transformar dados de várias fontes. A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — conector SaaS no-code é AppFlow; ETL geral é Glue.",
-            "C": "Athena é consulta SQL — não é o conector SaaS nem o ETL geral.",
+            "B": "Athena é consulta SQL — não é o conector SaaS nem o ETL geral.",
+            "C": "Inverte — conector SaaS no-code é AppFlow; ETL geral é Glue.",
             "D": "Coloca Athena como ETL geral — o ETL é o Glue."
           }
         },
@@ -20643,23 +20643,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon OpenSearch Service (indexando os dados pra busca)"
+              "text": "Amazon RDS — o LIKE do SQL já entrega busca por relevância"
             },
             {
               "key": "B",
-              "text": "Amazon RDS"
+              "text": "Amazon OpenSearch Service (indexando os dados pra busca)"
             },
             {
               "key": "C",
-              "text": "Amazon CloudFront"
+              "text": "Amazon CloudFront — o cache dele também indexa o conteúdo"
             },
             {
               "key": "D",
-              "text": "Amazon SQS"
+              "text": "Amazon SQS — a fila faz varredura textual das mensagens"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): DynamoDB é rápido por chave, mas NÃO faz busca textual — pra isso, indexe no OpenSearch.",
@@ -20667,7 +20667,7 @@ window.AWS_BANK = {
           ],
           "explanation": "DynamoDB é excelente em acesso por chave, mas não faz busca full-text por relevância. O padrão é indexar os dados no OpenSearch Service (ex.: via streams) pra oferecer a busca textual avançada que o app precisa.",
           "whyNots": {
-            "B": "RDS é relacional — não é motor de busca full-text otimizado.",
+            "A": "RDS é relacional — não é motor de busca full-text otimizado.",
             "C": "CloudFront é CDN — não indexa nem busca.",
             "D": "SQS é fila — não faz busca."
           }
@@ -20690,7 +20690,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "OpenSearch Dashboards (ex-Kibana)"
+              "text": "Amazon Lightsail"
             },
             {
               "key": "B",
@@ -20698,15 +20698,15 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "AWS CloudTrail"
+              "text": "OpenSearch Dashboards (ex-Kibana)"
             },
             {
               "key": "D",
-              "text": "Amazon Lightsail"
+              "text": "AWS CloudTrail"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): painéis/visualizações em cima do OpenSearch = OpenSearch Dashboards (o antigo Kibana).",
@@ -20714,9 +20714,9 @@ window.AWS_BANK = {
           ],
           "explanation": "OpenSearch Dashboards (ex-Kibana) é a camada de visualização do OpenSearch Service: gráficos, filtros e dashboards interativos pra monitorar e explorar os dados/logs indexados.",
           "whyNots": {
+            "A": "Lightsail é VPS — não é a camada de dashboards.",
             "B": "Polly é texto-em-fala — não é visualização de logs.",
-            "C": "CloudTrail audita API — não é dashboard de logs do OpenSearch.",
-            "D": "Lightsail é VPS — não é a camada de dashboards."
+            "D": "CloudTrail audita API — não é dashboard de logs do OpenSearch."
           }
         },
         {
@@ -20737,23 +20737,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Integração via AWS PrivateLink + criptografia em trânsito"
+              "text": "Expor o fluxo num bucket S3 público com HTTPS habilitado"
             },
             {
               "key": "B",
-              "text": "Expor o fluxo num bucket S3 público"
+              "text": "Usar a conta root pra o fluxo, que já é a mais segura"
             },
             {
               "key": "C",
-              "text": "Desligar a criptografia pra ir mais rápido"
+              "text": "Desligar a criptografia pra ir mais rápido na rede privada"
             },
             {
               "key": "D",
-              "text": "Usar a conta root pra o fluxo"
+              "text": "Integração via AWS PrivateLink + criptografia em trânsito"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): tráfego fora da internet pública = PrivateLink; AppFlow criptografa em trânsito por padrão.",
@@ -20761,9 +20761,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O AppFlow criptografa os dados em trânsito e, pra apps SaaS integrados com AWS PrivateLink, permite que o tráfego não passe pela internet pública — reduzindo a exposição. Atende o requisito de segurança do enunciado.",
           "whyNots": {
-            "B": "Bucket público é o oposto de privado/seguro.",
-            "C": "Desligar criptografia viola o requisito de segurança.",
-            "D": "Usar a root é proibido e perigoso."
+            "A": "Bucket público é o oposto de privado/seguro.",
+            "B": "Usar a root é proibido e perigoso.",
+            "C": "Desligar criptografia viola o requisito de segurança."
           }
         },
         {
@@ -20841,23 +20841,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Transfer Family"
-            },
-            {
-              "key": "B",
-              "text": "AWS DataSync"
-            },
-            {
-              "key": "C",
               "text": "Amazon CloudFront"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "AWS Transfer Family"
+            },
+            {
+              "key": "C",
               "text": "AWS Snowball"
+            },
+            {
+              "key": "D",
+              "text": "AWS DataSync"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): endpoint SFTP/FTPS GERENCIADO → S3/EFS pra troca com parceiros = AWS Transfer Family.",
@@ -20865,9 +20865,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Transfer Family oferece transferência totalmente gerenciada sobre SFTP, FTPS, FTP e AS2, direto pra/de S3 ou EFS. É ideal pra trocar arquivos com parceiros via SFTP sem manter servidores SFTP próprios.",
           "whyNots": {
-            "B": "DataSync é pra migração/cópia em massa entre storages — não é um endpoint SFTP pra parceiros.",
-            "C": "CloudFront é CDN — não é transferência SFTP.",
-            "D": "Snowball é transporte físico offline — não é endpoint SFTP gerenciado."
+            "A": "CloudFront é CDN — não é transferência SFTP.",
+            "C": "Snowball é transporte físico offline — não é endpoint SFTP gerenciado.",
+            "D": "DataSync é pra migração/cópia em massa entre storages — não é um endpoint SFTP pra parceiros."
           }
         },
         {
@@ -20889,23 +20889,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) AWS Transfer Family; (2) AWS DataSync"
+              "text": "(1) DataSync; (2) Storage Gateway"
             },
             {
               "key": "B",
-              "text": "(1) AWS DataSync; (2) AWS Transfer Family"
-            },
-            {
-              "key": "C",
               "text": "(1) Snowball; (2) Transfer Family"
             },
             {
+              "key": "C",
+              "text": "(1) AWS Transfer Family; (2) AWS DataSync"
+            },
+            {
               "key": "D",
-              "text": "(1) DataSync; (2) Storage Gateway"
+              "text": "(1) AWS DataSync; (2) AWS Transfer Family"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): SFTP pra parceiros = Transfer Family; migração em massa NFS/SMB = DataSync.",
@@ -20913,9 +20913,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Transfer Family expõe o endpoint de protocolo padrão (SFTP) pra parceiros enviarem arquivos ao S3. DataSync faz a migração/cópia em massa entre sistemas de armazenamento (NFS/SMB → S3/EFS/FSx) com verificação de integridade. A opção A está correta.",
           "whyNots": {
-            "B": "Inverte — SFTP de parceiro é Transfer Family; migração em massa é DataSync.",
-            "C": "Snowball é offline; o cenário 1 é SFTP online (Transfer Family).",
-            "D": "Storage Gateway é acesso híbrido contínuo — não é a migração em massa pedida em (2)."
+            "A": "Storage Gateway é acesso híbrido contínuo — não é a migração em massa pedida em (2).",
+            "B": "Snowball é offline; o cenário 1 é SFTP online (Transfer Family).",
+            "D": "Inverte — SFTP de parceiro é Transfer Family; migração em massa é DataSync."
           }
         },
         {
@@ -20936,23 +20936,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS DataSync"
-            },
-            {
-              "key": "B",
-              "text": "AWS Transfer Family"
-            },
-            {
-              "key": "C",
               "text": "Amazon SES"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "AWS Budgets"
+            },
+            {
+              "key": "C",
+              "text": "AWS Transfer Family"
+            },
+            {
+              "key": "D",
+              "text": "AWS DataSync"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): migração/cópia automatizada em massa entre storages (SMB → FSx) com retry/banda = DataSync.",
@@ -20960,9 +20960,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DataSync automatiza a transferência em massa entre sistemas de armazenamento (incluindo SMB → FSx), com verificação de integridade, retry e controle de banda. É a escolha pra cópia recorrente de grandes volumes.",
           "whyNots": {
-            "B": "Transfer Family é endpoint SFTP/FTPS pra troca de arquivos — não a migração em massa SMB→FSx.",
-            "C": "SES é e-mail — nada a ver com transferência de arquivos.",
-            "D": "Budgets é custo — não transfere dados."
+            "A": "SES é e-mail — nada a ver com transferência de arquivos.",
+            "B": "Budgets é custo — não transfere dados.",
+            "C": "Transfer Family é endpoint SFTP/FTPS pra troca de arquivos — não a migração em massa SMB→FSx."
           }
         },
         {
@@ -20987,15 +20987,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Backup apenas"
+              "text": "Amazon Lightsail (VPS com DR contínuo)"
             },
             {
               "key": "C",
-              "text": "AWS Transfer Family"
+              "text": "AWS Transfer Family (replica servidores)"
             },
             {
               "key": "D",
-              "text": "Amazon Lightsail"
+              "text": "AWS Backup apenas, com RPO de segundos"
             }
           ],
           "answers": [
@@ -21007,9 +21007,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Elastic Disaster Recovery (DRS) replica continuamente (nível de bloco) servidores on-premises/cloud pra uma área de staging de baixo custo na AWS, permitindo lançar as máquinas totalmente provisionadas em minutos no desastre — com RPO de segundos e RTO de minutos. Suporta failback.",
           "whyNots": {
-            "B": "AWS Backup faz backup/restore de dados (RPO/RTO maiores, reimplantar infra) — não a replicação contínua de servidores com failover rápido.",
+            "B": "Lightsail é VPS — não é serviço de DR.",
             "C": "Transfer Family é transferência de arquivos SFTP — não DR de servidores.",
-            "D": "Lightsail é VPS — não é serviço de DR."
+            "D": "AWS Backup faz backup/restore de dados (RPO/RTO maiores, reimplantar infra) — não a replicação contínua de servidores com failover rápido."
           }
         },
         {
@@ -21031,23 +21031,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) Application Migration Service (MGN); (2) Elastic Disaster Recovery (DRS)"
+              "text": "(1) Elastic Disaster Recovery (DRS); (2) Application Migration Service (MGN)"
             },
             {
               "key": "B",
-              "text": "(1) DRS; (2) MGN"
+              "text": "(1) Application Migration Service (MGN); (2) Elastic Disaster Recovery (DRS)"
             },
             {
               "key": "C",
-              "text": "(1) AWS Backup; (2) MGN"
+              "text": "(1) AWS DataSync (cópia entre storages); (2) Elastic Disaster Recovery (DRS)"
             },
             {
               "key": "D",
-              "text": "(1) DataSync; (2) DRS"
+              "text": "(1) AWS Backup (backups centralizados); (2) Application Migration Service (MGN)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): migrar de vez (uma vez) = MGN; DR contínuo pra failover = DRS.",
@@ -21055,9 +21055,9 @@ window.AWS_BANK = {
           ],
           "explanation": "MGN (Application Migration Service) faz a migração lift-and-shift de servidores pra EC2 (uma vez, no cutover). DRS (Elastic Disaster Recovery) mantém os servidores replicados continuamente pra failover rápido no desastre. A opção A faz a associação correta.",
           "whyNots": {
-            "B": "Inverte — migrar de vez é MGN; DR contínuo é DRS.",
-            "C": "Backup é cópia de dados pra restaurar — não é a migração lift-and-shift de (1).",
-            "D": "DataSync é cópia de arquivos — não migra servidores inteiros."
+            "A": "Inverte — migrar de vez é MGN; DR contínuo é DRS.",
+            "C": "DataSync é cópia de arquivos — não migra servidores inteiros.",
+            "D": "Backup é cópia de dados pra restaurar — não é a migração lift-and-shift de (1)."
           }
         },
         {
@@ -21079,23 +21079,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Elastic Disaster Recovery (replicação contínua + infra pronta automaticamente)"
+              "text": "Snapshots semanais dos volumes, restaurados na hora em caso de desastre"
             },
             {
               "key": "B",
-              "text": "AWS Backup com restauração manual da infra"
+              "text": "AWS Backup com restauração manual da infra, que garante RPO de poucos segundos"
             },
             {
               "key": "C",
-              "text": "Snapshots semanais"
+              "text": "AWS Elastic Disaster Recovery (replicação contínua + infra pronta automaticamente)"
             },
             {
               "key": "D",
-              "text": "Não há como atingir RPO de segundos"
+              "text": "Não há como atingir RPO de segundos na AWS; o mínimo possível é de algumas horas"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): RPO seg + RTO min + infra pronta sem reimplantar = DRS (replicação contínua).",
@@ -21103,8 +21103,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Pra RPO de segundos e RTO de minutos sem reimplantar a infraestrutura, o DRS é a escolha: replica os servidores continuamente e deixa a infra pronta pra subir automaticamente. Backup/restore tem RPO/RTO maiores e exige reimplantação manual.",
           "whyNots": {
+            "A": "Snapshots semanais têm RPO de dias — longe de segundos.",
             "B": "Backup com restore manual não atinge RPO de segundos nem evita reimplantar a infra.",
-            "C": "Snapshots semanais têm RPO de dias — longe de segundos.",
             "D": "É possível, sim — com DRS (replicação contínua)."
           }
         },
@@ -21126,23 +21126,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Transfer Family (suporta SFTP, FTPS, FTP e AS2)"
+              "text": "Amazon Athena, que recebe os arquivos via SQL"
             },
             {
               "key": "B",
-              "text": "AWS DataSync"
+              "text": "AWS DataSync, que expõe um endpoint AS2 nativo"
             },
             {
               "key": "C",
-              "text": "Amazon SNS"
+              "text": "Amazon SNS, mandando os arquivos como notificação"
             },
             {
               "key": "D",
-              "text": "Amazon Athena"
+              "text": "AWS Transfer Family (suporta SFTP, FTPS, FTP e AS2)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): além de SFTP/FTPS/FTP, o Transfer Family também suporta AS2 (troca B2B/EDI) → S3.",
@@ -21150,9 +21150,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Transfer Family suporta os protocolos padrão SFTP, FTPS, FTP e também AS2 (usado em troca B2B/EDI), entregando os arquivos no S3/EFS de forma gerenciada. É o serviço certo pra esse caso.",
           "whyNots": {
+            "A": "Athena é consulta SQL — nada a ver com AS2.",
             "B": "DataSync é migração/cópia entre storages — não é endpoint de protocolo AS2.",
-            "C": "SNS é notificação pub/sub — não transfere arquivos por AS2.",
-            "D": "Athena é consulta SQL — nada a ver com AS2."
+            "C": "SNS é notificação pub/sub — não transfere arquivos por AS2."
           }
         },
         {
@@ -21177,15 +21177,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Transfer Family"
+              "text": "Transfer Family, que replica os servidores via SFTP"
             },
             {
               "key": "C",
-              "text": "Glacier Deep Archive"
+              "text": "Glacier Deep Archive, que restaura as cargas na origem"
             },
             {
               "key": "D",
-              "text": "CloudFront"
+              "text": "CloudFront, que redireciona as cargas de volta pra origem"
             }
           ],
           "answers": [
@@ -21221,23 +21221,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Transfer Family entregando em Amazon EFS"
-            },
-            {
-              "key": "B",
               "text": "DataSync entregando em DynamoDB"
             },
             {
+              "key": "B",
+              "text": "AWS Transfer Family entregando em Amazon EFS"
+            },
+            {
               "key": "C",
-              "text": "Transfer Family entregando em Glacier"
+              "text": "SNS entregando em EFS"
             },
             {
               "key": "D",
-              "text": "SNS entregando em EFS"
+              "text": "Transfer Family entregando em Glacier"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): SFTP gerenciado (Transfer Family) pode entregar tanto no S3 quanto no EFS (file system Linux compartilhado).",
@@ -21245,9 +21245,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Transfer Family entrega arquivos recebidos por SFTP diretamente no Amazon EFS, que é o file system NFS compartilhado entre várias instâncias Linux — atendendo o fluxo legado dos parceiros.",
           "whyNots": {
-            "B": "DataSync não é endpoint SFTP, e DynamoDB não é file system compartilhado.",
-            "C": "Glacier é arquivamento, não um file system NFS compartilhado de acesso ativo.",
-            "D": "SNS é notificação — não recebe SFTP nem grava no EFS."
+            "A": "DataSync não é endpoint SFTP, e DynamoDB não é file system compartilhado.",
+            "C": "SNS é notificação — não recebe SFTP nem grava no EFS.",
+            "D": "Glacier é arquivamento, não um file system NFS compartilhado de acesso ativo."
           }
         },
         {
@@ -21271,23 +21271,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Transfer Family → DataSync → Elastic Disaster Recovery → Application Migration Service"
+              "text": "DRS → MGN → Transfer Family → DataSync, casando cada serviço com o requisito da vez"
             },
             {
               "key": "B",
-              "text": "DataSync → Transfer Family → MGN → DRS"
+              "text": "DataSync → Transfer Family → MGN → DRS, na ordem em que os cenários aparecem"
             },
             {
               "key": "C",
-              "text": "Transfer Family → DataSync → MGN → DRS"
+              "text": "Transfer Family → DataSync → Elastic Disaster Recovery → Application Migration Service"
             },
             {
               "key": "D",
-              "text": "DRS → MGN → Transfer Family → DataSync"
+              "text": "Transfer Family → DataSync → MGN → DRS, fechando com a migração contínua de servidores"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): SFTP parceiros = Transfer Family; migração em massa = DataSync; DR contínuo = DRS; lift-and-shift = MGN.",
@@ -21295,9 +21295,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: Transfer Family (endpoint SFTP gerenciado), DataSync (migração em massa entre storages), Elastic Disaster Recovery/DRS (DR contínuo de servidores) e Application Migration Service/MGN (lift-and-shift). A opção A respeita os quatro.",
           "whyNots": {
+            "A": "Inverte completamente; nenhuma posição bate com a função certa.",
             "B": "Troca Transfer Family com DataSync e MGN com DRS.",
-            "C": "Troca DRS com MGN nas duas últimas posições (DR contínuo é DRS; lift-and-shift é MGN).",
-            "D": "Inverte completamente; nenhuma posição bate com a função certa."
+            "D": "Troca DRS com MGN nas duas últimas posições (DR contínuo é DRS; lift-and-shift é MGN)."
           }
         }
       ]
@@ -21324,23 +21324,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Artifact"
+              "text": "Amazon Inspector"
             },
             {
               "key": "B",
-              "text": "AWS Audit Manager"
-            },
-            {
-              "key": "C",
               "text": "AWS CloudTrail"
             },
             {
+              "key": "C",
+              "text": "AWS Audit Manager"
+            },
+            {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "AWS Artifact"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): baixar os relatórios de conformidade DA AWS (SOC, PCI, ISO) = AWS Artifact (portal self-service).",
@@ -21348,9 +21348,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Artifact é o portal self-service pra baixar os relatórios de conformidade da própria AWS (SOC 1/2/3, PCI DSS, ISO) e acordos legais. Comprova que a infraestrutura da AWS atende aos padrões — pra entregar a auditores/clientes.",
           "whyNots": {
-            "B": "Audit Manager audita o SEU ambiente — não fornece os relatórios da AWS.",
-            "C": "CloudTrail audita chamadas de API — não é o repositório dos relatórios da AWS.",
-            "D": "Inspector escaneia vulnerabilidades — não fornece relatórios de compliance da AWS."
+            "A": "Inspector escaneia vulnerabilidades — não fornece relatórios de compliance da AWS.",
+            "B": "CloudTrail audita chamadas de API — não é o repositório dos relatórios da AWS.",
+            "C": "Audit Manager audita o SEU ambiente — não fornece os relatórios da AWS."
           }
         },
         {
@@ -21375,7 +21375,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Artifact"
+              "text": "Amazon Athena"
             },
             {
               "key": "C",
@@ -21383,7 +21383,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Athena"
+              "text": "AWS Artifact"
             }
           ],
           "answers": [
@@ -21395,9 +21395,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Audit Manager audita continuamente o seu uso da AWS e automatiza a coleta de evidências contra frameworks (SOC 2, PCI DSS, GDPR, HIPAA), avaliando se os seus controles estão efetivos. É sobre a conformidade da SUA carga na AWS.",
           "whyNots": {
-            "B": "Artifact fornece os relatórios da própria AWS — não coleta evidência do seu ambiente.",
+            "B": "Athena é consulta SQL — não é gestão de evidência de auditoria.",
             "C": "Macie descobre dados sensíveis no S3 — não automatiza evidência de auditoria de frameworks.",
-            "D": "Athena é consulta SQL — não é gestão de evidência de auditoria."
+            "D": "Artifact fornece os relatórios da própria AWS — não coleta evidência do seu ambiente."
           }
         },
         {
@@ -21419,23 +21419,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "(1) AWS Artifact; (2) AWS Audit Manager"
+              "text": "(1) Inspector; (2) Artifact"
             },
             {
               "key": "B",
-              "text": "(1) AWS Audit Manager; (2) AWS Artifact"
+              "text": "(1) AWS Artifact; (2) AWS Audit Manager"
             },
             {
               "key": "C",
-              "text": "(1) CloudTrail; (2) Config"
+              "text": "(1) AWS Audit Manager; (2) AWS Artifact"
             },
             {
               "key": "D",
-              "text": "(1) Inspector; (2) Artifact"
+              "text": "(1) CloudTrail; (2) Config"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): conformidade DA AWS = Artifact; conformidade do SEU ambiente (evidência automática) = Audit Manager.",
@@ -21443,9 +21443,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Artifact fornece os relatórios de conformidade da própria AWS (provar que a infraestrutura da AWS é compatível). AWS Audit Manager coleta evidências automaticamente sobre o seu ambiente (provar a SUA conformidade). A opção A está correta.",
           "whyNots": {
-            "B": "Inverte — DA AWS é Artifact; do SEU ambiente é Audit Manager.",
-            "C": "CloudTrail/Config são auditoria de API/configuração — não são os relatórios da AWS nem a coleta de evidência de frameworks.",
-            "D": "Inspector é vulnerabilidade — não é o relatório da AWS."
+            "A": "Inspector é vulnerabilidade — não é o relatório da AWS.",
+            "C": "Inverte — DA AWS é Artifact; do SEU ambiente é Audit Manager.",
+            "D": "CloudTrail/Config são auditoria de API/configuração — não são os relatórios da AWS nem a coleta de evidência de frameworks."
           }
         },
         {
@@ -21467,23 +21467,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "IAM Access Analyzer"
-            },
-            {
-              "key": "B",
               "text": "AWS Artifact"
             },
             {
+              "key": "B",
+              "text": "AWS Budgets"
+            },
+            {
               "key": "C",
-              "text": "Amazon CloudFront"
+              "text": "IAM Access Analyzer"
             },
             {
               "key": "D",
-              "text": "AWS Budgets"
+              "text": "Amazon CloudFront"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): achar recurso compartilhado com entidade EXTERNA (não intencional) = IAM Access Analyzer.",
@@ -21491,9 +21491,9 @@ window.AWS_BANK = {
           ],
           "explanation": "IAM Access Analyzer usa raciocínio baseado em lógica pra analisar as políticas baseadas em recurso e identificar buckets S3, roles, chaves KMS e outros compartilhados com entidades externas, gerando findings de acesso não intencional pra você revisar.",
           "whyNots": {
-            "B": "Artifact baixa relatórios da AWS — não analisa acesso aos seus recursos.",
-            "C": "CloudFront é CDN — não analisa acesso/policies.",
-            "D": "Budgets é custo — não tem a ver com análise de acesso."
+            "A": "Artifact baixa relatórios da AWS — não analisa acesso aos seus recursos.",
+            "B": "Budgets é custo — não tem a ver com análise de acesso.",
+            "D": "CloudFront é CDN — não analisa acesso/policies."
           }
         },
         {
@@ -21514,23 +21514,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Validação/preview de políticas (policy validation)"
+              "text": "Coleta de evidência de framework de compliance"
             },
             {
               "key": "B",
-              "text": "Download de relatório SOC"
+              "text": "Download de relatório SOC direto no Analyzer"
             },
             {
               "key": "C",
-              "text": "Coleta de evidência de framework"
+              "text": "Criação de fila SQS pra receber os findings"
             },
             {
               "key": "D",
-              "text": "Criação de fila SQS"
+              "text": "Validação/preview de políticas (policy validation)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): pré-visualizar o efeito da policy no acesso público/cross-account ANTES de aplicar = policy validation/preview do Access Analyzer.",
@@ -21538,9 +21538,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O IAM Access Analyzer oferece validação e preview de políticas: você vê como uma policy afetaria o acesso público e cross-account ao recurso antes de aplicá-la, prevenindo exposição acidental. Também faz análise de acesso interno (menor privilégio).",
           "whyNots": {
+            "A": "Coleta de evidência de framework é o Audit Manager.",
             "B": "Download de SOC é o Artifact — não o Access Analyzer.",
-            "C": "Coleta de evidência de framework é o Audit Manager.",
-            "D": "Criar fila SQS não tem a ver com validação de policy."
+            "C": "Criar fila SQS não tem a ver com validação de policy."
           }
         },
         {
@@ -21567,7 +21567,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Config → IAM Access Analyzer → CloudTrail"
+              "text": "IAM Access Analyzer → CloudTrail → Config"
             },
             {
               "key": "C",
@@ -21575,7 +21575,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "IAM Access Analyzer → CloudTrail → Config"
+              "text": "AWS Config → IAM Access Analyzer → CloudTrail"
             }
           ],
           "answers": [
@@ -21587,9 +21587,9 @@ window.AWS_BANK = {
           ],
           "explanation": "IAM Access Analyzer identifica acesso externo/não intencional; AWS Config avalia se a configuração está conforme; CloudTrail registra quem chamou a API. A opção A respeita os três papéis.",
           "whyNots": {
-            "B": "Começa com Config pra acesso externo — isso é Access Analyzer.",
+            "B": "Troca CloudTrail com Config nas duas últimas posições.",
             "C": "Coloca CloudTrail pra acesso externo — embaralhado.",
-            "D": "Troca CloudTrail com Config nas duas últimas posições."
+            "D": "Começa com Config pra acesso externo — isso é Access Analyzer."
           }
         },
         {
@@ -21610,23 +21610,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Artifact (relatórios e acordos, como BAA)"
+              "text": "AWS WAF (aba de acordos legais e BAA)"
             },
             {
               "key": "B",
-              "text": "AWS Audit Manager"
+              "text": "AWS Artifact (relatórios e acordos, como BAA)"
             },
             {
               "key": "C",
-              "text": "Amazon GuardDuty"
+              "text": "AWS Audit Manager (assina o BAA com a AWS)"
             },
             {
               "key": "D",
-              "text": "AWS WAF"
+              "text": "Amazon GuardDuty (portal de compliance)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): além dos relatórios (SOC/PCI), o Artifact gerencia ACORDOS legais com a AWS, como o BAA.",
@@ -21634,9 +21634,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Artifact, além dos relatórios de conformidade, permite revisar, aceitar e gerenciar acordos legais com a AWS, como o BAA (para HIPAA) e o NDA. É o portal central desses documentos.",
           "whyNots": {
-            "B": "Audit Manager coleta evidência do seu ambiente — não gerencia o BAA com a AWS.",
-            "C": "GuardDuty detecta ameaças — não é o portal de acordos.",
-            "D": "WAF é firewall de aplicação — nada a ver com acordos legais."
+            "A": "WAF é firewall de aplicação — nada a ver com acordos legais.",
+            "C": "Audit Manager coleta evidência do seu ambiente — não gerencia o BAA com a AWS.",
+            "D": "GuardDuty detecta ameaças — não é o portal de acordos."
           }
         },
         {
@@ -21657,23 +21657,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Análise de acesso interno (internal access analysis)"
+              "text": "Criar uma distribuição CloudFront pra listar acessos"
             },
             {
               "key": "B",
-              "text": "Download de relatório PCI"
+              "text": "Rotação de segredo, que revela quem usa cada recurso"
             },
             {
               "key": "C",
-              "text": "Criar uma distribuição CloudFront"
+              "text": "Análise de acesso interno (internal access analysis)"
             },
             {
               "key": "D",
-              "text": "Rotação de segredo"
+              "text": "Download de relatório PCI com a lista de principals"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): além do acesso externo, o Access Analyzer faz análise INTERNA — quais principals da org acessam os recursos críticos.",
@@ -21681,9 +21681,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O IAM Access Analyzer também faz análise de acesso interno: identifica quais principals dentro da organização/conta têm acesso a recursos críticos, apoiando o princípio do menor privilégio.",
           "whyNots": {
-            "B": "Relatório PCI é o Artifact — não o Access Analyzer.",
-            "C": "CloudFront é CDN — não analisa acesso interno.",
-            "D": "Rotação de segredo é Secrets Manager — não é a análise de acesso."
+            "A": "CloudFront é CDN — não analisa acesso interno.",
+            "B": "Rotação de segredo é Secrets Manager — não é a análise de acesso.",
+            "D": "Relatório PCI é o Artifact — não o Access Analyzer."
           }
         },
         {
@@ -21704,11 +21704,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Audit Manager"
+              "text": "AWS Artifact"
             },
             {
               "key": "B",
-              "text": "AWS Artifact"
+              "text": "AWS Lambda"
             },
             {
               "key": "C",
@@ -21716,11 +21716,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS Lambda"
+              "text": "AWS Audit Manager"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): frameworks pré-construídos (PCI, SOC2...) + coleta automática de evidência = Audit Manager.",
@@ -21728,9 +21728,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AWS Audit Manager oferece frameworks pré-construídos (PCI DSS, SOC 2, GDPR, etc.) que mapeiam controles e automatizam a coleta de evidências do seu ambiente AWS, acelerando as auditorias.",
           "whyNots": {
-            "B": "Artifact fornece os relatórios da AWS — não frameworks de coleta de evidência do seu ambiente.",
-            "C": "QuickSight é BI — não é auditoria de conformidade.",
-            "D": "Lambda é função serverless — não é o serviço de frameworks de auditoria."
+            "A": "Artifact fornece os relatórios da AWS — não frameworks de coleta de evidência do seu ambiente.",
+            "B": "Lambda é função serverless — não é o serviço de frameworks de auditoria.",
+            "C": "QuickSight é BI — não é auditoria de conformidade."
           }
         },
         {
@@ -21757,15 +21757,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Audit Manager → Artifact → CloudTrail → IAM Access Analyzer"
-            },
-            {
-              "key": "C",
               "text": "IAM Access Analyzer → CloudTrail → Artifact → Audit Manager"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Artifact → IAM Access Analyzer → Audit Manager → CloudTrail"
+            },
+            {
+              "key": "D",
+              "text": "Audit Manager → Artifact → CloudTrail → IAM Access Analyzer"
             }
           ],
           "answers": [
@@ -21777,9 +21777,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada serviço tem seu papel: Artifact (relatórios de conformidade da AWS), Audit Manager (evidência de auditoria do seu ambiente), IAM Access Analyzer (acesso externo/não intencional) e CloudTrail (quem chamou a API). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca Artifact com Audit Manager e CloudTrail com Access Analyzer.",
-            "C": "Embaralha tudo — Access Analyzer não baixa o SOC da AWS.",
-            "D": "Troca Audit Manager com Access Analyzer de posição."
+            "B": "Embaralha tudo — Access Analyzer não baixa o SOC da AWS.",
+            "C": "Troca Audit Manager com Access Analyzer de posição.",
+            "D": "Troca Artifact com Audit Manager e CloudTrail com Access Analyzer."
           }
         }
       ]
@@ -21806,23 +21806,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Uma AMI (Amazon Machine Image) customizada"
+              "text": "Um Elastic IP com o SO pré-instalado"
             },
             {
               "key": "B",
-              "text": "Um snapshot de EBS sozinho"
+              "text": "Uma AMI (Amazon Machine Image) customizada"
             },
             {
               "key": "C",
-              "text": "Um Elastic IP"
+              "text": "Um snapshot de EBS sozinho, já bootável"
             },
             {
               "key": "D",
-              "text": "Uma bucket policy"
+              "text": "Uma bucket policy guardando a imagem"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): molde pra lançar instâncias com SO+software prontos = AMI (golden image).",
@@ -21830,8 +21830,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Uma AMI (Amazon Machine Image) é o molde que contém o SO, software e configuração pra lançar instâncias EC2. Criar uma AMI customizada (golden image) permite lançar dezenas de instâncias idênticas e rápidas, sem repetir a configuração.",
           "whyNots": {
-            "B": "Um snapshot de EBS é backup de um volume — não é o molde completo de lançamento da instância (a AMI referencia snapshots, mas o molde é a AMI).",
-            "C": "Elastic IP é um IP estático — não é imagem de lançamento.",
+            "A": "Elastic IP é um IP estático — não é imagem de lançamento.",
+            "C": "Um snapshot de EBS é backup de um volume — não é o molde completo de lançamento da instância (a AMI referencia snapshots, mas o molde é a AMI).",
             "D": "Bucket policy é permissão de S3 — nada a ver com lançar instância."
           }
         },
@@ -21853,23 +21853,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Copiar a AMI pra a outra região (AMIs são específicas da região)"
+              "text": "Habilitar Transfer Acceleration, que replica AMIs entre regiões"
             },
             {
               "key": "B",
-              "text": "A AMI já funciona em qualquer região automaticamente"
+              "text": "A AMI já funciona em qualquer região automaticamente, pois é global"
             },
             {
               "key": "C",
-              "text": "Criar um Elastic IP na outra região"
+              "text": "Copiar a AMI pra a outra região (AMIs são específicas da região)"
             },
             {
               "key": "D",
-              "text": "Habilitar Transfer Acceleration"
+              "text": "Criar um Elastic IP na outra região pra puxar a imagem"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): AMI é específica da REGIÃO — pra usar em outra, copie a AMI pra lá.",
@@ -21877,9 +21877,9 @@ window.AWS_BANK = {
           ],
           "explanation": "AMIs são específicas da região em que foram criadas. Pra lançar instâncias com a mesma configuração em outra região, é preciso copiar a AMI pra essa região. Comum em estratégias multi-região/DR.",
           "whyNots": {
+            "A": "Transfer Acceleration é upload pro S3 — não copia AMI entre regiões.",
             "B": "Errado — a AMI não é global; precisa ser copiada pra a outra região.",
-            "C": "Elastic IP é IP estático — não replica a AMI.",
-            "D": "Transfer Acceleration é upload pro S3 — não copia AMI entre regiões."
+            "D": "Elastic IP é IP estático — não replica a AMI."
           }
         },
         {
@@ -21900,23 +21900,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "São incrementais (só os blocos alterados são salvos)"
-            },
-            {
-              "key": "B",
-              "text": "Cada snapshot copia o volume inteiro toda vez"
-            },
-            {
-              "key": "C",
               "text": "Snapshots não guardam dados, só metadados"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "Snapshots ficam no próprio volume"
+            },
+            {
+              "key": "C",
+              "text": "Cada snapshot copia o volume inteiro toda vez"
+            },
+            {
+              "key": "D",
+              "text": "São incrementais (só os blocos alterados são salvos)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): snapshot de EBS é INCREMENTAL — depois do primeiro, só o que MUDOU é salvo.",
@@ -21924,9 +21924,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Os snapshots de EBS são incrementais: o primeiro captura tudo, e os seguintes salvam apenas os blocos alterados desde o último — economizando tempo e espaço. Ficam armazenados no S3 (gerenciado pela AWS).",
           "whyNots": {
-            "B": "Não copia o volume inteiro toda vez — só o delta (incremental).",
-            "C": "Snapshots guardam os dados dos blocos, não só metadados.",
-            "D": "Snapshots ficam no S3, não no próprio volume."
+            "A": "Snapshots guardam os dados dos blocos, não só metadados.",
+            "B": "Snapshots ficam no S3, não no próprio volume.",
+            "C": "Não copia o volume inteiro toda vez — só o delta (incremental)."
           }
         },
         {
@@ -21951,15 +21951,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Snapshots só existem na mesma AZ"
+              "text": "User data com o backup embutido — o script de boot restaura tudo sozinho"
             },
             {
               "key": "C",
-              "text": "Elastic IP replicado"
+              "text": "Snapshots só existem na mesma AZ — ficam presos ao hardware do volume EBS"
             },
             {
               "key": "D",
-              "text": "User data com o backup"
+              "text": "Elastic IP replicado pra outra região — o IP estático leva os dados junto"
             }
           ],
           "answers": [
@@ -21971,9 +21971,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Os snapshots de EBS podem ser copiados cross-Region e cross-account, com criptografia via KMS — permitindo manter backups numa região/conta isolada pra DR e proteção contra comprometimento da conta. O Data Lifecycle Manager automatiza isso.",
           "whyNots": {
-            "B": "Errado — snapshots (no S3) podem ser copiados entre regiões/contas.",
-            "C": "Elastic IP é IP estático — não é backup replicado.",
-            "D": "User data é script de boot — não replica backups."
+            "B": "User data é script de boot — não replica backups.",
+            "C": "Errado — snapshots (no S3) podem ser copiados entre regiões/contas.",
+            "D": "Elastic IP é IP estático — não é backup replicado."
           }
         },
         {
@@ -21994,23 +21994,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Memory optimized (ex.: R/X)"
-            },
-            {
-              "key": "B",
               "text": "Compute optimized (C)"
             },
             {
+              "key": "B",
+              "text": "Memory optimized (ex.: R/X)"
+            },
+            {
               "key": "C",
-              "text": "Storage optimized (I/D)"
+              "text": "General purpose (T)"
             },
             {
               "key": "D",
-              "text": "General purpose (T)"
+              "text": "Storage optimized (I/D)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): 'in-memory + muita RAM' = família Memory optimized (R, X).",
@@ -22018,9 +22018,9 @@ window.AWS_BANK = {
           ],
           "explanation": "As instâncias Memory optimized (famílias R, X) entregam muita RAM por instância, ideais pra bancos in-memory, análise de grandes datasets em memória e apps enterprise (SAP). A família se escolhe pela dimensão que o workload mais consome.",
           "whyNots": {
-            "B": "Compute optimized é pra CPU alta (batch, transcoding) — não é o foco em memória.",
-            "C": "Storage optimized é pra alto I/O local — não é RAM.",
-            "D": "General purpose é equilíbrio — não maximiza memória como a Memory optimized."
+            "A": "Compute optimized é pra CPU alta (batch, transcoding) — não é o foco em memória.",
+            "C": "General purpose é equilíbrio — não maximiza memória como a Memory optimized.",
+            "D": "Storage optimized é pra alto I/O local — não é RAM."
           }
         },
         {
@@ -22041,7 +22041,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Compute optimized (ex.: C)"
+              "text": "Storage optimized (D)"
             },
             {
               "key": "B",
@@ -22049,7 +22049,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Storage optimized (D)"
+              "text": "Compute optimized (ex.: C)"
             },
             {
               "key": "D",
@@ -22057,7 +22057,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): compute-bound (transcoding, batch) = Compute optimized (C), CPU de alto desempenho.",
@@ -22065,8 +22065,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Compute optimized (família C) oferece processadores de alto desempenho pra cargas compute-bound — batch, media transcoding, game servers e HPC. É a família certa quando o gargalo é CPU.",
           "whyNots": {
+            "A": "Storage optimized foca I/O local — não CPU.",
             "B": "Memory optimized foca RAM — não é o gargalo aqui.",
-            "C": "Storage optimized foca I/O local — não CPU.",
             "D": "Accelerated é GPU/FPGA (ML/gráficos) — não é o caso de transcoding CPU-bound genérico (embora GPU ajude em alguns casos, o pedido é 'compute-bound + CPU de alto desempenho')."
           }
         },
@@ -22088,23 +22088,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Memory → Compute → Accelerated → Storage"
-            },
-            {
-              "key": "B",
               "text": "Compute → Memory → Storage → Accelerated"
             },
             {
-              "key": "C",
+              "key": "B",
               "text": "Storage → Accelerated → Memory → Compute"
             },
             {
-              "key": "D",
+              "key": "C",
               "text": "Memory → Storage → Compute → Accelerated"
+            },
+            {
+              "key": "D",
+              "text": "Memory → Compute → Accelerated → Storage"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): RAM = Memory; CPU = Compute; GPU = Accelerated; I/O local = Storage.",
@@ -22112,9 +22112,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada família atende uma dimensão: Memory optimized (RAM/in-memory), Compute optimized (CPU/batch), Accelerated (GPU/ML) e Storage optimized (I/O local/big data). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca Memory com Compute e Storage com Accelerated.",
-            "C": "Embaralha tudo — Storage não é o de RAM.",
-            "D": "Troca Compute com Storage nas posições."
+            "A": "Troca Memory com Compute e Storage com Accelerated.",
+            "B": "Embaralha tudo — Storage não é o de RAM.",
+            "C": "Troca Compute com Storage nas posições."
           }
         },
         {
@@ -22143,11 +22143,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Um snapshot de EBS"
+              "text": "Uma AMI"
             },
             {
               "key": "D",
-              "text": "Uma AMI"
+              "text": "Um snapshot de EBS"
             }
           ],
           "answers": [
@@ -22160,8 +22160,8 @@ window.AWS_BANK = {
           "explanation": "Um Elastic IP é um IPv4 público estático alocado à sua conta, que pode ser remapeado rapidamente pra outra instância — mascarando a falha da instância original. O IP público padrão, por outro lado, muda quando a instância para/inicia.",
           "whyNots": {
             "B": "O IP público dinâmico padrão muda ao parar/iniciar — não é fixo nem remapeável do mesmo jeito.",
-            "C": "Snapshot é backup de volume — não é IP.",
-            "D": "AMI é imagem de lançamento — não é IP."
+            "C": "AMI é imagem de lançamento — não é IP.",
+            "D": "Snapshot é backup de volume — não é IP."
           }
         },
         {
@@ -22182,11 +22182,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "User data"
+              "text": "Placement group"
             },
             {
               "key": "B",
-              "text": "Instance metadata (IMDS)"
+              "text": "User data"
             },
             {
               "key": "C",
@@ -22194,11 +22194,11 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Placement group"
+              "text": "Instance metadata (IMDS)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): script de bootstrap executado no boot da instância = user data (limite de 16 KB).",
@@ -22206,9 +22206,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O user data é o script/comandos que a instância executa no lançamento, pra bootstrap (instalar pacotes, configurar a app). É limitado a 16 KB (raw). O instance metadata (IMDS) apenas fornece informações sobre a própria instância.",
           "whyNots": {
-            "B": "Instance metadata expõe dados da instância (ID, IP, role) — não executa o script de bootstrap.",
+            "A": "Placement group controla o posicionamento físico — não executa bootstrap.",
             "C": "Elastic IP é IP estático — não roda script.",
-            "D": "Placement group controla o posicionamento físico — não executa bootstrap."
+            "D": "Instance metadata expõe dados da instância (ID, IP, role) — não executa o script de bootstrap."
           }
         },
         {
@@ -22230,23 +22230,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AMI → EBS snapshot → Elastic IP → user data"
+              "text": "AMI → Elastic IP → EBS snapshot → user data"
             },
             {
               "key": "B",
-              "text": "EBS snapshot → AMI → user data → Elastic IP"
-            },
-            {
-              "key": "C",
               "text": "Elastic IP → user data → AMI → EBS snapshot"
             },
             {
+              "key": "C",
+              "text": "AMI → EBS snapshot → Elastic IP → user data"
+            },
+            {
               "key": "D",
-              "text": "AMI → Elastic IP → EBS snapshot → user data"
+              "text": "EBS snapshot → AMI → user data → Elastic IP"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): molde = AMI; backup incremental = snapshot; IP fixo remapeável = Elastic IP; bootstrap = user data.",
@@ -22254,9 +22254,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Cada recurso tem seu papel: AMI (molde de lançamento), EBS snapshot (backup incremental de volume), Elastic IP (IP público estático remapeável) e user data (script de bootstrap no boot). A opção A respeita os quatro.",
           "whyNots": {
-            "B": "Troca AMI com snapshot e user data com Elastic IP.",
-            "C": "Embaralha tudo — Elastic IP não é o molde.",
-            "D": "Troca Elastic IP com EBS snapshot de posição."
+            "A": "Troca Elastic IP com EBS snapshot de posição.",
+            "B": "Embaralha tudo — Elastic IP não é o molde.",
+            "D": "Troca AMI com snapshot e user data com Elastic IP."
           }
         }
       ]
@@ -22285,23 +22285,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Evento do S3 → SQS → Lambda consumindo a fila (com DLQ)"
+              "text": "Cron em EC2 varrendo o bucket, que reage ao evento"
             },
             {
               "key": "B",
-              "text": "Evento do S3 → Lambda síncrono sem fila"
+              "text": "Evento do S3 → Lambda síncrono sem fila, segurando o pico"
             },
             {
               "key": "C",
-              "text": "Cron em EC2 varrendo o bucket"
+              "text": "Gravar as imagens no RDS, que processa e absorve o pico"
             },
             {
               "key": "D",
-              "text": "Gravar as imagens no RDS"
+              "text": "Evento do S3 → SQS → Lambda consumindo a fila (com DLQ)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): absorver pico sem perder = fila (SQS) entre o evento e o Lambda; DLQ pra falhas.",
@@ -22309,9 +22309,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O evento do S3 publica numa fila SQS que amortece os picos; o Lambda consome no próprio ritmo (event source mapping), com DLQ pra mensagens problemáticas. Nenhuma imagem se perde e o processamento é serverless e desacoplado.",
           "whyNots": {
+            "A": "Cron varrendo o bucket é ineficiente e não é orientado a evento.",
             "B": "Lambda síncrono sem fila pode estourar concorrência no pico e perder eventos.",
-            "C": "Cron varrendo o bucket é ineficiente e não é orientado a evento.",
-            "D": "Gravar imagem no RDS não processa nem absorve pico."
+            "C": "Gravar imagem no RDS não processa nem absorve pico."
           }
         },
         {
@@ -22339,15 +22339,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "S3 público + CNAME no apex"
+              "text": "S3 com website endpoint + Route 53, sem CloudFront nem certificado"
             },
             {
               "key": "C",
-              "text": "EC2 com certificado manual"
+              "text": "Bucket S3 público + um registro CNAME apontado direto no apex da zona"
             },
             {
               "key": "D",
-              "text": "S3 + Route 53 sem CloudFront"
+              "text": "Uma instância EC2 com certificado TLS instalado e renovado na mão"
             }
           ],
           "answers": [
@@ -22359,9 +22359,9 @@ window.AWS_BANK = {
           ],
           "explanation": "S3 privado com OAC (só via CloudFront), CloudFront pra baixa latência global e HTTPS, ACM pro certificado TLS com auto-renovação, e Route 53 com Alias apontando o apex pra a distribuição. É o padrão de site estático seguro.",
           "whyNots": {
-            "B": "S3 público expõe a origem e CNAME não funciona no apex.",
-            "C": "EC2 com cert manual não dá baixa latência global nem auto-renovação gerenciada.",
-            "D": "Sem CloudFront não há CDN/HTTPS gerenciado na borda do jeito pedido."
+            "B": "Sem CloudFront não há CDN/HTTPS gerenciado na borda do jeito pedido.",
+            "C": "S3 público expõe a origem e CNAME não funciona no apex.",
+            "D": "EC2 com cert manual não dá baixa latência global nem auto-renovação gerenciada."
           }
         },
         {
@@ -22383,23 +22383,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "RDS Read Replicas + ElastiCache pra cachear as consultas quentes"
+              "text": "Trocar o RDS por S3, que aguenta SELECTs relacionais em escala"
             },
             {
               "key": "B",
-              "text": "Standby do Multi-AZ servindo leitura"
+              "text": "RDS Read Replicas + ElastiCache pra cachear as consultas quentes"
             },
             {
               "key": "C",
-              "text": "Trocar o RDS por S3"
+              "text": "Standby do Multi-AZ servindo leitura, dividindo os SELECTs"
             },
             {
               "key": "D",
-              "text": "Aumentar só o backup"
+              "text": "Aumentar só o backup, que alivia a carga das leituras"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): escalar leitura = Read Replica; cachear repetido = ElastiCache.",
@@ -22407,8 +22407,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Read Replicas distribuem a carga de leitura e o ElastiCache cacheia as consultas mais repetidas, aliviando o RDS. O standby do Multi-AZ é só pra failover, não serve leitura.",
           "whyNots": {
-            "B": "O standby do Multi-AZ não atende leitura — pegadinha clássica.",
-            "C": "S3 é object storage — não substitui o banco relacional.",
+            "A": "S3 é object storage — não substitui o banco relacional.",
+            "C": "O standby do Multi-AZ não atende leitura — pegadinha clássica.",
             "D": "Backup não reduz a carga de leitura em produção."
           }
         },
@@ -22432,7 +22432,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Fargate Spot (até 70% de desconto)"
+              "text": "Dedicated Hosts"
             },
             {
               "key": "B",
@@ -22440,7 +22440,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Dedicated Hosts"
+              "text": "Fargate Spot (até 70% de desconto)"
             },
             {
               "key": "D",
@@ -22448,7 +22448,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): batch de contêiner interrompível = Fargate Spot (capacidade ociosa, barato).",
@@ -22456,8 +22456,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Fargate Spot roda tasks interrompíveis em capacidade ociosa com até 70% de desconto — ideal pra batch tolerante a interrupção. On-demand seria mais caro pra essa carga.",
           "whyNots": {
+            "A": "Dedicated Hosts é licença/compliance — não é o mais barato aqui.",
             "B": "On-demand 24/7 não dá o desconto do Spot pra uma carga que aceita interrupção.",
-            "C": "Dedicated Hosts é licença/compliance — não é o mais barato aqui.",
             "D": "Lightsail é VPS simples — não é o modelo de batch de contêiner interrompível."
           }
         },
@@ -22480,23 +22480,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DynamoDB Streams acionando Lambda"
+              "text": "Global Tables"
             },
             {
               "key": "B",
-              "text": "Scan periódico da tabela"
-            },
-            {
-              "key": "C",
               "text": "DAX"
             },
             {
+              "key": "C",
+              "text": "Scan periódico da tabela"
+            },
+            {
               "key": "D",
-              "text": "Global Tables"
+              "text": "DynamoDB Streams acionando Lambda"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): reagir a cada mudança da tabela = DynamoDB Streams + Lambda.",
@@ -22504,9 +22504,9 @@ window.AWS_BANK = {
           ],
           "explanation": "DynamoDB Streams captura os eventos de insert/update/delete em ordem e aciona uma Lambda em tempo real — base de arquiteturas orientadas a evento/CDC. DAX (cache) e Global Tables (multi-região) resolvem outras coisas.",
           "whyNots": {
-            "B": "Scan periódico é caro, lento e não é tempo real.",
-            "C": "DAX acelera leitura — não entrega fluxo de mudanças.",
-            "D": "Global Tables replica entre regiões — não é o gatilho por mudança."
+            "A": "Global Tables replica entre regiões — não é o gatilho por mudança.",
+            "B": "DAX acelera leitura — não entrega fluxo de mudanças.",
+            "C": "Scan periódico é caro, lento e não é tempo real."
           }
         },
         {
@@ -22577,15 +22577,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Aurora Global Database (multi-Region) + Route 53"
+              "text": "Aurora numa região com Multi-AZ apenas"
             },
             {
               "key": "B",
-              "text": "RDS Single-AZ + snapshots"
+              "text": "Aurora Global Database (multi-Region) + Route 53"
             },
             {
               "key": "C",
-              "text": "Aurora numa região com Multi-AZ apenas"
+              "text": "RDS Single-AZ + snapshots"
             },
             {
               "key": "D",
@@ -22593,7 +22593,7 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): multi-continente + RPO/RTO ~0 + compatível MySQL = Aurora Global Database.",
@@ -22601,8 +22601,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Aurora Global Database abrange múltiplas regiões com leitura global de baixa latência e DR cross-region (RTO em minutos), compatível com MySQL/PostgreSQL. Route 53 roteia entre regiões.",
           "whyNots": {
-            "B": "Single-AZ + snapshots tem RPO/RTO em horas.",
-            "C": "Multi-AZ não cobre perda de região nem dá presença global.",
+            "A": "Multi-AZ não cobre perda de região nem dá presença global.",
+            "C": "Single-AZ + snapshots tem RPO/RTO em horas.",
             "D": "DynamoDB não é compatível com MySQL (é NoSQL)."
           }
         },
@@ -22627,23 +22627,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Data Firehose → S3 → Athena → QuickSight"
-            },
-            {
-              "key": "B",
               "text": "Kinesis Data Streams → EC2 → MySQL"
             },
             {
+              "key": "B",
+              "text": "CloudFront → S3 estático"
+            },
+            {
               "key": "C",
-              "text": "SQS → Lambda → EBS"
+              "text": "Data Firehose → S3 → Athena → QuickSight"
             },
             {
               "key": "D",
-              "text": "CloudFront → S3 estático"
+              "text": "SQS → Lambda → EBS"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): entregar stream no S3 sem código = Firehose; SQL no S3 = Athena; dashboard = QuickSight.",
@@ -22651,9 +22651,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Amazon Data Firehose entrega o stream no S3 sem código; Athena consulta com SQL; QuickSight monta os dashboards. Pipeline serverless de ponta a ponta.",
           "whyNots": {
-            "B": "EC2 + MySQL não é serverless nem o pipeline pedido.",
-            "C": "SQS/Lambda/EBS não forma o data lake + SQL + dashboard.",
-            "D": "CloudFront + S3 serve conteúdo estático — não é pipeline analítico."
+            "A": "EC2 + MySQL não é serverless nem o pipeline pedido.",
+            "B": "CloudFront + S3 serve conteúdo estático — não é pipeline analítico.",
+            "D": "SQS/Lambda/EBS não forma o data lake + SQL + dashboard."
           }
         },
         {
@@ -22676,23 +22676,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"
+              "text": "VPC Peering ponto-a-ponto entre todas as VPCs, roteando de forma transitiva"
             },
             {
               "key": "B",
-              "text": "Só VPN, sem hub"
+              "text": "CloudFront + Global Accelerator, que fazem o papel de hub entre as redes"
             },
             {
               "key": "C",
-              "text": "VPC Peering ponto-a-ponto entre tudo"
+              "text": "Só túneis VPN independentes, sem hub central pra concentrar o roteamento"
             },
             {
               "key": "D",
-              "text": "CloudFront + Global Accelerator"
+              "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): banda dedicada = DX; backup barato = VPN; hub multi-VPC = Transit Gateway.",
@@ -22700,9 +22700,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Direct Connect dá o link dedicado; a Site-to-Site VPN é o backup automático (failover BGP) mais barato; o Transit Gateway centraliza as VPCs e o on-premises num hub.",
           "whyNots": {
-            "B": "Só VPN não dá banda dedicada nem hub central.",
-            "C": "VPC Peering ponto-a-ponto não escala e não liga o data center.",
-            "D": "CloudFront/Global Accelerator são pra usuários finais, não conectividade híbrida."
+            "A": "VPC Peering ponto-a-ponto não escala e não liga o data center.",
+            "B": "CloudFront/Global Accelerator são pra usuários finais, não conectividade híbrida.",
+            "C": "Só VPN não dá banda dedicada nem hub central."
           }
         },
         {
@@ -22729,15 +22729,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Configurar cada conta manualmente"
+              "text": "Um único Security Group global aplicado a todas as contas, controlando os guardrails da organização"
             },
             {
               "key": "C",
-              "text": "Um Security Group global"
+              "text": "Configurar cada conta manualmente, repetindo o baseline de segurança e rede uma a uma conforme surgem"
             },
             {
               "key": "D",
-              "text": "CloudFront em todas as contas"
+              "text": "Habilitar CloudFront em todas as contas novas, que já aplica governança e guardrails automaticamente"
             }
           ],
           "answers": [
@@ -22749,8 +22749,8 @@ window.AWS_BANK = {
           ],
           "explanation": "Control Tower monta a landing zone governada sobre o Organizations, com guardrails preventivos (SCP) e detectivos (Config). Governança multi-conta com mínimo esforço manual.",
           "whyNots": {
-            "B": "Configurar conta a conta é o trabalho que o Control Tower evita.",
-            "C": "Security Group é firewall de instância — não é governança.",
+            "B": "Security Group é firewall de instância — não é governança.",
+            "C": "Configurar conta a conta é o trabalho que o Control Tower evita.",
             "D": "CloudFront é CDN — irrelevante aqui."
           }
         },
@@ -22775,23 +22775,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "API Gateway + Lambda + DynamoDB, com Cognito autenticando os usuários"
+              "text": "SQS + SES + EBS — fila, e-mail e disco cobrem a API autenticada"
             },
             {
               "key": "B",
-              "text": "EC2 + MySQL + IAM Users pra cada usuário final"
+              "text": "API Gateway + Lambda + DynamoDB, com Cognito autenticando os usuários"
             },
             {
               "key": "C",
-              "text": "CloudFront + S3 + KMS"
+              "text": "CloudFront + S3 + KMS, com o KMS cuidando do login dos usuários"
             },
             {
               "key": "D",
-              "text": "SQS + SES + EBS"
+              "text": "EC2 + MySQL + IAM Users pra cada usuário final (o combo serverless)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): API serverless = API Gateway + Lambda + DynamoDB; login de usuário final = Cognito.",
@@ -22799,9 +22799,9 @@ window.AWS_BANK = {
           ],
           "explanation": "API Gateway + Lambda + DynamoDB entregam a API serverless; o Cognito (User Pool) autentica os usuários finais e pode emitir tokens. Nenhum servidor pra gerenciar.",
           "whyNots": {
-            "B": "EC2/MySQL não é serverless, e IAM User por usuário final é anti-padrão.",
+            "A": "SQS/SES/EBS não é a stack de API REST autenticada.",
             "C": "CloudFront/S3/KMS não formam a API dinâmica com auth de usuário.",
-            "D": "SQS/SES/EBS não é a stack de API REST autenticada."
+            "D": "EC2/MySQL não é serverless, e IAM User por usuário final é anti-padrão."
           }
         },
         {
@@ -22824,23 +22824,23 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ELB + Auto Scaling (multi-AZ, health checks) + Route 53 Alias pro apex → ELB"
+              "text": "Uma instância única com Elastic IP — o IP fixo já dá failover e aponta o apex"
             },
             {
               "key": "B",
-              "text": "Uma instância única com Elastic IP"
+              "text": "CNAME no apex apontando pro ELB — o Route 53 aceita CNAME em qualquer registro"
             },
             {
               "key": "C",
-              "text": "CNAME no apex apontando pro ELB"
+              "text": "ELB + Auto Scaling (multi-AZ, health checks) + Route 53 Alias pro apex → ELB"
             },
             {
               "key": "D",
-              "text": "Só CloudFront, sem ELB nem ASG"
+              "text": "Só CloudFront, sem ELB nem ASG — a CDN escala e troca instância doente sozinha"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): distribuir = ELB; escalar/curar = ASG; apex → ELB = Alias do Route 53.",
@@ -22848,8 +22848,8 @@ window.AWS_BANK = {
           ],
           "explanation": "ELB distribui o tráfego, o Auto Scaling group (multi-AZ, health checks) escala e substitui instâncias não-saudáveis, e o Route 53 com Alias aponta o apex pro ELB. Elasticidade + auto-recuperação + DNS correto.",
           "whyNots": {
-            "B": "Instância única é ponto único de falha, sem escala.",
-            "C": "CNAME não é permitido no apex — o correto é Alias.",
+            "A": "Instância única é ponto único de falha, sem escala.",
+            "B": "CNAME não é permitido no apex — o correto é Alias.",
             "D": "Sem ELB/ASG não há distribuição nem auto-recuperação da camada EC2."
           }
         }
@@ -22877,32 +22877,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Multi-AZ = alta disponibilidade (standby síncrono, não serve leitura); Read Replica = escalar leitura (assíncrona, read-only)"
+              "text": "Read Replica replica de forma síncrona e serve failover automático; Multi-AZ existe apenas pra relatórios de leitura"
             },
             {
               "key": "B",
-              "text": "Multi-AZ escala leitura; Read Replica é só failover"
+              "text": "Multi-AZ serve pra escalar leitura distribuindo consultas; Read Replica serve só pra failover automático do primário"
             },
             {
               "key": "C",
-              "text": "São a mesma coisa"
+              "text": "Multi-AZ e Read Replica são a mesma coisa: ambos mantêm cópias síncronas que servem leitura e failover igualmente"
             },
             {
               "key": "D",
-              "text": "Read Replica é síncrona e serve failover automático"
+              "text": "Multi-AZ = alta disponibilidade (standby síncrono, não serve leitura); Read Replica = escalar leitura (assíncrona, read-only)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): Multi-AZ = disponibilidade (standby não lê); Read Replica = escalar leitura."
           ],
           "explanation": "Multi-AZ mantém um standby síncrono pra failover automático (não serve leitura); Read Replica é assíncrona e read-only, pra escalar throughput de leitura. São complementares.",
           "whyNots": {
+            "A": "Read Replica é assíncrona e não é o mecanismo de failover automático.",
             "B": "Inverte os papéis.",
-            "C": "São diferentes em objetivo e mecanismo.",
-            "D": "Read Replica é assíncrona e não é o mecanismo de failover automático."
+            "C": "São diferentes em objetivo e mecanismo."
           }
         },
         {
@@ -22927,15 +22927,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "SG é stateless e tem regra de deny"
+              "text": "Os dois só têm regras de deny — na AWS o allow é sempre implícito por padrão"
             },
             {
               "key": "C",
-              "text": "NACL é stateful e atua na instância"
+              "text": "SG é stateless e tem regra de deny, exigindo liberar a volta de cada resposta"
             },
             {
               "key": "D",
-              "text": "Os dois só têm regras de deny"
+              "text": "NACL é stateful e atua na instância, lembrando das conexões que ela mesma abriu"
             }
           ],
           "answers": [
@@ -22946,9 +22946,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Security Group é stateful, atua na instância e só tem regras de allow (a resposta é liberada sozinha). NACL é stateless, atua na sub-rede e tem allow e deny (precisa regra de ida e volta). Pra bloquear um IP específico, é NACL.",
           "whyNots": {
-            "B": "SG não tem regra de deny e é stateful.",
-            "C": "NACL é stateless e atua na sub-rede.",
-            "D": "SG só tem allow; só a NACL tem deny."
+            "B": "SG só tem allow; só a NACL tem deny.",
+            "C": "SG não tem regra de deny e é stateful.",
+            "D": "NACL é stateless e atua na sub-rede."
           }
         },
         {
@@ -22970,32 +22970,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "SQS = fila (pull, um grupo de consumidores); SNS = pub/sub (push, fan-out pra muitos)"
+              "text": "SQS é o pub/sub de push com fan-out; SNS é a fila de pull com grupo de consumidores"
             },
             {
               "key": "B",
-              "text": "SQS é pub/sub e SNS é fila"
+              "text": "SQS = fila (pull, um grupo de consumidores); SNS = pub/sub (push, fan-out pra muitos)"
             },
             {
               "key": "C",
-              "text": "Os dois enviam e-mail rico de marketing"
+              "text": "SQS envia notificações push direto pra apps móveis, como o recurso mobile do SNS"
             },
             {
               "key": "D",
-              "text": "SQS envia push pra apps móveis"
+              "text": "SQS e SNS servem pra enviar e-mail rico de marketing, concorrendo com o Amazon SES"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): SQS = fila (pull); SNS = pub/sub (push, fan-out)."
           ],
           "explanation": "SQS é fila (consumidores puxam mensagens, desacoplamento). SNS é pub/sub (empurra o evento pra muitos inscritos — fan-out). Combinados formam o padrão fan-out (SNS → várias SQS).",
           "whyNots": {
-            "B": "Inverte — fila é SQS; pub/sub é SNS.",
-            "C": "E-mail rico de marketing é o SES.",
-            "D": "Push mobile é canal do SNS, mas a fila SQS não envia push."
+            "A": "Inverte — fila é SQS; pub/sub é SNS.",
+            "C": "Push mobile é canal do SNS, mas a fila SQS não envia push.",
+            "D": "E-mail rico de marketing é o SES."
           }
         },
         {
@@ -23016,32 +23016,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Alias funciona no apex e é grátis pra recursos AWS; CNAME não funciona no apex e é cobrado"
+              "text": "Alias e CNAME só apontam pra recursos AWS; domínios externos exigem registro A manual"
             },
             {
               "key": "B",
-              "text": "CNAME funciona no apex; Alias não"
+              "text": "Alias aponta pra qualquer domínio externo e é cobrado; CNAME é o gratuito pra recursos AWS"
             },
             {
               "key": "C",
-              "text": "Os dois só apontam pra recursos AWS"
+              "text": "Alias funciona no apex e é grátis pra recursos AWS; CNAME não funciona no apex e é cobrado"
             },
             {
               "key": "D",
-              "text": "Alias aponta pra qualquer domínio externo"
+              "text": "CNAME funciona normalmente no apex da zona; Alias é que não pode ser usado no apex"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Alias = apex + recursos AWS + grátis; CNAME = não-apex + cobrado + qualquer domínio."
           ],
           "explanation": "Alias funciona no zone apex, aponta pra recursos AWS e é grátis nessas consultas; CNAME não funciona no apex, aponta pra qualquer domínio e é cobrado.",
           "whyNots": {
-            "B": "Inverte — CNAME NÃO funciona no apex; Alias sim.",
-            "C": "CNAME aponta pra qualquer domínio, não só AWS.",
-            "D": "Quem aponta pra qualquer domínio é o CNAME."
+            "A": "CNAME aponta pra qualquer domínio, não só AWS.",
+            "B": "Quem aponta pra qualquer domínio é o CNAME.",
+            "D": "Inverte — CNAME NÃO funciona no apex; Alias sim."
           }
         },
         {
@@ -23063,32 +23063,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ACM gerencia certificados TLS (em trânsito); KMS gerencia chaves de criptografia (em repouso)"
+              "text": "ACM e KMS fazem exatamente a mesma coisa; a escolha entre eles é só preferência de console"
             },
             {
               "key": "B",
-              "text": "ACM gerencia chaves; KMS emite certificados TLS"
+              "text": "ACM serve pra rotacionar senhas de banco automaticamente, como faz o Secrets Manager"
             },
             {
               "key": "C",
-              "text": "Os dois fazem a mesma coisa"
+              "text": "ACM gerencia as chaves de criptografia em repouso; KMS emite os certificados TLS em trânsito"
             },
             {
               "key": "D",
-              "text": "ACM rotaciona senhas de banco"
+              "text": "ACM gerencia certificados TLS (em trânsito); KMS gerencia chaves de criptografia (em repouso)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): ACM = certificado (TLS/HTTPS); KMS = chave (dados em repouso)."
           ],
           "explanation": "ACM gerencia certificados SSL/TLS (identidade + criptografia em trânsito). KMS gerencia chaves de criptografia (dados em repouso em S3/EBS/RDS). Papéis distintos.",
           "whyNots": {
-            "B": "Inverte — certificado é ACM; chave é KMS.",
-            "C": "Fazem coisas diferentes.",
-            "D": "Rotacionar senha de banco é Secrets Manager."
+            "A": "Fazem coisas diferentes.",
+            "B": "Rotacionar senha de banco é Secrets Manager.",
+            "C": "Inverte — certificado é ACM; chave é KMS."
           }
         },
         {
@@ -23114,15 +23114,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "CloudWatch audita API; CloudTrail é métrica"
+              "text": "CloudWatch audita as chamadas de API (quem fez o quê); CloudTrail coleta métricas e logs de desempenho"
             },
             {
               "key": "C",
-              "text": "Os dois são a mesma coisa"
+              "text": "CloudWatch e CloudTrail são a mesma coisa: ambos guardam métricas e auditoria de API indistintamente"
             },
             {
               "key": "D",
-              "text": "CloudTrail mede uso de CPU"
+              "text": "CloudTrail serve pra medir uso de CPU e memória das instâncias, com alarmes de desempenho embutidos"
             }
           ],
           "answers": [
@@ -23157,30 +23157,30 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Data Streams = processar em tempo real com consumidores/replay; Data Firehose = entregar no S3/Redshift sem código"
+              "text": "Data Firehose é pra replay com múltiplos consumidores em tempo real; Data Streams entrega no S3/Redshift sem código"
             },
             {
               "key": "B",
-              "text": "Firehose é pra replay/consumidores; Streams entrega no S3 sem código"
+              "text": "Data Streams = processar em tempo real com consumidores/replay; Data Firehose = entregar no S3/Redshift sem código"
             },
             {
               "key": "C",
-              "text": "Os dois só entregam e-mail"
+              "text": "Data Streams e Data Firehose só entregam notificações por e-mail; streaming de dados fica com o SNS"
             },
             {
               "key": "D",
-              "text": "Data Firehose foi descontinuado"
+              "text": "Data Firehose foi descontinuado pela AWS; hoje toda entrega pra S3/Redshift é feita só com consumers manuais"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): Streams = processar (pull/replay); Firehose = entregar (push, sem código)."
           ],
           "explanation": "Kinesis Data Streams é pra processamento em tempo real com consumidores próprios e replay; Amazon Data Firehose (antigo Kinesis Data Firehose) entrega o stream em destinos como S3/Redshift, gerenciado e sem código.",
           "whyNots": {
-            "B": "Inverte — replay/consumidores é Streams; entrega sem código é Firehose.",
+            "A": "Inverte — replay/consumidores é Streams; entrega sem código é Firehose.",
             "C": "Nenhum dos dois é serviço de e-mail.",
             "D": "Firehose não foi descontinuado; foi renomeado pra Amazon Data Firehose."
           }
@@ -23204,32 +23204,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "CloudFront = CDN que cacheia conteúdo HTTP na borda; Global Accelerator = IP estático anycast, acelera TCP/UDP (não cacheia)"
+              "text": "CloudFront e Global Accelerator são bancos de dados distribuídos, replicados em todas as edge locations da AWS"
             },
             {
               "key": "B",
-              "text": "Global Accelerator cacheia conteúdo; CloudFront dá IP estático"
+              "text": "CloudFront serve só pra tráfego UDP de jogos em tempo real; conteúdo HTTP com cache fica no Global Accelerator"
             },
             {
               "key": "C",
-              "text": "Os dois são bancos de dados"
+              "text": "CloudFront = CDN que cacheia conteúdo HTTP na borda; Global Accelerator = IP estático anycast, acelera TCP/UDP (não cacheia)"
             },
             {
               "key": "D",
-              "text": "CloudFront é só pra UDP de jogos"
+              "text": "Global Accelerator cacheia conteúdo HTTP na borda; CloudFront é quem fornece IP estático anycast pra TCP/UDP"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): CloudFront cacheia (HTTP); Global Accelerator acelera transporte (TCP/UDP, IP estático), sem cache."
           ],
           "explanation": "CloudFront é CDN e cacheia conteúdo HTTP(S) na borda. Global Accelerator dá IPs estáticos anycast e acelera o transporte TCP/UDP pela rede da AWS, com failover regional rápido — não faz cache.",
           "whyNots": {
-            "B": "Inverte — cache é CloudFront; IP estático/anycast é Global Accelerator.",
-            "C": "Não são bancos de dados.",
-            "D": "CloudFront é pra HTTP cacheável; UDP de jogos é Global Accelerator."
+            "A": "Não são bancos de dados.",
+            "B": "CloudFront é pra HTTP cacheável; UDP de jogos é Global Accelerator.",
+            "D": "Inverte — cache é CloudFront; IP estático/anycast é Global Accelerator."
           }
         },
         {
@@ -23251,32 +23251,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ElastiCache = cache in-memory (pode perder dados); MemoryDB = banco in-memory DURÁVEL (primário)"
+              "text": "MemoryDB é object storage de baixa latência, um concorrente direto do S3 pra dados quentes"
             },
             {
               "key": "B",
-              "text": "ElastiCache é durável e primário; MemoryDB é só cache"
+              "text": "ElastiCache e MemoryDB são data warehouses colunares, voltados a análises e BI em memória"
             },
             {
               "key": "C",
-              "text": "Os dois são data warehouses"
+              "text": "ElastiCache é o banco durável pra ser primário; MemoryDB é só um cache que pode perder dados"
             },
             {
               "key": "D",
-              "text": "MemoryDB é object storage"
+              "text": "ElastiCache = cache in-memory (pode perder dados); MemoryDB = banco in-memory DURÁVEL (primário)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): ElastiCache = cache (descartável); MemoryDB = durável (banco primário)."
           ],
           "explanation": "ElastiCache é cache in-memory (os dados podem ser perdidos, fica na frente do banco). MemoryDB é banco in-memory durável (Multi-AZ), que pode ser a fonte primária. Ambos compatíveis com Redis.",
           "whyNots": {
-            "B": "Inverte — o durável/primário é o MemoryDB.",
-            "C": "Não são data warehouses (isso é Redshift).",
-            "D": "MemoryDB é in-memory, não object storage."
+            "A": "MemoryDB é in-memory, não object storage.",
+            "B": "Não são data warehouses (isso é Redshift).",
+            "C": "Inverte — o durável/primário é o MemoryDB."
           }
         },
         {
@@ -23302,15 +23302,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "KMS é single-tenant dedicado; CloudHSM é multi-tenant"
+              "text": "CloudHSM é um CDN de chaves, distribuindo material criptográfico nas edge locations"
             },
             {
               "key": "C",
-              "text": "Os dois emitem certificados TLS"
+              "text": "KMS e CloudHSM servem pra emitir e renovar certificados TLS públicos, como faz o ACM"
             },
             {
               "key": "D",
-              "text": "CloudHSM é um CDN"
+              "text": "KMS é o HSM dedicado single-tenant pra compliance; CloudHSM é o multi-tenant gerenciado geral"
             }
           ],
           "answers": [
@@ -23321,9 +23321,9 @@ window.AWS_BANK = {
           ],
           "explanation": "KMS usa HSM multi-tenant gerenciado — fácil, barato, caso geral. CloudHSM é HSM dedicado single-tenant sob seu controle, pra compliance que exige isso ou interfaces PKCS#11/JCE.",
           "whyNots": {
-            "B": "Inverte — dedicado/single-tenant é CloudHSM.",
+            "B": "CloudHSM não é CDN.",
             "C": "Certificado TLS é o ACM.",
-            "D": "CloudHSM não é CDN."
+            "D": "Inverte — dedicado/single-tenant é CloudHSM."
           }
         },
         {
@@ -23345,30 +23345,30 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "MGN = migração lift-and-shift (uma vez); DRS = DR contínuo de servidores (failover rápido)"
+              "text": "MGN é o serviço de DR contínuo com failover rápido; DRS faz a migração lift-and-shift única"
             },
             {
               "key": "B",
-              "text": "MGN é DR contínuo; DRS é migração única"
+              "text": "MGN = migração lift-and-shift (uma vez); DRS = DR contínuo de servidores (failover rápido)"
             },
             {
               "key": "C",
-              "text": "Os dois são serviços de e-mail"
+              "text": "MGN e DRS são serviços de e-mail transacional, um pra envio em massa e outro pra failover"
             },
             {
               "key": "D",
-              "text": "DRS transfere arquivos por SFTP"
+              "text": "DRS serve pra transferir arquivos por SFTP gerenciado, como faz o Transfer Family"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): MGN = migrar de vez; DRS = replicar sempre pra failover."
           ],
           "explanation": "MGN faz a migração lift-and-shift de servidores pra EC2 (uma vez). DRS replica servidores continuamente pra failover rápido em desastre (RPO seg/RTO min).",
           "whyNots": {
-            "B": "Inverte os papéis.",
+            "A": "Inverte os papéis.",
             "C": "Não são serviços de e-mail.",
             "D": "SFTP é o Transfer Family, não o DRS."
           }
@@ -23392,32 +23392,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Artifact = baixar relatórios de conformidade DA AWS; Audit Manager = coletar evidência da SUA conformidade"
+              "text": "Audit Manager é um CDN que distribui os relatórios de conformidade da AWS nas edge locations"
             },
             {
               "key": "B",
-              "text": "Artifact audita seu ambiente; Audit Manager baixa o SOC da AWS"
+              "text": "Artifact coleta evidência de auditoria do SEU ambiente; Audit Manager é onde se baixa o SOC/ISO da AWS"
             },
             {
               "key": "C",
-              "text": "Os dois são firewalls"
+              "text": "Artifact = baixar relatórios de conformidade DA AWS; Audit Manager = coletar evidência da SUA conformidade"
             },
             {
               "key": "D",
-              "text": "Audit Manager é um CDN"
+              "text": "Artifact e Audit Manager são firewalls gerenciados, um pra borda e outro pro tráfego interno da VPC"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): Artifact = conformidade DA AWS (baixar SOC/PCI); Audit Manager = a SUA (coletar evidência)."
           ],
           "explanation": "Artifact é o portal pra baixar os relatórios de conformidade da própria AWS (SOC/PCI/ISO). Audit Manager automatiza a coleta de evidências sobre o seu ambiente pra demonstrar a sua conformidade.",
           "whyNots": {
+            "A": "Audit Manager não é CDN.",
             "B": "Inverte — baixar SOC da AWS é Artifact; auditar seu ambiente é Audit Manager.",
-            "C": "Não são firewalls.",
-            "D": "Audit Manager não é CDN."
+            "D": "Não são firewalls."
           }
         },
         {
@@ -23439,32 +23439,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Transfer Family = endpoint SFTP/FTPS gerenciado (troca com parceiros); DataSync = migração/cópia em massa entre storages"
+              "text": "Transfer Family e DataSync são bancos de dados gerenciados, um pra dados de parceiros e outro pra dados internos"
             },
             {
               "key": "B",
-              "text": "Transfer Family é migração em massa; DataSync é SFTP"
+              "text": "Transfer Family é o serviço de migração/cópia em massa entre storages; DataSync é o endpoint SFTP/FTPS pra parceiros"
             },
             {
               "key": "C",
-              "text": "Os dois são bancos de dados"
+              "text": "DataSync serve pra emitir e renovar certificados TLS usados nas transferências de arquivos com parceiros externos"
             },
             {
               "key": "D",
-              "text": "DataSync emite certificados"
+              "text": "Transfer Family = endpoint SFTP/FTPS gerenciado (troca com parceiros); DataSync = migração/cópia em massa entre storages"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): SFTP com parceiros = Transfer Family; migração/cópia em massa = DataSync."
           ],
           "explanation": "Transfer Family é o endpoint de protocolo padrão (SFTP/FTPS/FTP/AS2) → S3/EFS, pra troca com parceiros. DataSync automatiza a migração/cópia em massa entre sistemas de armazenamento (NFS/SMB/S3/EFS/FSx).",
           "whyNots": {
+            "A": "Não são bancos de dados.",
             "B": "Inverte — SFTP é Transfer Family; migração em massa é DataSync.",
-            "C": "Não são bancos de dados.",
-            "D": "Certificados são o ACM."
+            "C": "Certificados são o ACM."
           }
         }
       ]
@@ -23495,7 +23495,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon Redshift provisionado"
+              "text": "Amazon EMR"
             },
             {
               "key": "C",
@@ -23503,7 +23503,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon EMR"
+              "text": "Amazon Redshift provisionado"
             }
           ],
           "answers": [
@@ -23514,9 +23514,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Athena roda SQL ad-hoc direto sobre dados no S3, serverless, cobrando por volume escaneado.",
           "whyNots": {
-            "B": "Redshift provisionado é data warehouse com cluster.",
+            "B": "EMR é cluster Hadoop/Spark.",
             "C": "RDS é banco transacional, não consulta S3.",
-            "D": "EMR é cluster Hadoop/Spark."
+            "D": "Redshift provisionado é data warehouse com cluster."
           }
         },
         {
@@ -23537,32 +23537,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon GuardDuty"
+              "text": "AWS Config"
             },
             {
               "key": "B",
-              "text": "Amazon Inspector"
+              "text": "Amazon GuardDuty"
             },
             {
               "key": "C",
-              "text": "Amazon Macie"
+              "text": "Amazon Inspector"
             },
             {
               "key": "D",
-              "text": "AWS Config"
+              "text": "Amazon Macie"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): ameaça/comportamento = GuardDuty."
           ],
           "explanation": "GuardDuty detecta atividade maliciosa analisando Flow Logs, CloudTrail e DNS com ML.",
           "whyNots": {
-            "B": "Inspector é vulnerabilidade/CVE.",
-            "C": "Macie é dado sensível no S3.",
-            "D": "Config é conformidade de configuração."
+            "A": "Config é conformidade de configuração.",
+            "C": "Inspector é vulnerabilidade/CVE.",
+            "D": "Macie é dado sensível no S3."
           }
         },
         {
@@ -23583,32 +23583,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Textract"
+              "text": "Amazon Polly"
             },
             {
               "key": "B",
-              "text": "Amazon Rekognition"
-            },
-            {
-              "key": "C",
               "text": "Amazon Comprehend"
             },
             {
+              "key": "C",
+              "text": "Amazon Textract"
+            },
+            {
               "key": "D",
-              "text": "Amazon Polly"
+              "text": "Amazon Rekognition"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): OCR de documento/formulário = Textract."
           ],
           "explanation": "Textract usa OCR + ML pra extrair texto, campos e tabelas de documentos escaneados.",
           "whyNots": {
-            "B": "Rekognition é imagem/vídeo genérico.",
-            "C": "Comprehend é NLP de texto.",
-            "D": "Polly é texto-em-fala."
+            "A": "Polly é texto-em-fala.",
+            "B": "Comprehend é NLP de texto.",
+            "D": "Rekognition é imagem/vídeo genérico."
           }
         },
         {
@@ -23629,7 +23629,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Compute Optimizer"
+              "text": "Amazon Inspector"
             },
             {
               "key": "B",
@@ -23641,20 +23641,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Amazon Inspector"
+              "text": "AWS Compute Optimizer"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): tamanho ideal/rightsizing = Compute Optimizer."
           ],
           "explanation": "Compute Optimizer recomenda o dimensionamento ideal e detecta recursos ociosos.",
           "whyNots": {
+            "A": "Inspector é vulnerabilidade.",
             "B": "Budgets controla orçamento/alertas.",
-            "C": "Pricing Calculator estima custo futuro.",
-            "D": "Inspector é vulnerabilidade."
+            "C": "Pricing Calculator estima custo futuro."
           }
         },
         {
@@ -23679,15 +23679,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon SQS"
+              "text": "AWS Lambda sozinho"
             },
             {
               "key": "C",
-              "text": "Amazon SNS"
+              "text": "Amazon SQS"
             },
             {
               "key": "D",
-              "text": "AWS Lambda sozinho"
+              "text": "Amazon SNS"
             }
           ],
           "answers": [
@@ -23698,9 +23698,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Step Functions orquestra workflows como máquina de estados, com branching, retry e tratamento de erro.",
           "whyNots": {
-            "B": "SQS é fila.",
-            "C": "SNS é pub/sub.",
-            "D": "Lambda chamando Lambda na mão é frágil."
+            "B": "Lambda chamando Lambda na mão é frágil.",
+            "C": "SQS é fila.",
+            "D": "SNS é pub/sub."
           }
         },
         {
@@ -23721,32 +23721,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "IAM Access Analyzer"
-            },
-            {
-              "key": "B",
               "text": "AWS Artifact"
             },
             {
+              "key": "B",
+              "text": "IAM Access Analyzer"
+            },
+            {
               "key": "C",
-              "text": "Amazon Macie"
+              "text": "AWS Budgets"
             },
             {
               "key": "D",
-              "text": "AWS Budgets"
+              "text": "Amazon Macie"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): acesso externo/não intencional a recursos = IAM Access Analyzer."
           ],
           "explanation": "IAM Access Analyzer identifica recursos compartilhados com entidades externas, gerando findings.",
           "whyNots": {
-            "B": "Artifact baixa relatórios da AWS.",
-            "C": "Macie acha dado sensível no S3.",
-            "D": "Budgets é custo."
+            "A": "Artifact baixa relatórios da AWS.",
+            "C": "Budgets é custo.",
+            "D": "Macie acha dado sensível no S3."
           }
         },
         {
@@ -23767,32 +23767,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Backup"
+              "text": "AWS Config"
             },
             {
               "key": "B",
-              "text": "Amazon S3 Glacier"
-            },
-            {
-              "key": "C",
               "text": "AWS DataSync"
             },
             {
+              "key": "C",
+              "text": "AWS Backup"
+            },
+            {
               "key": "D",
-              "text": "AWS Config"
+              "text": "Amazon S3 Glacier"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): backup central por política + Vault Lock = AWS Backup."
           ],
           "explanation": "AWS Backup centraliza e automatiza backup entre serviços, com Vault Lock (WORM) e cópia cross-Region.",
           "whyNots": {
-            "B": "Glacier é classe de arquivamento (destino), não a orquestração.",
-            "C": "DataSync é transferência entre storages.",
-            "D": "Config é conformidade."
+            "A": "Config é conformidade.",
+            "B": "DataSync é transferência entre storages.",
+            "D": "Glacier é classe de arquivamento (destino), não a orquestração."
           }
         },
         {
@@ -23813,32 +23813,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon FSx for Lustre"
+              "text": "Amazon EBS sc1"
             },
             {
               "key": "B",
-              "text": "Amazon EFS"
-            },
-            {
-              "key": "C",
               "text": "Amazon S3 Glacier"
             },
             {
+              "key": "C",
+              "text": "Amazon EFS"
+            },
+            {
               "key": "D",
-              "text": "Amazon EBS sc1"
+              "text": "Amazon FSx for Lustre"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): HPC/ML de alto throughput = FSx for Lustre."
           ],
           "explanation": "FSx for Lustre é o file system de alto throughput pra HPC e ML; EFS é NFS Linux geral; FSx for Windows é SMB.",
           "whyNots": {
-            "B": "EFS é NFS de propósito geral, não o de HPC.",
-            "C": "Glacier é arquivamento.",
-            "D": "sc1 é HDD frio de baixo custo."
+            "A": "sc1 é HDD frio de baixo custo.",
+            "B": "Glacier é arquivamento.",
+            "C": "EFS é NFS de propósito geral, não o de HPC."
           }
         },
         {
@@ -23863,15 +23863,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS Shield Standard"
+              "text": "Amazon GuardDuty"
             },
             {
               "key": "C",
-              "text": "Security Group"
+              "text": "AWS Shield Standard"
             },
             {
               "key": "D",
-              "text": "Amazon GuardDuty"
+              "text": "Security Group"
             }
           ],
           "answers": [
@@ -23882,9 +23882,9 @@ window.AWS_BANK = {
           ],
           "explanation": "WAF filtra requisições HTTP(S) e bloqueia SQLi/XSS, anexado a CloudFront/ALB/API Gateway.",
           "whyNots": {
-            "B": "Shield é DDoS de rede (L3/L4).",
-            "C": "Security Group é L3/L4, não entende HTTP.",
-            "D": "GuardDuty detecta ameaça, não filtra HTTP."
+            "B": "GuardDuty detecta ameaça, não filtra HTTP.",
+            "C": "Shield é DDoS de rede (L3/L4).",
+            "D": "Security Group é L3/L4, não entende HTTP."
           }
         },
         {
@@ -23905,15 +23905,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Neptune"
+              "text": "Amazon Timestream"
             },
             {
               "key": "B",
-              "text": "Amazon DocumentDB"
+              "text": "Amazon Neptune"
             },
             {
               "key": "C",
-              "text": "Amazon Timestream"
+              "text": "Amazon DocumentDB"
             },
             {
               "key": "D",
@@ -23921,15 +23921,15 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): grafo/relações (fraude, recomendação) = Neptune."
           ],
           "explanation": "Neptune é o banco de grafo gerenciado, ideal pra dados altamente conectados (recomendação, fraude, redes sociais).",
           "whyNots": {
-            "B": "DocumentDB é de documentos (MongoDB).",
-            "C": "Timestream é séries temporais.",
+            "A": "Timestream é séries temporais.",
+            "C": "DocumentDB é de documentos (MongoDB).",
             "D": "Redshift é data warehouse."
           }
         }
@@ -23959,32 +23959,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "ALB + Auto Scaling em múltiplas AZs + RDS Multi-AZ"
-            },
-            {
-              "key": "B",
-              "text": "NLB + instância única + RDS Single-AZ"
-            },
-            {
-              "key": "C",
               "text": "CloudFront + Spot única + banco local"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "API Gateway + Lambda + Instance Store"
+            },
+            {
+              "key": "C",
+              "text": "ALB + Auto Scaling em múltiplas AZs + RDS Multi-AZ"
+            },
+            {
+              "key": "D",
+              "text": "NLB + instância única + RDS Single-AZ"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): distribuir HTTP=ALB; escalar/curar=ASG multi-AZ; banco sem downtime de AZ=RDS Multi-AZ."
           ],
           "explanation": "ALB distribui o tráfego, o Auto Scaling em várias AZs escala e substitui instâncias doentes, e o RDS Multi-AZ faz failover automático se uma AZ cair. Desenho resiliente clássico.",
           "whyNots": {
-            "B": "Instância única e Single-AZ não sobrevivem à queda de AZ.",
-            "C": "Spot única é interrompível e frágil.",
-            "D": "Instance Store é efêmero; falta o banco resiliente."
+            "A": "Spot única é interrompível e frágil.",
+            "B": "Instance Store é efêmero; falta o banco resiliente.",
+            "D": "Instância única e Single-AZ não sobrevivem à queda de AZ."
           }
         },
         {
@@ -24007,32 +24007,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Anexar uma IAM Role à instância (credenciais temporárias)"
+              "text": "Embutir a access key no código, mas num arquivo separado"
             },
             {
               "key": "B",
-              "text": "Embutir a access key no código"
+              "text": "Tornar o bucket público — só leitura não traz risco algum"
             },
             {
               "key": "C",
-              "text": "Tornar o bucket público"
+              "text": "Usar a conta root, que dispensa configurar permissão"
             },
             {
               "key": "D",
-              "text": "Usar a conta root"
+              "text": "Anexar uma IAM Role à instância (credenciais temporárias)"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): role na EC2 = credencial temporária, nada de chave no código."
           ],
           "explanation": "A IAM Role entrega credenciais temporárias à instância via instance profile, sem chave de longa duração no código. É a boa prática nº 1.",
           "whyNots": {
-            "B": "Access key embutida vaza fácil.",
-            "C": "Bucket público é falha grave.",
-            "D": "Root é proibido no dia a dia."
+            "A": "Access key embutida vaza fácil.",
+            "B": "Bucket público é falha grave.",
+            "C": "Root é proibido no dia a dia."
           }
         },
         {
@@ -24059,7 +24059,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "On-Demand 24/7 + Redshift sempre ligado"
+              "text": "Reserved Instances de 3 anos"
             },
             {
               "key": "C",
@@ -24067,7 +24067,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "Reserved Instances de 3 anos"
+              "text": "On-Demand 24/7 + Redshift sempre ligado"
             }
           ],
           "answers": [
@@ -24078,9 +24078,9 @@ window.AWS_BANK = {
           ],
           "explanation": "Spot (até 90% off) roda o batch interrompível; Athena consulta o S3 serverless (paga por dado escaneado). Nada fica ligado à toa.",
           "whyNots": {
-            "B": "On-Demand 24/7 + Redshift ligado é caro.",
+            "B": "RI pressupõe uso constante.",
             "C": "Dedicated/EMR ligado é o oposto de barato.",
-            "D": "RI pressupõe uso constante."
+            "D": "On-Demand 24/7 + Redshift ligado é caro."
           }
         },
         {
@@ -24102,32 +24102,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon CloudFront (CDN cacheando na borda)"
+              "text": "Amazon EBS, cacheando perto do usuário"
             },
             {
               "key": "B",
-              "text": "Amazon SQS"
+              "text": "Amazon CloudFront (CDN cacheando na borda)"
             },
             {
               "key": "C",
-              "text": "AWS Direct Connect"
+              "text": "Amazon SQS distribuindo as imagens"
             },
             {
               "key": "D",
-              "text": "Amazon EBS"
+              "text": "AWS Direct Connect até cada usuário"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): estático global + aliviar origem = CDN = CloudFront."
           ],
           "explanation": "CloudFront cacheia o conteúdo nas edge locations perto dos usuários, reduzindo latência e aliviando a origem.",
           "whyNots": {
-            "B": "SQS é fila.",
-            "C": "Direct Connect é link híbrido.",
-            "D": "EBS é disco de instância."
+            "A": "EBS é disco de instância.",
+            "C": "SQS é fila.",
+            "D": "Direct Connect é link híbrido."
           }
         },
         {
@@ -24149,32 +24149,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "API Gateway → SQS → Lambda consumindo a fila"
-            },
-            {
-              "key": "B",
               "text": "API Gateway → Lambda síncrono, sem fila"
             },
             {
+              "key": "B",
+              "text": "CloudFront → S3 estático"
+            },
+            {
               "key": "C",
-              "text": "EC2 único processando na hora"
+              "text": "API Gateway → SQS → Lambda consumindo a fila"
             },
             {
               "key": "D",
-              "text": "CloudFront → S3 estático"
+              "text": "EC2 único processando na hora"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): amortecer pico = fila SQS entre entrada e Lambda."
           ],
           "explanation": "A SQS amortece a rajada; o Lambda consome no ritmo (com DLQ). Serverless, desacoplado, sem perder requisição.",
           "whyNots": {
-            "B": "Síncrono sem fila pode estourar concorrência.",
-            "C": "EC2 único não absorve pico.",
-            "D": "Estático não processa requisição dinâmica."
+            "A": "Síncrono sem fila pode estourar concorrência.",
+            "B": "Estático não processa requisição dinâmica.",
+            "D": "EC2 único não absorve pico."
           }
         },
         {
@@ -24195,32 +24195,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Service Control Policies (SCP) no Organizations"
+              "text": "Security Groups aplicados em toda a Organization"
             },
             {
               "key": "B",
-              "text": "IAM roles na conta de gerência"
+              "text": "IAM roles na conta de gerência valendo em todas"
             },
             {
               "key": "C",
-              "text": "Security Groups"
+              "text": "Bucket policies, o teto global das contas-filhas"
             },
             {
               "key": "D",
-              "text": "Bucket policies"
+              "text": "Service Control Policies (SCP) no Organizations"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): teto de permissões da conta (guardrail) = SCP."
           ],
           "explanation": "SCPs definem o teto máximo de permissões de OUs/contas: mesmo com IAM liberando, se a SCP nega, a ação não acontece. Não concedem acesso, só limitam.",
           "whyNots": {
+            "A": "SG é rede.",
             "B": "IAM concede dentro da conta, não impõe teto global.",
-            "C": "SG é rede.",
-            "D": "Bucket policy é acesso a S3."
+            "C": "Bucket policy é acesso a S3."
           }
         },
         {
@@ -24246,15 +24246,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "Amazon S3"
+              "text": "Amazon Athena (cache SQL do RDS)"
             },
             {
               "key": "C",
-              "text": "Amazon Athena"
+              "text": "Amazon S3 (cache de leitura do banco)"
             },
             {
               "key": "D",
-              "text": "AWS Glue"
+              "text": "AWS Glue (camada in-memory de ETL)"
             }
           ],
           "answers": [
@@ -24265,8 +24265,8 @@ window.AWS_BANK = {
           ],
           "explanation": "ElastiCache guarda os resultados quentes em memória (microssegundos), aliviando o RDS de SELECTs repetidos.",
           "whyNots": {
-            "B": "S3 é object storage.",
-            "C": "Athena é SQL no S3.",
+            "B": "Athena é SQL no S3.",
+            "C": "S3 é object storage.",
             "D": "Glue é ETL."
           }
         },
@@ -24288,32 +24288,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Lifecycle: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expira aos 7 anos"
+              "text": "Expirar e apagar todos os logs aos 30 dias, já que retenção antiga não é exigida"
             },
             {
               "key": "B",
-              "text": "Standard pra sempre"
+              "text": "Lifecycle: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expira aos 7 anos"
             },
             {
               "key": "C",
-              "text": "Apagar aos 30 dias"
+              "text": "Mover os logs pra volumes EBS provisionados, que custam menos que o S3"
             },
             {
               "key": "D",
-              "text": "Mover pra EBS"
+              "text": "Manter tudo em S3 Standard pra sempre, pois arquivamento não aceita logs"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): acesso decai = lifecycle (quente→IA→Deep Archive→expira)."
           ],
           "explanation": "A lifecycle policy transiciona por idade (Standard → IA → Deep Archive) e expira ao fim da retenção — custo mínimo sem trabalho manual.",
           "whyNots": {
-            "B": "Standard sempre é caro.",
-            "C": "Apagar viola a retenção.",
-            "D": "EBS é caro pra arquivar."
+            "A": "Apagar viola a retenção.",
+            "C": "EBS é caro pra arquivar.",
+            "D": "Standard sempre é caro."
           }
         },
         {
@@ -24335,7 +24335,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS WAF"
+              "text": "Security Group"
             },
             {
               "key": "B",
@@ -24343,7 +24343,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Security Group"
+              "text": "AWS WAF"
             },
             {
               "key": "D",
@@ -24351,15 +24351,15 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): SQLi/XSS em app web (L7) = WAF."
           ],
           "explanation": "WAF inspeciona requisições HTTP e bloqueia SQLi/XSS, anexado a CloudFront/ALB/API Gateway.",
           "whyNots": {
+            "A": "SG é L3/L4.",
             "B": "Shield é DDoS de rede.",
-            "C": "SG é L3/L4.",
             "D": "Macie é dado sensível no S3."
           }
         },
@@ -24382,32 +24382,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Aurora Global Database (multi-Region) + Route 53"
+              "text": "Aurora numa região com Multi-AZ, que cobre o globo"
             },
             {
               "key": "B",
-              "text": "RDS Single-AZ + snapshots"
+              "text": "DynamoDB, que fala PostgreSQL nativo"
             },
             {
               "key": "C",
-              "text": "Aurora numa região com Multi-AZ"
+              "text": "RDS Single-AZ + snapshots com RPO zero"
             },
             {
               "key": "D",
-              "text": "DynamoDB"
+              "text": "Aurora Global Database (multi-Region) + Route 53"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): multi-continente + RPO/RTO~0 + PostgreSQL = Aurora Global Database."
           ],
           "explanation": "Aurora Global Database abrange várias regiões (leitura global + DR cross-region, RTO em minutos), compatível com PostgreSQL. Route 53 roteia entre regiões.",
           "whyNots": {
-            "B": "RPO/RTO em horas.",
-            "C": "Multi-AZ não cobre perda de região.",
-            "D": "DynamoDB não é compatível com PostgreSQL."
+            "A": "Multi-AZ não cobre perda de região.",
+            "B": "DynamoDB não é compatível com PostgreSQL.",
+            "C": "RPO/RTO em horas."
           }
         },
         {
@@ -24475,11 +24475,11 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Secrets Manager"
+              "text": "AWS KMS"
             },
             {
               "key": "B",
-              "text": "Parameter Store (String simples)"
+              "text": "AWS Secrets Manager"
             },
             {
               "key": "C",
@@ -24487,20 +24487,20 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS KMS"
+              "text": "Parameter Store (String simples)"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): rotação automática de credencial = Secrets Manager."
           ],
           "explanation": "Secrets Manager guarda o segredo e o rotaciona automaticamente (via Lambda), sem alterar o código.",
           "whyNots": {
-            "B": "Parameter Store não rotaciona sozinho.",
+            "A": "KMS é chave, não senha.",
             "C": "ACM é certificado.",
-            "D": "KMS é chave, não senha."
+            "D": "Parameter Store não rotaciona sozinho."
           }
         },
         {
@@ -24521,7 +24521,7 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Fila FIFO"
+              "text": "Standard com mais consumidores"
             },
             {
               "key": "B",
@@ -24529,7 +24529,7 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Standard com mais consumidores"
+              "text": "Fila FIFO"
             },
             {
               "key": "D",
@@ -24537,15 +24537,15 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): ordem estrita + exactly-once = FIFO."
           ],
           "explanation": "A fila FIFO preserva a ordem e garante exactly-once (sem duplicata). A Standard é at-least-once e ordem best-effort.",
           "whyNots": {
+            "A": "Não resolve ordem/duplicação.",
             "B": "Standard pode duplicar/desordenar.",
-            "C": "Não resolve ordem/duplicação.",
             "D": "Só a FIFO garante o requisito."
           }
         },
@@ -24567,32 +24567,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Global Accelerator"
+              "text": "AWS Direct Connect"
             },
             {
               "key": "B",
-              "text": "Amazon CloudFront"
-            },
-            {
-              "key": "C",
               "text": "Route 53 latency routing"
             },
             {
+              "key": "C",
+              "text": "Amazon CloudFront"
+            },
+            {
               "key": "D",
-              "text": "AWS Direct Connect"
+              "text": "AWS Global Accelerator"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): UDP + IP estático + acelerar transporte = Global Accelerator."
           ],
           "explanation": "Global Accelerator dá IPs estáticos anycast e move o tráfego pra a rede da AWS na borda mais próxima, TCP/UDP — ideal pra jogos UDP.",
           "whyNots": {
-            "B": "CloudFront é CDN HTTP cacheável.",
-            "C": "Route 53 depende de cache de DNS.",
-            "D": "Direct Connect é link do data center."
+            "A": "Direct Connect é link do data center.",
+            "B": "Route 53 depende de cache de DNS.",
+            "C": "CloudFront é CDN HTTP cacheável."
           }
         },
         {
@@ -24618,15 +24618,15 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "IP público nas instâncias privadas"
+              "text": "Abrir porta 22 pra 0.0.0.0/0 — o SG já filtra quem entra"
             },
             {
               "key": "C",
-              "text": "Abrir porta 22 pra 0.0.0.0/0"
+              "text": "Mover pra sub-rede pública, mantendo tudo protegido igual"
             },
             {
               "key": "D",
-              "text": "Mover pra sub-rede pública"
+              "text": "IP público nas instâncias privadas, só pro time de admins"
             }
           ],
           "answers": [
@@ -24637,9 +24637,9 @@ window.AWS_BANK = {
           ],
           "explanation": "O bastion host na sub-rede pública serve de ponte SSH pras instâncias privadas, sem expô-las. Alternativa moderna: SSM Session Manager (sem porta aberta).",
           "whyNots": {
-            "B": "Expor IP público é o que se evita.",
-            "C": "Porta 22 aberta é falha grave.",
-            "D": "Mover pra pública expõe."
+            "B": "Porta 22 aberta é falha grave.",
+            "C": "Mover pra pública expõe.",
+            "D": "Expor IP público é o que se evita."
           }
         },
         {
@@ -24660,32 +24660,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Budgets Actions"
-            },
-            {
-              "key": "B",
-              "text": "Cost Explorer"
-            },
-            {
-              "key": "C",
               "text": "Pricing Calculator"
             },
             {
-              "key": "D",
+              "key": "B",
+              "text": "AWS Budgets Actions"
+            },
+            {
+              "key": "C",
               "text": "Trusted Advisor"
+            },
+            {
+              "key": "D",
+              "text": "Cost Explorer"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): ação automática ao estourar orçamento (parar EC2/RDS, aplicar SCP) = Budget Actions."
           ],
           "explanation": "Budget Actions executam uma resposta automática quando o orçamento passa do limite: parar EC2/RDS, aplicar IAM policy ou SCP.",
           "whyNots": {
-            "B": "Cost Explorer só analisa.",
-            "C": "Pricing Calculator estima.",
-            "D": "Trusted Advisor recomenda."
+            "A": "Pricing Calculator estima.",
+            "C": "Trusted Advisor recomenda.",
+            "D": "Cost Explorer só analisa."
           }
         },
         {
@@ -24706,32 +24706,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"
+              "text": "gp2, que garante IOPS máximo constante"
             },
             {
               "key": "B",
-              "text": "sc1 (Cold HDD)"
+              "text": "st1 (Throughput HDD), otimizado pra IOPS"
             },
             {
               "key": "C",
-              "text": "st1 (Throughput HDD)"
+              "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"
             },
             {
               "key": "D",
-              "text": "gp2"
+              "text": "sc1 (Cold HDD), com latência mínima"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): IOPS altíssimo/consistente = Provisioned IOPS (io2)."
           ],
           "explanation": "io2 (e Block Express) entrega IOPS provisionados altos e consistentes, baixa latência e durabilidade reforçada — pra bancos críticos.",
           "whyNots": {
-            "B": "sc1 é HDD frio.",
-            "C": "st1 é throughput sequencial.",
-            "D": "gp2 não garante IOPS altíssimo consistente."
+            "A": "gp2 não garante IOPS altíssimo consistente.",
+            "B": "st1 é throughput sequencial.",
+            "D": "sc1 é HDD frio."
           }
         },
         {
@@ -24752,32 +24752,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Cross-Region Replication (CRR) — requer versionamento"
+              "text": "Transfer Acceleration, que copia pra outra região"
             },
             {
               "key": "B",
-              "text": "Same-Region Replication"
+              "text": "Same-Region Replication, a opção multi-região do S3"
             },
             {
               "key": "C",
-              "text": "Transfer Acceleration"
+              "text": "Lifecycle policy movendo os objetos pra outra região"
             },
             {
               "key": "D",
-              "text": "Lifecycle policy"
+              "text": "Cross-Region Replication (CRR) — requer versionamento"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): cópia automática em outra região = CRR (com versionamento)."
           ],
           "explanation": "CRR replica automaticamente pra um bucket em outra região (exige versionamento na origem e destino) — DR e conformidade geográfica.",
           "whyNots": {
+            "A": "Transfer Acceleration é upload.",
             "B": "SRR é mesma região.",
-            "C": "Transfer Acceleration é upload.",
-            "D": "Lifecycle muda classe/expira."
+            "C": "Lifecycle muda classe/expira."
           }
         },
         {
@@ -24803,7 +24803,7 @@ window.AWS_BANK = {
             },
             {
               "key": "B",
-              "text": "AWS KMS"
+              "text": "AWS CloudHSM"
             },
             {
               "key": "C",
@@ -24811,7 +24811,7 @@ window.AWS_BANK = {
             },
             {
               "key": "D",
-              "text": "AWS CloudHSM"
+              "text": "AWS KMS"
             }
           ],
           "answers": [
@@ -24822,9 +24822,9 @@ window.AWS_BANK = {
           ],
           "explanation": "ACM provisiona certificados TLS públicos gratuitos e os renova automaticamente, integrando com ELB/CloudFront/API Gateway.",
           "whyNots": {
-            "B": "KMS é chave.",
+            "B": "CloudHSM é HSM dedicado.",
             "C": "Secrets Manager é segredo.",
-            "D": "CloudHSM é HSM dedicado."
+            "D": "KMS é chave."
           }
         },
         {
@@ -24845,15 +24845,15 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "DynamoDB Accelerator (DAX)"
+              "text": "Global Tables"
             },
             {
               "key": "B",
-              "text": "DynamoDB Streams"
+              "text": "DynamoDB Accelerator (DAX)"
             },
             {
               "key": "C",
-              "text": "Global Tables"
+              "text": "DynamoDB Streams"
             },
             {
               "key": "D",
@@ -24861,15 +24861,15 @@ window.AWS_BANK = {
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): acelerar leitura do DynamoDB pra microssegundos = DAX."
           ],
           "explanation": "DAX é o cache in-memory do DynamoDB, levando leituras de ms pra microssegundos (read-intensive).",
           "whyNots": {
-            "B": "Streams captura mudanças.",
-            "C": "Global Tables é multi-região.",
+            "A": "Global Tables é multi-região.",
+            "C": "Streams captura mudanças.",
             "D": "Backup não acelera leitura."
           }
         },
@@ -24892,31 +24892,31 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Direct Connect primário + Site-to-Site VPN de backup (failover automático)"
+              "text": "Só uma Site-to-Site VPN pela internet, que já dá a mesma garantia de banda"
             },
             {
               "key": "B",
-              "text": "Dois Direct Connect, sem VPN"
+              "text": "Dois links Direct Connect no mesmo local, sem VPN de contingência"
             },
             {
               "key": "C",
-              "text": "Só VPN"
+              "text": "Direct Connect primário + Site-to-Site VPN de backup (failover automático)"
             },
             {
               "key": "D",
-              "text": "Direct Connect + CloudFront de reserva"
+              "text": "Direct Connect primário + CloudFront como caminho de reserva pro data center"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): DX primário + VPN backup barato = padrão clássico."
           ],
           "explanation": "DX como primário e Site-to-Site VPN como backup (failover via BGP) combina baixa latência com um reserva barato.",
           "whyNots": {
+            "A": "Só VPN perde a baixa latência do DX.",
             "B": "Dois DX é a opção mais cara.",
-            "C": "Só VPN perde a baixa latência do DX.",
             "D": "CloudFront não é rota de conectividade híbrida."
           }
         },
@@ -24939,32 +24939,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Amazon Macie"
-            },
-            {
-              "key": "B",
-              "text": "Amazon Inspector"
-            },
-            {
-              "key": "C",
               "text": "Amazon GuardDuty"
             },
             {
-              "key": "D",
+              "key": "B",
               "text": "AWS Config"
+            },
+            {
+              "key": "C",
+              "text": "Amazon Inspector"
+            },
+            {
+              "key": "D",
+              "text": "Amazon Macie"
             }
           ],
           "answers": [
-            "A"
+            "D"
           ],
           "hints": [
             "💡 Rafael (dica): dado sensível (PII) no S3 = Macie."
           ],
           "explanation": "Macie usa ML/pattern matching pra descobrir e classificar dados sensíveis (PII) nos buckets S3.",
           "whyNots": {
-            "B": "Inspector é vulnerabilidade.",
-            "C": "GuardDuty é ameaça.",
-            "D": "Config é configuração."
+            "A": "GuardDuty é ameaça.",
+            "B": "Config é configuração.",
+            "C": "Inspector é vulnerabilidade."
           }
         },
         {
@@ -24994,11 +24994,11 @@ window.AWS_BANK = {
             },
             {
               "key": "C",
-              "text": "Spot Instances"
+              "text": "On-Demand puro"
             },
             {
               "key": "D",
-              "text": "On-Demand puro"
+              "text": "Spot Instances"
             }
           ],
           "answers": [
@@ -25010,8 +25010,8 @@ window.AWS_BANK = {
           "explanation": "Compute Savings Plans dão desconto por compromisso de US$/hora, flexível quanto à família/região e incluindo Fargate e Lambda.",
           "whyNots": {
             "B": "Standard RI amarra a config específica.",
-            "C": "Spot é interrompível.",
-            "D": "On-Demand não dá o desconto."
+            "C": "On-Demand não dá o desconto.",
+            "D": "Spot é interrompível."
           }
         },
         {
@@ -25033,32 +25033,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "AWS Fargate (serverless para contêineres)"
-            },
-            {
-              "key": "B",
               "text": "ECS no launch type EC2"
             },
             {
+              "key": "B",
+              "text": "AWS Fargate (serverless para contêineres)"
+            },
+            {
               "key": "C",
-              "text": "EC2 puro com Docker"
+              "text": "AWS Batch em EC2 dedicado"
             },
             {
               "key": "D",
-              "text": "AWS Batch em EC2 dedicado"
+              "text": "EC2 puro com Docker"
             }
           ],
           "answers": [
-            "A"
+            "B"
           ],
           "hints": [
             "💡 Rafael (dica): contêiner sem gerenciar servidor = Fargate."
           ],
           "explanation": "Fargate é o motor serverless de contêineres (funciona com ECS e EKS): você especifica CPU/memória por task e paga por isso, sem gerenciar servidores.",
           "whyNots": {
-            "B": "Launch type EC2 exige gerenciar a frota.",
-            "C": "EC2 puro é o máximo de gestão.",
-            "D": "Batch em EC2 dedicado gerencia infra."
+            "A": "Launch type EC2 exige gerenciar a frota.",
+            "C": "Batch em EC2 dedicado gerencia infra.",
+            "D": "EC2 puro é o máximo de gestão."
           }
         },
         {
@@ -25082,32 +25082,32 @@ window.AWS_BANK = {
           "options": [
             {
               "key": "A",
-              "text": "Evento S3 → Lambda (thumbnail) → DynamoDB → SNS (fan-out)"
+              "text": "Cron em EC2 varrendo o bucket a cada minuto (evento puro)"
             },
             {
               "key": "B",
-              "text": "Cron em EC2 varrendo o bucket"
+              "text": "Kinesis (thumbnail) + Redshift (metadados e fan-out)"
             },
             {
               "key": "C",
-              "text": "API Gateway WebSocket + RDS"
+              "text": "Evento S3 → Lambda (thumbnail) → DynamoDB → SNS (fan-out)"
             },
             {
               "key": "D",
-              "text": "Kinesis + Redshift"
+              "text": "API Gateway WebSocket + RDS notificando os sistemas"
             }
           ],
           "answers": [
-            "A"
+            "C"
           ],
           "hints": [
             "💡 Rafael (dica): a cada upload = evento do S3 → Lambda; NoSQL = DynamoDB; notificar vários = SNS."
           ],
           "explanation": "O evento do S3 aciona a Lambda (gera thumbnail), grava metadados no DynamoDB e publica no SNS (fan-out) pra notificar vários sistemas — serverless e orientado a evento.",
           "whyNots": {
-            "B": "Cron varrendo é ineficiente e não é orientado a evento.",
-            "C": "WebSocket+RDS não é o padrão de processar upload.",
-            "D": "Kinesis/Redshift é streaming/analytics."
+            "A": "Cron varrendo é ineficiente e não é orientado a evento.",
+            "B": "Kinesis/Redshift é streaming/analytics.",
+            "D": "WebSocket+RDS não é o padrão de processar upload."
           }
         }
       ]

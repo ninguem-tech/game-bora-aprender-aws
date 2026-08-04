@@ -252,8 +252,12 @@ function carregar() {
       hasSeenWelcome: booleanoOuPadrao(parsed.hasSeenWelcome, ESTADO_PADRAO.hasSeenWelcome),
       petsSalvos: normalizarInteiroPositivo(parsed.petsSalvos, 0)
     };
-    if (ultimo !== null && ultimo !== hoje) {
-      return atualizarStreak(base);
+    // Abrir o app não conta como dia de estudo: o streak só avança via
+    // registrarEstudo/registrarExame. No carregamento apenas corrige a
+    // exibição — se a última atividade não foi ontem nem hoje, a sequência
+    // já foi quebrada e deve aparecer zerada.
+    if (ultimo !== null && ultimo !== hoje && ultimo !== dataOntemIso()) {
+      base.streakDays = 0;
     }
     return base;
   } catch {

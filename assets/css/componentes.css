@@ -199,16 +199,6 @@ body.dark .chip.active { color: #161412; }
 }
 .netBadge.offline { background: var(--vermelho-bg); color: var(--vermelho); border-color: var(--vermelho); }
 
-/* Install PWA toast */
-.pwaToast {
-  position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 100;
-  background: var(--leite); border: 1px solid var(--dourado); border-radius: 16px;
-  padding: 14px 16px; box-shadow: 0 8px 24px var(--shadow); display: flex; gap: 12px;
-  align-items: center; justify-content: space-between; flex-wrap: wrap; max-width: 480px; margin: 0 auto;
-}
-.pwaToast p { margin: 0; font-size: .9rem; color: var(--cafe); }
-.pwaToast .actions { display: flex; gap: 8px; }
-
 /* Backup dialog */
 .backupDialog {
   position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center;

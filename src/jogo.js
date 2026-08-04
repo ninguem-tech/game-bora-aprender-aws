@@ -769,6 +769,8 @@ function processarRespostaPet(estadoPet, acertou) {
 function criarEstadoSobrevivencia(totalVidas = 3) {
   return {
     acertosConsecutivos: 0,
+    melhorSequencia: 0,
+    totalAcertos: 0,
     erros: 0,
     maxErros: totalVidas,
     status: "em_andamento" // 'em_andamento', 'derrota'
@@ -787,6 +789,10 @@ function processarRespostaSobrevivencia(estadoSobrevivencia, acertou) {
 
   if (acertou) {
     novoEstado.acertosConsecutivos += 1;
+    novoEstado.totalAcertos += 1;
+    if (novoEstado.acertosConsecutivos > novoEstado.melhorSequencia) {
+      novoEstado.melhorSequencia = novoEstado.acertosConsecutivos;
+    }
   } else {
     novoEstado.acertosConsecutivos = 0;
     novoEstado.erros += 1;

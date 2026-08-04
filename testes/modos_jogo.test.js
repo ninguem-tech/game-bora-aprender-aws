@@ -115,6 +115,45 @@ describe("Regras e Modos de Jogo", () => {
       assert.equal(estado.erros, 3);
       assert.equal(estado.status, "derrota");
     });
+
+    it("deve inicializar totalAcertos e melhorSequencia com zero", () => {
+      const estado = criarEstadoSobrevivencia(3);
+      assert.equal(estado.totalAcertos, 0);
+      assert.equal(estado.melhorSequencia, 0);
+    });
+
+    it("deve acumular totalAcertos e registrar a melhor sequência da rodada", () => {
+      let estado = criarEstadoSobrevivencia(3);
+      // Sequência: 2 acertos, 1 erro, 3 acertos
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, false);
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, true);
+
+      assert.equal(estado.totalAcertos, 5, "Total de acertos acumula mesmo após erros");
+      assert.equal(estado.melhorSequencia, 3, "Melhor sequência da rodada foi de 3 acertos");
+      assert.equal(estado.acertosConsecutivos, 3);
+    });
+
+    it("deve manter as estatísticas da rodada mesmo na derrota", () => {
+      let estado = criarEstadoSobrevivencia(3);
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, true);
+      estado = processarRespostaSobrevivencia(estado, false);
+      estado = processarRespostaSobrevivencia(estado, false);
+      estado = processarRespostaSobrevivencia(estado, false);
+
+      assert.equal(estado.status, "derrota");
+      assert.equal(estado.acertosConsecutivos, 0, "Sequência atual zera na derrota");
+      assert.equal(estado.totalAcertos, 2, "Acertos da rodada não podem ser perdidos");
+      assert.equal(
+        estado.melhorSequencia,
+        2,
+        "Melhor sequência da rodada deve sobreviver à derrota"
+      );
+    });
   });
 
   describe("Modo Simulado", () => {

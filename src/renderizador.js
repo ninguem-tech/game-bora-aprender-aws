@@ -586,7 +586,7 @@ function mostraSurvivalPergunta() {
     <div id="fb"></div>`;
 
   renderOptionsAndHints(d);
-  setProgress(App.survivalEstado.acertosConsecutivos, App.survivalEstado.acertosConsecutivos + 5);
+  setProgress(App.i, App.q.length);
   ACESSIBILIDADE.focarTitulo(app);
   ACESSIBILIDADE.announce("Questão " + (App.i + 1) + ". Vidas restantes: " + vidasRestantes + ".");
 }
@@ -709,9 +709,9 @@ function resumoSimulado() {
   const score = JogoCore.calcularScoreAWS(e.acertos, e.total);
   const percent = e.total > 0 ? Math.round((e.acertos / e.total) * 100) : 0;
   const aprovado = score >= 720;
-  const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
-  const jaTinhaAprovado = examHistory.some((ex) => ex && ex.score >= 720);
-  const jaTinhaPerfeito = examHistory.some((ex) => ex && ex.score >= 1000);
+  const historicoAnterior = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
+  const jaTinhaAprovado = historicoAnterior.some((ex) => ex && ex.score >= 720);
+  const jaTinhaPerfeito = historicoAnterior.some((ex) => ex && ex.score >= 1000);
   if (aprovado) {
     AUDIO.playSound("fanfare", App.store);
     dispararConfete();
@@ -719,6 +719,23 @@ function resumoSimulado() {
     AUDIO.playSound("no", App.store);
   }
 
+  const tempoUsadoMinutos = Math.ceil(
+    (e.tempoMinutos * 60 - JogoCore.calcularTempoRestanteSimulado(e.tempoFimMs)) / 60
+  );
+  PERSISTENCIA.registrarExame(App.store, {
+    acertos: e.acertos,
+    total: e.total,
+    score: score,
+    tempoMinutos: tempoUsadoMinutos
+  });
+  PERSISTENCIA.registrarEstudo(App.store, {
+    questionsAnswered: e.indice,
+    studyTimeMinutes: tempoUsadoMinutos
+  });
+  PERSISTENCIA.salvar(App.store);
+
+  // O histórico exibido inclui o simulado recém-concluído (já registrado).
+  const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
   const ultimosExames = examHistory.slice(0, 5).map(
     (ex) => `
       <li class="examItem">
@@ -744,20 +761,6 @@ function resumoSimulado() {
     ${historicoHtml}
     <button class="cta" data-action="intro">Voltar ao início [Esc]</button>`;
   setProgress(e.total, e.total);
-  const tempoUsadoMinutos = Math.ceil(
-    (e.tempoMinutos * 60 - JogoCore.calcularTempoRestanteSimulado(e.tempoFimMs)) / 60
-  );
-  PERSISTENCIA.registrarExame(App.store, {
-    acertos: e.acertos,
-    total: e.total,
-    score: score,
-    tempoMinutos: tempoUsadoMinutos
-  });
-  PERSISTENCIA.registrarEstudo(App.store, {
-    questionsAnswered: e.indice,
-    studyTimeMinutes: tempoUsadoMinutos
-  });
-  PERSISTENCIA.salvar(App.store);
   // As conquistas dependem do examHistory já atualizado; por isso a
   // comemoração acontece depois de registrar o exame.
   if (aprovado) {
@@ -1320,14 +1323,19 @@ function resumoSurvival() {
     <span class="who"><span aria-hidden="true">⚡</span> Fim da Sobrevivência</span>
     <h1>${completo ? "Você zerou o banco! 🎉" : "Rodada Finalizada!"}</h1>
     <div class="stat">
-      <div><b>${App.survivalEstado.acertosConsecutivos}</b><span>acertos consecutivos</span></div>
-      <div><b>${App.store.stats.maxStreak}</b><span>maior sequência</span></div>
+      <div><b>${App.survivalEstado.totalAcertos}</b><span>acertos</span></div>
+      <div><b>${App.survivalEstado.melhorSequencia}</b><span>melhor sequência</span></div>
+      <div><b>${App.survivalEstado.erros}/${App.survivalEstado.maxErros}</b><span>erros (vidas)</span></div>
     </div>
     <p class="lead">${completo ? "Respondeu todas as questões disponíveis sem perder todas as vidas. Excelente resiliência!" : "Você perdeu suas 3 vidas. Cada erro é uma excelente oportunidade para aprender e fixar!"}</p>
     <button class="cta" data-action="intro">Voltar ao início [Esc]</button>`;
   ACESSIBILIDADE.focarTitulo(app);
   ACESSIBILIDADE.announce(
-    "Rodada finalizada: " + App.survivalEstado.acertosConsecutivos + " acertos consecutivos."
+    "Rodada finalizada: " +
+      App.survivalEstado.totalAcertos +
+      " acertos, melhor sequência de " +
+      App.survivalEstado.melhorSequencia +
+      "."
   );
 }
 

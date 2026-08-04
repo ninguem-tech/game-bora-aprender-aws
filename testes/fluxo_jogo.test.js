@@ -65,6 +65,25 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
       assert.strictEqual(e.status, "em_andamento");
     });
 
+    it("deve exibir estatísticas reais da rodada na derrota (regressão do resumo)", () => {
+      // Cenário real: o jogador acerta 4 seguidas, depois erra 3 seguidas.
+      // Antes da correção, o resumo mostrava "0 acertos consecutivos"
+      // (a sequência final) e nenhum total de acertos da rodada.
+      let e = criarEstadoSobrevivencia(3);
+      e = processarRespostaSobrevivencia(e, true);
+      e = processarRespostaSobrevivencia(e, true);
+      e = processarRespostaSobrevivencia(e, true);
+      e = processarRespostaSobrevivencia(e, true);
+      e = processarRespostaSobrevivencia(e, false);
+      e = processarRespostaSobrevivencia(e, false);
+      e = processarRespostaSobrevivencia(e, false);
+
+      assert.strictEqual(e.status, "derrota");
+      assert.strictEqual(e.totalAcertos, 4, "Resumo deve mostrar os 4 acertos da rodada");
+      assert.strictEqual(e.melhorSequencia, 4, "Resumo deve mostrar a melhor sequência da rodada");
+      assert.strictEqual(e.erros, 3);
+    });
+
     it("deve percorrer todas as questões do banco sem crash (fumaça)", () => {
       const todas = fases.reduce((acc, f) => acc.concat(f.questions), []);
       assert.ok(todas.length > 0, "Banco deve conter questões");

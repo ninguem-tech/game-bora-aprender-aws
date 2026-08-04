@@ -93,6 +93,48 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(estado.lastActiveDate, dataHojeIso());
   });
 
+  it("não deve avançar o streak apenas por abrir o app (carregar)", () => {
+    localStorageFalso.setItem(
+      LS_KEY,
+      JSON.stringify({ streakDays: 2, lastActiveDate: dataOntemIso() })
+    );
+
+    const estado = carregar();
+
+    assert.equal(estado.streakDays, 2, "Carregar não pode incrementar o streak");
+    assert.equal(estado.lastActiveDate, dataOntemIso(), "Carregar não pode marcar atividade hoje");
+  });
+
+  it("deve manter o streak intacto ao carregar quando já estudou hoje", () => {
+    localStorageFalso.setItem(
+      LS_KEY,
+      JSON.stringify({ streakDays: 4, lastActiveDate: dataHojeIso() })
+    );
+
+    const estado = carregar();
+
+    assert.equal(estado.streakDays, 4);
+    assert.equal(estado.lastActiveDate, dataHojeIso());
+  });
+
+  it("deve exibir streak zerado ao carregar quando a sequência foi quebrada", () => {
+    const quatroDiasAtras = new Date();
+    quatroDiasAtras.setDate(quatroDiasAtras.getDate() - 4);
+    localStorageFalso.setItem(
+      LS_KEY,
+      JSON.stringify({ streakDays: 7, lastActiveDate: formatarDataLocal(quatroDiasAtras) })
+    );
+
+    const estado = carregar();
+
+    assert.equal(estado.streakDays, 0, "Sequência quebrada deve aparecer zerada");
+    assert.equal(
+      estado.lastActiveDate,
+      formatarDataLocal(quatroDiasAtras),
+      "A data da última atividade real deve ser preservada"
+    );
+  });
+
   it("deve salvar e carregar o estado completo corretamente", () => {
     const estadoCompleto = {
       deck: { q1: { id: "q1", box: 2, due: 1000 } },

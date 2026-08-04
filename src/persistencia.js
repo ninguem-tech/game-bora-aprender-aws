@@ -7,6 +7,10 @@
  */
 
 const LS_KEY = "bora_aws_v2";
+const SHA =
+  (typeof module !== "undefined" && module.exports && typeof require === "function"
+    ? require("./sha256.js")
+    : null) || (typeof window !== "undefined" ? window.SHA256 : null);
 
 const ESTADO_PADRAO = {
   deck: {},
@@ -270,11 +274,42 @@ function salvar(store) {
 }
 
 /**
+ * Serializa um valor com chaves ordenadas, para que o checksum não dependa
+ * da ordem em que as chaves foram inseridas no objeto.
+ * @param {*} valor Valor a serializar.
+ * @returns {string} JSON canônico.
+ */
+function stringifyCanonico(valor) {
+  if (typeof valor === "undefined") return "null";
+  if (valor === null || typeof valor !== "object") return JSON.stringify(valor);
+  if (Array.isArray(valor)) return "[" + valor.map(stringifyCanonico).join(",") + "]";
+  const chaves = Object.keys(valor).sort();
+  return (
+    "{" +
+    chaves.map((chave) => JSON.stringify(chave) + ":" + stringifyCanonico(valor[chave])).join(",") +
+    "}"
+  );
+}
+
+/**
+ * Calcula o checksum SHA-256 do estado do jogo.
+ * @param {Object} store Estado persistente.
+ * @returns {string} Checksum no formato "sha256-<hex>".
+ */
+function calcularChecksumBackup(store) {
+  return "sha256-" + SHA.sha256(stringifyCanonico(store));
+}
+
+/**
  * Gera um download JSON do progresso do usuário.
  * @param {Object} store Estado persistente.
  */
 function exportarProgressoJSON(store) {
-  const conteudo = JSON.stringify(store, null, 2);
+  const conteudo = JSON.stringify(
+    { checksum: calcularChecksumBackup(store), data: store },
+    null,
+    2
+  );
   const link = document.createElement("a");
   link.download = "bora-aprender-aws-backup-" + dataHojeIso() + ".json";
   if (typeof URL !== "undefined" && URL.createObjectURL) {
@@ -341,24 +376,28 @@ function importarProgressoJSON(jsonString) {
     if (typeof jsonString !== "string" || jsonString.length > 2 * 1024 * 1024) return null;
     if (jsonString.includes("__proto__") || jsonString.includes("constructor")) return null;
     const parsed = JSON.parse(jsonString);
-    if (!validarEstruturaBackup(parsed)) return null;
+    const possuiEnvelope = parsed && typeof parsed === "object" && "data" in parsed;
+    const dados = possuiEnvelope ? parsed.data : parsed;
+    if (possuiEnvelope) {
+      if (parsed.checksum !== calcularChecksumBackup(dados)) return null;
+    }
+    if (!validarEstruturaBackup(dados)) return null;
     const importado = carregar();
-    if (parsed.deck) importado.deck = normalizarDeck(parsed.deck);
-    if (typeof parsed.xpTotal === "number") importado.xpTotal = Math.max(0, parsed.xpTotal);
-    if (parsed.theme === "light" || parsed.theme === "dark") importado.theme = parsed.theme;
-    if (typeof parsed.muted === "boolean") importado.muted = parsed.muted;
-    if ([0.85, 1.0, 1.15, 1.3].includes(parsed.fontScale)) importado.fontScale = parsed.fontScale;
-    if (parsed.phaseStats) importado.phaseStats = normalizarPhaseStats(parsed.phaseStats);
-    if (parsed.stats) importado.stats = normalizarStats(parsed.stats);
-    if (parsed.studyLogs) importado.studyLogs = normalizarStudyLogs(parsed.studyLogs);
-    if (parsed.examHistory) importado.examHistory = normalizarExamHistory(parsed.examHistory);
-    if (typeof parsed.hasSeenWelcome === "boolean")
-      importado.hasSeenWelcome = parsed.hasSeenWelcome;
-    if (typeof parsed.petsSalvos === "number")
-      importado.petsSalvos = normalizarInteiroPositivo(parsed.petsSalvos, 0);
-    if (typeof parsed.streakDays === "number")
-      importado.streakDays = normalizarInteiroPositivo(parsed.streakDays, 0);
-    if (typeof parsed.lastActiveDate === "string") importado.lastActiveDate = parsed.lastActiveDate;
+    if (dados.deck) importado.deck = normalizarDeck(dados.deck);
+    if (typeof dados.xpTotal === "number") importado.xpTotal = Math.max(0, dados.xpTotal);
+    if (dados.theme === "light" || dados.theme === "dark") importado.theme = dados.theme;
+    if (typeof dados.muted === "boolean") importado.muted = dados.muted;
+    if ([0.85, 1.0, 1.15, 1.3].includes(dados.fontScale)) importado.fontScale = dados.fontScale;
+    if (dados.phaseStats) importado.phaseStats = normalizarPhaseStats(dados.phaseStats);
+    if (dados.stats) importado.stats = normalizarStats(dados.stats);
+    if (dados.studyLogs) importado.studyLogs = normalizarStudyLogs(dados.studyLogs);
+    if (dados.examHistory) importado.examHistory = normalizarExamHistory(dados.examHistory);
+    if (typeof dados.hasSeenWelcome === "boolean") importado.hasSeenWelcome = dados.hasSeenWelcome;
+    if (typeof dados.petsSalvos === "number")
+      importado.petsSalvos = normalizarInteiroPositivo(dados.petsSalvos, 0);
+    if (typeof dados.streakDays === "number")
+      importado.streakDays = normalizarInteiroPositivo(dados.streakDays, 0);
+    if (typeof dados.lastActiveDate === "string") importado.lastActiveDate = dados.lastActiveDate;
     salvar(importado);
     return importado;
   } catch {
@@ -394,6 +433,7 @@ if (typeof module !== "undefined" && module.exports) {
     ESTADO_PADRAO,
     exportarProgressoJSON,
     importarProgressoJSON,
+    calcularChecksumBackup,
     registrarEstudo,
     registrarExame,
     atualizarStreak,
@@ -411,6 +451,7 @@ if (typeof module !== "undefined" && module.exports) {
     ESTADO_PADRAO,
     exportarProgressoJSON,
     importarProgressoJSON,
+    calcularChecksumBackup,
     registrarEstudo,
     registrarExame,
     atualizarStreak

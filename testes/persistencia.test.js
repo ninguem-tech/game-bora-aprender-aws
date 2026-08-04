@@ -7,6 +7,7 @@ const {
   registrarEstudo,
   atualizarStreak,
   importarProgressoJSON,
+  calcularChecksumBackup,
   LS_KEY,
   ESTADO_PADRAO,
   formatarDataLocal,
@@ -378,6 +379,44 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(resultado.theme, "dark");
     assert.equal(resultado.fontScale, 1.3);
     assert.equal(resultado.stats.totalCorrect, 8);
+  });
+
+  it("deve calcular checksum estável independente da ordem das chaves", () => {
+    const primeiro = { xpTotal: 10, stats: { totalAnswered: 2 }, deck: {} };
+    const segundo = { stats: { totalAnswered: 2 }, deck: {}, xpTotal: 10 };
+
+    assert.equal(calcularChecksumBackup(primeiro), calcularChecksumBackup(segundo));
+    assert.match(calcularChecksumBackup(primeiro), /^sha256-[0-9a-f]{64}$/);
+  });
+
+  it("deve importar backup com checksum válido", () => {
+    const dados = {
+      xpTotal: 50,
+      theme: "dark",
+      stats: { totalAnswered: 10, totalCorrect: 8, maxStreak: 2 }
+    };
+    const backup = JSON.stringify({ checksum: calcularChecksumBackup(dados), data: dados });
+
+    const resultado = importarProgressoJSON(backup);
+
+    assert.ok(resultado);
+    assert.equal(resultado.xpTotal, 50);
+    assert.equal(resultado.theme, "dark");
+  });
+
+  it("deve rejeitar backup com dados adulterados após o checksum", () => {
+    const dados = { xpTotal: 50, stats: { totalAnswered: 10 } };
+    const backup = JSON.stringify({ checksum: calcularChecksumBackup(dados), data: dados });
+    const adulterado = backup.replace('"xpTotal":50', '"xpTotal":999');
+
+    const resultado = importarProgressoJSON(adulterado);
+
+    assert.equal(resultado, null);
+  });
+
+  it("deve rejeitar envelope sem checksum", () => {
+    const resultado = importarProgressoJSON('{"data":{"stats":{}}}');
+    assert.equal(resultado, null);
   });
 });
 

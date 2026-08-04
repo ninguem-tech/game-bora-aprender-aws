@@ -157,7 +157,7 @@
       "" +
       '<div class="card" role="dialog" aria-modal="true" aria-labelledby="backupTitulo">' +
       '  <h1 id="backupTitulo">Backup e restauração</h1>' +
-      '  <p class="lead">Todos os dados ficam no seu navegador. Exporte para guardar, ou cole um backup anterior para restaurar.</p>' +
+      '  <p class="lead">Todos os dados ficam no seu navegador. Exporte para guardar, ou cole um backup anterior para restaurar. Backups novos incluem verificação de integridade (SHA-256).</p>' +
       '  <div class="row2">' +
       '    <button class="cta" data-action="exportar-backup">📥 Exportar JSON</button>' +
       '    <button class="cta ghost" data-action="restaurar-backup">📤 Restaurar do JSON abaixo</button>' +

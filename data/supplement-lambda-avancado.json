@@ -20,9 +20,9 @@
       "stem": "Qual é a limitação e a alternativa correta?",
       "options": [
         {"key": "A", "text": "Lambda tem timeout máximo de 15 minutos; pra 40 min use Fargate/ECS, Step Functions ou Batch"},
-        {"key": "B", "text": "Lambda roda por tempo ilimitado, então serve"},
-        {"key": "C", "text": "Basta aumentar a memória que o timeout some"},
-        {"key": "D", "text": "Lambda só roda por 1 minuto"}
+        {"key": "B", "text": "Lambda roda por tempo ilimitado desde que a concorrência reservada esteja configurada"},
+        {"key": "C", "text": "Basta aumentar a memória da função: acima de 10 GB o limite de timeout deixa de existir"},
+        {"key": "D", "text": "Lambda só roda por 1 minuto no máximo, então nem tarefas de 5 minutos são possíveis"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual mecanismo conecta a fila SQS ao Lambda dessa forma?",
       "options": [
         {"key": "A", "text": "Event source mapping (o Lambda faz polling da fila em lotes)"},
-        {"key": "B", "text": "Uma invocação síncrona via API Gateway"},
-        {"key": "C", "text": "Um signed URL"},
-        {"key": "D", "text": "Provisioned concurrency"}
+        {"key": "B", "text": "Uma invocação síncrona via API Gateway lendo a fila em lotes"},
+        {"key": "C", "text": "Um signed URL apontando a fila SQS direto pra função"},
+        {"key": "D", "text": "Provisioned concurrency, que já vem com o polling da fila"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Como aumentar a CPU disponível pra função?",
       "options": [
         {"key": "A", "text": "Aumentar a memória configurada (CPU escala junto com a memória)"},
-        {"key": "B", "text": "Aumentar o timeout"},
-        {"key": "C", "text": "Adicionar uma DLQ"},
-        {"key": "D", "text": "Reduzir o número de layers"}
+        {"key": "B", "text": "Aumentar o timeout — a CPU é alocada proporcional ao tempo limite"},
+        {"key": "C", "text": "Adicionar uma DLQ, que libera CPU ao tirar as falhas do caminho"},
+        {"key": "D", "text": "Reduzir o número de layers — cada layer reserva uma fatia da CPU"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Como habilitar esse acesso?",
       "options": [
         {"key": "A", "text": "Configurar a função Lambda na VPC (sub-redes/security group) pra alcançar o RDS privado"},
-        {"key": "B", "text": "Tornar o RDS público na internet"},
-        {"key": "C", "text": "Usar um signed URL pro RDS"},
-        {"key": "D", "text": "Não é possível Lambda acessar VPC"}
+        {"key": "B", "text": "Tornar o RDS público na internet, liberando 0.0.0.0/0 no security group do banco"},
+        {"key": "C", "text": "Gerar um signed URL do CloudFront apontando direto pro endpoint privado do RDS"},
+        {"key": "D", "text": "Não é possível uma função Lambda acessar recursos dentro de VPC; use EC2 no lugar"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual combinação faz sentido?",
       "options": [
         {"key": "A", "text": "Provisioned concurrency pra a base semanal + reserved concurrency pra isolar/absorver o pico"},
-        {"key": "B", "text": "Só aumentar o timeout"},
-        {"key": "C", "text": "Só Lambda Layers"},
-        {"key": "D", "text": "Desligar a função no fim de semana"}
+        {"key": "B", "text": "Só aumentar o timeout da função, o que já elimina cold starts e absorve qualquer pico"},
+        {"key": "C", "text": "Só adicionar Lambda Layers, que aceleram a inicialização e controlam a concorrência"},
+        {"key": "D", "text": "Desligar a função no fim de semana e religar na segunda, evitando o custo do pico"}
       ],
       "answers": ["A"],
       "hints": [

@@ -144,9 +144,9 @@
       "stem": "Qual dupla do AWS Glue faz isso?",
       "options": [
         {"key": "A", "text": "Crawler (descobre o esquema) + Data Catalog (registra os metadados)"},
-        {"key": "B", "text": "Glue Job + QuickSight"},
-        {"key": "C", "text": "Redshift Spectrum + SPICE"},
-        {"key": "D", "text": "Lake Formation + KMS"}
+        {"key": "B", "text": "Glue Job (detecta as colunas) + QuickSight (registra no catálogo)"},
+        {"key": "C", "text": "Redshift Spectrum (infere o esquema) + SPICE (cataloga as tabelas)"},
+        {"key": "D", "text": "Lake Formation (descobre o esquema) + KMS (registra os metadados)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual combinação serverless atende de ponta a ponta?",
       "options": [
         {"key": "A", "text": "Glue (catálogo) → Athena (consulta SQL) → QuickSight (dashboard)"},
-        {"key": "B", "text": "EMR (cluster) → Redshift (warehouse) → QuickSight"},
-        {"key": "C", "text": "RDS → Lambda → CloudFront"},
-        {"key": "D", "text": "DynamoDB → DAX → S3"}
+        {"key": "B", "text": "EMR (cluster) → Redshift (warehouse) → QuickSight, tudo serverless"},
+        {"key": "C", "text": "RDS (catálogo) → Lambda (consulta SQL) → CloudFront (dashboard)"},
+        {"key": "D", "text": "DynamoDB (catálogo) → DAX (consulta SQL) → S3 (dashboard)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual prática reduz o volume escaneado pelo Athena?",
       "options": [
         {"key": "A", "text": "Usar formato colunar (Parquet/ORC), compressão e particionamento dos dados"},
-        {"key": "B", "text": "Aumentar o tamanho do bucket S3"},
-        {"key": "C", "text": "Trocar o Athena por mais consultas, cada uma lendo tudo"},
-        {"key": "D", "text": "Desligar a criptografia do S3"}
+        {"key": "B", "text": "Aumentar o tamanho do bucket S3, diluindo o custo por query escaneada"},
+        {"key": "C", "text": "Trocar o Athena por mais consultas menores, cada uma lendo tudo de novo"},
+        {"key": "D", "text": "Desligar a criptografia do S3 — sem cifrar, o scan fica mais leve e barato"}
       ],
       "answers": ["A"],
       "hints": [

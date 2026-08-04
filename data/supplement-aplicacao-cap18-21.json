@@ -13,9 +13,9 @@
       "stem": "Qual serviço executa código sob demanda, escala sozinho e cobra só pelo tempo de execução?",
       "options": [
         { "key": "A", "text": "AWS Lambda (serverless, event-driven)" },
-        { "key": "B", "text": "Uma instância EC2 maior" },
-        { "key": "C", "text": "Amazon S3" },
-        { "key": "D", "text": "Amazon RDS" }
+        { "key": "B", "text": "Uma instância EC2 maior e mais barata" },
+        { "key": "C", "text": "Amazon S3 executando o script" },
+        { "key": "D", "text": "Amazon RDS rodando o job em SQL" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): Lambda é tipo micro-ondas — você põe o prato (código), aperta o botão (o evento), ele cozinha pelo tempo necessário e desliga sozinho. Você não mantém o forno ligado esperando o próximo prato."],
@@ -34,9 +34,9 @@
       "stem": "O que IMPEDE o uso do Lambda aqui, e qual a alternativa?",
       "options": [
         { "key": "A", "text": "O timeout máximo do Lambda é 15 minutos; para 20 min use Fargate (ou EC2)" },
-        { "key": "B", "text": "Nada impede — Lambda roda por qualquer tempo" },
-        { "key": "C", "text": "Lambda não aceita arquivos, só texto" },
-        { "key": "D", "text": "Falta criar um Security Group para a função" }
+        { "key": "B", "text": "Nada impede — Lambda roda por qualquer tempo, sem nenhum limite de duração" },
+        { "key": "C", "text": "Lambda não aceita arquivos, só texto — binário de 2 GB nem chega na função" },
+        { "key": "D", "text": "Falta criar um Security Group para a função — sem ele o job não roda 20 min" }
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual tipo de API do API Gateway é o adequado?",
       "options": [
         { "key": "A", "text": "WebSocket API (conexão persistente bidirecional)" },
-        { "key": "B", "text": "REST API" },
-        { "key": "C", "text": "HTTP API" },
-        { "key": "D", "text": "Nenhum — API Gateway não serve para chat" }
+        { "key": "B", "text": "REST API (o servidor envia via response)" },
+        { "key": "C", "text": "HTTP API (mais barata e com push nativo)" },
+        { "key": "D", "text": "Nenhum — API Gateway não serve para chat ao vivo" }
       ],
       "answers": ["A"],
       "hints": [
@@ -107,9 +107,9 @@
       "stem": "Qual padrão/serviço DESACOPLA os dois processos, pra o cadastro não depender do e-mail?",
       "options": [
         { "key": "A", "text": "Uma fila Amazon SQS — registra a mensagem, responde 200, e um consumidor envia o e-mail depois" },
-        { "key": "B", "text": "Aumentar o timeout da requisição de cadastro" },
-        { "key": "C", "text": "Rodar tudo numa instância EC2 maior" },
-        { "key": "D", "text": "Colocar o serviço de e-mail num Security Group" }
+        { "key": "B", "text": "Aumentar o timeout da requisição de cadastro até o e-mail sair, evitando qualquer erro 500" },
+        { "key": "C", "text": "Rodar cadastro e e-mail numa instância EC2 maior, que processa os dois sem travar a resposta" },
+        { "key": "D", "text": "Colocar o serviço de e-mail num Security Group separado, o que desacopla os dois processos" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): SQS é como a caixa de entrada do e-mail — quem envia não espera você ler. O cadastro larga a mensagem na fila, responde na hora, e outro processo envia o e-mail no próprio ritmo. Se o e-mail cai, a mensagem espera na fila."],
@@ -128,9 +128,9 @@
       "stem": "Qual tipo de fila SQS atende esse requisito?",
       "options": [
         { "key": "A", "text": "SQS FIFO (ordem garantida, exatamente uma vez)" },
-        { "key": "B", "text": "SQS Standard (alto throughput, ordem best-effort)" },
-        { "key": "C", "text": "SNS Topic" },
-        { "key": "D", "text": "EventBridge bus" }
+        { "key": "B", "text": "SQS Standard, com ordem best-effort" },
+        { "key": "C", "text": "SNS Topic, que enfileira os pedidos em ordem" },
+        { "key": "D", "text": "EventBridge bus com ordem FIFO nas regras" }
       ],
       "answers": ["A"],
       "hints": [
@@ -176,9 +176,9 @@
       "stem": "O que isola essas mensagens que falham repetidamente, sem bloquear a fila?",
       "options": [
         { "key": "A", "text": "Uma Dead Letter Queue (DLQ) com maxReceiveCount configurado" },
-        { "key": "B", "text": "Aumentar o Visibility Timeout para 12 horas" },
-        { "key": "C", "text": "Deletar a fila e criar outra" },
-        { "key": "D", "text": "Trocar a fila Standard por FIFO" }
+        { "key": "B", "text": "Aumentar o Visibility Timeout para 12 horas, que já isola" },
+        { "key": "C", "text": "Deletar a fila e criar outra do zero, sem a mensagem ruim" },
+        { "key": "D", "text": "Trocar a fila Standard por FIFO, que descarta falhas sozinha" }
       ],
       "answers": ["A"],
       "hints": [
@@ -201,9 +201,9 @@
       "stem": "Qual serviço aproxima o conteúdo dos usuários, servindo de um cache global?",
       "options": [
         { "key": "A", "text": "Amazon CloudFront (CDN, com Edge Locations perto dos usuários)" },
-        { "key": "B", "text": "Um servidor EC2 maior em São Paulo" },
-        { "key": "C", "text": "Amazon RDS Read Replica" },
-        { "key": "D", "text": "Amazon SQS" }
+        { "key": "B", "text": "Um servidor EC2 maior em São Paulo, que compensa a distância" },
+        { "key": "C", "text": "Amazon RDS Read Replica em Lisboa servindo as imagens do site" },
+        { "key": "D", "text": "Amazon SQS, que enfileira as imagens perto dos usuários" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pensa numa biblioteca em São Paulo e cópias em filiais. Em vez de todo mundo ir até SP buscar o livro, o conteúdo fica em cache na filial (Edge Location) mais perto de quem acessa. Essa rede de filiais é o CloudFront."],
@@ -246,9 +246,9 @@
       "stem": "Qual routing policy do Route 53 faz esse failover automático?",
       "options": [
         { "key": "A", "text": "Failover (com Health Check no primário)" },
-        { "key": "B", "text": "Weighted" },
-        { "key": "C", "text": "Geolocation" },
-        { "key": "D", "text": "Simple" }
+        { "key": "B", "text": "Weighted, feito pra failover de DR" },
+        { "key": "C", "text": "Geolocation, que roteia por saúde" },
+        { "key": "D", "text": "Simple, que detecta a falha sozinho" }
       ],
       "answers": ["A"],
       "hints": [
@@ -340,9 +340,9 @@
       "stem": "Qual serviço (e ferramenta auxiliar) faz essa migração de banco?",
       "options": [
         { "key": "A", "text": "AWS DMS (Full Load + CDC) com o Schema Conversion Tool (SCT) para o schema" },
-        { "key": "B", "text": "AWS MGN (Application Migration Service)" },
-        { "key": "C", "text": "AWS DataSync" },
-        { "key": "D", "text": "AWS Snowmobile" }
+        { "key": "B", "text": "AWS MGN (Application Migration Service), que converte schema e migra dados" },
+        { "key": "C", "text": "AWS DataSync, que replica bancos com CDC e converte o schema junto" },
+        { "key": "D", "text": "AWS Snowmobile, o caminhão de migração indicado pra bancos pequenos" }
       ],
       "answers": ["A"],
       "hints": [

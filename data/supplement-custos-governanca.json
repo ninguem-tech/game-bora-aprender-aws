@@ -55,9 +55,9 @@
       "stem": "Qual recurso entrega esse dado granular num bucket S3 pra análise própria?",
       "options": [
         { "key": "A", "text": "Cost and Usage Report (CUR), entregue no S3 (e consultado com Athena/QuickSight)" },
-        { "key": "B", "text": "O painel padrão do Cost Explorer" },
-        { "key": "C", "text": "AWS Budgets" },
-        { "key": "D", "text": "AWS Pricing Calculator" }
+        { "key": "B", "text": "O painel padrão do Cost Explorer, que exporta a visão agregada em PDF" },
+        { "key": "C", "text": "AWS Budgets, que grava automaticamente o uso granular num bucket S3" },
+        { "key": "D", "text": "AWS Pricing Calculator, que estima e detalha o uso real por recurso" }
       ],
       "answers": ["A"],
       "hints": [
@@ -100,16 +100,16 @@
       "stem": "Qual modelo de compromisso de uso dá desconto alto com essa flexibilidade?",
       "options": [
         { "key": "A", "text": "Compute Savings Plans (compromisso de gasto/hora, flexível entre EC2/Fargate/Lambda)" },
-        { "key": "B", "text": "On-Demand (sem compromisso, preço cheio)" },
-        { "key": "C", "text": "Spot Instances (pode ser interrompido)" },
-        { "key": "D", "text": "Dedicated Hosts" }
+        { "key": "B", "text": "On-Demand (sem compromisso, preço cheio — mas com desconto automático por volume)" },
+        { "key": "C", "text": "Spot Instances (capacidade sobrando, pode ser interrompida a qualquer momento)" },
+        { "key": "D", "text": "Dedicated Hosts (host físico dedicado, com desconto flexível entre serviços)" }
       ],
       "answers": ["A"],
       "hints": [
         "💡 Rafael (dica 1): uso estável de longo prazo pede compromisso (desconto). Mas você quer poder trocar instância/região/serviço sem perder o desconto.",
         "💡 Rafael (dica 2): Reserved Instances travam numa família/região; o Compute Savings Plans compromete um valor por hora e vale pra EC2, Fargate e Lambda — bem mais flexível."
       ],
-      "explanation": "Compute Savings Plans dão até ~72% de desconto por um compromisso de gasto por hora (1 ou 3 anos), e — diferente do Reserved Instances — a flexibilidade vale entre EC2 (qualquer família/região/SO), Fargate e Lambda. Perfeito pra uso estável que ainda pode mudar de forma.",
+      "explanation": "Compute Savings Plans dão até ~66% de desconto por um compromisso de gasto por hora (1 ou 3 anos), e — diferente do Reserved Instances — a flexibilidade vale entre EC2 (qualquer família/região/SO), Fargate e Lambda. (O EC2 Instance Savings Plans chega a ~72%, mas trava família de instância e região — menos flexível.) Perfeito pra uso estável que ainda pode mudar de forma.",
       "whyNots": {
         "B": "On-Demand não tem compromisso, mas é o mais caro pra uso contínuo.",
         "C": "Spot é baratíssimo mas pode ser interrompido — não serve pra carga estável que precisa ficar de pé.",
@@ -154,7 +154,7 @@
       "explanation": "Trusted Advisor faz verificações automáticas em 6 categorias — otimização de custos, performance, resiliência (tolerância a falhas), segurança, excelência operacional e limites de serviço — recomendando ações. É o check-up geral da conta. (Verificado na doc oficial 2026-06: são 6 categorias, não 5.)",
       "whyNots": {
         "B": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não esse check-up multi-categoria.",
-        "C": "Config monitora conformidade de configuração ao longo do tempo, não o resumo de oportunidades em 5 categorias.",
+        "C": "Config monitora conformidade de configuração ao longo do tempo, não o resumo de oportunidades nas 6 categorias do Trusted Advisor.",
         "D": "GuardDuty detecta ameaças, não oportunidades de custo/limites."
       }
     },
@@ -166,9 +166,9 @@
       "stem": "Qual recurso permite rastrear e separar custos por time/projeto na conta?",
       "options": [
         { "key": "A", "text": "Cost Allocation Tags (tags de alocação de custo)" },
-        { "key": "B", "text": "Security Groups por time" },
-        { "key": "C", "text": "Uma VPC por time" },
-        { "key": "D", "text": "Reserved Instances" }
+        { "key": "B", "text": "Security Groups por time, que agrupam o custo" },
+        { "key": "C", "text": "Uma VPC por time — a fatura vem separada por VPC" },
+        { "key": "D", "text": "Reserved Instances rateadas por time na fatura" }
       ],
       "answers": ["A"],
       "hints": [
@@ -190,9 +190,9 @@
       "stem": "O que do AWS Organizations entrega fatura única e desconto por volume agregado?",
       "options": [
         { "key": "A", "text": "Consolidated Billing (cobrança consolidada)" },
-        { "key": "B", "text": "Service Control Policies (SCPs)" },
-        { "key": "C", "text": "AWS Config Rules" },
-        { "key": "D", "text": "VPC Peering" }
+        { "key": "B", "text": "Service Control Policies (SCPs) de billing" },
+        { "key": "C", "text": "AWS Config Rules somando as 12 faturas" },
+        { "key": "D", "text": "VPC Peering, que unifica a cobrança" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): juntar todas as contas debaixo de uma conta pagadora dá uma fatura só — e o uso somado de todas ajuda a alcançar faixas de desconto por volume. Isso é o Consolidated Billing do Organizations."],
@@ -235,9 +235,9 @@
       "stem": "Qual a diferença que faz o Savings Plans (Compute) ser a escolha mais flexível aqui?",
       "options": [
         { "key": "A", "text": "Savings Plans compromete um valor por hora e vale entre famílias/regiões e até Fargate/Lambda; Reserved tende a travar configuração específica" },
-        { "key": "B", "text": "Reserved Instances dá mais desconto sempre, então é melhor" },
-        { "key": "C", "text": "São idênticos, só muda o nome" },
-        { "key": "D", "text": "Savings Plans só funciona com Spot" }
+        { "key": "B", "text": "Reserved Instances dá sempre o maior desconto em qualquer cenário, então é melhor mesmo quando o workload muda de família ou de região" },
+        { "key": "C", "text": "Savings Plans e Reserved Instances são programas idênticos em flexibilidade e desconto; a AWS apenas renomeou o produto antigo" },
+        { "key": "D", "text": "Savings Plans só se aplica a instâncias Spot, então não cobre EC2 sob demanda, Fargate nem Lambda em nenhuma região" }
       ],
       "answers": ["A"],
       "hints": [

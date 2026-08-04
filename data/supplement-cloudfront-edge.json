@@ -113,9 +113,9 @@
       "stem": "Qual recurso do CloudFront aplica esse bloqueio por país?",
       "options": [
         {"key": "A", "text": "Geographic restrictions (geo restriction)"},
-        {"key": "B", "text": "Signed URL"},
-        {"key": "C", "text": "Cache policy"},
-        {"key": "D", "text": "OAC"}
+        {"key": "B", "text": "Signed URL com o país embutido no token"},
+        {"key": "C", "text": "Cache policy com regra de país no TTL"},
+        {"key": "D", "text": "OAC, que valida o país de cada request"}
       ],
       "answers": ["A"],
       "hints": [

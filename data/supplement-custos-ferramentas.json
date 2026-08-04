@@ -51,9 +51,9 @@
       "stem": "Qual recurso permite essa quebra de custo?",
       "options": [
         {"key": "A", "text": "Cost Allocation Tags (ativadas e analisadas no Cost Explorer/CUR)"},
-        {"key": "B", "text": "Security Groups"},
-        {"key": "C", "text": "Placement Groups"},
-        {"key": "D", "text": "Route 53 health checks"}
+        {"key": "B", "text": "Security Groups nomeados por projeto, lidos no Cost Explorer"},
+        {"key": "C", "text": "Placement Groups organizados por equipe, projeto e ambiente"},
+        {"key": "D", "text": "Route 53 health checks nomeados por equipe e por projeto"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual recurso executa essa ação automática ao exceder o orçamento?",
       "options": [
         {"key": "A", "text": "AWS Budgets Actions (parar EC2/RDS, aplicar IAM/SCP)"},
-        {"key": "B", "text": "Cost Explorer"},
-        {"key": "C", "text": "Cost Anomaly Detection"},
-        {"key": "D", "text": "Pricing Calculator"}
+        {"key": "B", "text": "Cost Explorer — tem botão de ação automática por gasto"},
+        {"key": "C", "text": "Cost Anomaly Detection (para instâncias ao detectar)"},
+        {"key": "D", "text": "Pricing Calculator — estima e já desliga o que passar"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual serviço identifica recursos ociosos e recomenda ação?",
       "options": [
         {"key": "A", "text": "AWS Compute Optimizer (idle/rightsizing recommendations)"},
-        {"key": "B", "text": "AWS WAF"},
-        {"key": "C", "text": "Amazon Macie"},
-        {"key": "D", "text": "AWS Shield"}
+        {"key": "B", "text": "AWS WAF (inspeciona o tráfego e aponta instâncias paradas)"},
+        {"key": "C", "text": "Amazon Macie (varre a conta e recomenda desligar o ocioso)"},
+        {"key": "D", "text": "AWS Shield (o Advanced inclui relatório de recurso ocioso)"}
       ],
       "answers": ["A"],
       "hints": [

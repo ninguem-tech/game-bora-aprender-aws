@@ -175,9 +175,9 @@
       "stem": "Qual recurso entrega esse acesso privado?",
       "options": [
         {"key": "A", "text": "Interface Endpoint (AWS PrivateLink) — uma ENI privada na sub-rede"},
-        {"key": "B", "text": "Gateway Endpoint"},
-        {"key": "C", "text": "Internet Gateway"},
-        {"key": "D", "text": "Egress-only Internet Gateway"}
+        {"key": "B", "text": "Gateway Endpoint, que atende qualquer serviço e o on-premises também"},
+        {"key": "C", "text": "Internet Gateway da VPC, que também roteia o tráfego privado"},
+        {"key": "D", "text": "Egress-only Internet Gateway — saída privada pra qualquer serviço AWS"}
       ],
       "answers": ["A"],
       "hints": [
@@ -207,8 +207,8 @@
       "options": [
         {"key": "A", "text": "Security Group = stateful (instância); NACL = stateless (sub-rede)"},
         {"key": "B", "text": "Security Group = stateless (sub-rede); NACL = stateful (instância)"},
-        {"key": "C", "text": "Ambos são stateful e idênticos"},
-        {"key": "D", "text": "Ambos atuam só na sub-rede"}
+        {"key": "C", "text": "Ambos são stateful e idênticos — só muda o nome no console"},
+        {"key": "D", "text": "Ambos atuam só na sub-rede, filtrando o tráfego da AZ inteira"}
       ],
       "answers": ["A"],
       "hints": [

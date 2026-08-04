@@ -21,8 +21,8 @@
       "options": [
         {"key": "A", "text": "RPO (dado que se pode perder) e RTO (tempo até voltar)"},
         {"key": "B", "text": "RTO (dado que se pode perder) e RPO (tempo até voltar)"},
-        {"key": "C", "text": "SLA e TPS"},
-        {"key": "D", "text": "IOPS e throughput"}
+        {"key": "C", "text": "SLA (dado que se pode perder) e TPS (tempo até voltar)"},
+        {"key": "D", "text": "IOPS (dado que se pode perder) e throughput (tempo)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual estratégia de DR atende esse requisito extremo?",
       "options": [
         {"key": "A", "text": "Multi-site Active/Active (multi-Region)"},
-        {"key": "B", "text": "Backup & Restore"},
-        {"key": "C", "text": "Pilot Light"},
-        {"key": "D", "text": "Snapshot diário em outra AZ"}
+        {"key": "B", "text": "Backup & Restore com retorno imediato"},
+        {"key": "C", "text": "Pilot Light, que religa em segundos"},
+        {"key": "D", "text": "Snapshot diário em outra AZ, RPO zero"}
       ],
       "answers": ["A"],
       "hints": [

@@ -82,9 +82,9 @@
       "stem": "Qual arquitetura resolve com melhor custo-benefício?",
       "options": [
         {"key": "A", "text": "Direct Connect como primário + Site-to-Site VPN como backup (failover automático)"},
-        {"key": "B", "text": "Dois Direct Connect idênticos, sem VPN"},
-        {"key": "C", "text": "Só Site-to-Site VPN, descartando o Direct Connect"},
-        {"key": "D", "text": "Direct Connect + CloudFront como rota reserva"}
+        {"key": "B", "text": "Dois Direct Connect idênticos, sem VPN — redundância total pelo menor custo"},
+        {"key": "C", "text": "Só Site-to-Site VPN, descartando o Direct Connect e mantendo a mesma banda"},
+        {"key": "D", "text": "Direct Connect + CloudFront como rota reserva, já que a CDN assume o tráfego híbrido"}
       ],
       "answers": ["A"],
       "hints": [
@@ -176,9 +176,9 @@
       "stem": "Qual serviço entrega o streaming nesses destinos, totalmente gerenciado e sem código?",
       "options": [
         {"key": "A", "text": "Amazon Data Firehose (antigo Kinesis Data Firehose)"},
-        {"key": "B", "text": "Amazon Kinesis Data Streams"},
-        {"key": "C", "text": "Amazon EC2 com um script próprio"},
-        {"key": "D", "text": "Amazon SNS"}
+        {"key": "B", "text": "Amazon Kinesis Data Streams, que entrega sem código"},
+        {"key": "C", "text": "Amazon EC2 com um script próprio, sem manutenção"},
+        {"key": "D", "text": "Amazon SNS entregando direto no S3 e Redshift"}
       ],
       "answers": ["A"],
       "hints": [

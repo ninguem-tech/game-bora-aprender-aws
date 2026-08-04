@@ -20,9 +20,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Multi-AZ = alta disponibilidade (standby síncrono, não serve leitura); Read Replica = escalar leitura (assíncrona, read-only)"},
-        {"key": "B", "text": "Multi-AZ escala leitura; Read Replica é só failover"},
-        {"key": "C", "text": "São a mesma coisa"},
-        {"key": "D", "text": "Read Replica é síncrona e serve failover automático"}
+        {"key": "B", "text": "Multi-AZ serve pra escalar leitura distribuindo consultas; Read Replica serve só pra failover automático do primário"},
+        {"key": "C", "text": "Multi-AZ e Read Replica são a mesma coisa: ambos mantêm cópias síncronas que servem leitura e failover igualmente"},
+        {"key": "D", "text": "Read Replica replica de forma síncrona e serve failover automático; Multi-AZ existe apenas pra relatórios de leitura"}
       ],
       "answers": ["A"],
       "hints": [
@@ -50,9 +50,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "SG é stateful (instância, só allow); NACL é stateless (sub-rede, allow e deny)"},
-        {"key": "B", "text": "SG é stateless e tem regra de deny"},
-        {"key": "C", "text": "NACL é stateful e atua na instância"},
-        {"key": "D", "text": "Os dois só têm regras de deny"}
+        {"key": "B", "text": "SG é stateless e tem regra de deny, exigindo liberar a volta de cada resposta"},
+        {"key": "C", "text": "NACL é stateful e atua na instância, lembrando das conexões que ela mesma abriu"},
+        {"key": "D", "text": "Os dois só têm regras de deny — na AWS o allow é sempre implícito por padrão"}
       ],
       "answers": ["A"],
       "hints": [
@@ -80,9 +80,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "SQS = fila (pull, um grupo de consumidores); SNS = pub/sub (push, fan-out pra muitos)"},
-        {"key": "B", "text": "SQS é pub/sub e SNS é fila"},
-        {"key": "C", "text": "Os dois enviam e-mail rico de marketing"},
-        {"key": "D", "text": "SQS envia push pra apps móveis"}
+        {"key": "B", "text": "SQS é o pub/sub de push com fan-out; SNS é a fila de pull com grupo de consumidores"},
+        {"key": "C", "text": "SQS e SNS servem pra enviar e-mail rico de marketing, concorrendo com o Amazon SES"},
+        {"key": "D", "text": "SQS envia notificações push direto pra apps móveis, como o recurso mobile do SNS"}
       ],
       "answers": ["A"],
       "hints": [
@@ -110,9 +110,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Alias funciona no apex e é grátis pra recursos AWS; CNAME não funciona no apex e é cobrado"},
-        {"key": "B", "text": "CNAME funciona no apex; Alias não"},
-        {"key": "C", "text": "Os dois só apontam pra recursos AWS"},
-        {"key": "D", "text": "Alias aponta pra qualquer domínio externo"}
+        {"key": "B", "text": "CNAME funciona normalmente no apex da zona; Alias é que não pode ser usado no apex"},
+        {"key": "C", "text": "Alias e CNAME só apontam pra recursos AWS; domínios externos exigem registro A manual"},
+        {"key": "D", "text": "Alias aponta pra qualquer domínio externo e é cobrado; CNAME é o gratuito pra recursos AWS"}
       ],
       "answers": ["A"],
       "hints": [
@@ -140,9 +140,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "ACM gerencia certificados TLS (em trânsito); KMS gerencia chaves de criptografia (em repouso)"},
-        {"key": "B", "text": "ACM gerencia chaves; KMS emite certificados TLS"},
-        {"key": "C", "text": "Os dois fazem a mesma coisa"},
-        {"key": "D", "text": "ACM rotaciona senhas de banco"}
+        {"key": "B", "text": "ACM gerencia as chaves de criptografia em repouso; KMS emite os certificados TLS em trânsito"},
+        {"key": "C", "text": "ACM e KMS fazem exatamente a mesma coisa; a escolha entre eles é só preferência de console"},
+        {"key": "D", "text": "ACM serve pra rotacionar senhas de banco automaticamente, como faz o Secrets Manager"}
       ],
       "answers": ["A"],
       "hints": [
@@ -170,9 +170,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "CloudWatch = métricas/logs/alarmes (desempenho); CloudTrail = auditoria de chamadas de API (quem fez o quê)"},
-        {"key": "B", "text": "CloudWatch audita API; CloudTrail é métrica"},
-        {"key": "C", "text": "Os dois são a mesma coisa"},
-        {"key": "D", "text": "CloudTrail mede uso de CPU"}
+        {"key": "B", "text": "CloudWatch audita as chamadas de API (quem fez o quê); CloudTrail coleta métricas e logs de desempenho"},
+        {"key": "C", "text": "CloudWatch e CloudTrail são a mesma coisa: ambos guardam métricas e auditoria de API indistintamente"},
+        {"key": "D", "text": "CloudTrail serve pra medir uso de CPU e memória das instâncias, com alarmes de desempenho embutidos"}
       ],
       "answers": ["A"],
       "hints": [
@@ -200,9 +200,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Data Streams = processar em tempo real com consumidores/replay; Data Firehose = entregar no S3/Redshift sem código"},
-        {"key": "B", "text": "Firehose é pra replay/consumidores; Streams entrega no S3 sem código"},
-        {"key": "C", "text": "Os dois só entregam e-mail"},
-        {"key": "D", "text": "Data Firehose foi descontinuado"}
+        {"key": "B", "text": "Data Firehose é pra replay com múltiplos consumidores em tempo real; Data Streams entrega no S3/Redshift sem código"},
+        {"key": "C", "text": "Data Streams e Data Firehose só entregam notificações por e-mail; streaming de dados fica com o SNS"},
+        {"key": "D", "text": "Data Firehose foi descontinuado pela AWS; hoje toda entrega pra S3/Redshift é feita só com consumers manuais"}
       ],
       "answers": ["A"],
       "hints": [
@@ -230,9 +230,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "CloudFront = CDN que cacheia conteúdo HTTP na borda; Global Accelerator = IP estático anycast, acelera TCP/UDP (não cacheia)"},
-        {"key": "B", "text": "Global Accelerator cacheia conteúdo; CloudFront dá IP estático"},
-        {"key": "C", "text": "Os dois são bancos de dados"},
-        {"key": "D", "text": "CloudFront é só pra UDP de jogos"}
+        {"key": "B", "text": "Global Accelerator cacheia conteúdo HTTP na borda; CloudFront é quem fornece IP estático anycast pra TCP/UDP"},
+        {"key": "C", "text": "CloudFront e Global Accelerator são bancos de dados distribuídos, replicados em todas as edge locations da AWS"},
+        {"key": "D", "text": "CloudFront serve só pra tráfego UDP de jogos em tempo real; conteúdo HTTP com cache fica no Global Accelerator"}
       ],
       "answers": ["A"],
       "hints": [
@@ -260,9 +260,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "ElastiCache = cache in-memory (pode perder dados); MemoryDB = banco in-memory DURÁVEL (primário)"},
-        {"key": "B", "text": "ElastiCache é durável e primário; MemoryDB é só cache"},
-        {"key": "C", "text": "Os dois são data warehouses"},
-        {"key": "D", "text": "MemoryDB é object storage"}
+        {"key": "B", "text": "ElastiCache é o banco durável pra ser primário; MemoryDB é só um cache que pode perder dados"},
+        {"key": "C", "text": "ElastiCache e MemoryDB são data warehouses colunares, voltados a análises e BI em memória"},
+        {"key": "D", "text": "MemoryDB é object storage de baixa latência, um concorrente direto do S3 pra dados quentes"}
       ],
       "answers": ["A"],
       "hints": [
@@ -290,9 +290,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "KMS = multi-tenant gerenciado (caso geral); CloudHSM = HSM dedicado single-tenant (compliance/PKCS#11)"},
-        {"key": "B", "text": "KMS é single-tenant dedicado; CloudHSM é multi-tenant"},
-        {"key": "C", "text": "Os dois emitem certificados TLS"},
-        {"key": "D", "text": "CloudHSM é um CDN"}
+        {"key": "B", "text": "KMS é o HSM dedicado single-tenant pra compliance; CloudHSM é o multi-tenant gerenciado geral"},
+        {"key": "C", "text": "KMS e CloudHSM servem pra emitir e renovar certificados TLS públicos, como faz o ACM"},
+        {"key": "D", "text": "CloudHSM é um CDN de chaves, distribuindo material criptográfico nas edge locations"}
       ],
       "answers": ["A"],
       "hints": [
@@ -320,9 +320,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "MGN = migração lift-and-shift (uma vez); DRS = DR contínuo de servidores (failover rápido)"},
-        {"key": "B", "text": "MGN é DR contínuo; DRS é migração única"},
-        {"key": "C", "text": "Os dois são serviços de e-mail"},
-        {"key": "D", "text": "DRS transfere arquivos por SFTP"}
+        {"key": "B", "text": "MGN é o serviço de DR contínuo com failover rápido; DRS faz a migração lift-and-shift única"},
+        {"key": "C", "text": "MGN e DRS são serviços de e-mail transacional, um pra envio em massa e outro pra failover"},
+        {"key": "D", "text": "DRS serve pra transferir arquivos por SFTP gerenciado, como faz o Transfer Family"}
       ],
       "answers": ["A"],
       "hints": [
@@ -350,9 +350,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Artifact = baixar relatórios de conformidade DA AWS; Audit Manager = coletar evidência da SUA conformidade"},
-        {"key": "B", "text": "Artifact audita seu ambiente; Audit Manager baixa o SOC da AWS"},
-        {"key": "C", "text": "Os dois são firewalls"},
-        {"key": "D", "text": "Audit Manager é um CDN"}
+        {"key": "B", "text": "Artifact coleta evidência de auditoria do SEU ambiente; Audit Manager é onde se baixa o SOC/ISO da AWS"},
+        {"key": "C", "text": "Artifact e Audit Manager são firewalls gerenciados, um pra borda e outro pro tráfego interno da VPC"},
+        {"key": "D", "text": "Audit Manager é um CDN que distribui os relatórios de conformidade da AWS nas edge locations"}
       ],
       "answers": ["A"],
       "hints": [
@@ -380,9 +380,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Transfer Family = endpoint SFTP/FTPS gerenciado (troca com parceiros); DataSync = migração/cópia em massa entre storages"},
-        {"key": "B", "text": "Transfer Family é migração em massa; DataSync é SFTP"},
-        {"key": "C", "text": "Os dois são bancos de dados"},
-        {"key": "D", "text": "DataSync emite certificados"}
+        {"key": "B", "text": "Transfer Family é o serviço de migração/cópia em massa entre storages; DataSync é o endpoint SFTP/FTPS pra parceiros"},
+        {"key": "C", "text": "Transfer Family e DataSync são bancos de dados gerenciados, um pra dados de parceiros e outro pra dados internos"},
+        {"key": "D", "text": "DataSync serve pra emitir e renovar certificados TLS usados nas transferências de arquivos com parceiros externos"}
       ],
       "answers": ["A"],
       "hints": [

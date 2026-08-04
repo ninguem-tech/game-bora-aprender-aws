@@ -142,27 +142,27 @@
       "options": [
         {
           "key": "A",
-          "text": "Criar a maior instância pra aprender logo"
+          "text": "Criar a maior instância pra aprender logo, sem se preocupar com o consumo"
         },
         {
           "key": "B",
-          "text": "Usar recursos do Free Tier (ex.: t3.micro) e ficar nos limites"
+          "text": "Usar o Free Plan (crédito ao criar a conta) com recursos pequenos, tipo t3.micro"
         },
         {
           "key": "C",
-          "text": "Não criar conta e só ler"
+          "text": "Não criar conta e só ler, já que a prova não cobra prática"
         }
       ],
       "answers": [
         "B"
       ],
       "hints": [
-        "💡 Rafael (dica): o Free Tier é a degustação grátis do mercado ☕ — dá pra experimentar sem pagar, desde que você fique nos limites e use recursos elegíveis (tipo a t3.micro)."
+        "💡 Rafael (dica): toda conta nova da AWS já entra no Free Plan — vem com crédito (até uns US$200 em 6 meses) e SEM cobrança automática: se o crédito ou o prazo acabar, a conta fecha sozinha, a não ser que você peça upgrade pra conta paga. Por isso vale usar recursos pequenos: o crédito rende mais tempo de prática."
       ],
-      "explanation": "Free Tier + t3.micro = prática de verdade, sem susto. E praticar é o que faz passar.",
+      "explanation": "Toda conta nova entra no Free Plan: ganha crédito (até uns US$200 em 6 meses) e não tem cobrança automática — se o crédito ou o prazo acabar, a conta simplesmente fecha, a não ser que a Júlia peça upgrade pra conta paga. Usar recursos pequenos, tipo t3.micro, faz esse crédito render bem mais tempo de prática.",
       "whyNots": {
-        "A": "Máquina grande sai da faixa grátis e gera fatura — exatamente o susto que ela teme.",
-        "C": "Só ler não fixa; a prática é o que aprova. Dá pra praticar de graça no Free Tier."
+        "A": "Uma instância grande consome o crédito muito mais rápido — o tempo de prática acaba antes, mesmo sem gerar cobrança automática.",
+        "C": "Só ler não fixa; a prática é o que aprova. E dá pra praticar de graça dentro do Free Plan."
       },
       "source": "supplement",
       "book": "e-ai-bora-aprender-aws",

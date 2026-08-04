@@ -13,9 +13,9 @@
       "stem": "O que é um Security Group no EC2?",
       "options": [
         { "key": "A", "text": "Um firewall virtual, no nível da instância, que controla o tráfego de entrada e saída" },
-        { "key": "B", "text": "Um backup automático do disco da instância" },
-        { "key": "C", "text": "Um endereço IP fixo para a instância" },
-        { "key": "D", "text": "Um script que roda quando a instância liga pela primeira vez" }
+        { "key": "B", "text": "Um backup automático do disco da instância, tirado sempre que uma conexão é bloqueada" },
+        { "key": "C", "text": "Um endereço IP fixo para a instância, que identifica e libera as conexões permitidas" },
+        { "key": "D", "text": "Um script que roda quando a instância liga pela primeira vez e fecha as portas abertas" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pensa no Security Group como o porteiro da instância: ele decide quem pode bater na porta (entrada) e pra onde a instância pode ligar (saída)."],
@@ -34,9 +34,9 @@
       "stem": "Quais regras de ENTRADA (inbound) o Security Group da instância web deve ter?",
       "options": [
         { "key": "A", "text": "80 e 443 de 0.0.0.0/0; e 22 só de 203.0.113.50/32 — a conexão ao RDS é saída, não precisa de regra de entrada" },
-        { "key": "B", "text": "80, 443 e 22 todos de 0.0.0.0/0, mais 3306 de 0.0.0.0/0" },
-        { "key": "C", "text": "Só a porta 22 de 0.0.0.0/0; o resto a AWS abre sozinha" },
-        { "key": "D", "text": "80, 443 e 3306 de 0.0.0.0/0; o SSH não precisa de regra" }
+        { "key": "B", "text": "80, 443 e 22 todos de 0.0.0.0/0, mais 3306 de 0.0.0.0/0 — tudo aberto pra garantir que nada seja bloqueado" },
+        { "key": "C", "text": "Só a porta 22 de 0.0.0.0/0; as portas web e a do banco a AWS libera sozinha quando detecta o tráfego" },
+        { "key": "D", "text": "80, 443 e 3306 de 0.0.0.0/0; o SSH não precisa de regra de entrada porque a resposta dele é stateful" }
       ],
       "answers": ["A"],
       "hints": [
@@ -79,9 +79,9 @@
       "stem": "Como configurar o Security Group das instâncias de aplicação para liberar a porta 8080 SOMENTE para o load balancer, de forma resistente a mudança de IP?",
       "options": [
         { "key": "A", "text": "Na regra de entrada, usar como origem o Security Group do load balancer (referência entre grupos), não um IP" },
-        { "key": "B", "text": "Abrir a porta 8080 para 0.0.0.0/0 e confiar que só o load balancer vai usar" },
-        { "key": "C", "text": "Fixar o IP atual do load balancer na regra de entrada da porta 8080" },
-        { "key": "D", "text": "Criar uma regra de saída na porta 8080 nas instâncias de aplicação" }
+        { "key": "B", "text": "Abrir a porta 8080 para 0.0.0.0/0 e confiar que só o load balancer vai usar — ninguém de fora conhece a porta" },
+        { "key": "C", "text": "Fixar o IP atual do load balancer na regra de entrada da porta 8080 — o IP do ELB nunca muda depois de criado" },
+        { "key": "D", "text": "Criar uma regra de saída na porta 8080 nas instâncias de aplicação — é a saída que controla quem pode entrar" }
       ],
       "answers": ["A"],
       "hints": [
@@ -104,9 +104,9 @@
       "stem": "Qual a diferença entre uma subnet pública e uma subnet privada numa VPC?",
       "options": [
         { "key": "A", "text": "A pública tem rota para o Internet Gateway; a privada não — então recursos nela não são acessíveis diretamente pela internet" },
-        { "key": "B", "text": "A pública é mais cara; a privada é de graça" },
-        { "key": "C", "text": "A pública fica numa região e a privada em outra" },
-        { "key": "D", "text": "A privada é criptografada e a pública não" }
+        { "key": "B", "text": "A subnet pública tem cobrança por hora mais cara; a privada é gratuita, por isso é usada pra bancos de dados" },
+        { "key": "C", "text": "A subnet pública fica sempre numa região diferente da privada, pra garantir isolamento geográfico entre as duas" },
+        { "key": "D", "text": "A subnet privada tem todo o tráfego criptografado por padrão; a pública trafega tudo sem nenhuma criptografia" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pensa num prédio. A recepção é a subnet pública — qualquer visitante entra. O arquivo no subsolo é a privada — só quem é de dentro acessa. O que decide isso é o caminho (a rota) até a rua."],
@@ -149,9 +149,9 @@
       "stem": "Na arquitetura (API + banco + NAT Gateway), em qual subnet cada recurso deve ficar?",
       "options": [
         { "key": "A", "text": "API na pública (recebe usuários), banco na privada (não exposto), NAT Gateway na pública" },
-        { "key": "B", "text": "Tudo na subnet privada, por segurança" },
-        { "key": "C", "text": "Tudo na subnet pública, por simplicidade" },
-        { "key": "D", "text": "Banco na pública, API na privada, NAT Gateway na privada" }
+        { "key": "B", "text": "Tudo na subnet privada, por segurança — os usuários chegam na API pelo NAT Gateway" },
+        { "key": "C", "text": "Tudo na subnet pública, por simplicidade — o Security Group já protege o banco sozinho" },
+        { "key": "D", "text": "Banco na pública (facilita o acesso), API na privada (protegida), NAT Gateway na privada" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): a regra é simples de lembrar — precisa ser acessado de fora? Pública. Só de dentro? Privada. E o NAT precisa de IP público pra fazer o papel de saída, então ele também é da turma da pública."],
@@ -170,9 +170,9 @@
       "stem": "A consegue falar com C automaticamente por causa dos peerings existentes?",
       "options": [
         { "key": "A", "text": "Não — VPC Peering não é transitivo; é preciso um peering direto A↔C (ou um Transit Gateway como hub)" },
-        { "key": "B", "text": "Sim — como B fala com os dois, o tráfego de A passa por B até C" },
-        { "key": "C", "text": "Sim — peering é sempre transitivo na AWS" },
-        { "key": "D", "text": "Não — e a única solução possível é refazer tudo numa VPC só" }
+        { "key": "B", "text": "Sim — como B fala com os dois, o tráfego de A passa por B até C, que atua como roteador intermediário" },
+        { "key": "C", "text": "Sim — peering é sempre transitivo na AWS: qualquer cadeia de conexões propaga as rotas sozinha" },
+        { "key": "D", "text": "Não — e a única solução possível é refazer tudo numa VPC só, migrando A, B e C pra mesma rede" }
       ],
       "answers": ["A"],
       "hints": [
@@ -195,9 +195,9 @@
       "stem": "Qual a diferença fundamental entre Security Group e NACL?",
       "options": [
         { "key": "A", "text": "Security Group age na instância e é stateful; NACL age na subnet e é stateless" },
-        { "key": "B", "text": "São a mesma coisa, com nomes diferentes" },
-        { "key": "C", "text": "Security Group age na subnet; NACL age na instância" },
-        { "key": "D", "text": "Security Group é pago; NACL é gratuito" }
+        { "key": "B", "text": "São a mesma coisa, com nomes diferentes — ambos stateful no mesmo nível de rede" },
+        { "key": "C", "text": "Security Group age na subnet e é stateless; NACL age na instância e é stateful" },
+        { "key": "D", "text": "Security Group é pago por regra; NACL é gratuito — a diferença é só o preço" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): Security Group é o crachá do funcionário — passou na catraca de entrada, a saída é liberada automática (stateful). NACL é a alfândega — precisa de autorização separada pra entrar e pra sair (stateless)."],
@@ -216,9 +216,9 @@
       "stem": "Qual recurso permite NEGAR explicitamente um IP específico no nível da subnet?",
       "options": [
         { "key": "A", "text": "NACL (tem regra de Deny explícito, no nível da subnet)" },
-        { "key": "B", "text": "Security Group (basta criar uma regra de Deny)" },
-        { "key": "C", "text": "Route Table" },
-        { "key": "D", "text": "Internet Gateway" }
+        { "key": "B", "text": "Security Group (basta criar a regra de Deny na entrada)" },
+        { "key": "C", "text": "Route Table (rota de Deny descarta o IP na subnet)" },
+        { "key": "D", "text": "Internet Gateway (tem blocklist de IPs na borda)" }
       ],
       "answers": ["A"],
       "hints": [
@@ -240,9 +240,9 @@
       "stem": "Qual tipo de VPC Endpoint usar para acessar o S3 de forma privada?",
       "options": [
         { "key": "A", "text": "Gateway Endpoint — disponível justamente para S3 e DynamoDB, e gratuito" },
-        { "key": "B", "text": "Interface Endpoint — é o único que funciona para S3" },
-        { "key": "C", "text": "Não dá: S3 sempre exige internet pública" },
-        { "key": "D", "text": "Um NAT Gateway adicional só para o S3" }
+        { "key": "B", "text": "Interface Endpoint — é o único que funciona para S3, e ainda sai de graça" },
+        { "key": "C", "text": "Não dá: S3 sempre exige internet pública, por ser um serviço global" },
+        { "key": "D", "text": "Um NAT Gateway adicional só para o S3, que não cobra transferência" }
       ],
       "answers": ["A"],
       "hints": [
@@ -264,9 +264,9 @@
       "stem": "Por que o cliente não recebe a resposta, mesmo com a entrada na 443 liberada no NACL?",
       "options": [
         { "key": "A", "text": "NACL é stateless: falta a regra de SAÍDA nas portas efêmeras (1024–65535) para o tráfego de resposta" },
-        { "key": "B", "text": "Security Group bloqueou a resposta automaticamente" },
-        { "key": "C", "text": "A porta 443 precisa estar fechada para a resposta sair" },
-        { "key": "D", "text": "Falta um Internet Gateway na conta" }
+        { "key": "B", "text": "O Security Group bloqueou a resposta automaticamente — ele é stateless e exige regra de saída" },
+        { "key": "C", "text": "A porta 443 precisa estar fechada na entrada para a resposta conseguir sair pelas portas efêmeras" },
+        { "key": "D", "text": "Falta um Internet Gateway na conta: sem ele o NACL descarta qualquer resposta de saída da subnet" }
       ],
       "answers": ["A"],
       "hints": [
@@ -290,9 +290,9 @@
       "stem": "O que faz um load balancer (ELB)?",
       "options": [
         { "key": "A", "text": "Distribui o tráfego de entrada entre múltiplas instâncias, para que a queda de uma não derrube tudo" },
-        { "key": "B", "text": "Aumenta a memória RAM de uma única instância" },
-        { "key": "C", "text": "Guarda os arquivos enviados pelos usuários" },
-        { "key": "D", "text": "Cria um backup diário das instâncias" }
+        { "key": "B", "text": "Aumenta a memória RAM de uma única instância sob demanda, evitando que ela sobrecarregue" },
+        { "key": "C", "text": "Guarda os arquivos enviados pelos usuários da aplicação, funcionando como storage de objetos" },
+        { "key": "D", "text": "Cria um backup diário automático das instâncias, garantindo recuperação se uma delas cair" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): imagina um banco com dez guichês e uma pessoa na entrada mandando cada cliente pro caixa menos cheio. O load balancer é essa pessoa — ninguém fica sobrecarregado, e se um caixa fecha, os outros absorvem."],
@@ -311,9 +311,9 @@
       "stem": "Qual tipo de load balancer faz roteamento baseado no caminho (path) da URL?",
       "options": [
         { "key": "A", "text": "ALB (Application Load Balancer) — camada 7, entende HTTP e roteia por path/host/header" },
-        { "key": "B", "text": "NLB (Network Load Balancer) — camada 4" },
-        { "key": "C", "text": "CLB (Classic Load Balancer)" },
-        { "key": "D", "text": "GWLB (Gateway Load Balancer)" }
+        { "key": "B", "text": "NLB (Network Load Balancer) — camada 4, que entende HTTP e roteia por path/host" },
+        { "key": "C", "text": "CLB (Classic Load Balancer) — a geração antiga, que roteia por path e por header" },
+        { "key": "D", "text": "GWLB (Gateway Load Balancer) — feito pra inspecionar HTTP e rotear por caminho" }
       ],
       "answers": ["A"],
       "hints": [
@@ -335,9 +335,9 @@
       "stem": "Qual tipo de load balancer é o mais adequado?",
       "options": [
         { "key": "A", "text": "NLB (Network Load Balancer) — camada 4, ultra-baixa latência, suporta UDP" },
-        { "key": "B", "text": "ALB (Application Load Balancer) — camada 7" },
-        { "key": "C", "text": "CLB (Classic Load Balancer)" },
-        { "key": "D", "text": "GWLB (Gateway Load Balancer)" }
+        { "key": "B", "text": "ALB (Application Load Balancer) — camada 7, com suporte nativo a UDP" },
+        { "key": "C", "text": "CLB (Classic Load Balancer) — o veterano, com o UDP mais rápido da AWS" },
+        { "key": "D", "text": "GWLB (Gateway Load Balancer) — otimizado pra tráfego UDP de jogos" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): UDP e latência mínima pedem o load balancer que NÃO perde tempo lendo o conteúdo — só encaminha pacote. Esse é o de rede, camada 4: o NLB."],
@@ -356,9 +356,9 @@
       "stem": "Qual combinação de políticas de Auto Scaling é a mais eficiente para os dois padrões ao mesmo tempo?",
       "options": [
         { "key": "A", "text": "Scheduled Scaling (para o padrão diário previsível) + Target Tracking (reage aos picos surpresa)" },
-        { "key": "B", "text": "Só Scheduled Scaling — basta agendar tudo" },
-        { "key": "C", "text": "Só Simple Scaling com um alarme de CPU" },
-        { "key": "D", "text": "Nenhuma política — deixar o número de instâncias fixo no máximo o tempo todo" }
+        { "key": "B", "text": "Só Scheduled Scaling — basta agendar tudo, até as promoções surpresa entram no cronograma" },
+        { "key": "C", "text": "Só Simple Scaling com um alarme de CPU — ele já cobre o padrão previsível e o surpresa de uma vez" },
+        { "key": "D", "text": "Nenhuma política — deixar o número de instâncias fixo no máximo o tempo todo sai mais barato" }
       ],
       "answers": ["A"],
       "hints": [

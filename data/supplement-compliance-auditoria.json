@@ -144,9 +144,9 @@
       "stem": "Qual recurso do IAM Access Analyzer ajuda nisso?",
       "options": [
         {"key": "A", "text": "Validação/preview de políticas (policy validation)"},
-        {"key": "B", "text": "Download de relatório SOC"},
-        {"key": "C", "text": "Coleta de evidência de framework"},
-        {"key": "D", "text": "Criação de fila SQS"}
+        {"key": "B", "text": "Download de relatório SOC direto no Analyzer"},
+        {"key": "C", "text": "Coleta de evidência de framework de compliance"},
+        {"key": "D", "text": "Criação de fila SQS pra receber os findings"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Onde gerenciar e aceitar esse tipo de acordo legal?",
       "options": [
         {"key": "A", "text": "AWS Artifact (relatórios e acordos, como BAA)"},
-        {"key": "B", "text": "AWS Audit Manager"},
-        {"key": "C", "text": "Amazon GuardDuty"},
-        {"key": "D", "text": "AWS WAF"}
+        {"key": "B", "text": "AWS Audit Manager (assina o BAA com a AWS)"},
+        {"key": "C", "text": "Amazon GuardDuty (portal de compliance)"},
+        {"key": "D", "text": "AWS WAF (aba de acordos legais e BAA)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual recurso do IAM Access Analyzer ajuda nessa análise interna?",
       "options": [
         {"key": "A", "text": "Análise de acesso interno (internal access analysis)"},
-        {"key": "B", "text": "Download de relatório PCI"},
-        {"key": "C", "text": "Criar uma distribuição CloudFront"},
-        {"key": "D", "text": "Rotação de segredo"}
+        {"key": "B", "text": "Download de relatório PCI com a lista de principals"},
+        {"key": "C", "text": "Criar uma distribuição CloudFront pra listar acessos"},
+        {"key": "D", "text": "Rotação de segredo, que revela quem usa cada recurso"}
       ],
       "answers": ["A"],
       "hints": [

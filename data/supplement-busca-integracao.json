@@ -82,9 +82,9 @@
       "stem": "Qual serviço entrega o streaming pro OpenSearch?",
       "options": [
         {"key": "A", "text": "Amazon Data Firehose (entrega no OpenSearch)"},
-        {"key": "B", "text": "Amazon SQS"},
-        {"key": "C", "text": "AWS Budgets"},
-        {"key": "D", "text": "Amazon Lightsail"}
+        {"key": "B", "text": "Amazon SQS (fila que despeja no cluster)"},
+        {"key": "C", "text": "AWS Budgets (monitora e entrega os logs)"},
+        {"key": "D", "text": "Amazon Lightsail (VPS com pipeline nativo)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual serviço complementa o DynamoDB pra busca full-text?",
       "options": [
         {"key": "A", "text": "Amazon OpenSearch Service (indexando os dados pra busca)"},
-        {"key": "B", "text": "Amazon RDS"},
-        {"key": "C", "text": "Amazon CloudFront"},
-        {"key": "D", "text": "Amazon SQS"}
+        {"key": "B", "text": "Amazon RDS — o LIKE do SQL já entrega busca por relevância"},
+        {"key": "C", "text": "Amazon CloudFront — o cache dele também indexa o conteúdo"},
+        {"key": "D", "text": "Amazon SQS — a fila faz varredura textual das mensagens"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual capacidade do Amazon AppFlow atende?",
       "options": [
         {"key": "A", "text": "Integração via AWS PrivateLink + criptografia em trânsito"},
-        {"key": "B", "text": "Expor o fluxo num bucket S3 público"},
-        {"key": "C", "text": "Desligar a criptografia pra ir mais rápido"},
-        {"key": "D", "text": "Usar a conta root pra o fluxo"}
+        {"key": "B", "text": "Expor o fluxo num bucket S3 público com HTTPS habilitado"},
+        {"key": "C", "text": "Desligar a criptografia pra ir mais rápido na rede privada"},
+        {"key": "D", "text": "Usar a conta root pra o fluxo, que já é a mais segura"}
       ],
       "answers": ["A"],
       "hints": [

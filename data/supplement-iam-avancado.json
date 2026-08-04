@@ -51,9 +51,9 @@
       "stem": "Qual associação está correta?",
       "options": [
         {"key": "A", "text": "IAM User = credencial de longa duração; IAM Role = credencial temporária (assumida)"},
-        {"key": "B", "text": "IAM User = temporária; IAM Role = longa duração"},
-        {"key": "C", "text": "Os dois usam só credenciais temporárias"},
-        {"key": "D", "text": "Os dois são iguais, muda só o nome"}
+        {"key": "B", "text": "IAM User = credencial temporária (rotacionada); IAM Role = credencial de longa duração"},
+        {"key": "C", "text": "Os dois usam só credenciais temporárias — a AWS aposentou as chaves de longa duração"},
+        {"key": "D", "text": "Os dois são iguais, muda só o nome — o tipo de credencial emitida é o mesmo nos dois"}
       ],
       "answers": ["A"],
       "hints": [
@@ -175,9 +175,9 @@
       "stem": "Quando a ação é efetivamente permitida (ignorando deny explícito)?",
       "options": [
         {"key": "A", "text": "Só quando a identity policy, a SCP E a permissions boundary permitem (todas)"},
-        {"key": "B", "text": "Quando pelo menos uma das três permite"},
-        {"key": "C", "text": "Quando só a identity policy permite, ignorando SCP e boundary"},
-        {"key": "D", "text": "Quando a SCP permite, ignorando o resto"}
+        {"key": "B", "text": "Quando pelo menos uma das três permite — o IAM soma permissões (união)"},
+        {"key": "C", "text": "Quando só a identity policy permite — SCP e boundary são apenas informativas"},
+        {"key": "D", "text": "Quando a SCP permite, ignorando o resto — ela é a camada final e decide"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual abordagem permite esse acesso federado?",
       "options": [
         {"key": "A", "text": "Federação de identidade SAML 2.0 (usuários assumem role via AssumeRoleWithSAML)"},
-        {"key": "B", "text": "Criar um IAM User pra cada funcionário"},
-        {"key": "C", "text": "Compartilhar a conta root"},
-        {"key": "D", "text": "Bucket policy no S3"}
+        {"key": "B", "text": "Criar um IAM User pra cada funcionário, sincronizando as senhas manualmente"},
+        {"key": "C", "text": "Compartilhar a conta root com o time, protegida por MFA e senha rotacionada"},
+        {"key": "D", "text": "Bucket policy no S3 liberando o domínio corporativo do provedor de identidade"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual é a boa prática recomendada pela AWS pra a conta root?",
       "options": [
         {"key": "A", "text": "Ativar MFA na root, não usá-la no dia a dia e operar com IAM/identidades de menor privilégio"},
-        {"key": "B", "text": "Usar a root pra todas as tarefas administrativas diárias"},
-        {"key": "C", "text": "Compartilhar a senha da root com a equipe"},
-        {"key": "D", "text": "Criar várias access keys da root pra automação"}
+        {"key": "B", "text": "Usar a root pra todas as tarefas administrativas diárias, já que ela nunca esbarra em permissão"},
+        {"key": "C", "text": "Compartilhar a senha da root com a equipe, pra ninguém travar o trabalho esperando acesso"},
+        {"key": "D", "text": "Criar várias access keys da root pra automação, com uma chave separada pra cada script"}
       ],
       "answers": ["A"],
       "hints": [

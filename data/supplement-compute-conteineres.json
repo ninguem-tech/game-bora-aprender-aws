@@ -144,9 +144,9 @@
       "stem": "Qual serviço é o indicado?",
       "options": [
         {"key": "A", "text": "Amazon EKS (Kubernetes gerenciado)"},
-        {"key": "B", "text": "Amazon ECS"},
-        {"key": "C", "text": "AWS Lambda"},
-        {"key": "D", "text": "Elastic Beanstalk"}
+        {"key": "B", "text": "Amazon ECS, que lê manifests e Helm"},
+        {"key": "C", "text": "AWS Lambda, o Kubernetes serverless"},
+        {"key": "D", "text": "Elastic Beanstalk com Helm nativo"}
       ],
       "answers": ["A"],
       "hints": [

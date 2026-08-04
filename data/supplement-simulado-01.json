@@ -44,9 +44,9 @@
       "stem": "Qual é a forma segura?",
       "options": [
         {"key": "A", "text": "Anexar uma IAM Role à instância (credenciais temporárias)"},
-        {"key": "B", "text": "Embutir a access key no código"},
-        {"key": "C", "text": "Tornar o bucket público"},
-        {"key": "D", "text": "Usar a conta root"}
+        {"key": "B", "text": "Embutir a access key no código, mas num arquivo separado"},
+        {"key": "C", "text": "Tornar o bucket público — só leitura não traz risco algum"},
+        {"key": "D", "text": "Usar a conta root, que dispensa configurar permissão"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): role na EC2 = credencial temporária, nada de chave no código."],
@@ -92,9 +92,9 @@
       "stem": "Qual serviço resolve?",
       "options": [
         {"key": "A", "text": "Amazon CloudFront (CDN cacheando na borda)"},
-        {"key": "B", "text": "Amazon SQS"},
-        {"key": "C", "text": "AWS Direct Connect"},
-        {"key": "D", "text": "Amazon EBS"}
+        {"key": "B", "text": "Amazon SQS distribuindo as imagens"},
+        {"key": "C", "text": "AWS Direct Connect até cada usuário"},
+        {"key": "D", "text": "Amazon EBS, cacheando perto do usuário"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): estático global + aliviar origem = CDN = CloudFront."],
@@ -140,9 +140,9 @@
       "stem": "Qual recurso impõe esse teto?",
       "options": [
         {"key": "A", "text": "Service Control Policies (SCP) no Organizations"},
-        {"key": "B", "text": "IAM roles na conta de gerência"},
-        {"key": "C", "text": "Security Groups"},
-        {"key": "D", "text": "Bucket policies"}
+        {"key": "B", "text": "IAM roles na conta de gerência valendo em todas"},
+        {"key": "C", "text": "Security Groups aplicados em toda a Organization"},
+        {"key": "D", "text": "Bucket policies, o teto global das contas-filhas"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): teto de permissões da conta (guardrail) = SCP."],
@@ -164,9 +164,9 @@
       "stem": "Qual serviço colocar na frente?",
       "options": [
         {"key": "A", "text": "Amazon ElastiCache (cache in-memory)"},
-        {"key": "B", "text": "Amazon S3"},
-        {"key": "C", "text": "Amazon Athena"},
-        {"key": "D", "text": "AWS Glue"}
+        {"key": "B", "text": "Amazon S3 (cache de leitura do banco)"},
+        {"key": "C", "text": "Amazon Athena (cache SQL do RDS)"},
+        {"key": "D", "text": "AWS Glue (camada in-memory de ETL)"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): cache de leitura na frente do banco = ElastiCache."],
@@ -188,9 +188,9 @@
       "stem": "Estratégia de custo ideal?",
       "options": [
         {"key": "A", "text": "Lifecycle: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expira aos 7 anos"},
-        {"key": "B", "text": "Standard pra sempre"},
-        {"key": "C", "text": "Apagar aos 30 dias"},
-        {"key": "D", "text": "Mover pra EBS"}
+        {"key": "B", "text": "Manter tudo em S3 Standard pra sempre, pois arquivamento não aceita logs"},
+        {"key": "C", "text": "Expirar e apagar todos os logs aos 30 dias, já que retenção antiga não é exigida"},
+        {"key": "D", "text": "Mover os logs pra volumes EBS provisionados, que custam menos que o S3"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): acesso decai = lifecycle (quente→IA→Deep Archive→expira)."],
@@ -236,9 +236,9 @@
       "stem": "Qual solução?",
       "options": [
         {"key": "A", "text": "Aurora Global Database (multi-Region) + Route 53"},
-        {"key": "B", "text": "RDS Single-AZ + snapshots"},
-        {"key": "C", "text": "Aurora numa região com Multi-AZ"},
-        {"key": "D", "text": "DynamoDB"}
+        {"key": "B", "text": "RDS Single-AZ + snapshots com RPO zero"},
+        {"key": "C", "text": "Aurora numa região com Multi-AZ, que cobre o globo"},
+        {"key": "D", "text": "DynamoDB, que fala PostgreSQL nativo"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): multi-continente + RPO/RTO~0 + PostgreSQL = Aurora Global Database."],
@@ -356,9 +356,9 @@
       "stem": "Qual padrão?",
       "options": [
         {"key": "A", "text": "Bastion host numa sub-rede pública (ou SSM Session Manager)"},
-        {"key": "B", "text": "IP público nas instâncias privadas"},
-        {"key": "C", "text": "Abrir porta 22 pra 0.0.0.0/0"},
-        {"key": "D", "text": "Mover pra sub-rede pública"}
+        {"key": "B", "text": "IP público nas instâncias privadas, só pro time de admins"},
+        {"key": "C", "text": "Abrir porta 22 pra 0.0.0.0/0 — o SG já filtra quem entra"},
+        {"key": "D", "text": "Mover pra sub-rede pública, mantendo tudo protegido igual"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): ponte de administração = bastion (ou Session Manager sem porta)."],
@@ -404,9 +404,9 @@
       "stem": "Qual tipo de volume EBS?",
       "options": [
         {"key": "A", "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"},
-        {"key": "B", "text": "sc1 (Cold HDD)"},
-        {"key": "C", "text": "st1 (Throughput HDD)"},
-        {"key": "D", "text": "gp2"}
+        {"key": "B", "text": "sc1 (Cold HDD), com latência mínima"},
+        {"key": "C", "text": "st1 (Throughput HDD), otimizado pra IOPS"},
+        {"key": "D", "text": "gp2, que garante IOPS máximo constante"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): IOPS altíssimo/consistente = Provisioned IOPS (io2)."],
@@ -428,9 +428,9 @@
       "stem": "Qual recurso do S3?",
       "options": [
         {"key": "A", "text": "Cross-Region Replication (CRR) — requer versionamento"},
-        {"key": "B", "text": "Same-Region Replication"},
-        {"key": "C", "text": "Transfer Acceleration"},
-        {"key": "D", "text": "Lifecycle policy"}
+        {"key": "B", "text": "Same-Region Replication, a opção multi-região do S3"},
+        {"key": "C", "text": "Transfer Acceleration, que copia pra outra região"},
+        {"key": "D", "text": "Lifecycle policy movendo os objetos pra outra região"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): cópia automática em outra região = CRR (com versionamento)."],
@@ -500,9 +500,9 @@
       "stem": "Qual arquitetura?",
       "options": [
         {"key": "A", "text": "Direct Connect primário + Site-to-Site VPN de backup (failover automático)"},
-        {"key": "B", "text": "Dois Direct Connect, sem VPN"},
-        {"key": "C", "text": "Só VPN"},
-        {"key": "D", "text": "Direct Connect + CloudFront de reserva"}
+        {"key": "B", "text": "Dois links Direct Connect no mesmo local, sem VPN de contingência"},
+        {"key": "C", "text": "Só uma Site-to-Site VPN pela internet, que já dá a mesma garantia de banda"},
+        {"key": "D", "text": "Direct Connect primário + CloudFront como caminho de reserva pro data center"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): DX primário + VPN backup barato = padrão clássico."],
@@ -596,9 +596,9 @@
       "stem": "Qual combinação?",
       "options": [
         {"key": "A", "text": "Evento S3 → Lambda (thumbnail) → DynamoDB → SNS (fan-out)"},
-        {"key": "B", "text": "Cron em EC2 varrendo o bucket"},
-        {"key": "C", "text": "API Gateway WebSocket + RDS"},
-        {"key": "D", "text": "Kinesis + Redshift"}
+        {"key": "B", "text": "Cron em EC2 varrendo o bucket a cada minuto (evento puro)"},
+        {"key": "C", "text": "API Gateway WebSocket + RDS notificando os sistemas"},
+        {"key": "D", "text": "Kinesis (thumbnail) + Redshift (metadados e fan-out)"}
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): a cada upload = evento do S3 → Lambda; NoSQL = DynamoDB; notificar vários = SNS."],

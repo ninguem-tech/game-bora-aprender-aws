@@ -83,8 +83,8 @@
       "options": [
         {"key": "A", "text": "(1) Preventivo (via SCP); (2) Detectivo (via AWS Config)"},
         {"key": "B", "text": "(1) Detectivo (via Config); (2) Preventivo (via SCP)"},
-        {"key": "C", "text": "(1) Reativo; (2) Proativo"},
-        {"key": "D", "text": "Os dois usam apenas SCPs"}
+        {"key": "C", "text": "(1) Reativo (via SCP); (2) Proativo (via AWS Config)"},
+        {"key": "D", "text": "Os dois usam apenas SCPs, inclusive o de detecção"}
       ],
       "answers": ["A"],
       "hints": [
@@ -175,9 +175,9 @@
       "stem": "Qual associação está correta?",
       "options": [
         {"key": "A", "text": "Fundação = AWS Organizations; automação/landing zone = AWS Control Tower"},
-        {"key": "B", "text": "Fundação = Control Tower; automação = Organizations"},
-        {"key": "C", "text": "Os dois são o mesmo serviço"},
-        {"key": "D", "text": "Fundação = RAM; automação = Service Catalog"}
+        {"key": "B", "text": "Fundação = AWS Control Tower; automação/landing zone = AWS Organizations"},
+        {"key": "C", "text": "Os dois são o mesmo serviço — Control Tower é o nome novo do Organizations"},
+        {"key": "D", "text": "Fundação = AWS RAM; automação/landing zone = AWS Service Catalog"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Como compartilhar um único Transit Gateway entre as contas?",
       "options": [
         {"key": "A", "text": "Compartilhar via AWS RAM (criar uma vez e compartilhar)"},
-        {"key": "B", "text": "Recriar o Transit Gateway em cada conta"},
-        {"key": "C", "text": "Usar signed URLs"},
-        {"key": "D", "text": "Usar uma bucket policy"}
+        {"key": "B", "text": "Recriar o Transit Gateway em cada conta, por segurança"},
+        {"key": "C", "text": "Usar signed URLs dando acesso temporário ao gateway"},
+        {"key": "D", "text": "Usar uma bucket policy liberando o gateway pras contas"}
       ],
       "answers": ["A"],
       "hints": [

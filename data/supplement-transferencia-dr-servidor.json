@@ -113,9 +113,9 @@
       "stem": "Qual serviço atende?",
       "options": [
         {"key": "A", "text": "AWS Elastic Disaster Recovery (AWS DRS)"},
-        {"key": "B", "text": "AWS Backup apenas"},
-        {"key": "C", "text": "AWS Transfer Family"},
-        {"key": "D", "text": "Amazon Lightsail"}
+        {"key": "B", "text": "AWS Backup apenas, com RPO de segundos"},
+        {"key": "C", "text": "AWS Transfer Family (replica servidores)"},
+        {"key": "D", "text": "Amazon Lightsail (VPS com DR contínuo)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual par corresponde a (1) e (2)?",
       "options": [
         {"key": "A", "text": "(1) Application Migration Service (MGN); (2) Elastic Disaster Recovery (DRS)"},
-        {"key": "B", "text": "(1) DRS; (2) MGN"},
-        {"key": "C", "text": "(1) AWS Backup; (2) MGN"},
-        {"key": "D", "text": "(1) DataSync; (2) DRS"}
+        {"key": "B", "text": "(1) Elastic Disaster Recovery (DRS); (2) Application Migration Service (MGN)"},
+        {"key": "C", "text": "(1) AWS Backup (backups centralizados); (2) Application Migration Service (MGN)"},
+        {"key": "D", "text": "(1) AWS DataSync (cópia entre storages); (2) Elastic Disaster Recovery (DRS)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -175,9 +175,9 @@
       "stem": "Qual abordagem atende esse requisito?",
       "options": [
         {"key": "A", "text": "AWS Elastic Disaster Recovery (replicação contínua + infra pronta automaticamente)"},
-        {"key": "B", "text": "AWS Backup com restauração manual da infra"},
-        {"key": "C", "text": "Snapshots semanais"},
-        {"key": "D", "text": "Não há como atingir RPO de segundos"}
+        {"key": "B", "text": "AWS Backup com restauração manual da infra, que garante RPO de poucos segundos"},
+        {"key": "C", "text": "Snapshots semanais dos volumes, restaurados na hora em caso de desastre"},
+        {"key": "D", "text": "Não há como atingir RPO de segundos na AWS; o mínimo possível é de algumas horas"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual serviço suporta esse protocolo de troca de arquivos?",
       "options": [
         {"key": "A", "text": "AWS Transfer Family (suporta SFTP, FTPS, FTP e AS2)"},
-        {"key": "B", "text": "AWS DataSync"},
-        {"key": "C", "text": "Amazon SNS"},
-        {"key": "D", "text": "Amazon Athena"}
+        {"key": "B", "text": "AWS DataSync, que expõe um endpoint AS2 nativo"},
+        {"key": "C", "text": "Amazon SNS, mandando os arquivos como notificação"},
+        {"key": "D", "text": "Amazon Athena, que recebe os arquivos via SQL"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual recurso do AWS DRS ajuda nesse retorno?",
       "options": [
         {"key": "A", "text": "Failback (replicar de volta pra os servidores de origem)"},
-        {"key": "B", "text": "Transfer Family"},
-        {"key": "C", "text": "Glacier Deep Archive"},
-        {"key": "D", "text": "CloudFront"}
+        {"key": "B", "text": "Transfer Family, que replica os servidores via SFTP"},
+        {"key": "C", "text": "Glacier Deep Archive, que restaura as cargas na origem"},
+        {"key": "D", "text": "CloudFront, que redireciona as cargas de volta pra origem"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual mapeamento 1→2→3→4 está correto?",
       "options": [
         {"key": "A", "text": "Transfer Family → DataSync → Elastic Disaster Recovery → Application Migration Service"},
-        {"key": "B", "text": "DataSync → Transfer Family → MGN → DRS"},
-        {"key": "C", "text": "Transfer Family → DataSync → MGN → DRS"},
-        {"key": "D", "text": "DRS → MGN → Transfer Family → DataSync"}
+        {"key": "B", "text": "DataSync → Transfer Family → MGN → DRS, na ordem em que os cenários aparecem"},
+        {"key": "C", "text": "Transfer Family → DataSync → MGN → DRS, fechando com a migração contínua de servidores"},
+        {"key": "D", "text": "DRS → MGN → Transfer Family → DataSync, casando cada serviço com o requisito da vez"}
       ],
       "answers": ["A"],
       "hints": [

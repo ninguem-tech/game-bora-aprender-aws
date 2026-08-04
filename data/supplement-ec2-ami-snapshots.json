@@ -20,9 +20,9 @@
       "stem": "Qual recurso é a 'imagem dourada' pra lançar instâncias pré-configuradas?",
       "options": [
         {"key": "A", "text": "Uma AMI (Amazon Machine Image) customizada"},
-        {"key": "B", "text": "Um snapshot de EBS sozinho"},
-        {"key": "C", "text": "Um Elastic IP"},
-        {"key": "D", "text": "Uma bucket policy"}
+        {"key": "B", "text": "Um snapshot de EBS sozinho, já bootável"},
+        {"key": "C", "text": "Um Elastic IP com o SO pré-instalado"},
+        {"key": "D", "text": "Uma bucket policy guardando a imagem"}
       ],
       "answers": ["A"],
       "hints": [
@@ -51,9 +51,9 @@
       "stem": "O que é necessário?",
       "options": [
         {"key": "A", "text": "Copiar a AMI pra a outra região (AMIs são específicas da região)"},
-        {"key": "B", "text": "A AMI já funciona em qualquer região automaticamente"},
-        {"key": "C", "text": "Criar um Elastic IP na outra região"},
-        {"key": "D", "text": "Habilitar Transfer Acceleration"}
+        {"key": "B", "text": "A AMI já funciona em qualquer região automaticamente, pois é global"},
+        {"key": "C", "text": "Criar um Elastic IP na outra região pra puxar a imagem"},
+        {"key": "D", "text": "Habilitar Transfer Acceleration, que replica AMIs entre regiões"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "Qual recurso dos snapshots atende?",
       "options": [
         {"key": "A", "text": "Cópia cross-Region e cross-account de snapshots (com criptografia KMS)"},
-        {"key": "B", "text": "Snapshots só existem na mesma AZ"},
-        {"key": "C", "text": "Elastic IP replicado"},
-        {"key": "D", "text": "User data com o backup"}
+        {"key": "B", "text": "Snapshots só existem na mesma AZ — ficam presos ao hardware do volume EBS"},
+        {"key": "C", "text": "Elastic IP replicado pra outra região — o IP estático leva os dados junto"},
+        {"key": "D", "text": "User data com o backup embutido — o script de boot restaura tudo sozinho"}
       ],
       "answers": ["A"],
       "hints": [

@@ -20,9 +20,9 @@
       "stem": "Qual associação está correta?",
       "options": [
         {"key": "A", "text": "Região = área geográfica; Availability Zone (AZ) = um ou mais data centers isolados dentro da região"},
-        {"key": "B", "text": "Região = um data center; AZ = um continente"},
-        {"key": "C", "text": "Região e AZ são a mesma coisa"},
-        {"key": "D", "text": "AZ = área geográfica; Região = um rack"}
+        {"key": "B", "text": "Região = um único data center específico; AZ = um continente inteiro com várias regiões dentro"},
+        {"key": "C", "text": "Região e AZ são a mesma coisa na prática: dois nomes pro mesmo conjunto físico de data centers"},
+        {"key": "D", "text": "AZ = a área geográfica ampla; Região = um rack de servidores isolado dentro do data center"}
       ],
       "answers": ["A"],
       "hints": [
@@ -51,9 +51,9 @@
       "stem": "Qual é a prática recomendada?",
       "options": [
         {"key": "A", "text": "Distribuir os recursos por múltiplas Availability Zones na mesma região"},
-        {"key": "B", "text": "Colocar tudo numa única AZ"},
-        {"key": "C", "text": "Colocar tudo numa edge location"},
-        {"key": "D", "text": "Usar uma região só com uma instância"}
+        {"key": "B", "text": "Colocar tudo numa única AZ — a própria AZ já replica tudo internamente"},
+        {"key": "C", "text": "Colocar tudo numa edge location — elas hospedam a app pertinho do usuário"},
+        {"key": "D", "text": "Usar uma região só com uma instância grande — a AWS cuida do failover dela"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "O que é responsabilidade da AWS ('segurança DA nuvem')?",
       "options": [
         {"key": "A", "text": "Proteger a infraestrutura física: hardware, software base, rede e instalações"},
-        {"key": "B", "text": "Configurar as permissões IAM do cliente"},
-        {"key": "C", "text": "Criptografar os dados da aplicação do cliente"},
-        {"key": "D", "text": "Aplicar patches no sistema operacional convidado do EC2 do cliente"}
+        {"key": "B", "text": "Configurar as permissões IAM do cliente — a AWS define quem acessa o quê"},
+        {"key": "C", "text": "Criptografar os dados da aplicação do cliente, automaticamente e por padrão"},
+        {"key": "D", "text": "Aplicar patches no sistema operacional convidado do EC2 do cliente todo mês"}
       ],
       "answers": ["A"],
       "hints": [
@@ -175,9 +175,9 @@
       "stem": "No S3, o que continua sendo responsabilidade do CLIENTE?",
       "options": [
         {"key": "A", "text": "Gerenciar os dados: classificá-los, definir criptografia e controlar acesso via IAM/políticas"},
-        {"key": "B", "text": "Aplicar patch no sistema operacional dos servidores do S3"},
-        {"key": "C", "text": "Manter o hardware dos data centers do S3"},
-        {"key": "D", "text": "Operar a rede física entre os data centers"}
+        {"key": "B", "text": "Aplicar os patches de segurança no sistema operacional dos servidores que rodam o S3"},
+        {"key": "C", "text": "Manter e trocar o hardware de armazenamento físico dos data centers onde o S3 roda"},
+        {"key": "D", "text": "Operar a rede física entre os data centers da AWS, incluindo os enlaces entre as AZs"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual recurso entrega isso, sem custo adicional?",
       "options": [
         {"key": "A", "text": "Consolidated billing (cobrança consolidada) do AWS Organizations"},
-        {"key": "B", "text": "Criar uma conta gigante única e migrar tudo"},
-        {"key": "C", "text": "Trusted Advisor"},
-        {"key": "D", "text": "Cost Explorer apenas"}
+        {"key": "B", "text": "Criar uma conta gigante única e migrar tudo, como a AWS recomenda"},
+        {"key": "C", "text": "Trusted Advisor, que unifica a fatura das contas na Organization"},
+        {"key": "D", "text": "Cost Explorer apenas, que já rateia os descontos entre as contas"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "O que são as edge locations?",
       "options": [
         {"key": "A", "text": "Pontos da rede da AWS, perto dos usuários, usados por serviços como CloudFront e Global Accelerator"},
-        {"key": "B", "text": "Data centers onde você hospeda seus bancos relacionais primários"},
-        {"key": "C", "text": "Sub-redes privadas dentro de uma VPC"},
-        {"key": "D", "text": "Tipos de instância EC2"}
+        {"key": "B", "text": "Data centers regionais onde você hospeda seus bancos relacionais primários e cargas críticas"},
+        {"key": "C", "text": "Sub-redes privadas dentro de uma VPC, replicadas pela AWS em cada ponto de presença global"},
+        {"key": "D", "text": "Tipos de instância EC2 otimizados pra entrega de conteúdo perto dos usuários finais"}
       ],
       "answers": ["A"],
       "hints": [

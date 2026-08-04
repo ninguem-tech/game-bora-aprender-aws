@@ -175,9 +175,9 @@
       "stem": "Qual recurso permite esse redirecionamento por saúde?",
       "options": [
         {"key": "A", "text": "Health checks com roteamento de failover"},
-        {"key": "B", "text": "CNAME no apex"},
-        {"key": "C", "text": "Private hosted zone"},
-        {"key": "D", "text": "Outbound endpoint"}
+        {"key": "B", "text": "CNAME no apex trocando pro saudável"},
+        {"key": "C", "text": "Private hosted zone com failover interno"},
+        {"key": "D", "text": "Outbound endpoint monitorando a saúde"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual mapeamento 1→2→3→4 está correto?",
       "options": [
         {"key": "A", "text": "Alias → Private hosted zone → Resolver inbound endpoint → Health check failover"},
-        {"key": "B", "text": "CNAME → Public hosted zone → Outbound endpoint → Alias"},
-        {"key": "C", "text": "Private hosted zone → Alias → Health check → Inbound endpoint"},
-        {"key": "D", "text": "Health check → Inbound endpoint → Alias → Private hosted zone"}
+        {"key": "B", "text": "CNAME → Public hosted zone → Resolver outbound endpoint → Alias record"},
+        {"key": "C", "text": "Private hosted zone → Alias → Health check failover → Resolver inbound endpoint"},
+        {"key": "D", "text": "Health check failover → Resolver inbound endpoint → Alias → Private hosted zone"}
       ],
       "answers": ["A"],
       "hints": [

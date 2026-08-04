@@ -13,9 +13,9 @@
       "stem": "O que é o Amazon S3?",
       "options": [
         { "key": "A", "text": "Armazenamento de objetos (arquivos), acessado por chave — não é banco de dados nem sistema de arquivos" },
-        { "key": "B", "text": "Um banco de dados relacional gerenciado" },
-        { "key": "C", "text": "O disco virtual que se anexa a uma instância EC2" },
-        { "key": "D", "text": "Um firewall de rede" }
+        { "key": "B", "text": "Um banco de dados relacional gerenciado, com tabelas e SQL, pra guardar arquivos como registros" },
+        { "key": "C", "text": "O disco virtual de blocos que se anexa a uma instância EC2 pra armazenar o sistema" },
+        { "key": "D", "text": "Um firewall de rede gerenciado, que filtra o tráfego de entrada e saída dos buckets" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pensa no S3 como um depósito com prateleiras numeradas. Você guarda uma caixa (objeto) e anota o número (a chave). Pra pegar de volta, pede pelo número. Não é pasta de verdade — é rótulo."],
@@ -79,9 +79,9 @@
       "stem": "Qual classe equilibra custo baixo de armazenamento E disponibilidade quase imediata (minutos)?",
       "options": [
         { "key": "A", "text": "S3 Glacier Instant Retrieval (acesso em milissegundos, armazenamento barato)" },
-        { "key": "B", "text": "S3 Glacier Flexible Retrieval" },
-        { "key": "C", "text": "S3 Glacier Deep Archive" },
-        { "key": "D", "text": "S3 Standard" }
+        { "key": "B", "text": "S3 Glacier Flexible Retrieval (recuperação em milissegundos, custo mínimo)" },
+        { "key": "C", "text": "S3 Glacier Deep Archive (classe mais barata, com acesso quase imediato)" },
+        { "key": "D", "text": "S3 Standard (armazenamento de custo mais baixo entre todas as classes)" }
       ],
       "answers": ["A"],
       "hints": [
@@ -149,9 +149,9 @@
       "stem": "Qual opção de criptografia atende a todos esses requisitos?",
       "options": [
         { "key": "A", "text": "SSE-KMS (chave gerenciada no KMS, com auditoria no CloudTrail e revogação)" },
-        { "key": "B", "text": "SSE-S3 (a AWS gerencia tudo automaticamente)" },
-        { "key": "C", "text": "SSE-C (você fornece a chave em cada request)" },
-        { "key": "D", "text": "Nenhuma — S3 não criptografa em repouso" }
+        { "key": "B", "text": "SSE-S3 (a AWS gerencia tudo automaticamente), com log por chave e revogação" },
+        { "key": "C", "text": "SSE-C (você fornece a chave em cada request), auditado direto no CloudTrail" },
+        { "key": "D", "text": "Nenhuma — S3 não criptografa em repouso, só em trânsito via HTTPS" }
       ],
       "answers": ["A"],
       "hints": [
@@ -173,9 +173,9 @@
       "stem": "Como liberar o download desse arquivo sem tornar o bucket público?",
       "options": [
         { "key": "A", "text": "O backend gera uma Presigned URL temporária (ex.: 15 min) e entrega ao usuário autenticado" },
-        { "key": "B", "text": "Desativar o Block Public Access e tornar o bucket público" },
-        { "key": "C", "text": "Dar uma chave de acesso AWS pro usuário final" },
-        { "key": "D", "text": "Mover o arquivo pro Glacier Deep Archive" }
+        { "key": "B", "text": "Desativar o Block Public Access e tornar o bucket público por uns minutos, depois fechar" },
+        { "key": "C", "text": "Dar uma chave de acesso AWS pro usuário final com policy de leitura — padrão recomendado" },
+        { "key": "D", "text": "Mover o arquivo pro Glacier Deep Archive, que gera link público de download na hora" }
       ],
       "answers": ["A"],
       "hints": [
@@ -198,9 +198,9 @@
       "stem": "O que é o Amazon EBS?",
       "options": [
         { "key": "A", "text": "Armazenamento em bloco — um disco (HD/SSD) virtual que se anexa a uma instância EC2" },
-        { "key": "B", "text": "Armazenamento de objetos acessado por HTTP" },
-        { "key": "C", "text": "Um sistema de arquivos compartilhado entre várias instâncias" },
-        { "key": "D", "text": "Um banco de dados gerenciado" }
+        { "key": "B", "text": "Armazenamento de objetos acessado por HTTP, com URLs públicas pra cada arquivo" },
+        { "key": "C", "text": "Um sistema de arquivos compartilhado entre várias instâncias ao mesmo tempo, via NFS" },
+        { "key": "D", "text": "Um banco de dados gerenciado, com backups e réplicas cuidados pela própria AWS" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): a diferença é tipo pen drive vs HD interno. O S3 é um depósito que você acessa por chave (HTTP). O EBS é o disco da instância — ela enxerga como um HD normal e instala o sistema operacional ali."],
@@ -243,9 +243,9 @@
       "stem": "Qual a forma mais rápida e prática de migrar esses dados?",
       "options": [
         { "key": "A", "text": "AWS Snow Family (ex.: Snowball Edge) — dispositivo físico que a AWS envia, você copia e devolve" },
-        { "key": "B", "text": "Subir tudo pela internet com upload paralelo" },
-        { "key": "C", "text": "Usar Transfer Acceleration" },
-        { "key": "D", "text": "Comprar uma instância maior" }
+        { "key": "B", "text": "Subir tudo pela internet com upload paralelo e multipart, que compensa a banda limitada" },
+        { "key": "C", "text": "Usar S3 Transfer Acceleration, que resolve qualquer volume mesmo com link lento e instável" },
+        { "key": "D", "text": "Comprar uma instância EC2 maior, já que o gargalo do upload é a máquina de origem" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): se subir pela internet levaria mais de uma semana, calcula o Snow. A AWS te manda um (ou vários) dispositivos físicos, você copia, devolve, e os dados aparecem no S3."],
@@ -264,9 +264,9 @@
       "stem": "Qual tipo de volume EBS atende essa exigência de IOPS alto e consistente?",
       "options": [
         { "key": "A", "text": "io2 (ou io1) — SSD com IOPS provisionado, até 64.000 (256.000 no io2 Block Express)" },
-        { "key": "B", "text": "gp3 — SSD de uso geral, até 16.000 IOPS" },
-        { "key": "C", "text": "st1 — HDD de throughput" },
-        { "key": "D", "text": "sc1 — HDD frio, o mais barato" }
+        { "key": "B", "text": "gp3 — SSD de uso geral, até 16.000 IOPS, o único tipo com IOPS provisionado" },
+        { "key": "C", "text": "st1 — HDD otimizado pra throughput sequencial, com IOPS alto e consistente" },
+        { "key": "D", "text": "sc1 — HDD frio, o mais barato, suficiente pra qualquer banco transacional" }
       ],
       "answers": ["A"],
       "hints": [

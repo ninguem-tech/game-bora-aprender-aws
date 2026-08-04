@@ -20,9 +20,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "A route table da sub-rede tem uma rota 0.0.0.0/0 apontando pra um Internet Gateway"},
-        {"key": "B", "text": "A sub-rede tem um atributo 'pública' marcado, independente de rotas"},
-        {"key": "C", "text": "Basta a instância ter um IP público"},
-        {"key": "D", "text": "A sub-rede está numa região, não numa AZ"}
+        {"key": "B", "text": "A sub-rede tem um atributo 'pública' marcado no console, independente de rotas"},
+        {"key": "C", "text": "Basta a instância ter um IP público — com ele o tráfego já sai pra internet"},
+        {"key": "D", "text": "A sub-rede está numa região, não numa AZ — e é isso que a torna pública"}
       ],
       "answers": ["A"],
       "hints": [
@@ -51,9 +51,9 @@
       "stem": "Como garantir que a sub-rede seja privada?",
       "options": [
         {"key": "A", "text": "Não ter rota pro Internet Gateway na route table da sub-rede"},
-        {"key": "B", "text": "Dar um IP público a cada instância"},
-        {"key": "C", "text": "Adicionar uma rota 0.0.0.0/0 pro IGW"},
-        {"key": "D", "text": "Colocar a sub-rede em outra região"}
+        {"key": "B", "text": "Dar um IP público a cada instância, só pra uso interno"},
+        {"key": "C", "text": "Adicionar uma rota 0.0.0.0/0 pro IGW, que isola a sub-rede"},
+        {"key": "D", "text": "Colocar a sub-rede em outra região, longe da internet"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "Como a VPC decide qual rota aplicar?",
       "options": [
         {"key": "A", "text": "A rota mais específica (longest prefix match) vence"},
-        {"key": "B", "text": "A primeira rota da lista vence"},
-        {"key": "C", "text": "A rota menos específica vence"},
-        {"key": "D", "text": "Escolhe aleatoriamente"}
+        {"key": "B", "text": "A primeira rota da lista vence (ordem de criação)"},
+        {"key": "C", "text": "A rota menos específica vence (shortest prefix)"},
+        {"key": "D", "text": "Escolhe aleatoriamente, balanceando o tráfego"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual padrão tradicional resolve esse acesso?",
       "options": [
         {"key": "A", "text": "Um bastion host (jump server) numa sub-rede pública, usado como ponte"},
-        {"key": "B", "text": "Dar IP público às instâncias privadas"},
-        {"key": "C", "text": "Abrir a porta 22 pra 0.0.0.0/0 nas instâncias privadas"},
-        {"key": "D", "text": "Mover as instâncias pra uma sub-rede pública"}
+        {"key": "B", "text": "Dar IP público às instâncias privadas — o SSH por chave já protege tudo"},
+        {"key": "C", "text": "Abrir a porta 22 pra 0.0.0.0/0 nas instâncias privadas, a chave basta"},
+        {"key": "D", "text": "Mover as instâncias pra uma sub-rede pública, protegidas só pelo SG"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "O que está correto sobre essa expectativa?",
       "options": [
         {"key": "A", "text": "Errada: VPC Peering NÃO é transitivo; B precisa de peering direto com C (ou usar Transit Gateway)"},
-        {"key": "B", "text": "Certa: o tráfego de B chega em C automaticamente via A"},
-        {"key": "C", "text": "Certa, desde que A tenha um NAT Gateway"},
-        {"key": "D", "text": "Errada, porque peering não existe entre VPCs"}
+        {"key": "B", "text": "Certa: o tráfego de B chega em C automaticamente via A, pois o peering é transitivo por padrão"},
+        {"key": "C", "text": "Certa, desde que a VPC A tenha um NAT Gateway roteando o tráfego transitivo entre B e C"},
+        {"key": "D", "text": "Errada, porque peering não existe entre VPCs; a única conexão possível é VPN site-to-site"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual configuração de rota é a correta?",
       "options": [
         {"key": "A", "text": "0.0.0.0/0 apontando pra um NAT Gateway (que fica numa sub-rede pública)"},
-        {"key": "B", "text": "0.0.0.0/0 apontando pro Internet Gateway"},
-        {"key": "C", "text": "Nenhuma rota de saída; impossível atualizar"},
-        {"key": "D", "text": "0.0.0.0/0 apontando pra um bastion host"}
+        {"key": "B", "text": "0.0.0.0/0 apontando pro Internet Gateway, que só deixa a saída passar"},
+        {"key": "C", "text": "Nenhuma rota de saída; impossível atualizar sem tornar a sub-rede pública"},
+        {"key": "D", "text": "0.0.0.0/0 apontando pra um bastion host, que faz o proxy das atualizações"}
       ],
       "answers": ["A"],
       "hints": [

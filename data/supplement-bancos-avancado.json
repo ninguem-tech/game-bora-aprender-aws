@@ -20,18 +20,18 @@
       "stem": "O que está correto sobre o RDS Multi-AZ?",
       "options": [
         {"key": "A", "text": "Multi-AZ é pra alta disponibilidade; o standby é síncrono e NÃO serve leitura"},
-        {"key": "B", "text": "O standby do Multi-AZ serve leitura e é a forma de escalar reads"},
-        {"key": "C", "text": "Multi-AZ replica de forma assíncrona pra outra região"},
-        {"key": "D", "text": "Multi-AZ só funciona com Aurora"}
+        {"key": "B", "text": "O standby do Multi-AZ serve leitura e é a forma de escalar reads no RDS"},
+        {"key": "C", "text": "Multi-AZ replica de forma assíncrona pra outra região, como um DR global"},
+        {"key": "D", "text": "Multi-AZ só funciona com Aurora — os outros engines do RDS não têm standby"}
       ],
       "answers": ["A"],
       "hints": [
         "💡 Rafael (dica): Multi-AZ = disponibilidade, não desempenho. O standby fica de prontidão (síncrono) e assume no failover — mas não atende leitura.",
         "💡 Rafael (dica 2): pra distribuir leitura você usa Read Replica, que é outra coisa. Não confunda os dois."
       ],
-      "explanation": "RDS Multi-AZ existe pra alta disponibilidade/durabilidade: mantém um standby síncrono em outra AZ e faz failover automático. O standby NÃO serve leitura — fica reservado pra resiliência. Pra escalar leitura é Read Replica.",
+      "explanation": "RDS Multi-AZ existe pra alta disponibilidade/durabilidade: mantém um standby síncrono em outra AZ e faz failover automático. Na implantação clássica (Multi-AZ DB instance, com um único standby), ele NÃO serve leitura — fica reservado pra resiliência. Pra escalar leitura é Read Replica. (Exceção: o Multi-AZ DB cluster, com dois readers, permite ler dos readers via reader endpoint — mas isso não substitui a Read Replica pra escalar leitura fora do cluster ou entre regiões.)",
       "whyNots": {
-        "B": "O standby do Multi-AZ não serve leitura; quem faz isso é a Read Replica.",
+        "B": "Na implantação clássica de Multi-AZ (a descrita aqui, com um único standby), ele não serve leitura; quem escala leitura é a Read Replica. (O Multi-AZ DB cluster, com dois readers, é uma exceção mais recente — mas não é o cenário desta questão.)",
         "C": "Multi-AZ é replicação síncrona dentro da região (entre AZs), não assíncrona cross-Region.",
         "D": "Multi-AZ existe no RDS tradicional (MySQL, PostgreSQL, etc.), não só no Aurora."
       }
@@ -120,9 +120,9 @@
       "answers": ["A"],
       "hints": [
         "💡 Rafael (dica): 'vários continentes' + 'cair a região inteira' = precisa de MÚLTIPLAS regiões. No Aurora, isso é o Global Database.",
-        "💡 Rafael (dica 2): ele dá leitura global de baixa latência e DR cross-region com RTO em minutos."
+        "💡 Rafael (dica 2): ele dá leitura global de baixa latência e DR cross-region com RTO tipicamente abaixo de 1 minuto."
       ],
-      "explanation": "Aurora Global Database abrange múltiplas regiões (até 5): leitura global de baixa latência nas regiões secundárias e DR cross-region com RTO em minutos se a região primária cair. Réplicas na mesma região ou Multi-AZ não protegem contra perder a região inteira.",
+      "explanation": "Aurora Global Database abrange múltiplas regiões (até 10 regiões secundárias): leitura global de baixa latência nas regiões secundárias e DR cross-region com RTO tipicamente abaixo de 1 minuto se a região primária cair. Réplicas na mesma região ou Multi-AZ não protegem contra perder a região inteira.",
       "whyNots": {
         "B": "Aurora Replicas na mesma região escalam leitura local, mas não dão presença global nem DR de região.",
         "C": "Multi-AZ cobre falha de AZ dentro de uma região, não a perda da região toda.",

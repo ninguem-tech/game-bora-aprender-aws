@@ -237,9 +237,9 @@
       "stem": "Qual afirmação está correta?",
       "options": [
         {"key": "A", "text": "Lightsail é ótimo pra começar simples/barato; se precisar de escala e integração profunda, EC2 (e demais serviços) é o caminho"},
-        {"key": "B", "text": "Lightsail escala melhor que o EC2 pra qualquer carga"},
-        {"key": "C", "text": "EC2 só serve pra sites estáticos"},
-        {"key": "D", "text": "Lightsail e EC2 são exatamente o mesmo serviço"}
+        {"key": "B", "text": "Lightsail escala melhor que o EC2 pra qualquer tipo de carga, inclusive picos imprevisíveis com Auto Scaling avançado"},
+        {"key": "C", "text": "EC2 só serve pra hospedar sites estáticos simples; aplicações com escala e integrações profundas exigem o Lightsail"},
+        {"key": "D", "text": "Lightsail e EC2 são exatamente o mesmo serviço por baixo, com o mesmo preço, os mesmos limites e a mesma integração"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual associação faz mais sentido?",
       "options": [
         {"key": "A", "text": "Mínimo de config = App Runner; controle fino de contêineres = ECS/Fargate"},
-        {"key": "B", "text": "Mínimo de config = ECS/Fargate; controle fino = App Runner"},
-        {"key": "C", "text": "Ambos só rodam em Outposts"},
-        {"key": "D", "text": "App Runner é pra jobs em lote; os dois são idênticos"}
+        {"key": "B", "text": "Mínimo de config = ECS/Fargate; controle fino de tarefas e rede = App Runner"},
+        {"key": "C", "text": "Ambos só rodam em Outposts, o requisito de hardware dos contêineres"},
+        {"key": "D", "text": "App Runner é pra jobs em lote; fora isso os dois são idênticos, muda o preço"}
       ],
       "answers": ["A"],
       "hints": [

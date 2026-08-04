@@ -20,9 +20,9 @@
       "stem": "Qual serviço é o registro de imagens de contêiner gerenciado?",
       "options": [
         {"key": "A", "text": "Amazon ECR (Elastic Container Registry)"},
-        {"key": "B", "text": "Amazon S3"},
-        {"key": "C", "text": "AWS CodeCommit"},
-        {"key": "D", "text": "Amazon ECS"}
+        {"key": "B", "text": "Amazon S3, com scan de imagem nativo"},
+        {"key": "C", "text": "AWS CodeCommit (guarda imagens Docker)"},
+        {"key": "D", "text": "Amazon ECS, que embute o registry"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual recurso faz isso da forma mais simples?",
       "options": [
         {"key": "A", "text": "ECS Service Auto Scaling com target tracking (ex.: CPU média alvo)"},
-        {"key": "B", "text": "Editar a task definition manualmente"},
-        {"key": "C", "text": "Aumentar o tamanho do cluster na mão"},
-        {"key": "D", "text": "Usar o ECR"}
+        {"key": "B", "text": "Editar a task definition manualmente a cada variação de CPU"},
+        {"key": "C", "text": "Aumentar o tamanho do cluster na mão sempre que a CPU subir"},
+        {"key": "D", "text": "Usar o ECR, que escala as tasks conforme os pulls da imagem"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Como escalar o service do ECS por essa métrica?",
       "options": [
         {"key": "A", "text": "ECS Service Auto Scaling com métrica custom (ex.: tamanho da fila SQS no CloudWatch)"},
-        {"key": "B", "text": "Não é possível escalar ECS por fila"},
-        {"key": "C", "text": "Trocar o ECS por Lightsail"},
-        {"key": "D", "text": "Usar signed URLs"}
+        {"key": "B", "text": "Não é possível escalar um service do ECS por fila; só CPU e memória servem de métrica"},
+        {"key": "C", "text": "Trocar o ECS por Lightsail, que já escala containers por fila automaticamente"},
+        {"key": "D", "text": "Usar signed URLs do CloudFront pra controlar a vazão de mensagens da fila"}
       ],
       "answers": ["A"],
       "hints": [

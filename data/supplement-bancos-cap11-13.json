@@ -13,9 +13,9 @@
       "stem": "Ao usar o Amazon RDS, o que a AWS passa a gerenciar por você?",
       "options": [
         { "key": "A", "text": "Backups automáticos, patches, Multi-AZ com failover — você cuida só do schema, queries e dados" },
-        { "key": "B", "text": "Nada — RDS é só uma instância EC2 com um nome diferente" },
-        { "key": "C", "text": "As suas queries e o modelo de dados, mas não a infraestrutura" },
-        { "key": "D", "text": "Apenas o backup; o resto continua manual" }
+        { "key": "B", "text": "Nada — RDS é só uma instância EC2 com um nome diferente, e você segue cuidando de tudo via SSH" },
+        { "key": "C", "text": "As suas queries e o modelo de dados, mas não a infraestrutura — patch e backup ficam com você" },
+        { "key": "D", "text": "Apenas o backup diário automático; patch, failover e monitoramento continuam manuais" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): a ideia do RDS é tirar o peso da infraestrutura das suas costas. A AWS cuida de backup, patch e failover; você fica com o que é seu de verdade — o schema, as consultas e os dados."],
@@ -34,9 +34,9 @@
       "stem": "O que você adiciona para escalar a leitura sem afetar a instância principal?",
       "options": [
         { "key": "A", "text": "Read Replicas (réplicas de leitura) e aponta as consultas pesadas pra elas" },
-        { "key": "B", "text": "Ativar Multi-AZ (o standby passa a atender leitura)" },
-        { "key": "C", "text": "Aumentar o storage da instância primária" },
-        { "key": "D", "text": "Trocar para um volume EBS mais rápido" }
+        { "key": "B", "text": "Ativar Multi-AZ (o standby passa a atender leitura e divide os dashboards)" },
+        { "key": "C", "text": "Aumentar o storage da instância primária — mais espaço dá mais leituras" },
+        { "key": "D", "text": "Trocar para um volume EBS mais rápido, que separa a leitura da escrita" }
       ],
       "answers": ["A"],
       "hints": [
@@ -58,9 +58,9 @@
       "stem": "Qual recurso do RDS garante alta disponibilidade com failover automático?",
       "options": [
         { "key": "A", "text": "Multi-AZ — réplica síncrona em outra AZ, failover automático em ~1–2 min" },
-        { "key": "B", "text": "Read Replica — uma réplica assume sozinha em caso de falha" },
-        { "key": "C", "text": "Snapshots manuais a cada hora" },
-        { "key": "D", "text": "Aumentar a retenção de backup para 35 dias" }
+        { "key": "B", "text": "Read Replica — uma réplica síncrona que assume sozinha em caso de falha" },
+        { "key": "C", "text": "Snapshots manuais a cada hora — restauração instantânea se a instância cair" },
+        { "key": "D", "text": "Aumentar a retenção de backup para 35 dias, cobrindo falha de hardware" }
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "O que você coloca entre a Lambda e o RDS para resolver o esgotamento de conexões?",
       "options": [
         { "key": "A", "text": "RDS Proxy — mantém um pool de conexões persistentes e as reaproveita" },
-        { "key": "B", "text": "Uma Read Replica para cada função Lambda" },
-        { "key": "C", "text": "Um Application Load Balancer na frente do RDS" },
-        { "key": "D", "text": "Aumentar a memória da Lambda" }
+        { "key": "B", "text": "Uma Read Replica para cada função Lambda, pra diluir as conexões" },
+        { "key": "C", "text": "Um Application Load Balancer na frente do RDS, balanceando o SQL" },
+        { "key": "D", "text": "Aumentar a memória da Lambda — com mais RAM ela reusa a mesma conexão" }
       ],
       "answers": ["A"],
       "hints": [
@@ -107,9 +107,9 @@
       "stem": "Qual serviço da AWS é feito pra esse acesso por chave, rápido e sem limite de escala?",
       "options": [
         { "key": "A", "text": "Amazon DynamoDB (NoSQL chave-valor, serverless, latência de milissegundos)" },
-        { "key": "B", "text": "Amazon RDS (banco relacional)" },
-        { "key": "C", "text": "Amazon Redshift (data warehouse)" },
-        { "key": "D", "text": "Amazon S3 (armazenamento de objetos)" }
+        { "key": "B", "text": "Amazon RDS (banco relacional) — índice primário entrega ms em qualquer escala" },
+        { "key": "C", "text": "Amazon Redshift (data warehouse) — colunar, responde por chave em ms" },
+        { "key": "D", "text": "Amazon S3 (armazenamento de objetos) — acesso por chave, ideal pra sessão" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pensa numa agenda de contatos — você abre pelo nome (a chave) e vê os dados na hora. Ninguém faz query complexa na agenda. É acesso por chave, rápido, em qualquer escala — DynamoDB."],
@@ -128,9 +128,9 @@
       "stem": "O que você cria pra consultar por um atributo diferente da chave primária, de forma eficiente?",
       "options": [
         { "key": "A", "text": "Um GSI (Global Secondary Index) com status como partition key" },
-        { "key": "B", "text": "Um Scan com filtro por status a cada consulta" },
-        { "key": "C", "text": "Uma Read Replica do DynamoDB" },
-        { "key": "D", "text": "Trocar a chave primária para status" }
+        { "key": "B", "text": "Um Scan com filtro por status a cada consulta, rápido e barato" },
+        { "key": "C", "text": "Uma Read Replica do DynamoDB dedicada às queries de status" },
+        { "key": "D", "text": "Trocar a chave primária para status, sem afetar o orderId" }
       ],
       "answers": ["A"],
       "hints": [
@@ -152,9 +152,9 @@
       "stem": "Qual modo de capacidade do DynamoDB é o mais indicado?",
       "options": [
         { "key": "A", "text": "On-Demand (escala instantânea, sem throttling, paga por requisição)" },
-        { "key": "B", "text": "Provisioned com RCU/WCU fixos baixos" },
-        { "key": "C", "text": "Provisioned sem Auto Scaling" },
-        { "key": "D", "text": "Não usar DynamoDB para esse caso" }
+        { "key": "B", "text": "Provisioned com RCU/WCU fixos baixos, que a AWS eleva no pico" },
+        { "key": "C", "text": "Provisioned sem Auto Scaling, que absorve qualquer pico sozinho" },
+        { "key": "D", "text": "Não usar DynamoDB para esse caso — ele não aguenta picos de 50x" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): quando o tráfego é imprevisível e cada pedido perdido dói, você não quer apostar num número fixo de capacidade. O modo que escala sozinho na hora, sem throttling, é o On-Demand."],
@@ -173,9 +173,9 @@
       "stem": "Qual a diferença entre LSI e GSI, e qual cabe nesse caso?",
       "options": [
         { "key": "A", "text": "LSI — mesma partition key, sort key diferente, criado JUNTO com a tabela; é o que serve aqui" },
-        { "key": "B", "text": "GSI — porque LSI não existe mais no DynamoDB" },
-        { "key": "C", "text": "Tanto faz: LSI e GSI são idênticos" },
-        { "key": "D", "text": "Nenhum — só dá pra ordenar com Scan" }
+        { "key": "B", "text": "GSI — porque o LSI foi descontinuado e não existe mais no DynamoDB pra tabelas novas" },
+        { "key": "C", "text": "Tanto faz: LSI e GSI são idênticos em chaves, custo e momento de criação; é só apelido" },
+        { "key": "D", "text": "Nenhum dos dois — no DynamoDB só dá pra ordenar resultados fazendo Scan completo da tabela" }
       ],
       "answers": ["A"],
       "hints": [
@@ -199,9 +199,9 @@
       "stem": "Qual serviço você adiciona, e qual engine, pra resolver isso?",
       "options": [
         { "key": "A", "text": "ElastiCache for Redis (cache in-memory, com estruturas ricas como sorted sets)" },
-        { "key": "B", "text": "ElastiCache for Memcached" },
-        { "key": "C", "text": "Uma Read Replica do RDS" },
-        { "key": "D", "text": "Amazon Redshift" }
+        { "key": "B", "text": "ElastiCache for Memcached, que também tem estruturas ricas como sorted sets" },
+        { "key": "C", "text": "Uma Read Replica do RDS, que entrega a mesma latência de um cache in-memory" },
+        { "key": "D", "text": "Amazon Redshift, que funciona como banco in-memory ideal pra rankings ao vivo" }
       ],
       "answers": ["A"],
       "hints": [
@@ -247,9 +247,9 @@
       "stem": "Qual serviço é o indicado para essa carga analítica (OLAP)?",
       "options": [
         { "key": "A", "text": "Amazon Redshift (data warehouse, armazenamento colunar, processamento paralelo)" },
-        { "key": "B", "text": "Amazon RDS (transações em tempo real)" },
-        { "key": "C", "text": "Amazon DynamoDB" },
-        { "key": "D", "text": "Amazon ElastiCache" }
+        { "key": "B", "text": "Amazon RDS (banco relacional de linhas, otimizado pra transações em tempo real)" },
+        { "key": "C", "text": "Amazon DynamoDB (chave-valor serverless, feito pra consultas analíticas OLAP)" },
+        { "key": "D", "text": "Amazon ElastiCache (cache in-memory, ideal pra agregações analíticas pesadas)" }
       ],
       "answers": ["A"],
       "hints": [

@@ -206,9 +206,9 @@
       "stem": "Qual ferramenta é a indicada?",
       "options": [
         {"key": "A", "text": "AWS SAM (Serverless Application Model)"},
-        {"key": "B", "text": "AWS CDK"},
-        {"key": "C", "text": "AWS CodeDeploy"},
-        {"key": "D", "text": "Amazon Athena"}
+        {"key": "B", "text": "AWS CDK (o framework declarativo)"},
+        {"key": "C", "text": "AWS CodeDeploy (IaC declarativo e CLI)"},
+        {"key": "D", "text": "Amazon Athena (IaC serverless em SQL)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual serviço dispara e conduz esse fluxo a partir da fonte?",
       "options": [
         {"key": "A", "text": "AWS CodePipeline (estágio de source acionado pela mudança)"},
-        {"key": "B", "text": "AWS CodeDeploy sozinho"},
-        {"key": "C", "text": "Amazon Route 53"},
-        {"key": "D", "text": "AWS Config"}
+        {"key": "B", "text": "AWS CodeDeploy sozinho, que já escuta a fonte e conduz tudo"},
+        {"key": "C", "text": "Amazon Route 53, que roteia o push do repo pro pipeline"},
+        {"key": "D", "text": "AWS Config, que escuta o push no repo e dispara o fluxo"}
       ],
       "answers": ["A"],
       "hints": [

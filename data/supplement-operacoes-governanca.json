@@ -266,9 +266,9 @@
       "stem": "Qual serviço roteia eventos da AWS (e agendamentos) pra alvos como Lambda?",
       "options": [
         {"key": "A", "text": "Amazon EventBridge (CloudWatch Events)"},
-        {"key": "B", "text": "AWS Config"},
-        {"key": "C", "text": "Amazon SQS"},
-        {"key": "D", "text": "AWS CloudTrail"}
+        {"key": "B", "text": "AWS Config (agenda e dispara Lambdas)"},
+        {"key": "C", "text": "Amazon SQS (fila que agenda eventos)"},
+        {"key": "D", "text": "AWS CloudTrail (roteia eventos de API)"}
       ],
       "answers": ["A"],
       "hints": [

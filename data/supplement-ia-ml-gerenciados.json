@@ -237,9 +237,9 @@
       "stem": "Qual sequência de serviços implementa isso?",
       "options": [
         {"key": "A", "text": "Transcribe (fala→texto) → Translate (PT→EN) → Polly (texto→fala)"},
-        {"key": "B", "text": "Polly → Translate → Transcribe"},
-        {"key": "C", "text": "Comprehend → Lex → Rekognition"},
-        {"key": "D", "text": "Textract → Translate → Transcribe"}
+        {"key": "B", "text": "Polly (fala→texto) → Translate (PT→EN) → Transcribe (voz)"},
+        {"key": "C", "text": "Comprehend (fala→texto) → Lex (PT→EN) → Rekognition (voz)"},
+        {"key": "D", "text": "Textract (áudio→texto) → Translate (PT→EN) → Transcribe (fala)"}
       ],
       "answers": ["A"],
       "hints": [

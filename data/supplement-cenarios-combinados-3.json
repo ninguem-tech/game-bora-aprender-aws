@@ -20,9 +20,9 @@
       "stem": "Qual arquitetura é a mais resiliente?",
       "options": [
         {"key": "A", "text": "Evento do S3 → SQS → Lambda consumindo a fila (com DLQ)"},
-        {"key": "B", "text": "Evento do S3 → Lambda síncrono sem fila"},
-        {"key": "C", "text": "Cron em EC2 varrendo o bucket"},
-        {"key": "D", "text": "Gravar as imagens no RDS"}
+        {"key": "B", "text": "Evento do S3 → Lambda síncrono sem fila, segurando o pico"},
+        {"key": "C", "text": "Cron em EC2 varrendo o bucket, que reage ao evento"},
+        {"key": "D", "text": "Gravar as imagens no RDS, que processa e absorve o pico"}
       ],
       "answers": ["A"],
       "hints": [
@@ -51,9 +51,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "S3 privado + CloudFront (OAC) + ACM (certificado) + Route 53 Alias no apex"},
-        {"key": "B", "text": "S3 público + CNAME no apex"},
-        {"key": "C", "text": "EC2 com certificado manual"},
-        {"key": "D", "text": "S3 + Route 53 sem CloudFront"}
+        {"key": "B", "text": "Bucket S3 público + um registro CNAME apontado direto no apex da zona"},
+        {"key": "C", "text": "Uma instância EC2 com certificado TLS instalado e renovado na mão"},
+        {"key": "D", "text": "S3 com website endpoint + Route 53, sem CloudFront nem certificado"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual combinação alivia o banco mantendo consistência relacional?",
       "options": [
         {"key": "A", "text": "RDS Read Replicas + ElastiCache pra cachear as consultas quentes"},
-        {"key": "B", "text": "Standby do Multi-AZ servindo leitura"},
-        {"key": "C", "text": "Trocar o RDS por S3"},
-        {"key": "D", "text": "Aumentar só o backup"}
+        {"key": "B", "text": "Standby do Multi-AZ servindo leitura, dividindo os SELECTs"},
+        {"key": "C", "text": "Trocar o RDS por S3, que aguenta SELECTs relacionais em escala"},
+        {"key": "D", "text": "Aumentar só o backup, que alivia a carga das leituras"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"},
-        {"key": "B", "text": "Só VPN, sem hub"},
-        {"key": "C", "text": "VPC Peering ponto-a-ponto entre tudo"},
-        {"key": "D", "text": "CloudFront + Global Accelerator"}
+        {"key": "B", "text": "Só túneis VPN independentes, sem hub central pra concentrar o roteamento"},
+        {"key": "C", "text": "VPC Peering ponto-a-ponto entre todas as VPCs, roteando de forma transitiva"},
+        {"key": "D", "text": "CloudFront + Global Accelerator, que fazem o papel de hub entre as redes"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual base atende?",
       "options": [
         {"key": "A", "text": "Control Tower (landing zone) sobre Organizations, com guardrails preventivos (SCP) e detectivos (Config)"},
-        {"key": "B", "text": "Configurar cada conta manualmente"},
-        {"key": "C", "text": "Um Security Group global"},
-        {"key": "D", "text": "CloudFront em todas as contas"}
+        {"key": "B", "text": "Configurar cada conta manualmente, repetindo o baseline de segurança e rede uma a uma conforme surgem"},
+        {"key": "C", "text": "Um único Security Group global aplicado a todas as contas, controlando os guardrails da organização"},
+        {"key": "D", "text": "Habilitar CloudFront em todas as contas novas, que já aplica governança e guardrails automaticamente"}
       ],
       "answers": ["A"],
       "hints": [
@@ -330,9 +330,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "API Gateway + Lambda + DynamoDB, com Cognito autenticando os usuários"},
-        {"key": "B", "text": "EC2 + MySQL + IAM Users pra cada usuário final"},
-        {"key": "C", "text": "CloudFront + S3 + KMS"},
-        {"key": "D", "text": "SQS + SES + EBS"}
+        {"key": "B", "text": "EC2 + MySQL + IAM Users pra cada usuário final (o combo serverless)"},
+        {"key": "C", "text": "CloudFront + S3 + KMS, com o KMS cuidando do login dos usuários"},
+        {"key": "D", "text": "SQS + SES + EBS — fila, e-mail e disco cobrem a API autenticada"}
       ],
       "answers": ["A"],
       "hints": [
@@ -361,9 +361,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "ELB + Auto Scaling (multi-AZ, health checks) + Route 53 Alias pro apex → ELB"},
-        {"key": "B", "text": "Uma instância única com Elastic IP"},
-        {"key": "C", "text": "CNAME no apex apontando pro ELB"},
-        {"key": "D", "text": "Só CloudFront, sem ELB nem ASG"}
+        {"key": "B", "text": "Uma instância única com Elastic IP — o IP fixo já dá failover e aponta o apex"},
+        {"key": "C", "text": "CNAME no apex apontando pro ELB — o Route 53 aceita CNAME em qualquer registro"},
+        {"key": "D", "text": "Só CloudFront, sem ELB nem ASG — a CDN escala e troca instância doente sozinha"}
       ],
       "answers": ["A"],
       "hints": [

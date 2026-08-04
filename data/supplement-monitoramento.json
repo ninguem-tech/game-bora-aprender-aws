@@ -51,9 +51,9 @@
       "stem": "O que você habilita?",
       "options": [
         {"key": "A", "text": "Detailed monitoring (monitoramento detalhado)"},
-        {"key": "B", "text": "Basic monitoring"},
-        {"key": "C", "text": "CloudTrail data events"},
-        {"key": "D", "text": "VPC Flow Logs"}
+        {"key": "B", "text": "Basic monitoring (o modo mais granular)"},
+        {"key": "C", "text": "CloudTrail data events (telemetria do EC2)"},
+        {"key": "D", "text": "VPC Flow Logs (métricas de 1 em 1 minuto)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "O que é necessário pra coletá-las?",
       "options": [
         {"key": "A", "text": "Instalar o unified CloudWatch agent (enviar como custom metrics)"},
-        {"key": "B", "text": "Apenas habilitar detailed monitoring"},
-        {"key": "C", "text": "Ativar o CloudTrail"},
-        {"key": "D", "text": "Elas já vêm por padrão, basta abrir o console"}
+        {"key": "B", "text": "Apenas habilitar detailed monitoring, que já traz memória e disco"},
+        {"key": "C", "text": "Ativar o CloudTrail, que coleta métricas do sistema operacional"},
+        {"key": "D", "text": "Elas já vêm por padrão, basta abrir o console na aba de métricas"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "Como configurar isso no CloudWatch?",
       "options": [
         {"key": "A", "text": "Um alarme do CloudWatch com ação de notificação via SNS"},
-        {"key": "B", "text": "Um VPC Flow Log"},
-        {"key": "C", "text": "Uma bucket policy no S3"},
-        {"key": "D", "text": "Uma regra de NACL"}
+        {"key": "B", "text": "Um VPC Flow Log com alerta de CPU embutido nos logs"},
+        {"key": "C", "text": "Uma bucket policy no S3 configurada pra enviar o SMS"},
+        {"key": "D", "text": "Uma regra de NACL que dispara e-mail quando a CPU sobe"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "O que conecta a métrica à ação de escalar?",
       "options": [
         {"key": "A", "text": "Um alarme do CloudWatch com ação de Auto Scaling"},
-        {"key": "B", "text": "Um signed URL"},
-        {"key": "C", "text": "Um Gateway Endpoint"},
-        {"key": "D", "text": "Uma permissions boundary"}
+        {"key": "B", "text": "Um signed URL que autoriza o ASG a escalar"},
+        {"key": "C", "text": "Um Gateway Endpoint ligando métrica ao ASG"},
+        {"key": "D", "text": "Uma permissions boundary com gatilho de CPU"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual serviço roteia a mudança de estado do alarme pra essas ações?",
       "options": [
         {"key": "A", "text": "Amazon EventBridge (eventos de mudança de estado do alarme)"},
-        {"key": "B", "text": "Amazon S3"},
-        {"key": "C", "text": "AWS Direct Connect"},
-        {"key": "D", "text": "Amazon Route 53"}
+        {"key": "B", "text": "Amazon S3, com event notifications de mudança do alarme"},
+        {"key": "C", "text": "AWS Direct Connect, que entrega o evento pela rede dedicada"},
+        {"key": "D", "text": "Amazon Route 53, usando health checks pra disparar a Lambda"}
       ],
       "answers": ["A"],
       "hints": [

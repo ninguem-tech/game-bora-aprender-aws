@@ -104,9 +104,9 @@
       "stem": "Um workload imprevisível, com picos repentinos e curtos, que precisa estar disponível EXATAMENTE no momento do pico. Qual modelo de compra faz mais sentido — e por que Spot não serve aqui?",
       "options": [
         { "key": "A", "text": "On-Demand — disponível na hora, sem compromisso, e Spot poderia sumir bem no meio do pico" },
-        { "key": "B", "text": "Spot — é sempre o mais barato, então é sempre a melhor escolha" },
-        { "key": "C", "text": "Reserved — compromisso de longo prazo resolve qualquer caso" },
-        { "key": "D", "text": "Dedicated Hosts — só assim dá pra aguentar picos" }
+        { "key": "B", "text": "Spot — é sempre o mais barato, então é sempre a melhor escolha, inclusive nesse pico" },
+        { "key": "C", "text": "Reserved — o compromisso de longo prazo resolve qualquer caso, até carga imprevisível" },
+        { "key": "D", "text": "Dedicated Hosts — só com hardware físico dedicado dá pra aguentar picos repentinos de verdade" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): pra esse caso, On-Demand é como o táxi. Paga mais caro a corrida, mas ele tá lá na hora que você precisa, sem combinar nada antes. Spot seria a carona que pode cancelar de última hora — ótimo quando você não tem pressa, péssimo quando o cliente já tá te esperando no pico."],

@@ -51,9 +51,9 @@
       "stem": "Qual é o caminho correto pra essa migração heterogênea?",
       "options": [
         {"key": "A", "text": "Converter o esquema/código com AWS SCT (ou DMS Schema Conversion) e depois migrar os dados com o DMS"},
-        {"key": "B", "text": "Só rodar o DMS direto, sem converter nada"},
-        {"key": "C", "text": "Usar DataSync pra converter o esquema"},
-        {"key": "D", "text": "Exportar pra CSV e importar na mão, é o único jeito"}
+        {"key": "B", "text": "Só rodar o DMS direto, sem converter nada — ele traduz o esquema e o código PL/SQL sozinho"},
+        {"key": "C", "text": "Usar o DataSync pra converter o esquema e as procedures, e depois copiar os dados com o SCT"},
+        {"key": "D", "text": "Exportar tudo pra CSV e importar na mão, único jeito suportado em migrações heterogêneas"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual serviço faz esse rehost de servidores pra EC2?",
       "options": [
         {"key": "A", "text": "AWS Application Migration Service (MGN)"},
-        {"key": "B", "text": "AWS DMS"},
-        {"key": "C", "text": "AWS DataSync"},
-        {"key": "D", "text": "AWS Storage Gateway"}
+        {"key": "B", "text": "AWS DMS (migra a VM inteira com SO)"},
+        {"key": "C", "text": "AWS DataSync (replica servidores)"},
+        {"key": "D", "text": "AWS Storage Gateway (faz o rehost)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual par de serviços é o indicado, respectivamente?",
       "options": [
         {"key": "A", "text": "(1) DMS (+SCT); (2) Application Migration Service (MGN)"},
-        {"key": "B", "text": "(1) MGN; (2) DMS"},
-        {"key": "C", "text": "(1) DataSync; (2) Snowball"},
-        {"key": "D", "text": "(1) Storage Gateway; (2) DMS"}
+        {"key": "B", "text": "(1) Application Migration Service (MGN); (2) DMS (+SCT)"},
+        {"key": "C", "text": "(1) DataSync (arquivos); (2) Snowball (transfer offline)"},
+        {"key": "D", "text": "(1) Storage Gateway; (2) DMS (Database Migration Service)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Como é essa migração?",
       "options": [
         {"key": "A", "text": "Homogênea — esquema compatível, o DMS migra em um passo (sem precisar de SCT)"},
-        {"key": "B", "text": "Heterogênea — precisa converter o esquema com SCT antes"},
-        {"key": "C", "text": "Impossível sem Snowball"},
-        {"key": "D", "text": "Exige reescrever toda a aplicação"}
+        {"key": "B", "text": "Heterogênea — precisa converter o esquema com SCT antes de o DMS poder atuar"},
+        {"key": "C", "text": "Impossível sem Snowball — banco só sai do on-premises em transferência offline"},
+        {"key": "D", "text": "Exige reescrever toda a aplicação, porque o Aurora muda a sintaxe do MySQL"}
       ],
       "answers": ["A"],
       "hints": [

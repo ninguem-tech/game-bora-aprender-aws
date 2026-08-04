@@ -20,9 +20,9 @@
       "stem": "Qual serviço é dedicado ao envio de e-mail?",
       "options": [
         {"key": "A", "text": "Amazon SES (Simple Email Service)"},
-        {"key": "B", "text": "Amazon SNS"},
-        {"key": "C", "text": "Amazon SQS"},
-        {"key": "D", "text": "Amazon CloudFront"}
+        {"key": "B", "text": "Amazon SNS (e-mail rico via API)"},
+        {"key": "C", "text": "Amazon SQS (fila que envia e-mail)"},
+        {"key": "D", "text": "Amazon CloudFront (SMTP na borda)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual serviço publica o evento pra todos os inscritos?",
       "options": [
         {"key": "A", "text": "Amazon SNS (tópico com fan-out pra filas SQS)"},
-        {"key": "B", "text": "Amazon SES"},
-        {"key": "C", "text": "Amazon CloudWatch"},
-        {"key": "D", "text": "AWS Config"}
+        {"key": "B", "text": "Amazon SES, que faz fan-out pra filas SQS"},
+        {"key": "C", "text": "Amazon CloudWatch, o pub/sub nativo pra filas"},
+        {"key": "D", "text": "AWS Config, que publica pros inscritos"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual serviço pode receber o e-mail e disparar essas ações?",
       "options": [
         {"key": "A", "text": "Amazon SES (recebimento de e-mail / inbound)"},
-        {"key": "B", "text": "Amazon SNS"},
-        {"key": "C", "text": "Amazon Route 53"},
-        {"key": "D", "text": "Amazon EBS"}
+        {"key": "B", "text": "Amazon SNS (assina o domínio via SMTP)"},
+        {"key": "C", "text": "Amazon Route 53 (o MX já recebe tudo)"},
+        {"key": "D", "text": "Amazon EBS (guarda o e-mail no disco)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual serviço entrega essa notificação simples por e-mail/SMS aos inscritos?",
       "options": [
         {"key": "A", "text": "Amazon SNS (assinatura por e-mail/SMS no tópico)"},
-        {"key": "B", "text": "Amazon SES com campanha"},
-        {"key": "C", "text": "Amazon QuickSight"},
-        {"key": "D", "text": "AWS Batch"}
+        {"key": "B", "text": "Amazon SES com campanha ligada direto ao alarme"},
+        {"key": "C", "text": "Amazon QuickSight, que alerta os inscritos"},
+        {"key": "D", "text": "AWS Batch, que dispara o e-mail em lote"}
       ],
       "answers": ["A"],
       "hints": [

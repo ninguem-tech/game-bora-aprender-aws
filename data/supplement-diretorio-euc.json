@@ -237,9 +237,9 @@
       "stem": "Qual serviço fornece esse AD gerenciado?",
       "options": [
         {"key": "A", "text": "AWS Directory Service (Managed Microsoft AD)"},
-        {"key": "B", "text": "Amazon Cognito"},
-        {"key": "C", "text": "AWS WAF"},
-        {"key": "D", "text": "Amazon Inspector"}
+        {"key": "B", "text": "Amazon Cognito, fazendo o domain join do EC2"},
+        {"key": "C", "text": "AWS WAF, aplicando as Group Policies na EC2"},
+        {"key": "D", "text": "Amazon Inspector, que gerencia o domínio AD"}
       ],
       "answers": ["A"],
       "hints": [

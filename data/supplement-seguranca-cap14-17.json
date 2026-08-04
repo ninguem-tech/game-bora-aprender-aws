@@ -13,9 +13,9 @@
       "stem": "O que é o IAM na AWS?",
       "options": [
         { "key": "A", "text": "O serviço que controla autenticação e autorização — quem pode fazer o quê em cada recurso" },
-        { "key": "B", "text": "Um firewall de rede para instâncias EC2" },
-        { "key": "C", "text": "Um serviço de backup automático" },
-        { "key": "D", "text": "Um banco de dados de usuários da aplicação" }
+        { "key": "B", "text": "Um firewall de rede para instâncias EC2, filtrando portas e IPs de entrada e de saída" },
+        { "key": "C", "text": "Um serviço de backup automático que protege usuários e permissões contra exclusão" },
+        { "key": "D", "text": "Um banco de dados gerenciado pra guardar os usuários finais da sua aplicação web" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): IAM é a portaria do prédio. Ela autentica (você é o Rafael?) e autoriza (Rafael pode entrar no 5º andar?). Sem portaria, qualquer um entra em qualquer sala."],
@@ -34,9 +34,9 @@
       "stem": "Qual a forma mais eficiente de gerenciar essa permissão no IAM?",
       "options": [
         { "key": "A", "text": "Criar um IAM Group, anexar a policy de leitura ao grupo, e colocar os 50 usuários nele" },
-        { "key": "B", "text": "Anexar a policy individualmente a cada um dos 50 usuários" },
-        { "key": "C", "text": "Compartilhar a conta root com os 50 devs" },
-        { "key": "D", "text": "Criar 50 policies, uma para cada usuário" }
+        { "key": "B", "text": "Anexar a policy individualmente a cada um dos 50 usuários — é o que o IAM recomenda" },
+        { "key": "C", "text": "Compartilhar a conta root com os 50 devs, já que ela sempre tem a permissão necessária" },
+        { "key": "D", "text": "Criar 50 policies, uma para cada usuário, pra cada mudança ficar isolada e rastreável" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): se você anexar permissão em cada usuário, mudar a regra depois vira editar 50 vezes. Junta todo mundo num grupo e gerencia num lugar só — herdam a permissão de uma vez."],
@@ -79,9 +79,9 @@
       "stem": "O que normalmente é necessário para o acesso entre contas funcionar?",
       "options": [
         { "key": "A", "text": "Uma policy identity-based na conta A E uma policy resource-based (Bucket Policy) na conta B" },
-        { "key": "B", "text": "Apenas uma policy no usuário da conta A" },
-        { "key": "C", "text": "Tornar o bucket público para qualquer conta acessar" },
-        { "key": "D", "text": "Criar um usuário IAM da conta A dentro da conta B" }
+        { "key": "B", "text": "Apenas uma policy no usuário da conta A — quem chama é ela, então só a origem precisa autorizar" },
+        { "key": "C", "text": "Tornar o bucket público para qualquer conta acessar — o jeito padrão de compartilhar" },
+        { "key": "D", "text": "Criar um usuário IAM da conta A dentro da conta B, já que o IAM não enxerga identidade de fora" }
       ],
       "answers": ["A"],
       "hints": [
@@ -104,9 +104,9 @@
       "stem": "Qual a forma SEGURA de dar essa permissão, sem chaves fixas no código?",
       "options": [
         { "key": "A", "text": "Uma IAM Role (execution role) que a Lambda assume ao executar, com permissão no DynamoDB" },
-        { "key": "B", "text": "Colocar Access Key e Secret Key no código da Lambda" },
-        { "key": "C", "text": "Salvar a chave numa variável de ambiente da Lambda" },
-        { "key": "D", "text": "Usar a conta root para a Lambda" }
+        { "key": "B", "text": "Colocar Access Key e Secret Key no código da Lambda — o código da função já é privado mesmo" },
+        { "key": "C", "text": "Salvar a chave numa variável de ambiente da Lambda — fora do código ela deixa de ser risco" },
+        { "key": "D", "text": "Usar a conta root para a Lambda, garantindo que nunca vai faltar permissão pro DynamoDB" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): Role é tipo crachá de visitante — a AWS emite credenciais TEMPORÁRIAS, que expiram sozinhas, sem nenhuma chave fixa no código. A Lambda 'veste' a Role ao rodar."],
@@ -125,9 +125,9 @@
       "stem": "Como a instância EC2 deve acessar o S3 com segurança?",
       "options": [
         { "key": "A", "text": "Anexar uma IAM Role à instância (Instance Profile); o SDK pega credenciais temporárias automaticamente" },
-        { "key": "B", "text": "Manter a Access Key, mas movê-la para uma variável de ambiente" },
-        { "key": "C", "text": "Copiar o arquivo .pem para dentro da instância" },
-        { "key": "D", "text": "Deixar o bucket público para a instância acessar" }
+        { "key": "B", "text": "Manter a Access Key permanente, mas movê-la para uma variável de ambiente — assim ela deixa de ser um risco" },
+        { "key": "C", "text": "Copiar o arquivo .pem para dentro da instância, que passa a autenticar as chamadas ao S3 automaticamente" },
+        { "key": "D", "text": "Deixar o bucket público apenas durante o horário de uso, pra instância acessar sem credencial nenhuma" }
       ],
       "answers": ["A"],
       "hints": [
@@ -173,9 +173,9 @@
       "stem": "O usuário consegue usar o Redshift?",
       "options": [
         { "key": "A", "text": "Não — a SCP é o teto máximo; se ela nega, a IAM policy de Allow não adianta" },
-        { "key": "B", "text": "Sim — a IAM Policy concede a permissão e prevalece sobre a SCP" },
-        { "key": "C", "text": "Sim — SCP só vale para a conta root" },
-        { "key": "D", "text": "Depende: a SCP concede a permissão se a IAM também conceder" }
+        { "key": "B", "text": "Sim — a IAM Policy concede a permissão e sempre prevalece sobre a SCP" },
+        { "key": "C", "text": "Sim — SCP só vale para a conta root; usuários IAM comuns passam direto" },
+        { "key": "D", "text": "Depende: a SCP concede a permissão se a IAM também conceder o Allow" }
       ],
       "answers": ["A"],
       "hints": [
@@ -219,16 +219,16 @@
       "stem": "Qual serviço monitora a conformidade contínua da CONFIGURAÇÃO dos recursos ao longo do tempo?",
       "options": [
         { "key": "A", "text": "AWS Config (com Config Rules de conformidade)" },
-        { "key": "B", "text": "AWS CloudTrail" },
-        { "key": "C", "text": "Amazon Inspector" },
-        { "key": "D", "text": "AWS WAF" }
+        { "key": "B", "text": "AWS CloudTrail (histórico de configuração)" },
+        { "key": "C", "text": "Amazon Inspector (checa config de bucket)" },
+        { "key": "D", "text": "AWS WAF (audita compliance dos recursos)" }
       ],
       "answers": ["A"],
       "hints": [
         "💡 Rafael (dica 1): a pergunta não é 'quem fez' (isso é CloudTrail) — é 'o recurso está configurado em conformidade, e continuou assim?'.",
         "💡 Rafael (dica 2): existe um serviço que grava o ESTADO de configuração ao longo do tempo e checa regras (bucket público? volume sem criptografia? MFA?). É o AWS Config."
       ],
-      "explanation": "AWS Config registra o estado de configuração dos recursos ao longo do tempo e avalia Config Rules de conformidade (ex.: s3-bucket-public-read-prohibited, encrypted-volumes, mfa-enabled). Responde 'o recurso está e continuou em conformidade?'. CloudTrail registra ações; Config registra estado/configuração.",
+      "explanation": "AWS Config registra o estado de configuração dos recursos ao longo do tempo e avalia Config Rules de conformidade (ex.: s3-bucket-public-read-prohibited, encrypted-volumes, mfa-enabled-for-iam-console-access). Responde 'o recurso está e continuou em conformidade?'. CloudTrail registra ações; Config registra estado/configuração.",
       "whyNots": {
         "B": "CloudTrail mostra ações (quem fez o quê), não o histórico de conformidade da configuração.",
         "C": "Inspector procura vulnerabilidades (CVE) em EC2/containers, não conformidade de configuração geral.",
@@ -292,9 +292,9 @@
       "stem": "Qual serviço filtra esse tráfego malicioso na camada de aplicação (camada 7)?",
       "options": [
         { "key": "A", "text": "AWS WAF (Web Application Firewall)" },
-        { "key": "B", "text": "AWS Shield" },
-        { "key": "C", "text": "Security Group" },
-        { "key": "D", "text": "Amazon GuardDuty" }
+        { "key": "B", "text": "AWS Shield (filtra o payload HTTP)" },
+        { "key": "C", "text": "Security Group (barra SQLi e XSS)" },
+        { "key": "D", "text": "Amazon GuardDuty (bloqueia o XSS)" }
       ],
       "answers": ["A"],
       "hints": ["💡 Rafael (dica): SQL injection e XSS são payloads maliciosos DENTRO da requisição HTTP. Quem inspeciona o conteúdo da requisição (camada 7) e bloqueia com 403 é o WAF."],
@@ -313,9 +313,9 @@
       "stem": "Qual serviço protege contra esse tipo de ataque — e que já vem ativo de graça para todos?",
       "options": [
         { "key": "A", "text": "AWS Shield Standard (DDoS L3/L4, automático e sem custo)" },
-        { "key": "B", "text": "AWS WAF" },
-        { "key": "C", "text": "AWS Secrets Manager" },
-        { "key": "D", "text": "AWS Config" }
+        { "key": "B", "text": "AWS WAF, que vem ativo de graça e segura o volumétrico" },
+        { "key": "C", "text": "AWS Secrets Manager, ativo por padrão contra inundações" },
+        { "key": "D", "text": "AWS Config, que detecta e mitiga o pico de tráfego sozinho" }
       ],
       "answers": ["A"],
       "hints": [
@@ -358,9 +358,9 @@
       "stem": "Onde guardar esse parâmetro de configuração não sensível?",
       "options": [
         { "key": "A", "text": "SSM Parameter Store (Standard) — gratuito e simples para config não sensível" },
-        { "key": "B", "text": "AWS Secrets Manager (com rotação automática)" },
-        { "key": "C", "text": "Hardcoded no código da aplicação" },
-        { "key": "D", "text": "Num bucket S3 público" }
+        { "key": "B", "text": "AWS Secrets Manager (com rotação automática) — a opção gratuita pra toda config" },
+        { "key": "C", "text": "Hardcoded no código da aplicação — flag booleana quase não muda, sai de graça" },
+        { "key": "D", "text": "Num bucket S3 público — flag não sensível pode ficar aberta, e o S3 é baratinho" }
       ],
       "answers": ["A"],
       "hints": [

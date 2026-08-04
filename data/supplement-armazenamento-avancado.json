@@ -113,9 +113,9 @@
       "stem": "Qual trio de classes Glacier atende 1→2→3?",
       "options": [
         {"key": "A", "text": "Glacier Instant Retrieval → Glacier Flexible Retrieval → Glacier Deep Archive"},
-        {"key": "B", "text": "Glacier Deep Archive → Glacier Instant → Glacier Flexible"},
-        {"key": "C", "text": "Glacier Flexible → Glacier Deep Archive → Glacier Instant"},
-        {"key": "D", "text": "Standard → Standard-IA → One Zone-IA"}
+        {"key": "B", "text": "Glacier Deep Archive → Glacier Instant Retrieval → Glacier Flexible Retrieval"},
+        {"key": "C", "text": "Glacier Flexible Retrieval → Glacier Deep Archive → Glacier Instant Retrieval"},
+        {"key": "D", "text": "S3 Standard → S3 Standard-IA → S3 One Zone-IA (as classes de archive do S3)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual recurso do S3 automatiza isso?",
       "options": [
         {"key": "A", "text": "Lifecycle policy (regras de ciclo de vida)"},
-        {"key": "B", "text": "Versionamento"},
-        {"key": "C", "text": "Replicação cross-region"},
-        {"key": "D", "text": "Bucket policy"}
+        {"key": "B", "text": "Versionamento, que expira e move classes"},
+        {"key": "C", "text": "Replicação cross-region com TTL por idade"},
+        {"key": "D", "text": "Bucket policy movendo objeto por idade"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual tipo de volume EBS atende?",
       "options": [
         {"key": "A", "text": "io2 / io2 Block Express (Provisioned IOPS SSD)"},
-        {"key": "B", "text": "gp2"},
-        {"key": "C", "text": "st1 (Throughput Optimized HDD)"},
-        {"key": "D", "text": "sc1 (Cold HDD)"}
+        {"key": "B", "text": "gp2, que garante IOPS fixos pra banco crítico"},
+        {"key": "C", "text": "st1 (Throughput Optimized HDD), o topo em IOPS"},
+        {"key": "D", "text": "sc1 (Cold HDD), ideal pra latência mínima"}
       ],
       "answers": ["A"],
       "hints": [

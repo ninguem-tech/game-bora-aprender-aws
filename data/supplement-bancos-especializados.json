@@ -20,9 +20,9 @@
       "stem": "Qual banco da AWS é o indicado?",
       "options": [
         {"key": "A", "text": "Amazon DocumentDB (compatível com MongoDB)"},
-        {"key": "B", "text": "Amazon Neptune"},
-        {"key": "C", "text": "Amazon RDS for MySQL"},
-        {"key": "D", "text": "Amazon Redshift"}
+        {"key": "B", "text": "Amazon Neptune, o banco de JSON da AWS"},
+        {"key": "C", "text": "Amazon RDS for MySQL guardando os JSON"},
+        {"key": "D", "text": "Amazon Redshift, compatível com MongoDB"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual serviço atende?",
       "options": [
         {"key": "A", "text": "Amazon Keyspaces (para Apache Cassandra)"},
-        {"key": "B", "text": "Amazon Neptune"},
-        {"key": "C", "text": "Amazon DocumentDB"},
-        {"key": "D", "text": "Amazon Aurora"}
+        {"key": "B", "text": "Amazon Neptune (roda CQL nativamente)"},
+        {"key": "C", "text": "Amazon DocumentDB (compatível com CQL)"},
+        {"key": "D", "text": "Amazon Aurora (modo Cassandra serverless)"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual associação está correta?",
       "options": [
         {"key": "A", "text": "Chave-valor/documento serverless de propósito geral = DynamoDB; compatível com MongoDB = DocumentDB"},
-        {"key": "B", "text": "Compatível com MongoDB = DynamoDB; propósito geral = DocumentDB"},
-        {"key": "C", "text": "Ambos são compatíveis com MongoDB"},
-        {"key": "D", "text": "Ambos são bancos relacionais"}
+        {"key": "B", "text": "Compatível com MongoDB = DynamoDB; chave-valor serverless de propósito geral = DocumentDB"},
+        {"key": "C", "text": "DynamoDB e DocumentDB são ambos compatíveis com a API do MongoDB, mudando apenas o preço"},
+        {"key": "D", "text": "DynamoDB e DocumentDB são bancos relacionais gerenciados, com SQL e transações ACID completas"}
       ],
       "answers": ["A"],
       "hints": [

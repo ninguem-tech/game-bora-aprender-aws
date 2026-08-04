@@ -267,17 +267,17 @@
       "situacao": "Você configurou event notifications do S3 pra mandar pra uma fila SQS, mas escolheu uma fila FIFO e a configuração falha.",
       "stem": "Qual é a explicação correta?",
       "options": [
-        {"key": "A", "text": "S3 event notifications NÃO suportam SQS FIFO como destino (só SQS standard, SNS ou Lambda)"},
-        {"key": "B", "text": "S3 não envia eventos pra SQS de jeito nenhum"},
-        {"key": "C", "text": "Eventos do S3 só vão pra EC2"},
-        {"key": "D", "text": "Faltou habilitar Transfer Acceleration"}
+        {"key": "A", "text": "S3 event notifications NÃO suportam SQS FIFO como destino direto (SQS standard, SNS, Lambda ou EventBridge)"},
+        {"key": "B", "text": "S3 não envia eventos pra SQS de jeito nenhum — notificações só funcionam com SNS e Lambda"},
+        {"key": "C", "text": "Eventos do S3 só vão pra instâncias EC2 registradas como consumidoras no próprio bucket"},
+        {"key": "D", "text": "Faltou habilitar o Transfer Acceleration no bucket, pré-requisito pra eventos de notificação"}
       ],
       "answers": ["A"],
       "hints": [
-        "💡 Rafael (dica): pegadinha — destino de event notification pode ser SQS standard, SNS ou Lambda; FIFO NÃO é suportado.",
-        "💡 Rafael (dica 2): troque a fila pra standard que funciona."
+        "💡 Rafael (dica): pegadinha — destino de event notification pode ser SQS standard, SNS, Lambda ou EventBridge; SQS FIFO direto NÃO é suportado.",
+        "💡 Rafael (dica 2): troque a fila pra standard que funciona (ou roteie via EventBridge se precisar mesmo de uma FIFO no fim do caminho)."
       ],
-      "explanation": "S3 event notifications publicam pra Lambda, SNS e SQS — mas filas SQS FIFO NÃO são suportadas como destino, apenas SQS standard. Por isso a configuração com FIFO falha; basta usar uma fila standard.",
+      "explanation": "S3 event notifications publicam pra Lambda, SNS, SQS e Amazon EventBridge — mas filas SQS FIFO NÃO são suportadas como destino direto, apenas SQS standard. Por isso a configuração com FIFO falha; a solução é usar uma fila standard, ou rotear via EventBridge se precisar mesmo de uma fila FIFO no final do caminho.",
       "whyNots": {
         "B": "O S3 envia, sim, pra SQS — desde que seja standard.",
         "C": "Eventos do S3 vão pra Lambda/SNS/SQS/EventBridge, não 'só pra EC2'.",

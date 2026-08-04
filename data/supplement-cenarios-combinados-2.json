@@ -20,9 +20,9 @@
       "stem": "Qual arquitetura atende?",
       "options": [
         {"key": "A", "text": "CloudFront + S3 (estático) e API Gateway + Lambda + DynamoDB (dinâmico)"},
-        {"key": "B", "text": "Um único EC2 servindo estático e dinâmico"},
-        {"key": "C", "text": "Só S3 com website estático, sem API"},
-        {"key": "D", "text": "Só RDS exposto na internet"}
+        {"key": "B", "text": "Um único EC2 servindo estático e dinâmico — com Elastic IP vira serverless"},
+        {"key": "C", "text": "Só S3 com website estático, sem API — o S3 executa a lógica dinâmica"},
+        {"key": "D", "text": "Só RDS exposto na internet — o banco serve páginas e API direto ao cliente"}
       ],
       "answers": ["A"],
       "hints": [
@@ -51,9 +51,9 @@
       "stem": "Qual serviço roteia os eventos pras ações certas?",
       "options": [
         {"key": "A", "text": "Amazon EventBridge (regras por padrão de evento → Lambda/SNS/etc.)"},
-        {"key": "B", "text": "Uma fila SQS única lida por todos"},
-        {"key": "C", "text": "Chamadas síncronas encadeadas"},
-        {"key": "D", "text": "Um cron em EC2"}
+        {"key": "B", "text": "Uma fila SQS única lida por todos — cada consumidor filtra sua regra"},
+        {"key": "C", "text": "Chamadas síncronas encadeadas — mais simples e desacoplam igual"},
+        {"key": "D", "text": "Um cron em EC2 checando os pedidos — polling frequente vira evento"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "AWS SCT (converte o esquema) + AWS DMS (migra os dados com replicação contínua)"},
-        {"key": "B", "text": "Copiar arquivos com DataSync"},
-        {"key": "C", "text": "Snowball offline apenas"},
-        {"key": "D", "text": "Recriar tudo manualmente sem ferramenta"}
+        {"key": "B", "text": "Copiar os arquivos do banco com o DataSync, que ajusta o dialeto SQL sozinho"},
+        {"key": "C", "text": "Apenas um Snowball offline, que converte o esquema do banco durante o transporte"},
+        {"key": "D", "text": "Recriar tabelas e dados manualmente sem ferramenta, único jeito entre engines"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "Qual combinação atende segurança e rotação?",
       "options": [
         {"key": "A", "text": "IAM Role na EC2 + Secrets Manager guardando e rotacionando a senha do RDS"},
-        {"key": "B", "text": "Senha fixa embutida no código"},
-        {"key": "C", "text": "Bucket S3 público com a senha"},
-        {"key": "D", "text": "Conta root compartilhada"}
+        {"key": "B", "text": "Senha fixa embutida no código, protegida pela criptografia do volume EBS"},
+        {"key": "C", "text": "Bucket S3 público com a senha num arquivo — o versionamento já faz a rotação"},
+        {"key": "D", "text": "Conta root compartilhada entre as instâncias — ela já vem com rotação nativa"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual estratégia de custo é a ideal?",
       "options": [
         {"key": "A", "text": "Lifecycle policy: Standard → Standard-IA (30d) → Glacier Deep Archive (90d), expirando aos 7 anos"},
-        {"key": "B", "text": "Manter tudo em S3 Standard pra sempre"},
-        {"key": "C", "text": "Apagar os logs aos 30 dias"},
-        {"key": "D", "text": "Mover tudo pra EBS"}
+        {"key": "B", "text": "Manter tudo em S3 Standard pra sempre, porque classes de acesso infrequente não aceitam objetos de log"},
+        {"key": "C", "text": "Apagar os logs aos 30 dias pra economizar, já que a exigência de retenção não vale pra logs antigos"},
+        {"key": "D", "text": "Mover tudo pra volumes EBS dedicados, que saem mais barato que o S3 pra arquivos raramente lidos"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "Kinesis Data Streams → Lambda (processa) → DynamoDB"},
-        {"key": "B", "text": "S3 → Athena → QuickSight"},
-        {"key": "C", "text": "RDS → CloudFront"},
-        {"key": "D", "text": "SQS FIFO → SES"}
+        {"key": "B", "text": "S3 → Athena → QuickSight, tudo em tempo real"},
+        {"key": "C", "text": "RDS → CloudFront, que faz cache da telemetria"},
+        {"key": "D", "text": "SQS FIFO → SES, processando o stream por e-mail"}
       ],
       "answers": ["A"],
       "hints": [
@@ -237,9 +237,9 @@
       "stem": "Qual base atende com o mínimo de esforço manual?",
       "options": [
         {"key": "A", "text": "AWS Control Tower (landing zone) sobre o Organizations, com guardrails preventivos (SCP) e detectivos (Config)"},
-        {"key": "B", "text": "Configurar cada conta manualmente, uma a uma"},
-        {"key": "C", "text": "Um único Security Group compartilhado"},
-        {"key": "D", "text": "CloudFront em todas as contas"}
+        {"key": "B", "text": "Configurar cada conta manualmente, uma a uma, repetindo o baseline de segurança e rede a cada conta nova"},
+        {"key": "C", "text": "Um único Security Group compartilhado entre todas as contas, centralizando a governança preventiva e detectiva"},
+        {"key": "D", "text": "Habilitar CloudFront em todas as contas, que já entrega landing zone com guardrails de forma automática"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "CloudFront (estático) + Global Accelerator (API TCP, IP estático/failover) + Route 53 latency routing"},
-        {"key": "B", "text": "Só um ELB numa região"},
-        {"key": "C", "text": "Só CloudFront pra tudo, inclusive a API TCP com IP estático"},
-        {"key": "D", "text": "Só Route 53 sem CloudFront nem Global Accelerator"}
+        {"key": "B", "text": "Só um ELB numa única região, que já entrega failover global e baixa latência pros dois lados"},
+        {"key": "C", "text": "Só CloudFront pra tudo, inclusive a API TCP com IP estático fixo, que ele fornece nativamente"},
+        {"key": "D", "text": "Só Route 53 com latency routing, sem CloudFront nem Global Accelerator, já resolve cache e IP fixo"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual combinação entrega auto-recuperação, escala e distribuição?",
       "options": [
         {"key": "A", "text": "Auto Scaling group (multi-AZ, health checks) + ELB + alarmes do CloudWatch"},
-        {"key": "B", "text": "Uma instância EC2 maior (scale up) apenas"},
-        {"key": "C", "text": "Spot única sem balanceador"},
-        {"key": "D", "text": "Lambda atrás de CloudFront para tudo"}
+        {"key": "B", "text": "Uma instância EC2 maior (scale up) apenas — vertical aguenta e se recupera só"},
+        {"key": "C", "text": "Spot única sem balanceador — a AWS repõe a Spot na hora, sem custo extra"},
+        {"key": "D", "text": "Lambda atrás de CloudFront para tudo — roda a camada EC2 sem mudar nada nela"}
       ],
       "answers": ["A"],
       "hints": [

@@ -268,9 +268,9 @@
       "stem": "Onde você provisiona esse certificado?",
       "options": [
         {"key": "A", "text": "No AWS Certificate Manager (ACM) e associa à distribuição CloudFront"},
-        {"key": "B", "text": "Gerando um certificado manual e subindo por FTP"},
-        {"key": "C", "text": "No Amazon S3 como objeto"},
-        {"key": "D", "text": "No AWS Budgets"}
+        {"key": "B", "text": "Gerando um certificado manual e subindo por FTP pra distribuição"},
+        {"key": "C", "text": "No Amazon S3 como objeto, que o CloudFront lê e renova sozinho"},
+        {"key": "D", "text": "No AWS Budgets, que gerencia certificados junto com os custos"}
       ],
       "answers": ["A"],
       "hints": [

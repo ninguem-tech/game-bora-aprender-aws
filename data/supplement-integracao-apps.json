@@ -144,9 +144,9 @@
       "stem": "Qual combinação implementa esse fan-out?",
       "options": [
         {"key": "A", "text": "SNS publicando pra várias filas SQS inscritas (pub/sub + fila por consumidor)"},
-        {"key": "B", "text": "Uma única fila SQS lida por todos"},
-        {"key": "C", "text": "API Gateway chamando cada sistema em sequência"},
-        {"key": "D", "text": "Step Functions sem nenhuma fila"}
+        {"key": "B", "text": "Uma única fila SQS lida por todos, onde cada sistema recebe sua cópia do evento"},
+        {"key": "C", "text": "API Gateway chamando cada sistema em sequência, entregando simultâneo a todos"},
+        {"key": "D", "text": "Step Functions sem nenhuma fila — a máquina de estados já entrega desacoplado"}
       ],
       "answers": ["A"],
       "hints": [

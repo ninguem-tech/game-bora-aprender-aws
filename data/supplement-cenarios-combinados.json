@@ -51,9 +51,9 @@
       "stem": "Qual arquitetura serverless desacoplada atende?",
       "options": [
         {"key": "A", "text": "API Gateway → SQS → Lambda (consumindo a fila) → DynamoDB"},
-        {"key": "B", "text": "API Gateway → Lambda síncrono direto, sem fila"},
-        {"key": "C", "text": "EC2 único processando tudo na hora"},
-        {"key": "D", "text": "CloudFront → S3 estático"}
+        {"key": "B", "text": "API Gateway → Lambda síncrono direto, sem fila nem limite"},
+        {"key": "C", "text": "EC2 único processando tudo na hora, serverless e elástico"},
+        {"key": "D", "text": "CloudFront → S3 estático processando as requisições"}
       ],
       "answers": ["A"],
       "hints": [
@@ -82,9 +82,9 @@
       "stem": "Qual combinação entrega isso?",
       "options": [
         {"key": "A", "text": "S3 privado + CloudFront com OAC + WAF na distribuição + Route 53 pro domínio"},
-        {"key": "B", "text": "S3 público + Route 53, sem CloudFront"},
-        {"key": "C", "text": "EC2 com Nginx numa região só + Security Group"},
-        {"key": "D", "text": "S3 + acesso direto pela URL do bucket"}
+        {"key": "B", "text": "S3 público + Route 53, sem CloudFront — o S3 já faz cache global na borda"},
+        {"key": "C", "text": "EC2 com Nginx numa região só, sem CDN nem WAF"},
+        {"key": "D", "text": "S3 + acesso direto pela URL do bucket, que já vem com filtro SQLi/XSS embutido"}
       ],
       "answers": ["A"],
       "hints": [
@@ -113,9 +113,9 @@
       "stem": "Qual combinação atende o requisito extremo?",
       "options": [
         {"key": "A", "text": "Aurora Global Database (multi-Region) + Route 53 com health checks/failover"},
-        {"key": "B", "text": "RDS Single-AZ + snapshots diários"},
-        {"key": "C", "text": "Aurora numa região só com Multi-AZ"},
-        {"key": "D", "text": "DynamoDB local com backup"}
+        {"key": "B", "text": "RDS Single-AZ + snapshots diários replicados, garantindo RPO perto de zero"},
+        {"key": "C", "text": "Aurora numa região só com Multi-AZ — a réplica síncrona cobre queda de região"},
+        {"key": "D", "text": "DynamoDB local com backup contínuo — ele fala PostgreSQL nativo via PartiQL"}
       ],
       "answers": ["A"],
       "hints": [
@@ -144,9 +144,9 @@
       "stem": "Qual combinação minimiza o custo?",
       "options": [
         {"key": "A", "text": "Instâncias Spot pro processamento + dados no S3 + Athena pra consultar"},
-        {"key": "B", "text": "Instâncias On-Demand 24/7 + Redshift provisionado sempre ligado"},
-        {"key": "C", "text": "Dedicated Hosts + EMR sempre ligado"},
-        {"key": "D", "text": "Reserved Instances de 3 anos pro batch noturno"}
+        {"key": "B", "text": "Instâncias On-Demand 24/7 + Redshift provisionado sempre ligado e barato"},
+        {"key": "C", "text": "Dedicated Hosts + EMR sempre ligado — hardware dedicado sai mais em conta"},
+        {"key": "D", "text": "Reserved Instances de 3 anos pro batch noturno — RI é o mais barato"}
       ],
       "answers": ["A"],
       "hints": [
@@ -175,9 +175,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "Direct Connect (primário) + Site-to-Site VPN (backup) + Transit Gateway (hub)"},
-        {"key": "B", "text": "Só Site-to-Site VPN, sem hub"},
-        {"key": "C", "text": "VPC Peering entre cada par + Internet Gateway"},
-        {"key": "D", "text": "CloudFront + Global Accelerator"}
+        {"key": "B", "text": "Só Site-to-Site VPN, sem hub — a VPN pela internet já garante banda dedicada"},
+        {"key": "C", "text": "VPC Peering entre cada par + Internet Gateway fechando o link com o data center"},
+        {"key": "D", "text": "CloudFront + Global Accelerator, que já entregam link dedicado até o data center"}
       ],
       "answers": ["A"],
       "hints": [
@@ -206,9 +206,9 @@
       "stem": "Qual combinação implementa esse fluxo orientado a evento?",
       "options": [
         {"key": "A", "text": "Evento do S3 → Lambda (gera thumbnail) → grava no DynamoDB → publica no SNS (fan-out)"},
-        {"key": "B", "text": "Cron num EC2 que varre o bucket de hora em hora"},
-        {"key": "C", "text": "API Gateway WebSocket + RDS"},
-        {"key": "D", "text": "Kinesis Data Streams + Redshift"}
+        {"key": "B", "text": "Um cron num EC2 que varre o bucket de hora em hora procurando imagens novas pra processar"},
+        {"key": "C", "text": "API Gateway WebSocket + RDS, com o app avisando o servidor a cada thumbnail gerado"},
+        {"key": "D", "text": "Kinesis Data Streams + Redshift, processando os uploads como um stream analítico"}
       ],
       "answers": ["A"],
       "hints": [
@@ -268,9 +268,9 @@
       "stem": "Qual combinação atende?",
       "options": [
         {"key": "A", "text": "Kinesis Data Streams (processamento em tempo real) + Data Firehose (entrega no S3) + Athena (consulta)"},
-        {"key": "B", "text": "SQS + EC2 + MySQL"},
-        {"key": "C", "text": "SNS + Lambda + EBS"},
-        {"key": "D", "text": "CloudFront + S3 estático"}
+        {"key": "B", "text": "SQS pra ingerir o stream + um único consumidor em EC2 + MySQL pra consultas ad hoc"},
+        {"key": "C", "text": "SNS pra ingerir o streaming + Lambda de entrega contínua + EBS como camada de consulta SQL"},
+        {"key": "D", "text": "CloudFront + S3 com site estático, que já entregam análise de streaming em tempo real"}
       ],
       "answers": ["A"],
       "hints": [
@@ -299,9 +299,9 @@
       "stem": "Qual combinação melhora desempenho e alivia o banco?",
       "options": [
         {"key": "A", "text": "RDS Read Replicas + ElastiCache (cache de consultas) + CloudFront pra os estáticos no S3"},
-        {"key": "B", "text": "RDS Multi-AZ standby servindo as leituras"},
-        {"key": "C", "text": "Aumentar o tamanho do backup do RDS"},
-        {"key": "D", "text": "Mover tudo pra uma instância EC2 maior"}
+        {"key": "B", "text": "RDS Multi-AZ com o standby síncrono servindo as leituras dos relatórios pesados"},
+        {"key": "C", "text": "Aumentar a janela e o tamanho do backup do RDS, o que acelera as consultas de leitura"},
+        {"key": "D", "text": "Mover banco e aplicação pra uma única instância EC2 maior, eliminando a latência de rede"}
       ],
       "answers": ["A"],
       "hints": [

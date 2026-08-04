@@ -236,9 +236,9 @@
       "stem": "Qual mapeamento está certo?",
       "options": [
         {"key": "A", "text": "CloudWatch = métricas/logs/alarmes; CloudTrail = auditoria de API; X-Ray = caminho por-requisição"},
-        {"key": "B", "text": "CloudWatch = auditoria de API; CloudTrail = caminho por-requisição; X-Ray = métricas"},
-        {"key": "C", "text": "CloudWatch = caminho por-requisição; CloudTrail = métricas; X-Ray = auditoria de API"},
-        {"key": "D", "text": "Os três são intercambiáveis pra qualquer um desses objetivos"}
+        {"key": "B", "text": "CloudWatch = auditoria de API; CloudTrail = caminho por-requisição; X-Ray = métricas e alarmes"},
+        {"key": "C", "text": "CloudWatch = caminho por-requisição; CloudTrail = métricas e logs; X-Ray = auditoria de API"},
+        {"key": "D", "text": "Os três são intercambiáveis pra qualquer um desses objetivos — coletam os mesmos dados"}
       ],
       "answers": ["A"],
       "hints": [

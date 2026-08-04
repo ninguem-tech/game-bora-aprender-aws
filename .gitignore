@@ -3,6 +3,10 @@
 # public repo.
 docs/pt-book-coverage-*.md
 
+# Working/source notes used to draft the supplement question files — same
+# private-by-convention treatment as the planning notes above.
+data/sources-cache/
+
 # Configuração local de ferramentas de IA (permissões da máquina; não publicar)
 .qwen/
 

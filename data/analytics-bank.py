@@ -21,6 +21,11 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 BANK_JS = os.path.join(HERE, "bank.js")
 
+# Acima destes limites, o formato da questão entrega a resposta sem que o
+# jogador precise saber AWS. Mantidos em sincronia com testes/banco_dados.test.js.
+LIMITE_CONCENTRACAO_GABARITO = 0.40
+LIMITE_DELTA_COMPRIMENTO = 5
+
 
 def extract_json_from_js(path):
     """Extract the JSON object from a window.AWS_BANK = {...}; assignment."""
@@ -63,6 +68,64 @@ def count_difficulty(questions):
     return counts
 
 
+def count_answer_positions(questions):
+    """Return a dict mapping the correct answer's key to how often it is the answer.
+
+    Concentração em uma única letra significa que a posição virou a resposta: o
+    jogador acerta chutando sempre a mesma tecla, sem ler o enunciado.
+    """
+    counts = {}
+    for q in questions:
+        answers = q.get("answers") or []
+        if len(answers) != 1:
+            continue
+        counts[answers[0]] = counts.get(answers[0], 0) + 1
+    return counts
+
+
+def measure_answer_length_bias(questions):
+    """Compare the length of the correct option against the distractors.
+
+    Se a alternativa correta é sistematicamente mais longa, o comprimento vira
+    uma dica que sobrevive a qualquer embaralhamento de posição.
+    """
+    correct_lengths = []
+    wrong_lengths = []
+    longest_is_correct = 0
+    considered = 0
+    for q in questions:
+        options = q.get("options") or []
+        answers = q.get("answers") or []
+        if len(answers) != 1 or len(options) < 2:
+            continue
+        correct = next((o for o in options if o.get("key") == answers[0]), None)
+        if correct is None:
+            continue
+        wrong = [len(o.get("text") or "") for o in options if o is not correct]
+        if not wrong:
+            continue
+        considered += 1
+        tamanho_correta = len(correct.get("text") or "")
+        correct_lengths.append(tamanho_correta)
+        wrong_lengths.extend(wrong)
+        if all(tamanho_correta > w for w in wrong):
+            longest_is_correct += 1
+
+    if not considered:
+        return {"considered": 0}
+
+    media_correta = sum(correct_lengths) / len(correct_lengths)
+    media_incorreta = sum(wrong_lengths) / len(wrong_lengths)
+    return {
+        "considered": considered,
+        "avg_correct": round(media_correta, 1),
+        "avg_wrong": round(media_incorreta, 1),
+        "delta": round(media_correta - media_incorreta, 1),
+        "longest_is_correct": longest_is_correct,
+        "longest_is_correct_pct": round(100 * longest_is_correct / considered, 1),
+    }
+
+
 def analyze(questions):
     """Run all analyses and return a structured report."""
     total = len(questions)
@@ -81,6 +144,8 @@ def analyze(questions):
         "domain_counts": count_by_domain(questions),
         "service_counts": count_services(questions),
         "difficulty_counts": count_difficulty(questions),
+        "answer_positions": count_answer_positions(questions),
+        "length_bias": measure_answer_length_bias(questions),
         "with_hints": with_hints,
         "with_hints_pct": round(100 * with_hints / total, 1),
         "with_why_nots": with_why_nots,
@@ -114,6 +179,20 @@ def print_report(report, bank_title):
     print(f"  Mínimo:          {report['min_options']}")
     print(f"  Máximo:          {report['max_options']}")
 
+    print(f"\n  --- Viés do gabarito ---")
+    posicoes = report.get("answer_positions") or {}
+    total_gabarito = sum(posicoes.values())
+    for letra, count in sorted(posicoes.items()):
+        pct = 100 * count / total_gabarito if total_gabarito else 0
+        bar = "█" * max(1, count // 4)
+        print(f"  Resposta {letra:2s} {count:4d}  ({pct:5.1f}%)  {bar}")
+    vies = report.get("length_bias") or {}
+    if vies.get("considered"):
+        print(f"  Comprimento médio — correta: {vies['avg_correct']}  "
+              f"incorretas: {vies['avg_wrong']}  (Δ {vies['delta']:+})")
+        print(f"  Correta é a mais longa em {vies['longest_is_correct']} "
+              f"({vies['longest_is_correct_pct']}%)")
+
     print(f"\n  --- Distribuição por domínio AWS ---")
     for domain, count in sorted(report["domain_counts"].items(), key=lambda x: -x[1]):
         bar = "█" * max(1, count // 2)
@@ -136,19 +215,27 @@ def print_report(report, bank_title):
 
 
 def main():
+    # Alguns consoles (ex.: Windows com codepage legado) não usam UTF-8 por
+    # padrão; sem isso, os prints com █/⚠️ abaixo levantam UnicodeEncodeError
+    # e derrubam o relatório no meio. reconfigure não existe em todo stream
+    # (ex.: capturas de teste com io.StringIO) — daí o hasattr.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     if not os.path.exists(BANK_JS):
         print(f"ERRO: {BANK_JS} não encontrado. Execute 'python3 data/build-bank.py' primeiro.",
               file=sys.stderr)
         sys.exit(1)
 
     bank = extract_json_from_js(BANK_JS)
+    fases = bank.get("fases", [])
     all_questions = []
-    for fase in bank.get("fases", []):
-        all_questions.extend(fase["questions"])
+    for fase in fases:
+        all_questions.extend(fase.get("questions", []))
 
     report = analyze(all_questions)
     total = report["total"]
-    print(f"\n  Fases: {len(bank['fases'])}")
+    print(f"\n  Fases: {len(fases)}")
     print(f"  Questões: {total}")
 
     if total == 0:
@@ -162,6 +249,21 @@ def main():
     missing_domain = report["domain_counts"].get("(sem domínio)", 0)
     if missing_domain:
         print(f"  ⚠️  Alerta: {missing_domain} questão(ões) sem domainLabel.")
+
+    posicoes = report.get("answer_positions") or {}
+    total_gabarito = sum(posicoes.values())
+    for letra, count in sorted(posicoes.items()):
+        if total_gabarito and count / total_gabarito > LIMITE_CONCENTRACAO_GABARITO:
+            pct = round(100 * count / total_gabarito, 1)
+            print(f"  ⚠️  Alerta: a resposta '{letra}' concentra {pct}% do gabarito "
+                  f"(limite: {round(100 * LIMITE_CONCENTRACAO_GABARITO)}%). "
+                  "A posição virou a resposta.")
+
+    vies = report.get("length_bias") or {}
+    if vies.get("considered") and vies["delta"] > LIMITE_DELTA_COMPRIMENTO:
+        print(f"  ⚠️  Alerta: a alternativa correta é em média {vies['delta']} caracteres "
+              f"mais longa que as incorretas (limite: {LIMITE_DELTA_COMPRIMENTO}). "
+              "O comprimento está entregando a resposta.")
 
     print_report(report, bank.get("titulo", bank.get("cert", "AWS Bank")))
 

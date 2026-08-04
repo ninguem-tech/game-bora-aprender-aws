@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """Builds data/bank.js (window.AWS_BANK) from the PT supplement JSON files.
 Add a new fase by appending to MANIFEST. Run: python3 data/build-bank.py"""
+import hashlib
 import json
 import os
+import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+# Letras das alternativas, atribuídas pela posição depois da redistribuição.
+LETRAS_OPCOES = ["A", "B", "C", "D"]
 
 # Serviços descontinuados pela AWS; questões que os citam devem ser revisadas
 # antes de entrar no banco oficial.
@@ -142,7 +147,10 @@ def load_supplement_questions(file_path):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
     with open(file_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"JSON inválido em {file_path}: {e}") from e
     if not isinstance(data, dict) or "questions" not in data or not isinstance(data["questions"], list):
         raise ValueError(f"Estrutura JSON inválida em {file_path}: esperada chave 'questions' contendo uma lista.")
     questions = data["questions"]
@@ -173,14 +181,182 @@ def load_supplement_questions(file_path):
     return questions
 
 
+DIFICULDADES_VALIDAS = {"intro", "exam", "challenge"}
+
+
+def validar_questao_schema(questao, contexto=""):
+    """Valida o schema que o jogo (src/jogo.js: validarQuestao) espera.
+
+    Roda no BUILD, não só no runtime: um suplemento malformado deve derrubar a
+    geração do banco com uma mensagem clara, em vez de entrar silenciosamente
+    no bank.js. Também garante os pré-requisitos de redistribuir_gabarito
+    (options 2..4, exatamente 1 answer apontando para uma key existente) — sem
+    isso, a redistribuição era pulada em silêncio e a alternativa correta
+    ficava na posição "A" autoral, virando dica de posição.
+    """
+    erros = []
+    qid = questao.get("id")
+    if not isinstance(qid, str) or not qid:
+        erros.append("'id' ausente ou não é uma string não vazia")
+    stem = questao.get("stem")
+    if not isinstance(stem, str) or not stem.strip():
+        erros.append("'stem' ausente ou vazio")
+    if not isinstance(questao.get("explanation"), str) or not questao.get("explanation", "").strip():
+        erros.append("'explanation' ausente ou vazia")
+    if "type" in questao and questao["type"] != "single":
+        erros.append("'type' deve ser 'single'")
+    if "difficulty" in questao and questao["difficulty"] not in DIFICULDADES_VALIDAS:
+        erros.append(f"'difficulty' deve ser um de {sorted(DIFICULDADES_VALIDAS)}")
+
+    options = questao.get("options")
+    chaves = []
+    if not isinstance(options, list) or not 2 <= len(options) <= len(LETRAS_OPCOES):
+        erros.append(f"'options' deve ser uma lista de 2 a {len(LETRAS_OPCOES)} alternativas")
+    else:
+        for idx, opt in enumerate(options):
+            if not isinstance(opt, dict):
+                erros.append(f"options[{idx}] não é um objeto")
+                continue
+            if not isinstance(opt.get("key"), str) or not opt["key"]:
+                erros.append(f"options[{idx}] sem 'key' string")
+            else:
+                chaves.append(opt["key"])
+            if not isinstance(opt.get("text"), str) or not opt["text"].strip():
+                erros.append(f"options[{idx}] sem 'text'")
+        if len(chaves) != len(set(chaves)):
+            erros.append("'options' contém keys duplicadas")
+
+    answers = questao.get("answers")
+    if not isinstance(answers, list) or len(answers) != 1:
+        erros.append("'answers' deve ter exatamente 1 resposta (SAA-C03 single)")
+    else:
+        for resp in answers:
+            if not isinstance(resp, str) or (chaves and resp not in chaves):
+                erros.append(f"resposta '{resp}' não corresponde a nenhuma option key")
+
+    hints = questao.get("hints")
+    if hints is not None and (
+        not isinstance(hints, list) or any(not isinstance(h, str) for h in hints)
+    ):
+        erros.append("'hints' deve ser uma lista de strings")
+
+    why_nots = questao.get("whyNots")
+    if why_nots is not None:
+        if not isinstance(why_nots, dict):
+            erros.append("'whyNots' deve ser um objeto")
+        else:
+            for chave, valor in why_nots.items():
+                if not isinstance(valor, str):
+                    erros.append(f"whyNots['{chave}'] deve ser uma string")
+                if chaves and chave not in chaves:
+                    erros.append(
+                        f"whyNots['{chave}'] não corresponde a nenhuma option key "
+                        "(seria descartado/mesclado em silêncio na redistribuição)"
+                    )
+
+    if erros:
+        raise ValueError(
+            f"Questão '{qid or '<sem id>'}'{contexto}: " + "; ".join(erros)
+        )
+
+
+def _ordem_deterministica(semente, quantidade):
+    """Permutação determinística de 0..quantidade-1 derivada de uma semente textual.
+
+    Determinística de propósito: o mesmo conjunto de suplementos sempre gera o
+    mesmo bank.js, sem diffs espúrios entre execuções ou máquinas.
+    """
+    digest = hashlib.sha256(str(semente).encode("utf-8")).digest()
+    disponiveis = list(range(quantidade))
+    ordem = []
+    for passo, restantes in enumerate(range(quantidade, 0, -1)):
+        escolhido = digest[passo % len(digest)] % restantes
+        ordem.append(disponiveis.pop(escolhido))
+    return ordem
+
+
+def redistribuir_gabarito(questao, posicao_alvo):
+    """Reordena as alternativas para que a correta caia em `posicao_alvo`.
+
+    Os autores escrevem os suplementos com a alternativa correta em "A"; sem esta
+    etapa, a posição vira a resposta e o jogador aprende a chutar uma letra fixa
+    em vez de ler o enunciado. As letras são reatribuídas pela nova posição e
+    `answers`/`whyNots` são remapeados junto.
+    """
+    options = questao.get("options")
+    answers = questao.get("answers")
+    if not isinstance(options, list) or not 2 <= len(options) <= len(LETRAS_OPCOES):
+        return questao
+    if not isinstance(answers, list) or len(answers) != 1:
+        return questao
+    if not all(isinstance(o, dict) and isinstance(o.get("key"), str) for o in options):
+        return questao
+
+    correta = next((o for o in options if o.get("key") == answers[0]), None)
+    if correta is None:
+        return questao
+
+    distratoras = [o for o in options if o is not correta]
+    ordem = _ordem_deterministica(questao.get("id", ""), len(distratoras))
+    embaralhadas = [distratoras[i] for i in ordem]
+
+    alvo = posicao_alvo % len(options)
+    nova_ordem = embaralhadas[:alvo] + [correta] + embaralhadas[alvo:]
+
+    mapa_chaves = {}
+    novas_options = []
+    for indice, opcao in enumerate(nova_ordem):
+        letra = LETRAS_OPCOES[indice]
+        mapa_chaves[opcao["key"]] = letra
+        nova_opcao = dict(opcao)
+        nova_opcao["key"] = letra
+        novas_options.append(nova_opcao)
+
+    nova_questao = dict(questao)
+    nova_questao["options"] = novas_options
+    nova_questao["answers"] = [mapa_chaves[k] for k in answers]
+
+    why_nots = questao.get("whyNots")
+    if isinstance(why_nots, dict):
+        remapeado = {mapa_chaves.get(k, k): v for k, v in why_nots.items()}
+        nova_questao["whyNots"] = {k: remapeado[k] for k in sorted(remapeado)}
+
+    return nova_questao
+
+
 def build_bank_data(manifest, data_dir=HERE):
-    """Gera a estrutura do banco de dados a partir do manifesto e diretório fornecido."""
+    """Gera a estrutura do banco de dados a partir do manifesto e diretório fornecido.
+
+    Cada questão passa por validar_questao_schema ANTES da redistribuição e os
+    IDs são checados quanto à unicidade global — falhas derrubam o build com
+    contexto (arquivo + id), em vez de gerar um bank.js sutilmente quebrado.
+    """
     fases = []
+    contadores = {}
+    ids_vistos = {}
+    fids_vistos = set()
     for fid, titulo, files in manifest:
+        if fid in fids_vistos:
+            raise ValueError(
+                f"ID de fase duplicado no MANIFEST: '{fid}' aparece mais de uma vez."
+            )
+        fids_vistos.add(fid)
         qs = []
         for f in files:
             full_path = os.path.join(data_dir, f)
-            qs.extend(load_supplement_questions(full_path))
+            for questao in load_supplement_questions(full_path):
+                validar_questao_schema(questao, contexto=f" (em {f})")
+                qid = questao["id"]
+                if qid in ids_vistos:
+                    raise ValueError(
+                        f"ID de questão duplicado: '{qid}' aparece em "
+                        f"{ids_vistos[qid]} e em {f}."
+                    )
+                ids_vistos[qid] = f
+                total_opcoes = len(questao["options"])
+                posicao = contadores.get(total_opcoes, 0)
+                contadores[total_opcoes] = posicao + 1
+                qs.append(redistribuir_gabarito(questao, posicao))
         fases.append({"id": fid, "titulo": titulo, "questions": qs})
     return {
         "cert": "SAA-C03",
@@ -190,17 +366,77 @@ def build_bank_data(manifest, data_dir=HERE):
 
 
 def generate_bank_js(bank_data, output_path):
-    """Escreve o objeto de banco de dados no formato JavaScript (window.AWS_BANK = ...)."""
-    with open(output_path, "w", encoding="utf-8") as out:
-        out.write("window.AWS_BANK = ")
-        json.dump(bank_data, out, ensure_ascii=False, indent=2)
-        out.write(";\n")
+    """Escreve o objeto de banco de dados no formato JavaScript (window.AWS_BANK = ...).
+
+    Escreve em arquivo temporário e troca por `os.replace` (atômico): bank.js é o
+    único artefato de conteúdo do jogo, e uma falha no meio da serialização não
+    pode deixá-lo truncado. `newline="\\n"` evita reescrever o arquivo inteiro em
+    CRLF quando o build roda no Windows.
+    """
+    payload = json.dumps(bank_data, ensure_ascii=False, indent=2)
+    # Endurecimento da serialização (defensivo — o conteúdo atual é limpo):
+    # - "</" vira "<\/" (escape de solidus, JSON válido e idêntico após parse)
+    #   para que "</script>" num texto jamais encerre a tag se o arquivo for
+    #   inline algum dia;
+    # - U+2028/U+2029 são separadores de linha Unicode que quebram string
+    #   literals em engines pré-ES2019 — escapados numericamente.
+    payload = payload.replace("</", "<\\/")
+    payload = payload.replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+
+    temporario = output_path + ".tmp"
+    try:
+        with open(temporario, "w", encoding="utf-8", newline="\n") as out:
+            out.write("window.AWS_BANK = ")
+            out.write(payload)
+            out.write(";\n")
+        os.replace(temporario, output_path)
+    finally:
+        # Se a escrita/replace falhou no meio, não deixa o .tmp para trás.
+        if os.path.exists(temporario):
+            os.remove(temporario)
+
+
+def _validar_arquivo_gerado(output_path, bank_data):
+    """Relê o bank.js recém-escrito e confere a integridade do arquivo de saída.
+
+    generate_bank_js grava com escrita atômica (tmp + os.replace), o que evita
+    um arquivo truncado, mas não pega um erro de lógica que produza um JSON
+    sintaticamente válido e ainda assim errado (ex.: fase ou questão faltando).
+    Cobre o lado "arquivo de saída" do requisito de integridade do AGENTS.md —
+    o lado "entrada" já é coberto por validar_questao_schema.
+    """
+    with open(output_path, "r", encoding="utf-8") as f:
+        conteudo = f.read()
+    match = re.match(r"window\.AWS_BANK = (.*);\n?$", conteudo, re.DOTALL)
+    if not match:
+        raise ValueError(
+            f"Integridade do arquivo gerado falhou: {output_path} não está no "
+            "formato esperado 'window.AWS_BANK = ...;'."
+        )
+    religado = json.loads(match.group(1))
+
+    fases_esperadas = len(bank_data["fases"])
+    fases_lidas = len(religado.get("fases", []))
+    if fases_lidas != fases_esperadas:
+        raise ValueError(
+            f"Integridade do arquivo gerado falhou: {fases_esperadas} fases em "
+            f"memória, {fases_lidas} relidas de {output_path}."
+        )
+
+    questoes_esperadas = sum(len(f["questions"]) for f in bank_data["fases"])
+    questoes_lidas = sum(len(f.get("questions", [])) for f in religado.get("fases", []))
+    if questoes_lidas != questoes_esperadas:
+        raise ValueError(
+            f"Integridade do arquivo gerado falhou: {questoes_esperadas} questões "
+            f"em memória, {questoes_lidas} relidas de {output_path}."
+        )
 
 
 def main():
     bank_data = build_bank_data(MANIFEST, HERE)
     output_file = os.path.join(HERE, "bank.js")
     generate_bank_js(bank_data, output_file)
+    _validar_arquivo_gerado(output_file, bank_data)
 
     for fa in bank_data["fases"]:
         print(f"  {fa['titulo']}: {len(fa['questions'])} questões")

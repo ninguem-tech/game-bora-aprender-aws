@@ -381,6 +381,32 @@ function classificarReadiness(readiness) {
 }
 
 /**
+ * Quantidade mínima de respostas para considerar a prontidão
+ * estatisticamente estável o suficiente para ser exibida como número.
+ */
+const MINIMO_RESPOSTAS_PRONTIDAO = 5;
+
+/**
+ * Indica se já há respostas suficientes para exibir a prontidão como um
+ * percentual específico, em vez de uma mensagem de boas-vindas neutra.
+ *
+ * Motivo: com poucas respostas, um único erro pode fazer o percentual
+ * "regredir" visivelmente (ex.: 1 erro em 2 questões pesa muito na
+ * acurácia). Isso conflita com o design encorajador do jogo — sem
+ * punições por erros pontuais. Este gate não altera o cálculo em si
+ * (calcularReadiness continua correto e testável), só quando ele é
+ * exibido como número ao jogador.
+ *
+ * @param {number} totalRespondido Total de questões respondidas até agora.
+ * @param {number} [minimo=MINIMO_RESPOSTAS_PRONTIDAO] Mínimo de respostas exigido.
+ * @returns {boolean} true se a prontidão pode ser exibida com confiança.
+ */
+function prontidaoEhConfiavel(totalRespondido, minimo = MINIMO_RESPOSTAS_PRONTIDAO) {
+  const total = Number.isFinite(totalRespondido) ? totalRespondido : 0;
+  return total >= minimo;
+}
+
+/**
  * Sanitiza um termo de busca para uso seguro na interface.
  *
  * Remove caracteres de controle (incluindo null bytes), normaliza espaços,
@@ -458,6 +484,33 @@ function embaralharArray(arrayOriginal) {
     [copia[indice], copia[indiceAleatorio]] = [copia[indiceAleatorio], copia[indice]];
   }
   return copia;
+}
+
+/**
+ * Letras exibidas ao jogador, atribuídas pela posição na tela.
+ */
+const ROTULOS_OPCOES = ["A", "B", "C", "D"];
+
+/**
+ * Embaralha as alternativas de uma questão, atribuindo a letra pela posição.
+ *
+ * A `key` original de cada alternativa é preservada, de modo que `answers`,
+ * `whyNots` e o registro da resposta continuem válidos — o que muda é apenas
+ * a ordem de exibição e a letra mostrada (primeira da tela = A, segunda = B...).
+ * Sem isso, a posição da alternativa vira uma dica: o jogador aprende a chutar
+ * uma posição fixa em vez de ler o enunciado.
+ *
+ * @param {Object} questao Questão contendo a lista `options`.
+ * @param {Function} [embaralhar] Estratégia de embaralhamento (injetável em teste).
+ * @returns {Array<{key: string, text: string, rotulo: string}>} Alternativas embaralhadas.
+ */
+function embaralharOpcoes(questao, embaralhar = embaralharArray) {
+  const opcoes = questao && Array.isArray(questao.options) ? questao.options : [];
+  return embaralhar(opcoes).map(function (opcao, indice) {
+    const copia = Object.assign({}, opcao);
+    copia.rotulo = ROTULOS_OPCOES[indice] || String(indice + 1);
+    return copia;
+  });
 }
 
 /**
@@ -945,11 +998,15 @@ if (typeof module !== "undefined" && module.exports) {
     obterEstatisticasServicos,
     calcularReadiness,
     classificarReadiness,
+    MINIMO_RESPOSTAS_PRONTIDAO,
+    prontidaoEhConfiavel,
     calcularConquistas,
     obterConquistasDefinicao,
     filtrarFases,
     sanitizarTermoBusca,
     embaralharArray,
+    embaralharOpcoes,
+    ROTULOS_OPCOES,
     validarQuestao,
     validarBancoDados,
     criarEstadoPet,
@@ -978,11 +1035,15 @@ if (typeof module !== "undefined" && module.exports) {
     obterEstatisticasServicos,
     calcularReadiness,
     classificarReadiness,
+    MINIMO_RESPOSTAS_PRONTIDAO,
+    prontidaoEhConfiavel,
     calcularConquistas,
     obterConquistasDefinicao,
     filtrarFases,
     sanitizarTermoBusca,
     embaralharArray,
+    embaralharOpcoes,
+    ROTULOS_OPCOES,
     validarQuestao,
     validarBancoDados,
     criarEstadoPet,

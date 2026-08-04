@@ -9,9 +9,13 @@ const {
   obterEstatisticasServicos,
   calcularReadiness,
   classificarReadiness,
+  MINIMO_RESPOSTAS_PRONTIDAO,
+  prontidaoEhConfiavel,
   filtrarFases,
   sanitizarTermoBusca,
-  embaralharArray
+  embaralharArray,
+  embaralharOpcoes,
+  ROTULOS_OPCOES
 } = require("../src/jogo.js");
 
 // Carrega o banco de dados oficial do projeto
@@ -41,6 +45,51 @@ describe("Validação do Banco de Dados e Utilitários", () => {
         `O banco oficial deve ser válido. Erros: ${relatorio.erros.join("; ")}`
       );
       assert.ok(relatorio.totalQuestoes > 0, "Deve contabilizar questões válidas");
+    });
+
+    it("não deve concentrar o gabarito em uma única letra", () => {
+      // Se uma letra concentra a maioria das respostas, a posição vira a
+      // resposta: o jogador acerta chutando sempre a mesma tecla, sem ler o
+      // enunciado, e o cálculo de prontidão passa a medir o hábito, não o estudo.
+      const LIMITE_CONCENTRACAO = 0.4;
+      const ocorrencias = {};
+      let totalComGabarito = 0;
+
+      bancoOficialAWS.fases.forEach((fase) => {
+        (fase.questions || []).forEach((questao) => {
+          const respostas = questao && questao.answers;
+          if (!Array.isArray(respostas) || respostas.length !== 1) return;
+          ocorrencias[respostas[0]] = (ocorrencias[respostas[0]] || 0) + 1;
+          totalComGabarito++;
+        });
+      });
+
+      assert.ok(totalComGabarito > 0, "O banco deve ter questões com gabarito único");
+
+      Object.entries(ocorrencias).forEach(([letra, quantidade]) => {
+        const proporcao = quantidade / totalComGabarito;
+        assert.ok(
+          proporcao <= LIMITE_CONCENTRACAO,
+          `A resposta '${letra}' concentra ${(proporcao * 100).toFixed(1)}% do gabarito ` +
+            `(${quantidade}/${totalComGabarito}), acima do limite de ` +
+            `${LIMITE_CONCENTRACAO * 100}%. Rode 'python3 data/build-bank.py' para redistribuir.`
+        );
+      });
+    });
+
+    it("deve usar todas as posições disponíveis como gabarito", () => {
+      const posicoes = new Set();
+      bancoOficialAWS.fases.forEach((fase) => {
+        (fase.questions || []).forEach((questao) => {
+          const respostas = questao && questao.answers;
+          if (Array.isArray(respostas) && respostas.length === 1) posicoes.add(respostas[0]);
+        });
+      });
+
+      assert.ok(
+        posicoes.size >= 4,
+        `O gabarito deveria usar as 4 posições; usa apenas: ${[...posicoes].sort().join(", ")}`
+      );
     });
 
     it("deve retornar relatório inválido sem lançar exceção ao conter questão nula", () => {
@@ -400,6 +449,30 @@ describe("Validação do Banco de Dados e Utilitários", () => {
       assert.equal(classificarReadiness(65).label, "Em progresso sólido");
       assert.equal(classificarReadiness(30).label, "Começando a jornada");
     });
+
+    describe("prontidaoEhConfiavel (gate de exibição)", () => {
+      it("não deve ser confiável abaixo do mínimo de respostas", () => {
+        assert.equal(prontidaoEhConfiavel(0), false);
+        assert.equal(prontidaoEhConfiavel(1), false);
+        assert.equal(prontidaoEhConfiavel(MINIMO_RESPOSTAS_PRONTIDAO - 1), false);
+      });
+
+      it("deve ser confiável ao atingir o mínimo de respostas", () => {
+        assert.equal(prontidaoEhConfiavel(MINIMO_RESPOSTAS_PRONTIDAO), true);
+        assert.equal(prontidaoEhConfiavel(MINIMO_RESPOSTAS_PRONTIDAO + 50), true);
+      });
+
+      it("deve aceitar um mínimo customizado", () => {
+        assert.equal(prontidaoEhConfiavel(2, 3), false);
+        assert.equal(prontidaoEhConfiavel(3, 3), true);
+      });
+
+      it("deve tratar entradas inválidas como zero respostas", () => {
+        assert.equal(prontidaoEhConfiavel(null), false);
+        assert.equal(prontidaoEhConfiavel(undefined), false);
+        assert.equal(prontidaoEhConfiavel(NaN), false);
+      });
+    });
   });
 
   describe("Embaralhar Array", () => {
@@ -417,6 +490,87 @@ describe("Validação do Banco de Dados e Utilitários", () => {
         entradaOriginal.every((item) => resultadoEmbaralhado.includes(item)),
         "Todos os itens originais devem estar presentes"
       );
+    });
+  });
+
+  describe("Embaralhar Opções da Questão", () => {
+    const questaoExemplo = {
+      id: "q-embaralha",
+      stem: "Pergunta",
+      options: [
+        { key: "A", text: "Alternativa A" },
+        { key: "B", text: "Alternativa B" },
+        { key: "C", text: "Alternativa C" },
+        { key: "D", text: "Alternativa D" }
+      ],
+      answers: ["C"],
+      whyNots: { A: "não", B: "não", D: "não" }
+    };
+
+    // Embaralhamento controlado: inverte a ordem, para tornar o mapeamento observável.
+    const inverter = (lista) => lista.slice().reverse();
+
+    it("deve preservar a key original de cada alternativa", () => {
+      const embaralhadas = embaralharOpcoes(questaoExemplo, inverter);
+
+      assert.deepEqual(
+        embaralhadas.map((o) => o.key),
+        ["D", "C", "B", "A"],
+        "A key original acompanha o texto, para answers e whyNots continuarem válidos"
+      );
+      embaralhadas.forEach((opcao) => {
+        const original = questaoExemplo.options.find((o) => o.key === opcao.key);
+        assert.equal(opcao.text, original.text, "Cada key deve manter o seu texto");
+      });
+    });
+
+    it("deve atribuir o rótulo exibido pela posição na tela", () => {
+      const embaralhadas = embaralharOpcoes(questaoExemplo, inverter);
+
+      assert.deepEqual(
+        embaralhadas.map((o) => o.rotulo),
+        ["A", "B", "C", "D"]
+      );
+      assert.equal(
+        embaralhadas.find((o) => o.key === "C").rotulo,
+        "B",
+        "A alternativa correta ('C') passa a ser exibida na segunda posição"
+      );
+    });
+
+    it("deve manter o gabarito resolvível pela key após embaralhar", () => {
+      const embaralhadas = embaralharOpcoes(questaoExemplo, inverter);
+      const corretas = embaralhadas.filter((o) => questaoExemplo.answers.includes(o.key));
+
+      assert.equal(corretas.length, 1, "Deve haver exatamente uma alternativa correta");
+      assert.equal(corretas[0].text, "Alternativa C");
+    });
+
+    it("não deve modificar as opções originais da questão", () => {
+      const copiaAntes = JSON.parse(JSON.stringify(questaoExemplo.options));
+      embaralharOpcoes(questaoExemplo, inverter);
+
+      assert.deepEqual(questaoExemplo.options, copiaAntes, "O banco não pode ser mutado");
+    });
+
+    it("deve distribuir a posição da correta ao longo de várias apresentações", () => {
+      const posicoes = new Set();
+      for (let tentativa = 0; tentativa < 200; tentativa++) {
+        const embaralhadas = embaralharOpcoes(questaoExemplo);
+        posicoes.add(embaralhadas.findIndex((o) => o.key === "C"));
+      }
+
+      assert.equal(posicoes.size, 4, "A correta deve aparecer nas 4 posições ao longo do tempo");
+    });
+
+    it("deve tolerar questão sem opções", () => {
+      assert.deepEqual(embaralharOpcoes({}), []);
+      assert.deepEqual(embaralharOpcoes(null), []);
+      assert.deepEqual(embaralharOpcoes({ options: "não é lista" }), []);
+    });
+
+    it("deve expor os rótulos das quatro posições", () => {
+      assert.deepEqual(ROTULOS_OPCOES, ["A", "B", "C", "D"]);
     });
   });
 });

@@ -181,7 +181,37 @@ def load_supplement_questions(file_path):
     return questions
 
 
+# Rótulo canônico de cada domínio da SAA-C03, por número de domínio. Os
+# arquivos-fonte em data/supplement-*.json foram escritos por autores/sessões
+# diferentes ao longo do tempo e acumularam variantes do mesmo rótulo (ex.:
+# "Segurança" e "Arquiteturas seguras" para o domínio 1) — cosmético, mas
+# inconsistente na UI (filtro por domínio, cabeçalho da questão). Normalizado
+# aqui, no build, a partir do campo numérico 'domain' (fonte da verdade),
+# em vez de editar à mão as dezenas de arquivos-fonte.
+ROTULOS_DOMINIO = {
+    0: "Fundamentos",
+    1: "Arquiteturas seguras",
+    2: "Arquiteturas resilientes",
+    3: "Arquiteturas de alto desempenho",
+    4: "Otimização de custos",
+}
+
 DIFICULDADES_VALIDAS = {"intro", "exam", "challenge"}
+
+
+def normalizar_domain_label(questao):
+    """Sobrescreve domainLabel com o rótulo canônico do seu 'domain', se conhecido.
+
+    Questões com um 'domain' fora de ROTULOS_DOMINIO mantêm o domainLabel
+    original (nada a normalizar contra) em vez de apagar a informação.
+    """
+    domain = questao.get("domain")
+    rotulo = ROTULOS_DOMINIO.get(domain)
+    if rotulo is None or questao.get("domainLabel") == rotulo:
+        return questao
+    nova_questao = dict(questao)
+    nova_questao["domainLabel"] = rotulo
+    return nova_questao
 
 
 def validar_questao_schema(questao, contexto=""):
@@ -353,6 +383,7 @@ def build_bank_data(manifest, data_dir=HERE):
                         f"{ids_vistos[qid]} e em {f}."
                     )
                 ids_vistos[qid] = f
+                questao = normalizar_domain_label(questao)
                 total_opcoes = len(questao["options"])
                 posicao = contadores.get(total_opcoes, 0)
                 contadores[total_opcoes] = posicao + 1

@@ -334,6 +334,48 @@ class TestRedistribuicaoGabarito(unittest.TestCase):
         self.assertEqual(ordem, build_bank._ordem_deterministica("semente", 4))
 
 
+class TestNormalizarDomainLabel(unittest.TestCase):
+    """Os arquivos-fonte acumularam variantes do mesmo domainLabel (ex.:
+    'Segurança' vs 'Arquiteturas seguras' para o domain 1) porque foram
+    escritos por autores/sessões diferentes ao longo do tempo. Em vez de
+    editar à mão dezenas de arquivos data/supplement-*.json, o build
+    normaliza domainLabel a partir do 'domain' numérico (fonte da verdade).
+    """
+
+    def test_substitui_variante_conhecida_pelo_rotulo_canonico(self):
+        questao = {"domain": 1, "domainLabel": "Segurança"}
+        resultado = build_bank.normalizar_domain_label(questao)
+        self.assertEqual(resultado["domainLabel"], "Arquiteturas seguras")
+
+    def test_mantem_rotulo_ja_canonico_sem_copiar_o_objeto(self):
+        # Rótulo já canônico: função devolve a MESMA referência (curto-circuito
+        # sem cópia), diferente do caso de substituição, que devolve uma cópia.
+        questao = {"domain": 4, "domainLabel": "Otimização de custos"}
+        resultado = build_bank.normalizar_domain_label(questao)
+        self.assertEqual(resultado["domainLabel"], "Otimização de custos")
+        self.assertIs(resultado, questao)
+
+    def test_nao_muta_a_questao_original(self):
+        questao = {"domain": 2, "domainLabel": "Resiliência"}
+        build_bank.normalizar_domain_label(questao)
+        self.assertEqual(questao["domainLabel"], "Resiliência")
+
+    def test_domain_desconhecido_preserva_domain_label_original(self):
+        questao = {"domain": 99, "domainLabel": "Rótulo Qualquer"}
+        resultado = build_bank.normalizar_domain_label(questao)
+        self.assertEqual(resultado["domainLabel"], "Rótulo Qualquer")
+
+    def test_cobre_todos_os_dominios_da_saa_c03(self):
+        esperado = {
+            0: "Fundamentos",
+            1: "Arquiteturas seguras",
+            2: "Arquiteturas resilientes",
+            3: "Arquiteturas de alto desempenho",
+            4: "Otimização de custos",
+        }
+        self.assertEqual(build_bank.ROTULOS_DOMINIO, esperado)
+
+
 class TestHelpersInternos(unittest.TestCase):
     """Testes unitários para os helpers internos (_prefixados) de build-bank.py.
 

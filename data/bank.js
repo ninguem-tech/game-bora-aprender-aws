@@ -55,7 +55,7 @@ window.AWS_BANK = {
             "ec2"
           ],
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "situacao": "A Camila precisa garantir que o sistema da empresa NÃO caia se um data center pegar fogo ou ficar sem energia.",
           "stem": "Qual a forma certa de não cair se um data center falhar?",
           "options": [
@@ -96,7 +96,7 @@ window.AWS_BANK = {
             "cloudfront"
           ],
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "situacao": "O site da Júlia roda num servidor na Virgínia (EUA). Os usuários no Brasil reclamam que está LENTO pra carregar imagens e vídeos.",
           "stem": "O que resolve a lentidão pros usuários no Brasil?",
           "options": [
@@ -178,7 +178,7 @@ window.AWS_BANK = {
             "route53"
           ],
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "situacao": "Uma lei exige que os dados dos clientes brasileiros NUNCA saiam do Brasil.",
           "stem": "Como atender a exigência de manter os dados no Brasil?",
           "options": [
@@ -226,7 +226,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Computação de alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "ec2"
@@ -410,7 +410,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "ec2",
@@ -457,7 +457,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "ec2",
@@ -505,7 +505,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "ec2"
@@ -551,7 +551,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "ec2",
@@ -600,7 +600,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "vpc"
@@ -646,7 +646,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "vpc",
@@ -694,7 +694,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "vpc",
@@ -741,7 +741,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "vpc",
@@ -789,7 +789,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "vpc"
@@ -835,7 +835,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "vpc"
@@ -882,7 +882,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "vpc",
@@ -931,7 +931,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "vpc"
@@ -979,7 +979,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "elb"
@@ -1025,7 +1025,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "elb"
@@ -1072,7 +1072,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "elb"
@@ -1171,7 +1171,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "s3"
@@ -1357,7 +1357,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "s3",
@@ -1405,7 +1405,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "s3"
@@ -1452,7 +1452,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "s3",
@@ -1500,7 +1500,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "s3"
@@ -1547,7 +1547,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "ebs",
@@ -1594,7 +1594,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "efs",
@@ -1642,7 +1642,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "snow",
@@ -1689,7 +1689,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "ebs"
@@ -1736,7 +1736,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "rds"
@@ -1782,7 +1782,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "rds"
@@ -1829,7 +1829,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "rds"
@@ -1876,7 +1876,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "rds-proxy",
@@ -1925,7 +1925,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "dynamodb"
@@ -1971,7 +1971,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "dynamodb"
@@ -2064,7 +2064,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "dynamodb"
@@ -2112,7 +2112,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "elasticache",
@@ -2160,7 +2160,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "neptune"
@@ -2207,7 +2207,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "redshift",
@@ -2261,7 +2261,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam"
@@ -2307,7 +2307,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam"
@@ -2353,7 +2353,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam"
@@ -2400,7 +2400,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam",
@@ -2448,7 +2448,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam",
@@ -2496,7 +2496,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "iam",
@@ -2545,7 +2545,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "organizations"
@@ -2592,7 +2592,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "organizations",
@@ -2640,7 +2640,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "cloudtrail"
@@ -2686,7 +2686,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "aws-config"
@@ -2733,7 +2733,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "guardduty"
@@ -2780,7 +2780,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "macie",
@@ -2829,7 +2829,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "waf"
@@ -2875,7 +2875,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "shield",
@@ -2923,7 +2923,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "secrets-manager",
@@ -3024,7 +3024,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "lambda"
@@ -3070,7 +3070,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "lambda",
@@ -3118,7 +3118,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "lambda"
@@ -3165,7 +3165,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "api-gateway"
@@ -3212,7 +3212,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "sqs"
@@ -3258,7 +3258,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "sqs"
@@ -3305,7 +3305,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "sns",
@@ -3353,7 +3353,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "sqs"
@@ -3400,7 +3400,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "cloudfront"
@@ -3446,7 +3446,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "cloudfront",
@@ -3494,7 +3494,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "route53"
@@ -3541,7 +3541,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 1,
-          "domainLabel": "Segurança",
+          "domainLabel": "Arquiteturas seguras",
           "type": "single",
           "services": [
             "route53"
@@ -3588,7 +3588,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 3,
-          "domainLabel": "Alto desempenho",
+          "domainLabel": "Arquiteturas de alto desempenho",
           "type": "single",
           "services": [
             "ecs",
@@ -3635,7 +3635,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "mgn",
@@ -3683,7 +3683,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "dms"
@@ -3730,7 +3730,7 @@ window.AWS_BANK = {
           "book": "e-ai-bora-aprender-aws",
           "bookVersion": null,
           "domain": 2,
-          "domainLabel": "Resiliência",
+          "domainLabel": "Arquiteturas resilientes",
           "type": "single",
           "services": [
             "datasync",

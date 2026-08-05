@@ -61,6 +61,22 @@ module.exports = [
     }
   },
   {
+    // Service Worker roda no worker global scope, não no de window/DOM:
+    // self/caches/fetch/Response não existem nos globals acima. Sem este
+    // bloco, `eslint sw.js` (que o script "lint" do package.json passou a
+    // cobrir) acusava 18 erros no-undef que nunca eram reais bugs — só
+    // faltava declarar o ambiente certo.
+    files: ["sw.js"],
+    languageOptions: {
+      globals: {
+        self: "readonly",
+        caches: "readonly",
+        fetch: "readonly",
+        Response: "readonly"
+      }
+    }
+  },
+  {
     ignores: ["data/sources-cache/**", "data/__pycache__/**", "testes/__pycache__/**"]
   }
 ];

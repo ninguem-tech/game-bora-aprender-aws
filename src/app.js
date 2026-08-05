@@ -13,6 +13,34 @@
  */
 
 (function () {
+  // Valida o banco de questões carregado (data/bank.js) ANTES de inicializar
+  // qualquer coisa. build-bank.py já valida no build, e os testes cobrem o
+  // banco oficial — mas em tempo de execução ninguém checava o AWS_BANK que
+  // o navegador de fato carregou (AGENTS.md §5.3 exige isso explicitamente).
+  // Sem essa checagem, um bank.js corrompido — deploy incompleto, merge mal
+  // resolvido, edição manual — quebrava em algum ponto profundo do
+  // renderizador com um erro de JS confuso, em vez de uma mensagem clara.
+  var validacaoBanco = JogoCore.validarBancoDados(window.AWS_BANK);
+  if (!validacaoBanco.valido) {
+    console.error("Banco de questões inválido:", validacaoBanco.erros);
+    document.body.textContent = "";
+    var avisoWrap = document.createElement("div");
+    avisoWrap.className = "card";
+    avisoWrap.setAttribute("role", "alert");
+    avisoWrap.style.padding = "16px";
+    avisoWrap.style.margin = "16px";
+    var avisoTitulo = document.createElement("h1");
+    avisoTitulo.textContent = "Não foi possível carregar o jogo";
+    var avisoTexto = document.createElement("p");
+    avisoTexto.textContent =
+      "O banco de questões parece estar corrompido ou incompleto. Tente recarregar a página " +
+      "(Ctrl/Cmd+Shift+R ou Ctrl/Cmd+F5). Se o problema continuar, isso é um bug — nos avise.";
+    avisoWrap.appendChild(avisoTitulo);
+    avisoWrap.appendChild(avisoTexto);
+    document.body.appendChild(avisoWrap);
+    return;
+  }
+
   var storeInicial = PERSISTENCIA.carregar();
   var R = RENDERIZADOR;
 

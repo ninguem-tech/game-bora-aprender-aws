@@ -410,7 +410,7 @@ describe("Camada de Persistência (localStorage)", () => {
     assert.equal(store.examHistory[0].score, 209);
   });
 
-  it("não deve lançar erro ao salvar se localStorage estiver indisponível", () => {
+  it("não deve lançar erro ao salvar se localStorage estiver indisponível, e deve retornar false", () => {
     const storeOriginal = global.localStorage;
     global.localStorage = {
       getItem() {
@@ -421,11 +421,17 @@ describe("Camada de Persistência (localStorage)", () => {
       }
     };
 
+    let resultado;
     assert.doesNotThrow(() => {
-      salvar({ deck: {}, xpTotal: 0 });
+      resultado = salvar({ deck: {}, xpTotal: 0 });
     });
+    assert.equal(resultado, false);
 
     global.localStorage = storeOriginal;
+  });
+
+  it("deve retornar true ao salvar com sucesso", () => {
+    assert.equal(salvar({ deck: {}, xpTotal: 0 }), true);
   });
 
   it("deve rejeitar backup com tentativa de prototype pollution", () => {

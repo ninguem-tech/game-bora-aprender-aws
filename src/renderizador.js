@@ -34,6 +34,24 @@ function escaparHtml(texto) {
 }
 
 /**
+ * Salva o progresso atual (App.store) e avisa a pessoa jogadora, via região
+ * ARIA live, se o salvamento falhar (ex.: quota do localStorage excedida).
+ * Usada nos pontos que persistem progresso de jogo de verdade (XP, deck do
+ * Leitner, fases concluídas) — sem isso, uma falha de salvamento passava em
+ * silêncio e o app seguia como se tivesse dado certo.
+ * @returns {boolean} O mesmo retorno de PERSISTENCIA.salvar.
+ */
+function salvarProgresso() {
+  const salvou = PERSISTENCIA.salvar(App.store);
+  if (!salvou) {
+    ACESSIBILIDADE.announce(
+      "Não foi possível salvar seu progresso neste dispositivo. O armazenamento local pode estar cheio — exporte um backup em “Backup e restauração” para não perder o que já fez."
+    );
+  }
+  return salvou;
+}
+
+/**
  * Dispara uma animação de confete leve via CSS, respeitando
  * prefers-reduced-motion. Retorna o contêiner para remoção posterior.
  *
@@ -803,7 +821,7 @@ function resumoSimulado() {
   if (tempoExtraMinutos > 0) {
     PERSISTENCIA.registrarEstudo(App.store, { studyTimeMinutes: tempoExtraMinutos });
   }
-  PERSISTENCIA.salvar(App.store);
+  salvarProgresso();
 
   // O histórico exibido inclui o simulado recém-concluído (já registrado).
   const examHistory = Array.isArray(App.store.examHistory) ? App.store.examHistory : [];
@@ -1121,7 +1139,7 @@ function processarPontuacao(d, certo, usouDica) {
     App.xp += g;
     App.store.xpTotal = (App.store.xpTotal || 0) + g;
     PERSISTENCIA.registrarEstudo(App.store, { questionsAnswered: 1, studyTimeMinutes: 1 });
-    PERSISTENCIA.salvar(App.store);
+    salvarProgresso();
     return "Resposta correta! +" + g + " XP.";
   }
 
@@ -1130,7 +1148,7 @@ function processarPontuacao(d, certo, usouDica) {
   App.revisar.push(topicoQuestao(d));
   App.store.deck = JogoCore.adicionarAoLeitner(App.store.deck, d, QINDEX);
   PERSISTENCIA.registrarEstudo(App.store, { questionsAnswered: 1, studyTimeMinutes: 1 });
-  PERSISTENCIA.salvar(App.store);
+  salvarProgresso();
   return "Resposta incorreta. Questão adicionada ao Leitner.";
 }
 
@@ -1380,7 +1398,7 @@ function resumo() {
     completed: true,
     bestPercent: Math.max(prev.bestPercent || 0, percent)
   };
-  PERSISTENCIA.salvar(App.store);
+  salvarProgresso();
 
   const gabaritou = App.acertos === total;
   if (gabaritou) {
@@ -1417,7 +1435,7 @@ function resumoPet() {
     AUDIO.playSound("fanfare", App.store);
     const primeiroPetSalvo = !(App.store.petsSalvos > 0);
     App.store.petsSalvos = (App.store.petsSalvos || 0) + 1;
-    PERSISTENCIA.salvar(App.store);
+    salvarProgresso();
     if (primeiroPetSalvo) comemorarConquista("pet_salvo");
   } else {
     AUDIO.playSound("no", App.store);
@@ -1624,7 +1642,7 @@ function avalia(acertou) {
     ACESSIBILIDADE.announce("Cartão voltou para a caixa " + c.box + ".");
   }
   PERSISTENCIA.registrarEstudo(App.store, { leitnerReviews: 1, studyTimeMinutes: 1 });
-  PERSISTENCIA.salvar(App.store);
+  salvarProgresso();
 
   m.idx++;
   if (m.idx >= m.cards.length) resumoRevisao();
@@ -1687,6 +1705,7 @@ function sobre() {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     escaparHtml,
+    salvarProgresso,
     intro,
     setModo,
     renderModoContent,
@@ -1743,6 +1762,7 @@ if (typeof module !== "undefined" && module.exports) {
 if (typeof window !== "undefined") {
   window.RENDERIZADOR = {
     escaparHtml,
+    salvarProgresso,
     intro,
     setModo,
     renderModoContent,

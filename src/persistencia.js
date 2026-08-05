@@ -285,12 +285,17 @@ function carregar() {
 /**
  * Salva o estado atual no localStorage.
  * @param {Object} store Referência ao objeto de estado persistente.
+ * @returns {boolean} true se salvou com sucesso, false em caso de erro (ex.:
+ *   quota excedida, localStorage indisponível/desabilitado). Antes este erro
+ *   era só engolido em silêncio — quem chama agora pode avisar a pessoa em
+ *   vez de deixá-la achar que o progresso foi salvo quando não foi.
  */
 function salvar(store) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(store));
+    return true;
   } catch {
-    /* quota excedida */
+    return false;
   }
 }
 
@@ -358,6 +363,16 @@ function exportarProgressoJSON(store) {
 
 /**
  * Valida e importa um backup JSON. Retorna null se for inválido.
+ *
+ * O checksum só é conferido quando o payload vem no envelope novo
+ * ({ checksum, data }) — um JSON "cru" (sem envelope, ex.: backup exportado
+ * antes do checksum existir) é aceito sem verificação de integridade. Isso é
+ * intencional, não uma lacuna esquecida: mesmo sem checksum, todo payload
+ * ainda passa por validarEstruturaBackup (allowlist de chaves e tipos) logo
+ * abaixo, e os dados são 100% locais e de um único jogador — não há um
+ * terceiro a proteger contra adulteração, só a própria pessoa editando o
+ * próprio progresso. Exigir o envelope sempre quebraria a restauração de
+ * backups antigos legítimos sem reduzir superfície de ataque real.
  * @param {string} jsonString Conteúdo do arquivo JSON.
  * @returns {Object|null} Estado importado ou null.
  */

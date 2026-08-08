@@ -4,7 +4,7 @@ Um **jogo** de estudos gratuito e amigável para iniciantes no Brasil, acompanha
 *E aí? Bora Aprender AWS?* (SAA-C03). Parte da missão de educação tecnológica da nin-guem: ensinar nuvem
 resolvendo pequenos problemas com cara de reais — acessível em um celular simples, em português.
 
-**Conceito:** *você é a Júlia* (a iniciante do livro), indo "do zero à aprovação".
+**Conceito:** *você ajudará a Júlia* (a iniciante do livro), indo "do zero à aprovação".
 Rafael (mentor) e Camila (ponte entre negócios ↔ tech) orientam você. Cada desafio: uma situação real →
 uma metáfora do dia a dia ("café com leite") → uma pergunta → explicação de por que está certo. Respostas incorretas vão para
 uma lista de revisão de Leitner. Encorajador por design (XP + sequência/streak, sem vidas punitivas).

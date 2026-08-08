@@ -6,6 +6,11 @@
  * (WCAG 2.4.3, 2.4.7, 2.4.11 e 4.1.3).
  */
 
+/* Fundo da página em cada tema (variável --creme de variaveis.css). Usados
+   no meta theme-color para a barra do navegador acompanhar o tema ativo. */
+const COR_TEMA_CLARO = "#f6efe3";
+const COR_TEMA_ESCURO = "#161412";
+
 /**
  * Aplica o tema atual (claro, escuro ou automático) ao documento.
  * No modo automático, segue a preferência do sistema (prefers-color-scheme).
@@ -26,6 +31,10 @@ function applyTheme(store, matchMediaFn) {
     fav.href = escuro
       ? "assets/nin-guem-favicon-32-dark.png"
       : "assets/nin-guem-favicon-32-light.png";
+  }
+  const metaTema = document.getElementById("metaTema");
+  if (metaTema) {
+    metaTema.setAttribute("content", escuro ? COR_TEMA_ESCURO : COR_TEMA_CLARO);
   }
 }
 
@@ -153,28 +162,22 @@ function prefereMovimentoReduzido(matchMediaFn) {
   return !!(consulta && consulta.matches);
 }
 
+// Objeto único compartilhado pelos dois ambientes de exportação (Node.js e
+// navegador), evitando listas duplicadas que podem divergir.
+const ACESSIBILIDADE = {
+  applyTheme,
+  toggleTheme,
+  temaEfetivoEscuro,
+  applyFontScale,
+  changeFontScale,
+  announce,
+  focarElemento,
+  focarTitulo,
+  prefereMovimentoReduzido
+};
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    applyTheme,
-    toggleTheme,
-    temaEfetivoEscuro,
-    applyFontScale,
-    changeFontScale,
-    announce,
-    focarElemento,
-    focarTitulo,
-    prefereMovimentoReduzido
-  };
+  module.exports = ACESSIBILIDADE;
 } else if (typeof window !== "undefined") {
-  window.ACESSIBILIDADE = {
-    applyTheme,
-    toggleTheme,
-    temaEfetivoEscuro,
-    applyFontScale,
-    changeFontScale,
-    announce,
-    focarElemento,
-    focarTitulo,
-    prefereMovimentoReduzido
-  };
+  window.ACESSIBILIDADE = ACESSIBILIDADE;
 }

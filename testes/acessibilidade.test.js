@@ -714,4 +714,67 @@ describe("Acessibilidade — integração com o renderizador (anúncios e foco)"
     global.App.store.deck = {};
     global.App.modoRevisao = null;
   });
+
+  it("deve expor a API completa do renderizador (integridade do agregador)", () => {
+    // Protege a divisão em módulos de tela: se um módulo deixar de ser
+    // carregado/registrado, alguma função pública ficará ausente aqui.
+    const funcoes = [
+      "escaparHtml",
+      "salvarProgresso",
+      "intro",
+      "setModo",
+      "renderModoContent",
+      "renderFasesList",
+      "onSearchInput",
+      "setCategoryFilter",
+      "setDomainFilter",
+      "updateFaseGrid",
+      "renderPetSelector",
+      "selectPet",
+      "startPetMode",
+      "mostraPetPergunta",
+      "renderSurvivalIntro",
+      "startSurvivalMode",
+      "mostraSurvivalPergunta",
+      "renderSimuladoIntro",
+      "startSimuladoMode",
+      "mostraSimuladoPergunta",
+      "resumoSimulado",
+      "renderGraficoSimulados",
+      "compartilharSimulado",
+      "atualizarModoSimulado",
+      "renderLeitnerOverview",
+      "renderServicos",
+      "renderConquistas",
+      "renderOptionsAndHints",
+      "startFase",
+      "mostra",
+      "revelarDica",
+      "responde",
+      "desabilitarOpcoes",
+      "processarPontuacao",
+      "atualizarModoPet",
+      "atualizarModoSurvival",
+      "renderizarFeedback",
+      "ehUltimaQuestao",
+      "criarBotaoProximo",
+      "resumo",
+      "resumoPet",
+      "resumoSurvival",
+      "revisar0",
+      "mostraCartao",
+      "revelaResp",
+      "avalia",
+      "resumoRevisao",
+      "sobre",
+      "showHome",
+      "setProgress"
+    ];
+    funcoes.forEach((nome) => {
+      assert.equal(typeof RENDERIZADOR[nome], "function", nome + " deveria ser uma função");
+    });
+    assert.ok(Array.isArray(RENDERIZADOR.PETS) && RENDERIZADOR.PETS.length > 0, "PETS ausente");
+    assert.ok(RENDERIZADOR.BANK && Array.isArray(RENDERIZADOR.BANK.fases), "BANK ausente");
+    assert.ok(RENDERIZADOR.QINDEX && typeof RENDERIZADOR.QINDEX === "object", "QINDEX ausente");
+  });
 });

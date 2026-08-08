@@ -28,6 +28,7 @@ module.exports = [
         setInterval: "readonly",
         clearInterval: "readonly",
         navigator: "readonly",
+        globalThis: "writable",
         App: "writable",
         JogoCore: "writable",
         PERSISTENCIA: "writable",

@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#00558c">
+<!-- id="metaTema": acessibilidade.js sincroniza a cor com o tema ativo
+     (claro/escuro) em vez de deixar um valor fixo pra sempre. -->
+<meta name="theme-color" id="metaTema" content="#f6efe3">
 <meta name="description" content="Jogo de estudos gratuito e amigável para a certificação AWS SAA-C03, com fases, modos Pet e Sobrevivência, e revisão Leitner.">
 <!-- frame-ancestors só funciona como header HTTP; via <meta> é ignorado. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>E aí, Bora Aprender AWS? — Jogo de Estudos SAA-C03</title>
@@ -22,7 +24,7 @@
 -->
 <link rel="icon" type="image/png" id="favicon" sizes="32x32" href="assets/nin-guem-favicon-32-light.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/nin-guem-apple-touch-180.png">
-<script src="src/pwa.js"></script>
+<script src="src/pwa.js" defer></script>
 <link rel="stylesheet" href="assets/css/fontes.css">
 <link rel="stylesheet" href="assets/css/variaveis.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -34,7 +36,7 @@
 
 <a class="skipLink" href="#app">Pular para o conteúdo</a>
 
-<noscript><div class="card" style="padding:16px">Este jogo precisa de JavaScript ativado para funcionar.</div></noscript>
+<noscript><div class="card">Este jogo precisa de JavaScript ativado para funcionar.</div></noscript>
 
 <div class="sr-only" id="ariaAnnounce" role="status" aria-live="polite"></div>
 
@@ -66,7 +68,7 @@
 
   <main class="card" id="app" tabindex="-1"></main>
 
-  <footer class="foot">do zero à aprovação · você é a Júlia <span aria-hidden="true">👩🏽‍💻</span></footer>
+  <footer class="foot">do zero à aprovação · você ajudará a Júlia <span aria-hidden="true">👩🏽‍💻</span></footer>
 </div>
 
 <script src="src/jogo.js"></script>
@@ -75,6 +77,14 @@
 <script src="src/persistencia.js"></script>
 <script src="src/audio.js"></script>
 <script src="src/acessibilidade.js"></script>
+<script src="src/renderizador-nucleo.js"></script>
+<script src="src/renderizador-quiz.js"></script>
+<script src="src/renderizador-home.js"></script>
+<script src="src/renderizador-fases.js"></script>
+<script src="src/renderizador-pet.js"></script>
+<script src="src/renderizador-sobrevivencia.js"></script>
+<script src="src/renderizador-simulado.js"></script>
+<script src="src/renderizador-leitner.js"></script>
 <script src="src/renderizador.js"></script>
 <script src="src/teclado.js"></script>
 <script src="src/sw-register.js"></script>

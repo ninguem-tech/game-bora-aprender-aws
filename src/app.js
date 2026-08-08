@@ -200,9 +200,9 @@
       '    <button class="cta" data-action="exportar-backup">📥 Exportar JSON</button>' +
       '    <button class="cta ghost" data-action="restaurar-backup">📤 Restaurar do JSON abaixo</button>' +
       "  </div>" +
-      '  <label for="backupArea" style="display:block;margin-top:12px;font-size:.85rem;font-weight:700">Área de backup (cole um JSON exportado):</label>' +
+      '  <label for="backupArea" class="backupLabel">Área de backup (cole um JSON exportado):</label>' +
       '  <textarea id="backupArea" aria-label="Área de backup JSON"></textarea>' +
-      '  <button class="cta ghost" style="margin-top:12px" data-action="fechar-backup">Fechar</button>' +
+      '  <button class="cta ghost backupFechar" data-action="fechar-backup">Fechar</button>' +
       "</div>";
 
     overlay.addEventListener("click", function (e) {
@@ -368,9 +368,9 @@
     overlay.innerHTML =
       "" +
       '<div class="card" role="dialog" aria-modal="true" aria-labelledby="welcomeTitulo">' +
-      '  <h1 id="welcomeTitulo">Bem-vinda, Júlia! ☕</h1>' +
+      '  <h1 id="welcomeTitulo">Boas-vindas! Agora, ajude a Júlia! ☕</h1>' +
       '  <p class="lead">O jogo tem vários modos de estudo. Aqui vai um resumo rápido:</p>' +
-      '  <ul style="text-align:left;margin:12px 0;padding-left:18px;font-size:.9rem">' +
+      '  <ul class="welcomeList">' +
       "    <li><b>Fases</b>: estude por tópico e avance no seu ritmo.</li>" +
       "    <li><b>Salvar o Pet</b>: missão com meta de acertos e limite de erros.</li>" +
       "    <li><b>Sobrevivência</b>: não erre 3 vezes seguidas.</li>" +
@@ -378,7 +378,7 @@
       "    <li><b>Leitner</b>: revisão espaçada do que você errou.</li>" +
       "    <li><b>Serviços</b> e <b>Conquistas</b>: guia e metas.</li>" +
       "  </ul>" +
-      '  <p style="font-size:.85rem;color:var(--dim)">Atalhos: <b>Alt+1 a Alt+4</b> respondem, <b>Alt+H</b> dica, <b>Esc</b> volta ao início.</p>' +
+      '  <p class="welcomeAtalhos">Atalhos: <b>Alt+1 a Alt+4</b> respondem, <b>Alt+H</b> dica, <b>Esc</b> volta ao início.</p>' +
       '  <button class="cta" data-action="fechar-bem-vindo">Bora começar!</button>' +
       "</div>";
 

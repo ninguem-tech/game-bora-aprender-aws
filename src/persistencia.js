@@ -535,44 +535,31 @@ function registrarExame(store, resultado) {
   return atualizarStreak(store);
 }
 
+// Objeto único compartilhado pelos dois ambientes de exportação (Node.js e
+// navegador), evitando listas duplicadas que podem divergir.
+const PERSISTENCIA = {
+  carregar,
+  salvar,
+  LS_KEY,
+  ESTADO_PADRAO,
+  exportarProgressoJSON,
+  importarProgressoJSON,
+  consultarLimiteImports,
+  registrarImport,
+  calcularChecksumBackup,
+  registrarEstudo,
+  registrarExame,
+  atualizarStreak,
+  corrigirStreakDesatualizado,
+  normalizarStudyLogs,
+  normalizarExamHistory,
+  formatarDataLocal,
+  dataHojeIso,
+  dataOntemIso
+};
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    carregar,
-    salvar,
-    LS_KEY,
-    ESTADO_PADRAO,
-    exportarProgressoJSON,
-    importarProgressoJSON,
-    consultarLimiteImports,
-    registrarImport,
-    calcularChecksumBackup,
-    registrarEstudo,
-    registrarExame,
-    atualizarStreak,
-    corrigirStreakDesatualizado,
-    normalizarStudyLogs,
-    normalizarExamHistory,
-    formatarDataLocal,
-    dataHojeIso,
-    dataOntemIso
-  };
+  module.exports = PERSISTENCIA;
 } else if (typeof window !== "undefined") {
-  window.PERSISTENCIA = {
-    carregar,
-    salvar,
-    LS_KEY,
-    ESTADO_PADRAO,
-    exportarProgressoJSON,
-    importarProgressoJSON,
-    consultarLimiteImports,
-    registrarImport,
-    calcularChecksumBackup,
-    registrarEstudo,
-    registrarExame,
-    atualizarStreak,
-    corrigirStreakDesatualizado,
-    formatarDataLocal,
-    dataHojeIso,
-    dataOntemIso
-  };
+  window.PERSISTENCIA = PERSISTENCIA;
 }

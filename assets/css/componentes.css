@@ -227,3 +227,18 @@ body.dark .toast { background: #3b2e26; color: #f4eae0; }
   border: 2px solid var(--borda-ctrl); border-radius: 12px; background: var(--creme); color: var(--cafe);
 }
 
+
+/* Espaçamentos/notas que antes viviam em style="" nos templates: movidos
+   pra cá para a CSP poder dispensar style-src 'unsafe-inline'. */
+.filterChips + .filterChips { margin-top: 6px; }
+.revTitulo { font-weight: 700; margin-bottom: 2px; }
+.introSobreBtn { margin-top: 14px; }
+.conquistasPendentes { margin-top: 14px; }
+.sobreComentario { margin-top: 6px; }
+.ltStat { margin-top: 14px; }
+.petResumoLead { margin-top: 10px; }
+#petStatusText { margin-top: 6px; font-weight: 700; font-size: .9rem; color: var(--cafe2); }
+.backupLabel { display: block; margin-top: 12px; font-size: .85rem; font-weight: 700; }
+.backupFechar { margin-top: 12px; }
+.welcomeList { text-align: left; margin: 12px 0; padding-left: 18px; font-size: .9rem; }
+.welcomeAtalhos { font-size: .85rem; color: var(--dim); }

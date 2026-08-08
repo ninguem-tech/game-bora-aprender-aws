@@ -255,14 +255,13 @@ function obterDominioFase(tituloFase) {
   ) {
     return "computacao";
   }
+  // "aplicação" e "cloudfront" já foram decididos acima (retorno antecipado e
+  // bloco "rede"), então aqui só restam os termos exclusivos deste domínio.
   if (
-    t.includes("aplicação") ||
     t.includes("sqs") ||
     t.includes("sns") ||
     t.includes("api gateway") ||
     t.includes("step functions") ||
-    t.includes("cloudfront") ||
-    t.includes("cloudfront e edge") ||
     t.includes("mensageria")
   ) {
     return "aplicacao";
@@ -982,79 +981,48 @@ function normalizarNumero(valor, padrao) {
   return Number.isFinite(valor) ? Math.max(0, Math.trunc(valor)) : padrao;
 }
 
-// Exportação compatível com Node.js (CommonJS) e Navegador (Global/UMD)
+// Exportação compatível com Node.js (CommonJS) e Navegador (Global/UMD).
+// Objeto único compartilhado pelos dois ambientes: evita a duplicação (e o
+// risco de divergência) de duas listas de símbolos mantidas à mão.
+const JogoCore = {
+  MILISSEGUNDOS_POR_DIA,
+  INTERVALOS_LEITNER_DIAS,
+  obterDataAtualMs,
+  calcularAgendamentoLeitner,
+  adicionarAoLeitner,
+  obterCartoesDevidos,
+  calcularGanhoXP,
+  DOMINIOS_AWS,
+  obterCategoriaFase,
+  obterDominioFase,
+  obterEstatisticasServicos,
+  calcularReadiness,
+  classificarReadiness,
+  MINIMO_RESPOSTAS_PRONTIDAO,
+  prontidaoEhConfiavel,
+  calcularConquistas,
+  obterConquistasDefinicao,
+  filtrarFases,
+  sanitizarTermoBusca,
+  embaralharArray,
+  embaralharOpcoes,
+  ROTULOS_OPCOES,
+  validarQuestao,
+  validarBancoDados,
+  criarEstadoPet,
+  processarRespostaPet,
+  criarEstadoSobrevivencia,
+  processarRespostaSobrevivencia,
+  criarEstadoSimulado,
+  processarRespostaSimulado,
+  calcularScoreAWS,
+  calcularTempoRestanteSimulado,
+  serieScoresSimulados,
+  montarTextoCompartilhamentoSimulado
+};
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    MILISSEGUNDOS_POR_DIA,
-    INTERVALOS_LEITNER_DIAS,
-    obterDataAtualMs,
-    calcularAgendamentoLeitner,
-    adicionarAoLeitner,
-    obterCartoesDevidos,
-    calcularGanhoXP,
-    DOMINIOS_AWS,
-    obterCategoriaFase,
-    obterDominioFase,
-    obterEstatisticasServicos,
-    calcularReadiness,
-    classificarReadiness,
-    MINIMO_RESPOSTAS_PRONTIDAO,
-    prontidaoEhConfiavel,
-    calcularConquistas,
-    obterConquistasDefinicao,
-    filtrarFases,
-    sanitizarTermoBusca,
-    embaralharArray,
-    embaralharOpcoes,
-    ROTULOS_OPCOES,
-    validarQuestao,
-    validarBancoDados,
-    criarEstadoPet,
-    processarRespostaPet,
-    criarEstadoSobrevivencia,
-    processarRespostaSobrevivencia,
-    criarEstadoSimulado,
-    processarRespostaSimulado,
-    calcularScoreAWS,
-    calcularTempoRestanteSimulado,
-    serieScoresSimulados,
-    montarTextoCompartilhamentoSimulado
-  };
+  module.exports = JogoCore;
 } else if (typeof window !== "undefined") {
-  window.JogoCore = {
-    MILISSEGUNDOS_POR_DIA,
-    INTERVALOS_LEITNER_DIAS,
-    obterDataAtualMs,
-    calcularAgendamentoLeitner,
-    adicionarAoLeitner,
-    obterCartoesDevidos,
-    calcularGanhoXP,
-    DOMINIOS_AWS,
-    obterCategoriaFase,
-    obterDominioFase,
-    obterEstatisticasServicos,
-    calcularReadiness,
-    classificarReadiness,
-    MINIMO_RESPOSTAS_PRONTIDAO,
-    prontidaoEhConfiavel,
-    calcularConquistas,
-    obterConquistasDefinicao,
-    filtrarFases,
-    sanitizarTermoBusca,
-    embaralharArray,
-    embaralharOpcoes,
-    ROTULOS_OPCOES,
-    validarQuestao,
-    validarBancoDados,
-    criarEstadoPet,
-    processarRespostaPet,
-    criarEstadoSobrevivencia,
-    processarRespostaSobrevivencia,
-    criarEstadoSimulado,
-    processarRespostaSimulado,
-    calcularScoreAWS,
-    calcularTempoRestanteSimulado,
-    serieScoresSimulados,
-    montarTextoCompartilhamentoSimulado
-  };
+  window.JogoCore = JogoCore;
 }

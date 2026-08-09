@@ -24,13 +24,36 @@
 -->
 <link rel="icon" type="image/png" id="favicon" sizes="32x32" href="assets/nin-guem-favicon-32-light.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/nin-guem-apple-touch-180.png">
-<script src="src/pwa.js" defer></script>
 <link rel="stylesheet" href="assets/css/fontes.css">
 <link rel="stylesheet" href="assets/css/variaveis.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/componentes.css">
 <link rel="stylesheet" href="assets/css/telas.css">
 <link rel="stylesheet" href="assets/css/animacoes.css">
+<!-- Scripts com defer: baixam em paralelo com o parse do HTML e executam em
+     ordem só depois que o documento inteiro foi parseado. Assim o primeiro
+     render (cabeçalho e cartão) não fica bloqueado pelo download e parsing
+     de data/bank.js (~1MB), o maior arquivo do jogo. A ordem entre os
+     scripts continua garantida pelo defer. -->
+<script src="src/pwa.js" defer></script>
+<script src="src/jogo.js" defer></script>
+<script src="data/bank.js" defer></script>
+<script src="src/sha256.js" defer></script>
+<script src="src/persistencia.js" defer></script>
+<script src="src/audio.js" defer></script>
+<script src="src/acessibilidade.js" defer></script>
+<script src="src/renderizador-nucleo.js" defer></script>
+<script src="src/renderizador-quiz.js" defer></script>
+<script src="src/renderizador-home.js" defer></script>
+<script src="src/renderizador-fases.js" defer></script>
+<script src="src/renderizador-pet.js" defer></script>
+<script src="src/renderizador-sobrevivencia.js" defer></script>
+<script src="src/renderizador-simulado.js" defer></script>
+<script src="src/renderizador-leitner.js" defer></script>
+<script src="src/renderizador.js" defer></script>
+<script src="src/teclado.js" defer></script>
+<script src="src/sw-register.js" defer></script>
+<script src="src/app.js" defer></script>
 </head>
 <body>
 
@@ -71,23 +94,5 @@
   <footer class="foot">do zero à aprovação · você ajudará a Júlia <span aria-hidden="true">👩🏽‍💻</span></footer>
 </div>
 
-<script src="src/jogo.js"></script>
-<script src="data/bank.js"></script>
-<script src="src/sha256.js"></script>
-<script src="src/persistencia.js"></script>
-<script src="src/audio.js"></script>
-<script src="src/acessibilidade.js"></script>
-<script src="src/renderizador-nucleo.js"></script>
-<script src="src/renderizador-quiz.js"></script>
-<script src="src/renderizador-home.js"></script>
-<script src="src/renderizador-fases.js"></script>
-<script src="src/renderizador-pet.js"></script>
-<script src="src/renderizador-sobrevivencia.js"></script>
-<script src="src/renderizador-simulado.js"></script>
-<script src="src/renderizador-leitner.js"></script>
-<script src="src/renderizador.js"></script>
-<script src="src/teclado.js"></script>
-<script src="src/sw-register.js"></script>
-<script src="src/app.js"></script>
 </body>
 </html>

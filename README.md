@@ -1,5 +1,7 @@
 # E aí, Bora Aprender AWS? — jogo (protótipo)
 
+**Jogue agora:** https://ninguem-tech.github.io/game-bora-aprender-aws/
+
 Um **jogo** de estudos gratuito e amigável para iniciantes no Brasil, acompanhamento do livro
 *E aí? Bora Aprender AWS?* (SAA-C03). Parte da missão de educação tecnológica de nin-guem: ensinar nuvem
 resolvendo pequenos problemas com cara de reais — acessível em um celular simples, em português.
@@ -13,7 +15,7 @@ uma lista de revisão de Leitner. Encorajador por design (XP + sequência/streak
 cobrindo os domínios da certificação AWS SAA-C03. Toda a lógica roda no cliente, sem dependências externas:
 basta abrir `index.html` em qualquer navegador moderno (mobile-first e offline-friendly).
 
-**Como executar:** abra `index.html` em um navegador (desktop ou celular).
+**Como executar:** jogue direto pelo link acima, ou baixe o repositório e abra `index.html` em um navegador (desktop ou celular) — funciona offline depois do primeiro carregamento.
 
 **Autor/marca:** nin-guem.
 

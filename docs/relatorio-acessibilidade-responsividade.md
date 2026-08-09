@@ -55,7 +55,7 @@ bloqueador**. Todos foram corrigidos.
   troca de aba); `sobre()` anuncia "Sobre o autor.".
 - `testes/acessibilidade.test.js` — 4 testes de integração com o `renderizador` real.
 - `.gitignore` — ignora `.qwen/` (configuração local com permissões amplas); comentário do
-  firewall atualizado para citar `nin-guem` e `AI(2)M(2)IA`.
+  firewall atualizado para citar `nin-guem`.
 
 **Não alterados:** `src/jogo.js` (regras de negócio), `data/bank.js` (conteúdo), sem novas
 dependências, sem `!important` novo.

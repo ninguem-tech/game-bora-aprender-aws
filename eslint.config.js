@@ -28,6 +28,7 @@ module.exports = [
         setInterval: "readonly",
         clearInterval: "readonly",
         navigator: "readonly",
+        __dirname: "readonly",
         globalThis: "writable",
         App: "writable",
         JogoCore: "writable",
@@ -58,6 +59,17 @@ module.exports = [
         it: "readonly",
         beforeEach: "readonly",
         afterEach: "readonly"
+      }
+    }
+  },
+  {
+    // Scripts utilitários rodam no Node (não no navegador): process/__dirname
+    // existem lá, mas não nos globals de browser declarados acima.
+    files: ["scripts/**/*.js"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        __dirname: "readonly"
       }
     }
   },

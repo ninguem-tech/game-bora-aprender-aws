@@ -13,7 +13,10 @@
  * primeira vez que for de fato requisitado.
  */
 
-const CACHE_NAME = 'bora-aws-v8';
+// BLOCO GERADO AUTOMATICAMENTE por scripts/sw-assets.js — nao editar
+// manualmente; para regenerar apos mudar index.html, CSS, manifest.json
+// ou assets, rode: npm run build:sw (a suite de testes acusa divergencia).
+const CACHE_NAME = 'bora-aws-a65222a3bae8';
 // Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
 // para funcionar tanto na raiz do dominio quanto em um subcaminho
 // (ex.: GitHub Pages de projeto: usuario.github.io/repo/).
@@ -28,26 +31,27 @@ const ASSETS = [
   './assets/css/telas.css',
   './assets/css/animacoes.css',
   './assets/fonts/inter-latin-400-normal.woff2',
-  './assets/fonts/inter-latin-ext-400-normal.woff2',
   './assets/fonts/inter-latin-500-normal.woff2',
-  './assets/fonts/inter-latin-ext-500-normal.woff2',
   './assets/fonts/inter-latin-600-normal.woff2',
-  './assets/fonts/inter-latin-ext-600-normal.woff2',
   './assets/fonts/inter-latin-700-normal.woff2',
-  './assets/fonts/inter-latin-ext-700-normal.woff2',
   './assets/fonts/inter-latin-800-normal.woff2',
+  './assets/fonts/inter-latin-ext-400-normal.woff2',
+  './assets/fonts/inter-latin-ext-500-normal.woff2',
+  './assets/fonts/inter-latin-ext-600-normal.woff2',
+  './assets/fonts/inter-latin-ext-700-normal.woff2',
   './assets/fonts/inter-latin-ext-800-normal.woff2',
   './assets/fonts/outfit-latin-600-normal.woff2',
-  './assets/fonts/outfit-latin-ext-600-normal.woff2',
   './assets/fonts/outfit-latin-700-normal.woff2',
-  './assets/fonts/outfit-latin-ext-700-normal.woff2',
   './assets/fonts/outfit-latin-800-normal.woff2',
+  './assets/fonts/outfit-latin-ext-600-normal.woff2',
+  './assets/fonts/outfit-latin-ext-700-normal.woff2',
   './assets/fonts/outfit-latin-ext-800-normal.woff2',
   './assets/nin-guem-favicon-32-light.png',
-  './assets/nin-guem-favicon-32-dark.png',
   './assets/nin-guem-apple-touch-180.png',
   './assets/nin-guem-icon-192.png',
   './assets/nin-guem-icon-512.png',
+  './assets/nin-guem-favicon-32-dark.png',
+  './src/pwa.js',
   './src/jogo.js',
   './src/sha256.js',
   './src/persistencia.js',
@@ -64,7 +68,6 @@ const ASSETS = [
   './src/renderizador.js',
   './src/teclado.js',
   './src/sw-register.js',
-  './src/pwa.js',
   './src/app.js'
 ];
 

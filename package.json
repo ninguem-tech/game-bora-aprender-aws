@@ -6,8 +6,10 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test testes/*.test.js && python3 -m unittest discover -s testes -p 'test_*.py'",
-    "lint": "eslint src/ testes/ sw.js",
-    "lint:fix": "eslint src/ testes/ sw.js --fix",
+    "lint": "eslint src/ scripts/ testes/ sw.js",
+    "lint:fix": "eslint src/ scripts/ testes/ sw.js --fix",
+    "build:sw": "node scripts/sw-assets.js",
+    "check:sw": "node scripts/sw-assets.js --check",
     "format": "prettier --write src/ testes/",
     "format:check": "prettier --check src/ testes/",
     "build:bank": "python3 data/build-bank.py"

@@ -7,7 +7,10 @@ docs/pt-book-coverage-*.md
 # private-by-convention treatment as the planning notes above.
 data/sources-cache/
 
-# Configuração local de ferramentas de IA (permissões da máquina; não publicar)
+# Configuração/handoff local de ferramentas de IA (permissões da máquina;
+# não publicar — mantém o repositório livre de ruído de agentes)
+.agents/
+.devin/
 .qwen/
 
 # macOS

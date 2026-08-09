@@ -145,13 +145,17 @@ function updateFaseGrid() {
 
 /**
  * Inicia uma fase padrão pelo índice do banco.
+ * As questões são embaralhadas a cada tentativa: sem isso, refazer a fase
+ * (para melhorar o bestPercent) vira memorização da sequência em vez de
+ * aprendizado do conteúdo. `embaralharArray` já devolve uma cópia, então
+ * o banco original nunca é mutado.
  * @param {number} idx - Índice da fase no banco.
  */
 function startFase(idx) {
   App.modoJogo = "fases";
   App.focoOrigem = '[data-action="start-fase"][data-idx="' + idx + '"]';
   App.fase = BANK.fases[idx];
-  App.q = App.fase.questions.slice();
+  App.q = JogoCore.embaralharArray(App.fase.questions);
   App.i = 0;
   App.xp = 0;
   App.streak = 0;

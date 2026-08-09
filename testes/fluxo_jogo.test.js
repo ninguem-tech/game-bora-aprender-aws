@@ -12,7 +12,8 @@ const {
   validarBancoDados,
   validarQuestao,
   obterCategoriaFase,
-  filtrarFases
+  filtrarFases,
+  embaralharArray
 } = require("../src/jogo.js");
 
 // Carrega o banco oficial para os testes de integração
@@ -201,7 +202,62 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
   });
 
   // ---------------------------------------------------------------
-  // 4. Integridade estrutural e unicidade do banco oficial
+  // 4. Fluxo Modo Fases: ordem aleatória a cada tentativa
+  // ---------------------------------------------------------------
+  describe("Fluxo Modo Fases — Fila Aleatória", () => {
+    it("deve preservar exatamente as mesmas questões da fase, sem perda ou duplicação", () => {
+      fases.forEach((f) => {
+        const fila = embaralharArray(f.questions);
+        assert.strictEqual(
+          fila.length,
+          f.questions.length,
+          `Fase "${f.titulo}" deve manter o total de questões`
+        );
+        assert.deepStrictEqual(
+          fila.map((q) => q.id).sort(),
+          f.questions.map((q) => q.id).sort(),
+          `Fase "${f.titulo}" deve manter exatamente o mesmo conjunto de questões`
+        );
+      });
+    });
+
+    it("não deve mutar a ordem original das questões no banco", () => {
+      fases.forEach((f) => {
+        const ordemAntes = f.questions.map((q) => q.id);
+        embaralharArray(f.questions);
+        assert.deepStrictEqual(
+          f.questions.map((q) => q.id),
+          ordemAntes,
+          `A ordem das questões da fase "${f.titulo}" no banco deve permanecer intacta`
+        );
+      });
+    });
+
+    it("deve variar a ordem entre tentativas na mesma fase", () => {
+      const fase = fases.find((f) => f.questions.length >= 10);
+      assert.ok(fase, "Deve existir ao menos uma fase com 10+ questões no banco");
+
+      const ordemOriginal = fase.questions.map((q) => q.id).join("|");
+      let observouOrdemDiferente = false;
+      for (let tentativa = 0; tentativa < 10; tentativa++) {
+        const ordemEmbaralhada = embaralharArray(fase.questions)
+          .map((q) => q.id)
+          .join("|");
+        if (ordemEmbaralhada !== ordemOriginal) {
+          observouOrdemDiferente = true;
+          break;
+        }
+      }
+
+      assert.ok(
+        observouOrdemDiferente,
+        "Em 10 tentativas, ao menos uma fila deve vir em ordem diferente da original"
+      );
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 5. Integridade estrutural e unicidade do banco oficial
   // ---------------------------------------------------------------
   describe("Integridade do Banco Oficial", () => {
     it("deve ser válido pela função de validação", () => {
@@ -254,7 +310,7 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
   });
 
   // ---------------------------------------------------------------
-  // 5. Integração: XP + Progressão
+  // 6. Integração: XP + Progressão
   // ---------------------------------------------------------------
   describe("Fluxo de XP e Progressão", () => {
     it("deve acumular XP com bônus de sequência sem dica", () => {
@@ -282,7 +338,7 @@ describe("Testes de Integração — Fluxos Reais com Banco Oficial", () => {
   });
 
   // ---------------------------------------------------------------
-  // 6. Filtro e categorização com dados reais
+  // 7. Filtro e categorização com dados reais
   // ---------------------------------------------------------------
   describe("Filtro de Fases com Banco Real", () => {
     it("deve categorizar todas as fases sem erro", () => {

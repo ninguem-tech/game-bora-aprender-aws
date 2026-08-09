@@ -16,7 +16,7 @@
 // BLOCO GERADO AUTOMATICAMENTE por scripts/sw-assets.js — nao editar
 // manualmente; para regenerar apos mudar index.html, CSS, manifest.json
 // ou assets, rode: npm run build:sw (a suite de testes acusa divergencia).
-const CACHE_NAME = 'bora-aws-a65222a3bae8';
+const CACHE_NAME = 'bora-aws-aacfb8ef286d';
 // Caminhos relativos ao escopo do Service Worker (diretorio de index.html),
 // para funcionar tanto na raiz do dominio quanto em um subcaminho
 // (ex.: GitHub Pages de projeto: usuario.github.io/repo/).

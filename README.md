@@ -1,7 +1,7 @@
 # E aí, Bora Aprender AWS? — jogo (protótipo)
 
 Um **jogo** de estudos gratuito e amigável para iniciantes no Brasil, acompanhamento do livro
-*E aí? Bora Aprender AWS?* (SAA-C03). Parte da missão de educação tecnológica da nin-guem: ensinar nuvem
+*E aí? Bora Aprender AWS?* (SAA-C03). Parte da missão de educação tecnológica de nin-guem: ensinar nuvem
 resolvendo pequenos problemas com cara de reais — acessível em um celular simples, em português.
 
 **Conceito:** *você ajudará a Júlia* (a iniciante do livro), indo "do zero à aprovação".
